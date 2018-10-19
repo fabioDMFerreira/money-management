@@ -1,0 +1,9 @@
+#languages-toggle{
+    li button{
+        color:rgba(0, 0, 0, 0.5);
+    }
+    
+    li.active button{
+        color:rgba(0, 0, 0, 0.7);
+    }
+}
