@@ -1,22 +1,17 @@
 import Auth from 'services/auth';
 
-import { loginRequestSuccess, loginRequestPending, loginRequestError } from './actions';
+import { LOGIN } from './types';
 
 export const login = (email, password) =>
 	(dispatch) => {
-		dispatch(loginRequestPending());
+		const payload = Auth.login(email, password);
 
-		function success(data) {
-			dispatch(loginRequestSuccess(data));
-		}
+		dispatch({
+			type: LOGIN,
+			payload,
+		});
 
-		function error(errorMessage) {
-			dispatch(loginRequestError(errorMessage));
-		}
-
-		return Auth.login(email, password)
-			.then(success)
-			.catch(err => error(err.message));
+		return payload;
 	};
 
 

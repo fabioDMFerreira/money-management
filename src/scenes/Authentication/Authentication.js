@@ -1,28 +1,44 @@
 import React from 'react';
 import { bool } from 'prop-types';
+import Cookies from 'js-cookie';
 
-import { AUTHENTICATION } from 'locale/consts';
+import { LOGIN } from 'locale/consts';
 import Translate from 'components/Translate';
 
 import LoginForm from 'components/LoginForm';
 import Logout from 'components/Logout';
 
-const Authentication = ({ isLoggedIn }) => (
-	<div>
-		<h1><Translate id={AUTHENTICATION} /></h1>
-		{
-			(
-				() => {
-					if (!isLoggedIn) {
-						return <LoginForm />;
-					}
+import './Authentication.css';
 
-					return <div>ALREADY_AUTHENTICATED <Logout /></div>;
+const Authentication = ({ isLoggedIn }) =>{
+	console.log('auth',Cookies.get('auth'));
+	return (
+		<div id="authentication" className="text-center">
+			<div className="container">
+				{
+					(
+						() => {
+							if (!isLoggedIn) {
+								return (
+									<React.Fragment>
+										<h2><Translate id={LOGIN} /></h2>
+										<LoginForm />
+										{/* <hr />
+										<FacebookLogin />
+										<GoogleLogin /> */}
+									</React.Fragment>);
+							}
+
+							return <div>ALREADY_AUTHENTICATED <Logout /></div>;
+						}
+					)()
 				}
-			)()
-		}
-	</div>
-);
+			</div>
+		</div>
+	);
+}
+
+
 
 Authentication.propTypes = {
 	isLoggedIn: bool,

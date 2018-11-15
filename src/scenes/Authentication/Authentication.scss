@@ -1,0 +1,23 @@
+@import 'shared.scss';
+
+#authentication {
+  background-color: $primary;
+  height: 100vh;
+  padding:40px;
+
+  .container {
+
+    h2{
+      margin-bottom:20px;
+    }
+
+    width: 300px;
+    background-color: #fff;
+    padding:30px;
+
+    button{
+      width:100%;
+      margin:10px;
+    }
+  }
+}

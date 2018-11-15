@@ -27,7 +27,7 @@ const LoginForm = ({ handleSubmit, loginRequestErrorMessage, submitting }) => (
 			<Translate id={loginRequestErrorMessage} />
 		</div>
 		<div>
-			<button type="submit" disabled={submitting}><Translate id="LOGIN" /></button>
+			<button type="submit" className="btn btn-outline-primary" disabled={submitting}><Translate id="LOGIN" /></button>
 		</div>
 	</Form>
 );

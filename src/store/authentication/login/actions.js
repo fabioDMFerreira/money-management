@@ -1,24 +1,14 @@
-import { LOGIN_REQUEST_SUCCESS, LOGIN_REQUEST_PENDING, LOGIN_REQUEST_ERROR } from './types';
+import jwtDecode from 'jwt-decode';
+
+import { SET_TOKEN } from './types';
 
 /**
  * @param {Token} token
  */
-export function loginRequestSuccess(token) {
+export function setToken(token) {
 	return {
-		type: LOGIN_REQUEST_SUCCESS,
+		type: SET_TOKEN,
 		token,
-	};
-}
-
-export function loginRequestPending() {
-	return {
-		type: LOGIN_REQUEST_PENDING,
-	};
-}
-
-export function loginRequestError(errorMessage) {
-	return {
-		type: LOGIN_REQUEST_ERROR,
-		errorMessage,
+		tokenDecoded: jwtDecode(token),
 	};
 }

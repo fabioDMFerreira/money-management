@@ -1,18 +1,27 @@
 import React from 'react';
 import { arrayOf, string, func, shape } from 'prop-types';
-import { Button } from 'reactstrap';
 
 import { generateKey } from 'services/utils';
 
 import './LanguagesToggle.css';
 
 const LanguagesToggle = ({ currentLanguage, languages, setActiveLanguage }) => (
-	<ul id="languages-toggle">
+	<React.Fragment>
 		{
-			languages.map(language =>
-				<li className={currentLanguage.code === language.code ? 'active' : ''} key={generateKey(language.code)}><Button color="link" onClick={() => setActiveLanguage(language.code)}>{language.name}</Button></li>)
+			languages.map(
+				language =>
+					<React.Fragment>
+						<span
+							className={'language-badge ' + (currentLanguage.code === language.code ? 'active' : '')}
+							key={generateKey(language.code)}
+							onClick={() => setActiveLanguage(language.code)}
+						>
+							{language.name}
+						</span>{' '}
+					</React.Fragment>
+			)
 		}
-	</ul>
+	</React.Fragment>
 );
 
 LanguagesToggle.propTypes = {

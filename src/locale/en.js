@@ -1,4 +1,26 @@
-import { REQUIRED, INVALID_EMAIL, INVALID_PASSWORD, USER_DOES_NOT_EXIST, EMAIL, PASSWORD, LOGIN, AUTHENTICATION, HOME, RENT, SHOPPING_CART, CHECKOUT, PROFILE, SELECT_OPTION, PRODUCT_CATEGORY, PRODUCT_SIZE, CLEAR_FILTERS, LOADING, NO_RESULTS_FOUND, INCORRECT_PASSWORD, NETWORK_ERROR, NETWORK_NOT_FOUND, NETWORK_UNSUPPORTED_MEDIA_TYPE, ORDER_BY, NETWORK_500, PRODUCT_COLOR } from './consts';
+import {
+	REQUIRED,
+	INVALID_EMAIL,
+	INVALID_PASSWORD,
+	USER_DOES_NOT_EXIST,
+	EMAIL,
+	PASSWORD,
+	LOGIN,
+	AUTHENTICATION,
+	HOME,
+	PROFILE,
+	SELECT_OPTION,
+	CLEAR_FILTERS,
+	LOADING,
+	NO_RESULTS_FOUND,
+	INCORRECT_PASSWORD,
+	NETWORK_ERROR,
+	NETWORK_NOT_FOUND,
+	NETWORK_UNSUPPORTED_MEDIA_TYPE,
+	ORDER_BY,
+	NETWORK_500,
+	LOGOUT
+} from './consts';
 
 export default {
 	[REQUIRED]: 'Required',
@@ -7,18 +29,12 @@ export default {
 	[USER_DOES_NOT_EXIST]: 'User does not exist',
 	[EMAIL]: 'Email',
 	[PASSWORD]: 'Password',
-	[LOGIN]: 'Login',
+	[LOGIN]: 'Sign in',
 	[AUTHENTICATION]: 'Authentication',
 	[HOME]: 'Home',
-	[RENT]: 'Rent',
-	[SHOPPING_CART]: 'Shopping cart',
-	[CHECKOUT]: 'Checkout',
 	[PROFILE]: 'Profile',
 	[SELECT_OPTION]: 'Select an option',
 	[CLEAR_FILTERS]: 'Clear filters',
-	[PRODUCT_CATEGORY]: 'Product category',
-	[PRODUCT_SIZE]: 'Product size',
-	[PRODUCT_COLOR]: 'Product color',
 	[LOADING]: 'Loading...',
 	[NO_RESULTS_FOUND]: 'No results found',
 	[INCORRECT_PASSWORD]: 'Incorrect password',
@@ -27,4 +43,5 @@ export default {
 	[NETWORK_UNSUPPORTED_MEDIA_TYPE]: 'Unsupported media type',
 	[NETWORK_500]: 'Error doing request',
 	[ORDER_BY]: 'Order by',
+	[LOGOUT]: 'Exit'
 };

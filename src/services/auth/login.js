@@ -1,3 +1,6 @@
+// import Axios from 'axios';
+// import jwtDecode from 'jwt-decode';
+
 // import { API_URL } from './config';
 
 /**
@@ -17,17 +20,28 @@
  * @param {string} password
  * @returns {Promise.<Token,Error>}
  */
-export default (email, password) => new Promise((accept, reject) => {
-	setTimeout(() => {
-		if (email === 'test@test.com' && password === '123456') {
-			return accept({
+export default (email, password) => {
+	// if (API_URL) {
+	// 	return Axios
+	// 		.post(`${API_URL}/api/users/login`, { email, password }, { credentials: 'include' })
+	// 		.then(response => response.data)
+	// 		.then((data) => {
+	// 			const tokenDecoded = jwtDecode(data.token);
+	// 			return {
+	// 				...data,
+	// 				tokenDecoded,
+	// 			};
+	// 		});
+	// }
+
+	return new Promise((accept, reject) => {
+		setTimeout(() => {
+			accept({
 				token: {
-					access_token: '12345',
+					access_token: '123456',
 				},
 			});
-		} else if (email === 'test@test.com') {
-			return reject(new Error('INCORRECT_PASSWORD'));
-		}
-		return reject(new Error('USER_DOES_NOT_EXIST'));
-	}, 800);
-});
+		}, 800);
+	});
+};
+

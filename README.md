@@ -1,4 +1,4 @@
-# Loli Store Frontend
+# React/Redux boostrap
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
@@ -10,14 +10,13 @@ You will find information on how to perform common tasks on this guide [here](ht
 - components - contains components used in more than one scene and components that don't fit in any scene like App and Header.
 - locale - constants that identify strings and locale strings files.
 - localstorage - constains constants that identify properties that can be saved in localstorage.
-- propTypes - contains propTypes definitions used in more that one component
 - scenes - contains pages and their own components
 - services - constains all services. Most of them are used as the layer that connects with server.
 - store - contains all logic related with Redux state.
   - /*/actions - contains action creators
   - /*/types - contains types used in action creators and reducer
   - /*/thunks - contains operations related with asyncronous chages of state like getting data from server
-  - /*/reducer - contains reducer, the function that changes state. The rootReducer uses reducers of other modules like authentication, localize, rent and shopping cart.
+  - /*/reducer - contains reducer, the function that changes state. The rootReducer uses reducers of other modules like authentication, localize, etc.
 
 ### Container Pattern
 
@@ -41,26 +40,23 @@ Install dependencies and run server.
 > npm start
 ```
 
+Or use docker
+
+```
+> docker-compose up
+```
+
 ## Deploy
 
 Generate bundle of application minified and run static server with bundle generated.
 
 ```
 > npm run-script build
-> npm install -g serve 
+> npm install -g serve
 > serve -s build
 ```
 
 `Warning: Verify before deploying if build application has the last updates. If not, clean directory before running build script.`
-
-The content of build directory shall be used in production.
-
-At this moment the staging server is 13.73.138.41 and the content of build directory should be past to C:\ProgramData\LOLI\loli-store.
-
-Command tool scp provides a way to upload content of build to staging server directory.
-```
-> scp -r ./build/* inspireit@13.73.138.41:C:\\ProgramData\\LOLI\\loli-store
-```
 
 ## Available Scripts
 
@@ -88,9 +84,7 @@ The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 ## Localisation
-Once Loli Store has to support other languages, raw strings shouldn't be used in application.
-
-All strings should be represented by a constant that exists in `locale/consts` file. This constant represents the id of the string that shall be used with `Translate` component. Strings translated are in a file into `locale` directory with the code name that represents a language. Translations are initialized in state on `store/localize/init`. 
+All strings should be represented by a constant that exists in `locale/consts` file. This constant represents the id of the string that shall be used with `Translate` component. Strings translated are in a file into `locale` directory with the code name that represents a language. Translations are initialized in state on `store/localize/init`.
 
 ### Usage
 
@@ -99,17 +93,17 @@ Next example shows how to add a string into the project and use it in a componen
 `locale/consts.js`
 ```
 export default {
-  LOLI_STORE:'LOLI_STORE'
+  LOGOUT:'LOGOUT'
 }
 ```
 <br />
 
 `locale/en.js`
 ```
-import {LOLI_STORE} from "locale/consts"
+import {LOGOUT} from "locale/consts"
 
 export default {
-  [LOLI_STORE]:'Loli Store'
+  [LOGOUT]:'Exit'
 }
 ```
 <br />
@@ -117,9 +111,9 @@ export default {
 `components/ApplicationTitle.js`
 ```
 import Translate from 'components/Translate';
-import {LOLI_STORE} from 'locale/consts';
+import {LOGOUT} from 'locale/consts';
 
-const ApplicationTitle = ()=><Translate id={LOLI_STORE} />
+const ApplicationTitle = ()=><Translate id={LOGOUT} />
 
 export default ApplicationTitle;
 ```

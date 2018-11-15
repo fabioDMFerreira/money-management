@@ -1,9 +1,15 @@
 import React from 'react';
 import { func } from 'prop-types';
-import { Button } from 'reactstrap';
+import { DropdownItem } from 'reactstrap';
+
+import { LOGOUT } from '../../locale/consts';
+
+import Translate from '../Translate';
 
 const Logout = ({ logout }) => (
-	<Button color="link" onClick={logout}>LOGOUT</Button>
+	<DropdownItem onClick={logout}>
+		<Translate id={LOGOUT} />
+	</DropdownItem>
 );
 
 Logout.propTypes = {

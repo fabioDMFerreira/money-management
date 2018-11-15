@@ -6,6 +6,7 @@ export default (state, action) => {
 		return {
 			...state,
 			token: null,
+			tokenDecoded: null,
 			isLoggedIn: false,
 		};
 	default:

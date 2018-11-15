@@ -1,0 +1,4 @@
+{
+    "jest.pathToJest": "node_modules/react-scripts/node_modules/.bin/jest",
+    "eslint.enable": true
+}

@@ -11,7 +11,7 @@ const InputAndValidationMessages = ({
 	translate,
 }) => (
 	<div>
-		<input {...input} type={type} />
+		<input className="form-control" {...input} type={type} />
 		{
 			(() => {
 				if (touched && error && error.length) {
@@ -28,11 +28,6 @@ InputAndValidationMessages.propTypes = {
 	input: object.isRequired,
 	type: string.isRequired,
 	meta: object.isRequired,
-	//  objectOf({
-	// 	touched: bool.isRequired,
-	// 	error: arrayOf(string),
-	// 	warning: arrayOf(string),
-	// }).isRequired,
 };
 
 export default withLocalize(InputAndValidationMessages);

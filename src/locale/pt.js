@@ -1,4 +1,25 @@
-import { REQUIRED, INVALID_EMAIL, INVALID_PASSWORD, USER_DOES_NOT_EXIST, EMAIL, PASSWORD, LOGIN, AUTHENTICATION, HOME, RENT, SHOPPING_CART, CHECKOUT, PROFILE, SELECT_OPTION, CLEAR_FILTERS, PRODUCT_CATEGORY, PRODUCT_SIZE, LOADING, NO_RESULTS_FOUND, INCORRECT_PASSWORD, NETWORK_ERROR, NETWORK_NOT_FOUND, NETWORK_UNSUPPORTED_MEDIA_TYPE, ORDER_BY, NETWORK_500, PRODUCT_COLOR } from './consts';
+import {
+	REQUIRED,
+	INVALID_EMAIL,
+	INVALID_PASSWORD,
+	USER_DOES_NOT_EXIST,
+	EMAIL,
+	PASSWORD,
+	LOGIN,
+	AUTHENTICATION,
+	HOME,
+	PROFILE,
+	SELECT_OPTION,
+	CLEAR_FILTERS,
+	LOADING, NO_RESULTS_FOUND,
+	INCORRECT_PASSWORD,
+	NETWORK_ERROR,
+	NETWORK_NOT_FOUND,
+	NETWORK_UNSUPPORTED_MEDIA_TYPE,
+	ORDER_BY,
+	NETWORK_500,
+	LOGOUT
+} from './consts';
 
 export default {
 	[REQUIRED]: 'Obrigatório',
@@ -8,17 +29,11 @@ export default {
 	[EMAIL]: 'Endereço email',
 	[PASSWORD]: 'Palavra-chave',
 	[LOGIN]: 'Autentique-se',
-	[AUTHENTICATION]: 'Autenticação',
+	[AUTHENTICATION]: 'Entrada',
 	[HOME]: 'Home',
-	[RENT]: 'Arrendar',
-	[SHOPPING_CART]: 'Carrinho de compras',
-	[CHECKOUT]: 'Checkout',
 	[PROFILE]: 'Perfil',
 	[SELECT_OPTION]: 'Selecione uma opção',
 	[CLEAR_FILTERS]: 'Limpa os filtros',
-	[PRODUCT_CATEGORY]: 'Categoria do produto',
-	[PRODUCT_SIZE]: 'Tamanho do produto',
-	[PRODUCT_COLOR]: 'Cor do produto',
 	[LOADING]: 'A carregar...',
 	[NO_RESULTS_FOUND]: 'Sem resultados',
 	[INCORRECT_PASSWORD]: 'Password incorreta',
@@ -27,4 +42,5 @@ export default {
 	[NETWORK_UNSUPPORTED_MEDIA_TYPE]: 'Media type não suportado',
 	[NETWORK_500]: 'Erro ao fazer pedido',
 	[ORDER_BY]: 'Ordenar por',
+	[LOGOUT]: 'Sair'
 };

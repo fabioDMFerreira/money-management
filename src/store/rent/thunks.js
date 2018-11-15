@@ -1,1 +1,0 @@
-export * from './productsList/thunks';
