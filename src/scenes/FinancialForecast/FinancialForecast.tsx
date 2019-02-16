@@ -9,14 +9,20 @@ import ReactTable from 'react-table';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
 
 import Transaction from './Balance/Transaction.class';
 import Forecast from './Balance/Forecast.class';
 import calculateForecastBalance from './Balance/calculateForecastBalance';
 import Balance from './Balance/Balance.interface';
 
-import "react-table/react-table.css";
+import { sumMonths } from './Balance/utils';
 
+const TableActions = styled.div`
+  margin-bottom:10px;
+`;
 
 interface TransactionData {
   description: string,
@@ -39,7 +45,7 @@ interface FinancialForecastState {
 
 const YYYYMMDD = (date: Date) => {
   const year = '' + date.getFullYear();
-  let month = '' + date.getMonth() + 1;
+  let month = '' + (date.getMonth() + 1);
   let day = '' + date.getDate();
 
   if (day.length === 1) {
@@ -62,9 +68,9 @@ class FinancialForecast extends Component {
 
   state: FinancialForecastState = {
     forecast: {
-      initialValue: '1000',
-      startDate: '2018-01-01',
-      endDate: '2018-12-01',
+      initialValue: '0',
+      startDate: YYYYMMDD(new Date()),
+      endDate: YYYYMMDD(sumMonths(new Date(), 12)),
     },
     transactions: []
   }
@@ -77,6 +83,8 @@ class FinancialForecast extends Component {
     const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
 
     this.state.balance = calculateForecastBalance(forecast, transactions);
+
+    console.log(this.state.forecast.startDate, this.state.forecast.endDate);
   }
 
   componentDidUpdate(prevProps: any, prevState: FinancialForecastState) {
@@ -117,8 +125,8 @@ class FinancialForecast extends Component {
     transactions.unshift({
       description: "New Transaction",
       value: "0",
-      startDate: '2018-01-15',
-      endDate: '2018-01-15',
+      startDate: YYYYMMDD(new Date()),
+      endDate: '',
     });
 
     this.setState({
@@ -172,25 +180,28 @@ class FinancialForecast extends Component {
     {
       Header: 'Description',
       accessor: "description",
-      Cell: this.editableCell,
+      Cell: (props: any) => this.editableCell(props, 'text'),
     }, {
       Header: 'Start date',
       accessor: "startDate",
       Cell: (props: any) => this.editableCell(props, 'date'),
+      width: 180
     },
     {
       Header: 'End date',
       accessor: "endDate",
       Cell: (props: any) => this.editableCell(props, 'date'),
+      width: 180
     }, {
       Header: 'Value',
       accessor: "value",
-      Cell: (props: any) => this.editableCell(props, 'number')
+      Cell: (props: any) => this.editableCell(props, 'number'),
+      width: 100
     }, {
       Header: '',
       acessor: '',
+      Cell: (props: any) => <Button color="link" onClick={() => this.removeTransaction(props.index)}><FontAwesomeIcon icon={faMinusCircle}/></Button>,
       width: 50,
-      Cell: (props: any) => <Button onClick={() => this.removeTransaction(props.index)}>-</Button>
     }
   ];
 
@@ -199,18 +210,24 @@ class FinancialForecast extends Component {
 
     return (
       <div>
-        <h1>Financial Forecast</h1>
+        <h3>Financial Forecast</h3>
+        <hr />
         <Row>
-          <Col xs="6">
-            <Button onClick={this.addTransaction}>+</Button>
+          <Col xs="5">
+            <TableActions>
+              <Button outline color="secondary" size="sm" onClick={this.addTransaction}>
+                <FontAwesomeIcon icon={faPlus} />
+              </Button>
+            </TableActions>
             <ReactTable
               data={transactions}
               columns={this.columns}
+              defaultPageSize={10}
             />
           </Col>
-          <Col xs="6">
+          <Col xs="7">
             <Row>
-              <Col xs={4}>
+              <Col xs={2}>
                 <FormGroup>
                   <Label>Initial value:</Label>
                   <Input
@@ -220,7 +237,7 @@ class FinancialForecast extends Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={4}>
+              <Col xs={3}>
                 <FormGroup>
                   <Label>Start date:</Label>
                   <Input
@@ -230,7 +247,7 @@ class FinancialForecast extends Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={4}>
+              <Col xs={3}>
                 <FormGroup>
                   <Label>End date:</Label>
                   <Input
@@ -246,14 +263,14 @@ class FinancialForecast extends Component {
             <LineChart
               width={900}
               height={300}
-              data={balance}
+              data={balance ? balance.map((b: Balance) => ({ ...b, date: b.date ? YYYYMMDD(b.date) : null })) : []}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="actualValue" stroke="#8884d8" activeDot={{ r: 8 }} />
+              <Line type="monotone" dataKey="actualValue" name="Amount (€)" stroke="#8884d8" activeDot={{ r: 8 }} />
             </LineChart>
           </Col>
         </Row>

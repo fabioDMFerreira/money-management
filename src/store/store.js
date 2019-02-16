@@ -8,11 +8,11 @@ import rootReducer from './rootReducer';
 import InitLocalization from './localize';
 
 const persistConfig = {
-		key: 'state',
-		storage,
-	},
+	key: 'state',
+	storage,
+},
 	persistedReducer = persistReducer(persistConfig, rootReducer),
-	loggerMiddleware = createLogger(),
+	loggerMiddleware = createLogger({ collapsed: true }),
 	store = createStore(persistedReducer, applyMiddleware(
 		thunkMiddleware,
 		promiseMiddleware(),
