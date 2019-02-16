@@ -8,18 +8,20 @@ import Authentication from 'scenes/Authentication';
 import NotFound from 'scenes/NotFound';
 
 import './Main.css';
+import FinancialForecast from '../../scenes/FinancialForecast';
 
 const Main = ({ isLoggedIn }) => (
 	<div id="main">
 		<Switch>
 			{
-				isLoggedIn &&
+				// isLoggedIn &&
 				<React.Fragment>
-					<Route path="" exact component={Home} />
+					{/* <Route path="" exact component={Home} /> */}
+					<Route path="/" component={FinancialForecast} />
 					<Route path="/not-found" component={NotFound} />
 				</React.Fragment>
 			}
-			<Route path="/login" component={Authentication} />
+			{/* <Ro	ute path="/login" component={Authentication} /> */}
 		</Switch>
 	</div>
 );

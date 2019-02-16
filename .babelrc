@@ -1,7 +1,8 @@
 {
     "presets": [
       "react",
-      "env"
+      "env",
+      "typescript"
     ],
     "sourceMaps": "inline",
     "retainLines": true,

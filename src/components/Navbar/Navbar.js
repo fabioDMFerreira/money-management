@@ -19,20 +19,23 @@ import Logout from '../Logout';
 const Navbar = ({ isLoggedIn }) => (
 	<Nav className="ml-auto" navbar vertical={false}>
 		<NavItem>
-			<NavLink tag={RRNavLink} exact to="/">
+			{/* <NavLink tag={RRNavLink} exact to="/">
 				<Translate id={HOME} />
+			</NavLink> */}
+			<NavLink tag={RRNavLink} exact to="/">
+				Financial Forecast
 			</NavLink>
 		</NavItem>
 		{
-			!isLoggedIn &&
-			<NavItem>
-				<NavLink tag={RRNavLink} to="/authentication">
-					<Translate id={AUTHENTICATION} />
-				</NavLink>
-			</NavItem>
+			// !isLoggedIn &&
+			// <NavItem>
+			// 	<NavLink tag={RRNavLink} to="/authentication">
+			// 		<Translate id={AUTHENTICATION} />
+			// 	</NavLink>
+			// </NavItem>
 		}
 		{
-			isLoggedIn &&
+			// isLoggedIn &&
 			<UncontrolledDropdown nav inNavbar>
 				<DropdownToggle nav caret>
 					<FontAwesomeIcon icon={faCog} />

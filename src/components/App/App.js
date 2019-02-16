@@ -15,25 +15,24 @@ import LanguagesToggle from '../LanguagesToggle';
 const App = ({ isLoggedIn }) => (
 	<div id="root">
 		{
-			isLoggedIn &&
 			<React.Fragment>
 				<div id="languages-container">
 					<LanguagesToggle />
 				</div>
 				<Navbar id="navbar" color="primary" dark expand="md">
-					<Container>
+					<Container fluid>
 						<Header />
 						<NavbarComponent />
 					</Container>
 				</Navbar>
-				<Container>
+				<Container fluid>
 					<Main />
 				</Container>
 			</React.Fragment>
 		}
 		{
-			!isLoggedIn &&
-			<Authentication />
+			// !isLoggedIn &&
+			// <Authentication />
 		}
 
 	</div>
