@@ -10,8 +10,9 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinusCircle, faUpload, faDownload } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
+import { CSVLink } from 'react-csv';
 
 import Transaction from './Balance/Transaction.class';
 import Forecast from './Balance/Forecast.class';
@@ -23,6 +24,40 @@ import { sumMonths } from './Balance/utils';
 const TableActions = styled.div`
   margin-bottom:10px;
 `;
+
+//var csv is the CSV file with headers
+function csvJSON(csv: string, headersMapper: object[]): any {
+
+  var lines = csv.split("\n");
+
+  var result = [];
+
+  let headers = lines[0].split(",").map(str => str.replace(/"/g, ""));
+
+  if (headers) {
+    headers =
+      headers.map(header => {
+        const mappedHeader: any = headersMapper.find((h: any) => h.label === header);
+        return mappedHeader ? mappedHeader.key : header;
+      });
+  }
+
+  for (var i = 1; i < lines.length; i++) {
+
+    var obj: any = {};
+    var currentline = lines[i].split(",");
+
+    for (var j = 0; j < headers.length; j++) {
+      obj[headers[j]] = currentline[j].replace(/"/g,"");
+    }
+
+    result.push(obj);
+
+  }
+
+  //return result; //JavaScript object
+  return result; //JSON
+}
 
 interface TransactionData {
   description: string,
@@ -75,6 +110,8 @@ class FinancialForecast extends Component {
     transactions: []
   }
 
+  fileInput: any;
+
   constructor(props: any) {
     super(props);
 
@@ -83,8 +120,6 @@ class FinancialForecast extends Component {
     const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
 
     this.state.balance = calculateForecastBalance(forecast, transactions);
-
-    console.log(this.state.forecast.startDate, this.state.forecast.endDate);
   }
 
   componentDidUpdate(prevProps: any, prevState: FinancialForecastState) {
@@ -176,6 +211,25 @@ class FinancialForecast extends Component {
     }
   }
 
+  downloadTransactions = (event: any) => {
+    const reader = new FileReader();
+    const file = this.fileInput.files[0];
+
+    reader.onerror = () => {
+    };
+    reader.onload = (csv =>
+      (e: any) => {
+        const transactions: TransactionData[] = csvJSON(e.target.result, this.csvHeaders);
+        console.log({ transactions });
+        this.setState({
+          transactions: this.state.transactions.concat(transactions)
+        });
+      }
+    )(file);
+
+    reader.readAsText(file);
+  }
+
   columns: object[] = [
     {
       Header: 'Description',
@@ -200,10 +254,24 @@ class FinancialForecast extends Component {
     }, {
       Header: '',
       acessor: '',
-      Cell: (props: any) => <Button color="link" onClick={() => this.removeTransaction(props.index)}><FontAwesomeIcon icon={faMinusCircle}/></Button>,
+      Cell: (props: any) => <Button color="link" onClick={() => this.removeTransaction(props.index)}><FontAwesomeIcon icon={faMinusCircle} /></Button>,
       width: 50,
     }
   ];
+
+  csvHeaders: object[] = [{
+    label: 'Description',
+    key: 'description'
+  }, {
+    label: 'Start date',
+    key: 'startDate'
+  }, {
+    label: 'End date',
+    key: 'endDate'
+  }, {
+    label: 'Value',
+    key: 'value'
+  }]
 
   render() {
     const { transactions, balance, forecast } = this.state;
@@ -216,8 +284,28 @@ class FinancialForecast extends Component {
           <Col xs="5">
             <TableActions>
               <Button outline color="secondary" size="sm" onClick={this.addTransaction}>
-                <FontAwesomeIcon icon={faPlus} />
+                <FontAwesomeIcon icon={faPlus} /> Add
               </Button>
+              <CSVLink
+                data={transactions}
+                filename={`transactions-${YYYYMMDD(new Date())}.csv`}
+                headers={this.csvHeaders}
+              >
+                <Button outline color="secondary" size="sm">
+                  <FontAwesomeIcon icon={faUpload} /> Upload
+              </Button>
+              </CSVLink>
+              <Button outline color="secondary" size="sm" onClick={() => this.fileInput.click()}>
+                <FontAwesomeIcon icon={faDownload} /> Download
+              </Button>
+              <input
+                title="Import from .csv file"
+                type="file"
+                accept=".csv"
+                ref={(input) => { this.fileInput = input; }}
+                onChange={this.downloadTransactions}
+                style={{ display: 'none' }}
+              />
             </TableActions>
             <ReactTable
               data={transactions}
