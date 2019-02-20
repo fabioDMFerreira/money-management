@@ -20,94 +20,51 @@ import calculateForecastBalance from './Balance/calculateForecastBalance';
 import Balance from './Balance/Balance.interface';
 
 import { sumMonths } from './Balance/utils';
+import ImportTransactionsModal from './components/ImportTransactionsModal';
+import TransactionData from './TransactionData.interface';
+
+import YYYYMMDD from '../../utils/YYYYMMDD';
+import csvJSON from '../../utils/csvJSON';
 
 const TableActions = styled.div`
   margin-bottom:10px;
 `;
 
-//var csv is the CSV file with headers
-function csvJSON(csv: string, headersMapper: object[]): any {
-
-  var lines = csv.split("\n");
-
-  var result = [];
-
-  let headers = lines[0].split(",").map(str => str.replace(/"/g, ""));
-
-  if (headers) {
-    headers =
-      headers.map(header => {
-        const mappedHeader: any = headersMapper.find((h: any) => h.label === header);
-        return mappedHeader ? mappedHeader.key : header;
-      });
-  }
-
-  for (var i = 1; i < lines.length; i++) {
-
-    var obj: any = {};
-    var currentline = lines[i].split(",");
-
-    for (var j = 0; j < headers.length; j++) {
-      obj[headers[j]] = currentline[j].replace(/"/g,"");
-    }
-
-    result.push(obj);
-
-  }
-
-  //return result; //JavaScript object
-  return result; //JSON
-}
-
-interface TransactionData {
-  description: string,
-  value: string,
-  startDate?: string,
-  endDate?: string,
-}
-
-interface ForecastData {
+type ForecastData = {
   initialValue: string,
   startDate: string,
   endDate: string,
 }
 
-interface FinancialForecastState {
+type State = {
   forecast: ForecastData,
   transactions: TransactionData[],
-  balance?: Balance[],
+  balance: Balance[],
+  importingModalOpened: boolean,
+  importingData: object[]
 }
 
-const YYYYMMDD = (date: Date) => {
-  const year = '' + date.getFullYear();
-  let month = '' + (date.getMonth() + 1);
-  let day = '' + date.getDate();
+type Props = {
 
-  if (day.length === 1) {
-    day = '0' + day;
-  }
-
-  if (month.length === 1) {
-    month = '0' + month;
-  }
-
-  return year + '-' + month + '-' + day;
 }
 
-class FinancialForecast extends Component {
+class FinancialForecast extends Component<Props, State> {
   static propTypes = {
   }
 
   static defaultProps = {
   }
 
-  state: FinancialForecastState = {
+  state: State = {
     forecast: {
       initialValue: '0',
       startDate: YYYYMMDD(new Date()),
       endDate: YYYYMMDD(sumMonths(new Date(), 12)),
     },
-    transactions: []
+    balance: [],
+    transactions: [],
+    importingModalOpened: false,
+    importingData: []
   }
 
   fileInput: any;
@@ -122,7 +79,7 @@ class FinancialForecast extends Component {
     this.state.balance = calculateForecastBalance(forecast, transactions);
   }
 
-  componentDidUpdate(prevProps: any, prevState: FinancialForecastState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     if (
       this.state.transactions &&
       this.state.forecast &&
@@ -155,7 +112,7 @@ class FinancialForecast extends Component {
     return new Forecast(new Date(startDate), new Date(endDate), +initialValue)
   }
 
-  addTransaction = () => {
+  addNewTransaction = () => {
     const transactions = this.state.transactions.slice();
     transactions.unshift({
       description: "New Transaction",
@@ -163,6 +120,14 @@ class FinancialForecast extends Component {
       startDate: YYYYMMDD(new Date()),
       endDate: '',
     });
+
+    this.setState({
+      transactions
+    });
+  }
+
+  addTransactions = (newTransactions: TransactionData[]) => {
+    const transactions = this.state.transactions.concat(newTransactions);
 
     this.setState({
       transactions
@@ -211,7 +176,7 @@ class FinancialForecast extends Component {
     }
   }
 
-  downloadTransactions = (event: any) => {
+  importTransactions = (event: any) => {
     const reader = new FileReader();
     const file = this.fileInput.files[0];
 
@@ -219,11 +184,25 @@ class FinancialForecast extends Component {
     };
     reader.onload = (csv =>
       (e: any) => {
-        const transactions: TransactionData[] = csvJSON(e.target.result, this.csvHeaders);
-        console.log({ transactions });
-        this.setState({
-          transactions: this.state.transactions.concat(transactions)
-        });
+        const csvContent = csvJSON(e.target.result, this.csvHeaders);
+        console.log({ csvContent });
+        if (csvContent.length && (
+          !csvContent[0].description ||
+          !csvContent[0].startDate ||
+          !csvContent[0].value
+        )) {
+          console.log('open modal');
+          this.setState({
+            importingModalOpened: true,
+            importingData: csvContent,
+          });
+        } else {
+          const transactions: TransactionData[] = csvContent;
+          this.setState({
+            transactions: this.state.transactions.concat(transactions)
+          });
+        }
+
       }
     )(file);
 
@@ -274,7 +253,7 @@ class FinancialForecast extends Component {
   }]
 
   render() {
-    const { transactions, balance, forecast } = this.state;
+    const { transactions, balance, forecast, importingModalOpened, importingData } = this.state;
 
     return (
       <div>
@@ -283,7 +262,7 @@ class FinancialForecast extends Component {
         <Row>
           <Col xs="5">
             <TableActions>
-              <Button outline color="secondary" size="sm" onClick={this.addTransaction}>
+              <Button outline color="secondary" size="sm" onClick={this.addNewTransaction}>
                 <FontAwesomeIcon icon={faPlus} /> Add
               </Button>
               <CSVLink
@@ -292,18 +271,18 @@ class FinancialForecast extends Component {
                 headers={this.csvHeaders}
               >
                 <Button outline color="secondary" size="sm">
-                  <FontAwesomeIcon icon={faUpload} /> Upload
+                  <FontAwesomeIcon icon={faUpload} /> Export
               </Button>
               </CSVLink>
               <Button outline color="secondary" size="sm" onClick={() => this.fileInput.click()}>
-                <FontAwesomeIcon icon={faDownload} /> Download
+                <FontAwesomeIcon icon={faDownload} /> Import
               </Button>
               <input
                 title="Import from .csv file"
                 type="file"
                 accept=".csv"
                 ref={(input) => { this.fileInput = input; }}
-                onChange={this.downloadTransactions}
+                onChange={this.importTransactions}
                 style={{ display: 'none' }}
               />
             </TableActions>
@@ -362,6 +341,19 @@ class FinancialForecast extends Component {
             </LineChart>
           </Col>
         </Row>
+
+        <ImportTransactionsModal
+          opened={importingModalOpened}
+          data={importingData}
+          save={(transactions) => {
+            this.addTransactions(transactions);
+            this.setState({
+              importingModalOpened: false
+            });
+          }
+          }
+          close={() => this.setState({ importingModalOpened: false })}
+        />
       </div>
     );
   }
