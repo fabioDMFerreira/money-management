@@ -8,7 +8,7 @@ import Label from 'reactstrap/lib/Button';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Select from 'react-select';
 
-import TransactionData from '../TransactionData.interface';
+import TransactionData from '../../TransactionData.interface';
 
 interface Mapper {
   [key: string]: any

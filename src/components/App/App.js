@@ -3,7 +3,7 @@ import { Navbar, Container } from 'reactstrap';
 import { bool } from 'prop-types';
 import { connect } from 'react-redux';
 
-import Authentication from '../../scenes/Authentication';
+// import Authentication from '../../scenes/Authentication';
 
 import Header from '../Header';
 import NavbarComponent from '../Navbar';

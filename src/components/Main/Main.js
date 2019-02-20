@@ -3,8 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import { bool } from 'prop-types';
 import { connect } from 'react-redux';
 
-import Home from 'scenes/Home';
-import Authentication from 'scenes/Authentication';
+// import Home from 'scenes/Home';
+// import Authentication from 'scenes/Authentication';
 import NotFound from 'scenes/NotFound';
 
 import './Main.css';

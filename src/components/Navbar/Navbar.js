@@ -5,12 +5,12 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 
-import {
-	HOME,
-	AUTHENTICATION,
-} from 'locale/consts';
+// import {
+// 	HOME,
+// 	AUTHENTICATION,
+// } from 'locale/consts';
 
-import Translate from '../Translate';
+// import Translate from '../Translate';
 
 
 import './Navbar.css';

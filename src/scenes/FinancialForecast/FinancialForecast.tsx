@@ -5,7 +5,7 @@ import Input from 'reactstrap/lib/Input';
 import Button from 'reactstrap/lib/Button';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Label from 'reactstrap/lib/Label';
-import ReactTable from 'react-table';
+import ReactTable, { SortingRule } from 'react-table';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
@@ -20,11 +20,12 @@ import calculateForecastBalance from './Balance/calculateForecastBalance';
 import Balance from './Balance/Balance.interface';
 
 import { sumMonths } from './Balance/utils';
-import ImportTransactionsModal from './components/ImportTransactionsModal';
+import ImportTransactionsModal from './components/ImportTransactionsModal/ImportTransactionsModal';
 import TransactionData from './TransactionData.interface';
 
 import YYYYMMDD from '../../utils/YYYYMMDD';
 import csvJSON from '../../utils/csvJSON';
+import TransactionsTable from './components/TransactionsTable/TransactionsTable';
 
 const TableActions = styled.div`
   margin-bottom:10px;
@@ -41,7 +42,7 @@ type State = {
   transactions: TransactionData[],
   balance: Balance[],
   importingModalOpened: boolean,
-  importingData: object[]
+  importingData: object[],
 }
 
 type Props = {
@@ -64,7 +65,7 @@ class FinancialForecast extends Component<Props, State> {
     balance: [],
     transactions: [],
     importingModalOpened: false,
-    importingData: []
+    importingData: [],
   }
 
   fileInput: any;
@@ -156,17 +157,7 @@ class FinancialForecast extends Component<Props, State> {
     });
   }
 
-  editableCell = (cellInfo: any, type: "text" | "date" | "number") => {
-    return <span>
-      <Input
-        type={type || 'text'}
-        value={cellInfo.value}
-        onChange={e => {
-          this.updateTransaction(cellInfo.index, e.target.value, cellInfo.column.id)
-        }}
-      />
-    </span>
-  }
+
 
   updateForecast = (keyName: 'initialValue' | 'startDate' | 'endDate') => {
     return (e: any) => {
@@ -185,7 +176,6 @@ class FinancialForecast extends Component<Props, State> {
     reader.onload = (csv =>
       (e: any) => {
         const csvContent = csvJSON(e.target.result, this.csvHeaders);
-        console.log({ csvContent });
         if (csvContent.length && (
           !csvContent[0].description ||
           !csvContent[0].startDate ||
@@ -209,34 +199,7 @@ class FinancialForecast extends Component<Props, State> {
     reader.readAsText(file);
   }
 
-  columns: object[] = [
-    {
-      Header: 'Description',
-      accessor: "description",
-      Cell: (props: any) => this.editableCell(props, 'text'),
-    }, {
-      Header: 'Start date',
-      accessor: "startDate",
-      Cell: (props: any) => this.editableCell(props, 'date'),
-      width: 180
-    },
-    {
-      Header: 'End date',
-      accessor: "endDate",
-      Cell: (props: any) => this.editableCell(props, 'date'),
-      width: 180
-    }, {
-      Header: 'Value',
-      accessor: "value",
-      Cell: (props: any) => this.editableCell(props, 'number'),
-      width: 100
-    }, {
-      Header: '',
-      acessor: '',
-      Cell: (props: any) => <Button color="link" onClick={() => this.removeTransaction(props.index)}><FontAwesomeIcon icon={faMinusCircle} /></Button>,
-      width: 50,
-    }
-  ];
+
 
   csvHeaders: object[] = [{
     label: 'Description',
@@ -253,7 +216,13 @@ class FinancialForecast extends Component<Props, State> {
   }]
 
   render() {
-    const { transactions, balance, forecast, importingModalOpened, importingData } = this.state;
+    const {
+      transactions,
+      balance,
+      forecast,
+      importingModalOpened,
+      importingData,
+    } = this.state;
 
     return (
       <div>
@@ -286,10 +255,10 @@ class FinancialForecast extends Component<Props, State> {
                 style={{ display: 'none' }}
               />
             </TableActions>
-            <ReactTable
-              data={transactions}
-              columns={this.columns}
-              defaultPageSize={10}
+            <TransactionsTable
+              transactions={transactions}
+              updateTransaction={this.updateTransaction}
+              removeTransaction={this.removeTransaction}
             />
           </Col>
           <Col xs="7">
