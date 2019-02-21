@@ -55,7 +55,7 @@ describe('Transaction class', () => {
     expect(transaction.value).toEqual(1000 / 2);
 
 
-    const salary = new Transaction('salary', 1700 * 12);
+    const salary = new Transaction('salary', 1700 * 12, undefined);
 
     salary.startDate = new Date('2018-1-1');
     salary.particles = 12;

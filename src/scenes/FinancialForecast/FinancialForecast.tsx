@@ -5,12 +5,11 @@ import Input from 'reactstrap/lib/Input';
 import Button from 'reactstrap/lib/Button';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Label from 'reactstrap/lib/Label';
-import ReactTable, { SortingRule } from 'react-table';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinusCircle, faUpload, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faPlus,  faUpload, faDownload } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import { CSVLink } from 'react-csv';
 
@@ -20,12 +19,13 @@ import calculateForecastBalance from './Balance/calculateForecastBalance';
 import Balance from './Balance/Balance.interface';
 
 import { sumMonths } from './Balance/utils';
-import ImportTransactionsModal from './components/ImportTransactionsModal/ImportTransactionsModal';
 import TransactionData from './TransactionData.interface';
 
-import YYYYMMDD from '../../utils/YYYYMMDD';
-import csvJSON from '../../utils/csvJSON';
-import TransactionsTable from './components/TransactionsTable/TransactionsTable';
+import YYYYMMDD from 'utils/YYYYMMDD';
+import csvJSON from 'utils/csvJSON';
+
+import ImportTransactionsModal from './components/ImportTransactionsModal';
+import TransactionsTable from './components/TransactionsTable';
 
 const TableActions = styled.div`
   margin-bottom:10px;
