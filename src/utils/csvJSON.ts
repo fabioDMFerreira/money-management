@@ -4,7 +4,7 @@ export default (csv: string, headersMapper: object[]): any => {
 
   var result = [];
 
-  let headers = lines[0].split(",").map(str => str.replace(/"/g, ""));
+  let headers = lines[0].split(",").map(str => str ? str.replace(/"/g, "") : "");
 
   if (headers) {
     headers =
@@ -20,7 +20,7 @@ export default (csv: string, headersMapper: object[]): any => {
     var currentline = lines[i].split(",");
 
     for (var j = 0; j < headers.length; j++) {
-      obj[headers[j]] = currentline[j].replace(/"/g, "");
+      obj[headers[j]] = currentline[j] ? currentline[j].replace(/"/g, "") : "";
     }
 
     result.push(obj);

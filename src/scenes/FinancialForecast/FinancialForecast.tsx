@@ -27,6 +27,8 @@ import csvJSON from 'utils/csvJSON';
 import ImportTransactionsModal from './components/ImportTransactionsModal';
 import TransactionsTable from './components/TransactionsTable';
 import transactionEditableFields from './transactionEditableFields';
+import TransactionMetadata from './TransactionFieldsMetadata';
+import validateTransactionData from './validateTransactionData';
 
 const TableActions = styled.div`
   margin-bottom:10px;
@@ -75,7 +77,7 @@ class FinancialForecast extends Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    const transactions: Transaction[] = this.transformTransactions(this.state.transactions);
+    const transactions: Transaction[] = [];
     const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
 
     this.state.balance = calculateForecastBalance(forecast, transactions);
@@ -98,23 +100,6 @@ class FinancialForecast extends Component<Props, State> {
         transactions: this.state.dbTransactions.map(transaction => transaction.convertToTransactionData())
       });
     }
-  }
-
-  transformTransactions = (data: TransactionData[]): Transaction[] => {
-    return data.map(transactionData => {
-
-      const startDate = transactionData.startDate ? new Date(transactionData.startDate) : undefined;
-      const endDate = transactionData.endDate ? new Date(transactionData.endDate) : undefined;
-      const value = transactionData.credit ? transactionData.credit : transactionData.debit;
-
-      const transaction = new Transaction(transactionData.description, value ? +value : 0, startDate);
-
-      if (endDate) {
-        transaction.endDate = endDate;
-      }
-
-      return transaction;
-    })
   }
 
   transformForecast = (initialValue: string, startDate: string, endDate: string): Forecast => {
@@ -164,7 +149,7 @@ class FinancialForecast extends Component<Props, State> {
             transaction.endDate = value ? new Date(value) : new Date();
             break;
           case 'description':
-            transaction.description =value;
+            transaction.description = value;
             break;
           case 'particles':
             transaction.particles = +value;
@@ -203,12 +188,8 @@ class FinancialForecast extends Component<Props, State> {
     };
     reader.onload = (csv =>
       (e: any) => {
-        const csvContent = csvJSON(e.target.result, this.csvHeaders);
-        if (csvContent.length && (
-          !csvContent[0].description ||
-          !csvContent[0].startDate ||
-          !csvContent[0].value
-        )) {
+        const csvContent = csvJSON(e.target.result, TransactionMetadata);
+        if (csvContent.length && !validateTransactionData(csvContent[0])) {
           this.setState({
             importingModalOpened: true,
             importingData: csvContent,
@@ -225,22 +206,6 @@ class FinancialForecast extends Component<Props, State> {
 
     reader.readAsText(file);
   }
-
-
-
-  csvHeaders: object[] = [{
-    label: 'Description',
-    key: 'description'
-  }, {
-    label: 'Start date',
-    key: 'startDate'
-  }, {
-    label: 'End date',
-    key: 'endDate'
-  }, {
-    label: 'Value',
-    key: 'value'
-  }]
 
   render() {
     const {
@@ -264,7 +229,7 @@ class FinancialForecast extends Component<Props, State> {
               <CSVLink
                 data={transactions}
                 filename={`transactions-${YYYYMMDD(new Date())}.csv`}
-                headers={this.csvHeaders}
+                headers={TransactionMetadata}
               >
                 <Button outline color="secondary" size="sm">
                   <FontAwesomeIcon icon={faUpload} /> Export

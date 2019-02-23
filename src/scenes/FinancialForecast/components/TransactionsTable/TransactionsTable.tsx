@@ -1,12 +1,37 @@
 import React, { Component } from 'react';
 import ReactTable, { SortingRule } from 'react-table';
+import styled from 'styled-components';
 
-import TransactionData from '../../TransactionData.interface';
 import Button from 'reactstrap/lib/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Input from 'reactstrap/lib/Input';
+
+import TransactionData from '../../TransactionData.interface';
 import transactionEditableFields from '../../transactionEditableFields';
+
+const TransactionsTableContainer = styled.div`
+  &&&&{
+    .rt-td{
+      padding:4px 4px 1px 4px;
+    }
+
+    .form-control{
+      border-radius:0px;
+      border:0px;
+      line-height:1.5;
+    }
+  }
+`;
+
+const NotEditableCell = styled.span`
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+  display: block;
+  color: rgb(73, 80, 87);
+`;
 
 type Props = {
   transactions: TransactionData[],
@@ -86,6 +111,7 @@ export default class TransactionsTable extends Component<Props, State> {
       }, {
         Header: 'Total value',
         accessor: "totalValue",
+        Cell: (props: any) => <NotEditableCell>{props.value}</NotEditableCell>,
         width: 100
       }, {
         Header: '',
@@ -120,12 +146,14 @@ export default class TransactionsTable extends Component<Props, State> {
       sorted
     } = this.state;
 
-    return <ReactTable
-      data={transactions}
-      columns={this.columns}
-      defaultPageSize={10}
-      sorted={sorted}
-      onSortedChange={this.onSortedChange}
-    />
+    return <TransactionsTableContainer>
+      <ReactTable
+        data={transactions}
+        columns={this.columns}
+        defaultPageSize={10}
+        sorted={sorted}
+        onSortedChange={this.onSortedChange}
+      />
+    </TransactionsTableContainer>
   }
 }
