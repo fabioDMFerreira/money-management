@@ -1,4 +1,4 @@
-import { monthDiff, sumMonths, intersectMonth, firstMonthDay, lastMonthDay } from './utils';
+import { monthDiff, sumMonths, isDateIntervalInGroup, firstMonthDay, lastMonthDay, isMonthsIntervalInGroup } from './utils';
 
 describe('Forecast utils', () => {
 
@@ -10,27 +10,75 @@ describe('Forecast utils', () => {
     expect(monthDiff(new Date('2018-01-01'), new Date('2018-02-28'))).toEqual(2);
   });
 
-  it('sumMonths should return a date with the months summed', () => {
-    expect(sumMonths(new Date('2018-01-1'), 9)).toEqual(new Date('2018-10-1'));
-    expect(sumMonths(new Date('2018-01-1'), 14)).toEqual(new Date('2019-3-1'));
-    expect(sumMonths(new Date('2018-01-1'), 1)).toEqual(new Date('2018-2-1'));
-    expect(sumMonths(new Date('2018-01-1'), -1)).toEqual(new Date('2017-12-1'));
-    expect(sumMonths(new Date('2018-09-30'), -8)).toEqual(new Date('2018-01-30'));
-  });
-
-  it('intersectMonth should return true if date intersects group date', () => {
-    expect(
-      intersectMonth(new Date('2018-1-15'), new Date('2018-3-1'), new Date('2018-1-1'))
-    )
-      .toEqual(true);
-  });
-
-  it('intersectMonth should return true if start and end date are the same and have the same month of the group date', () => {
-    expect(
-      intersectMonth(new Date('2018-2-15'), new Date('2018-2-15'), new Date('2018-2-1'))
-    )
-      .toEqual(true);
+  describe('sumMonths',()=>{
+    it('should return a date with the months summed', () => {
+      expect(sumMonths(new Date('2018-01-1'), 9)).toEqual(new Date('2018-10-1'));
+      expect(sumMonths(new Date('2018-01-1'), 14)).toEqual(new Date('2019-3-1'));
+      expect(sumMonths(new Date('2018-01-1'), 1)).toEqual(new Date('2018-2-1'));
+    });
+    it('should return a date with the months subtracted', () => {
+      expect(sumMonths(new Date('2018-01-1'), -1)).toEqual(new Date('2017-12-1'));
+      expect(sumMonths(new Date('2018-09-30'), -8)).toEqual(new Date('2018-01-30'));
+    });
   })
+
+  describe('isDateIntervalInGroup', () => {
+    it('should return true if date intersects group date', () => {
+      expect(
+        isDateIntervalInGroup(new Date('2018-1-15'), new Date('2018-3-1'), new Date('2018-1-1'))
+      )
+        .toEqual(true);
+    });
+
+    it('should return true if start and end date are the same and have the same month of the group date', () => {
+      expect(
+        isDateIntervalInGroup(new Date('2018-2-15'), new Date('2018-2-15'), new Date('2018-2-1'))
+      )
+        .toEqual(true);
+    })
+  });
+
+  describe('isMonthsIntervalInGroup', () => {
+
+    it('should return true if start date plus months interval number multiplied by particles is inside group date', () => {
+      expect(
+        isMonthsIntervalInGroup(new Date('2018-01-15'), 3, 2, new Date('2018-01-01'))
+      ).toBeTruthy();
+
+      expect(
+        isMonthsIntervalInGroup(new Date('2018-01-01'), 3, 2, new Date('2018-04-01'))
+      ).toBeTruthy();
+    })
+
+    it('should return false if start date plus months interval number multiplied by particles is not inside group date', () => {
+      expect(
+        isMonthsIntervalInGroup(new Date('2018-01-01'), 3, 2, new Date('2018-02-01'))
+      ).toBeFalsy();
+
+      expect(
+        isMonthsIntervalInGroup(new Date('2018-01-01'), 3, 2, new Date('2018-03-01'))
+      ).toBeFalsy();
+
+      expect(
+        isMonthsIntervalInGroup(new Date('2018-01-01'), 3, 2, new Date('2018-05-01'))
+      ).toBeFalsy();
+
+      expect(
+        isMonthsIntervalInGroup(new Date('2018-01-01'), 3, 2, new Date('2018-06-01'))
+      ).toBeFalsy();
+
+      expect(
+        isMonthsIntervalInGroup(new Date('2018-01-01'), 3, 2, new Date('2018-07-01'))
+      ).toBeFalsy();
+    })
+
+
+    it('should return false if start date is higher that group date ', () => {
+      expect(
+        isMonthsIntervalInGroup(new Date('2018-03-01'), 3, 2, new Date('2018-01-01'))
+      ).toBeFalsy();
+    })
+  });
 
   it('firstMonthDay should return first day of the month', () => {
     expect(firstMonthDay(new Date('2018-1-5'))).toEqual(new Date('2018-1-1'));

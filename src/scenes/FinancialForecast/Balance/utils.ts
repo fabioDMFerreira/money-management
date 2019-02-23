@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const monthDiff = (date1: Date, date2: Date): number => {
   let months = 0;
 
@@ -20,14 +22,50 @@ export const monthDiff = (date1: Date, date2: Date): number => {
 }
 
 export const sumMonths = (date: Date, months: number): Date => {
-  date = new Date(date.getTime());
-  date.setMonth(date.getMonth() + months);
-  date.setHours(0);
+  const monthsToSum = months % 12;
 
-  return date;
+  let yearsToSum = 0;
+  if (months > 0) {
+    yearsToSum = Math.floor(months / 12);
+  } else if (months < -11) {
+    yearsToSum = Math.ceil(months / 12);
+  }
+  let summedDateYear = date.getFullYear() + yearsToSum;
+
+  let summedDateMonth = date.getMonth() + 1 + monthsToSum;
+  const summedDateDay = date.getDate();
+
+  if (summedDateMonth > 12) {
+    summedDateYear++;
+    summedDateMonth -= 13;
+  } else if (summedDateMonth < 1) {
+    summedDateYear--;
+    summedDateMonth += 12;
+  }
+
+  let summedDate = new Date(`${summedDateYear}-${summedDateMonth}-${summedDateDay}`);
+
+  return summedDate;
 }
 
-export const intersectMonth = (startDate: Date, endDate: Date, groupDate: Date): boolean => {
+export const isMonthsIntervalInGroup = (startDate: Date, interval: number, particles: number, groupDate: Date): boolean => {
+
+  if (firstMonthDay(startDate) > groupDate) {
+    return false;
+  }
+
+  for (let i = 0; i < particles; i++) {
+    const date = sumMonths(startDate, interval * i);
+
+    if (isDateIntervalInGroup(date, date, groupDate)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export const isDateIntervalInGroup = (startDate: Date, endDate: Date, groupDate: Date): boolean => {
 
   const groupStartDate = firstMonthDay(groupDate);
   const groupEndDate = lastMonthDay(groupDate);
@@ -45,7 +83,7 @@ export const firstMonthDay = (date: Date): Date => {
 }
 
 export const lastMonthDay = (date: Date): Date => {
-  date = sumMonths(firstMonthDay(date),1);
-  date.setDate(date.getDate()-1);
+  date = sumMonths(firstMonthDay(date), 1);
+  date.setDate(date.getDate() - 1);
   return date;
 }

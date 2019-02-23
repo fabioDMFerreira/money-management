@@ -137,4 +137,33 @@ describe('Transaction class', () => {
     expect(transaction.startDate).toEqual(new Date('2018-09-30'));
     expect(transaction.value).toEqual(1000);
   })
+
+  it('set end date should reset interval value', () => {
+    const transaction = new Transaction('water bill', 1000, new Date('2018-01-01'));
+
+    expect(transaction.interval).toEqual(1);
+
+    transaction.interval = 10;
+
+    expect(transaction.interval).toEqual(10);
+
+    transaction.endDate = new Date('2018-01-01');
+
+    expect(transaction.interval).toBe(1);
+  });
+
+  it('set interval should reset end date value to start date', () => {
+    const transaction = new Transaction('water bill', 1000, new Date('2018-01-01'));
+
+    expect(transaction.endDate).toEqual(new Date('2018-01-01'));
+
+    transaction.endDate = new Date('2018-03-01');
+
+    expect(transaction.endDate).toEqual(new Date('2018-03-01'));
+
+    transaction.interval = 5;
+
+    expect(transaction.endDate).toEqual(new Date('2018-01-01'));
+  })
+
 });

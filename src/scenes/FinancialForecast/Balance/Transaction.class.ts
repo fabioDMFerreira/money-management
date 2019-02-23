@@ -1,28 +1,35 @@
 import { sumMonths, monthDiff } from "./utils";
+import TransactionData from "../TransactionData.interface";
+
+import YYYYMMDD from 'utils/YYYYMMDD';
+import getRandomString from "utils/getRandomString";
 
 export default class Transaction {
+  id: string;
   description: string;
   _startDate: Date;
-  _endDate?: Date;
+  _endDate: Date;
+  _interval: number;
   _particles: number;
   _value: number;
   _totalValue: number;
 
-  constructor(description: string, value: number, startDate: Date | undefined, endDate?: Date) {
+  constructor(description: string, value: number, startDate?: Date) {
     this.description = description;
     this._startDate = startDate || new Date();
-
-    if (endDate) {
-      this._endDate = endDate;
-      }
+    this._endDate = this._startDate;
 
     this._value = value;
-    this._particles = endDate ? monthDiff(this._startDate, endDate) : 1;
+    this._particles = 1;
     this._totalValue = value * this._particles;
+    this._interval = 1;
+    this.id = getRandomString();
   }
 
   set particles(particles: number) {
-    this._endDate = sumMonths(this._endDate || this._startDate, particles - this._particles)
+    if (this._interval === 1) {
+      this._endDate = sumMonths(this._endDate, particles - this._particles)
+    }
     this._particles = particles;
     this.value = this._totalValue / particles;
   }
@@ -36,13 +43,14 @@ export default class Transaction {
       this._startDate = date;
     }
 
+    this._interval = 1;
     this._particles = monthDiff(this.startDate, date);
     this._endDate = date;
     this.value = this._totalValue / this._particles;
   }
 
   get endDate(): Date {
-    return this._endDate || this._startDate;
+    return this._endDate;
   }
 
   set value(value: number) {
@@ -72,9 +80,55 @@ export default class Transaction {
       this._endDate = date;
     }
 
+    if (this._startDate === this._endDate) {
+      this._endDate = date;
+    }
+
     this._startDate = date;
     this._particles = monthDiff(this.startDate, this.endDate);
     this._value = this._totalValue / this._particles;
+  }
+
+  get interval(): number {
+    return this._interval;
+  }
+
+  set interval(value: number) {
+    this._interval = value;
+    this._endDate = this._startDate;
+  }
+
+  static buildFromTransactionData(transactionData: TransactionData): Transaction {
+
+    let value;
+
+    if (transactionData.credit) {
+      value = +transactionData.credit;
+    } else if (transactionData.debit) {
+      value = -(+transactionData.debit);
+    } else {
+      value = 0;
+    }
+
+    const startDate = transactionData.startDate ? new Date(transactionData.startDate) : new Date();
+
+    const transaction = new this(transactionData.description, value, startDate);
+
+    return transaction;
+  }
+
+  convertToTransactionData(): TransactionData {
+    return {
+      id: this.id,
+      description: this.description,
+      credit: '' + (this.value > 0 ? this.value : 0),
+      debit: '' + (this.value < 0 ? this.value * -1 : 0),
+      particles: '' + this.particles,
+      interval: '' + this.interval,
+      startDate: YYYYMMDD(this.startDate),
+      endDate: YYYYMMDD(this.endDate),
+      totalValue: '' + this.totalValue,
+    }
   }
 
 }

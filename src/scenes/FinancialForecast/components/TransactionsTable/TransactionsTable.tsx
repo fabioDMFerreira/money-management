@@ -4,13 +4,14 @@ import ReactTable, { SortingRule } from 'react-table';
 import TransactionData from '../../TransactionData.interface';
 import Button from 'reactstrap/lib/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Input from 'reactstrap/lib/Input';
+import transactionEditableFields from '../../transactionEditableFields';
 
 type Props = {
   transactions: TransactionData[],
-  removeTransaction: (transactionIndex: number) => void
-  updateTransaction: (index: number, value: string, keyName: "value" | "description" | "startDate" | "endDate") => void
+  removeTransaction: (transactionId: string) => void
+  updateTransaction: (transactionId: string, value: string, keyName: transactionEditableFields) => void
 };
 
 type State = {
@@ -38,7 +39,7 @@ export default class TransactionsTable extends Component<Props, State> {
         type={type || 'text'}
         value={cellInfo.value}
         onChange={e => {
-          this.props.updateTransaction(cellInfo.index, e.target.value, cellInfo.column.id)
+          this.props.updateTransaction(cellInfo.original.id, e.target.value, cellInfo.column.id)
         }}
       />
     </span>
@@ -63,15 +64,33 @@ export default class TransactionsTable extends Component<Props, State> {
         Cell: (props: any) => this.editableCell(props, 'date'),
         width: 180
       }, {
-        Header: 'Value',
-        accessor: "value",
+        Header: 'Particles',
+        accessor: "particles",
         Cell: (props: any) => this.editableCell(props, 'number'),
         width: 100
-      },
-      {
+      }, {
+        Header: 'Interval (months)',
+        accessor: "interval",
+        Cell: (props: any) => this.editableCell(props, 'number'),
+        width: 150
+      }, {
+        Header: 'Credit',
+        accessor: "credit",
+        Cell: (props: any) => this.editableCell(props, 'number'),
+        width: 100
+      }, {
+        Header: 'Debit',
+        accessor: "debit",
+        Cell: (props: any) => this.editableCell(props, 'number'),
+        width: 100
+      }, {
+        Header: 'Total value',
+        accessor: "totalValue",
+        width: 100
+      }, {
         Header: '',
         acessor: '',
-        Cell: (props: any) => <Button color="link" onClick={() => props.removeTransaction(props.index)}><FontAwesomeIcon icon={faMinusCircle} /></Button>,
+        Cell: (cellProps: any) => <Button color="link" onClick={() => props.removeTransaction(cellProps.original.id)}><FontAwesomeIcon icon={faTrash} /></Button>,
         width: 50,
       }
     ];

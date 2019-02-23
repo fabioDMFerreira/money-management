@@ -9,7 +9,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus,  faUpload, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faUpload, faDownload } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import { CSVLink } from 'react-csv';
 
@@ -26,6 +26,7 @@ import csvJSON from 'utils/csvJSON';
 
 import ImportTransactionsModal from './components/ImportTransactionsModal';
 import TransactionsTable from './components/TransactionsTable';
+import transactionEditableFields from './transactionEditableFields';
 
 const TableActions = styled.div`
   margin-bottom:10px;
@@ -40,13 +41,13 @@ type ForecastData = {
 type State = {
   forecast: ForecastData,
   transactions: TransactionData[],
+  dbTransactions: Transaction[],
   balance: Balance[],
   importingModalOpened: boolean,
   importingData: object[],
 }
 
 type Props = {
-
 }
 
 class FinancialForecast extends Component<Props, State> {
@@ -66,13 +67,13 @@ class FinancialForecast extends Component<Props, State> {
     transactions: [],
     importingModalOpened: false,
     importingData: [],
+    dbTransactions: [],
   }
 
   fileInput: any;
 
   constructor(props: any) {
     super(props);
-
 
     const transactions: Transaction[] = this.transformTransactions(this.state.transactions);
     const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
@@ -82,30 +83,37 @@ class FinancialForecast extends Component<Props, State> {
 
   componentDidUpdate(prevProps: Props, prevState: State) {
     if (
-      this.state.transactions &&
+      this.state.dbTransactions &&
       this.state.forecast &&
       (
-        prevState.transactions !== this.state.transactions ||
+        prevState.dbTransactions !== this.state.dbTransactions ||
         prevState.forecast !== this.state.forecast
       )
     ) {
 
-      const transactions: Transaction[] = this.transformTransactions(this.state.transactions);
       const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
 
       this.setState({
-        balance: calculateForecastBalance(forecast, transactions),
-      })
+        balance: calculateForecastBalance(forecast, this.state.dbTransactions),
+        transactions: this.state.dbTransactions.map(transaction => transaction.convertToTransactionData())
+      });
     }
   }
 
   transformTransactions = (data: TransactionData[]): Transaction[] => {
-    return data.map(transaction => {
+    return data.map(transactionData => {
 
-      const startDate = transaction.startDate ? new Date(transaction.startDate) : undefined;
-      const endDate = transaction.endDate ? new Date(transaction.endDate) : undefined;
+      const startDate = transactionData.startDate ? new Date(transactionData.startDate) : undefined;
+      const endDate = transactionData.endDate ? new Date(transactionData.endDate) : undefined;
+      const value = transactionData.credit ? transactionData.credit : transactionData.debit;
 
-      return new Transaction(transaction.description, +transaction.value, startDate, endDate);
+      const transaction = new Transaction(transactionData.description, value ? +value : 0, startDate);
+
+      if (endDate) {
+        transaction.endDate = endDate;
+      }
+
+      return transaction;
     })
   }
 
@@ -114,50 +122,70 @@ class FinancialForecast extends Component<Props, State> {
   }
 
   addNewTransaction = () => {
-    const transactions = this.state.transactions.slice();
-    transactions.unshift({
-      description: "New Transaction",
-      value: "0",
-      startDate: YYYYMMDD(new Date()),
-      endDate: '',
-    });
+    const transaction = new Transaction("New Transaction", 0, new Date());
+    const dbTransactions = this.state.dbTransactions.slice();
+    dbTransactions.unshift(transaction);
 
     this.setState({
-      transactions
+      dbTransactions
     });
   }
 
   addTransactions = (newTransactions: TransactionData[]) => {
-    const transactions = this.state.transactions.concat(newTransactions);
+    const dbTransactions = this.state.dbTransactions.concat(newTransactions.map(transaction => Transaction.buildFromTransactionData(transaction)));
 
     this.setState({
-      transactions
+      dbTransactions
     });
   }
 
-  removeTransaction = (index: number) => {
-    const transactions = this.state.transactions.filter((transaction, tindex) => tindex !== index);
+  removeTransaction = (id: string) => {
+    const dbTransactions = this.state.dbTransactions.filter((transaction) => transaction.id !== id);
 
     this.setState({
-      transactions
+      dbTransactions
     });
   }
 
-  updateTransaction = (index: number, value: string, keyName: "value" | "description" | "startDate" | "endDate") => {
-
-    const transactions: TransactionData[] = this.state.transactions.map((transaction, tindex) => {
-      if (index === tindex) {
-        transaction[keyName] = value;
+  updateTransaction = (id: string, value: string, keyName: transactionEditableFields) => {
+    const dbTransactions: Transaction[] = this.state.dbTransactions.map((transaction) => {
+      if (transaction.id === id) {
+        switch (keyName) {
+          case 'credit':
+            transaction.value = +value;
+            break;
+          case 'debit':
+            transaction.value = -(+value);
+            break;
+          case 'startDate':
+            transaction.startDate = value ? new Date(value) : new Date();
+            break;
+          case 'endDate':
+            transaction.endDate = value ? new Date(value) : new Date();
+            break;
+          case 'description':
+            transaction.description =value;
+            break;
+          case 'particles':
+            transaction.particles = +value;
+            break;
+          case 'interval':
+            transaction.interval = +value;
+            break;
+          default:
+            break;
+        }
+        console.log({
+          transaction: transaction.convertToTransactionData()
+        })
       }
       return transaction;
     });
 
     this.setState({
-      transactions,
+      dbTransactions,
     });
   }
-
-
 
   updateForecast = (keyName: 'initialValue' | 'startDate' | 'endDate') => {
     return (e: any) => {
@@ -181,7 +209,6 @@ class FinancialForecast extends Component<Props, State> {
           !csvContent[0].startDate ||
           !csvContent[0].value
         )) {
-          console.log('open modal');
           this.setState({
             importingModalOpened: true,
             importingData: csvContent,
@@ -226,10 +253,10 @@ class FinancialForecast extends Component<Props, State> {
 
     return (
       <div>
-        <h3>Financial Forecast</h3>
-        <hr />
         <Row>
-          <Col xs="5">
+          <Col xs="12">
+            <h3>Transactions</h3>
+
             <TableActions>
               <Button outline color="secondary" size="sm" onClick={this.addNewTransaction}>
                 <FontAwesomeIcon icon={faPlus} /> Add
@@ -261,7 +288,11 @@ class FinancialForecast extends Component<Props, State> {
               removeTransaction={this.removeTransaction}
             />
           </Col>
-          <Col xs="7">
+          <Col xs="12">
+            <hr />
+
+            <h3>Forecast</h3>
+
             <Row>
               <Col xs={2}>
                 <FormGroup>

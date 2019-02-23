@@ -22,6 +22,7 @@
     "bootstrap": "4.1.2",
     "js-cookie": "2.2.0",
     "jwt-decode": "2.2.0",
+    "moment": "2.24.0",
     "prop-types": "15.6.2",
     "react": "16.6.1",
     "react-csv": "1.1.1",
@@ -54,7 +55,7 @@
     "start-js": "react-scripts start",
     "build-js": "react-scripts build",
     "build": "npm-run-all build-css build-js",
-    "test": "react-scripts test",
+    "test": "jest --watch",
     "eject": "react-scripts eject",
     "cover": "npm test -- --coverage",
     "storybook": "start-storybook -p 9001"
@@ -98,6 +99,7 @@
     "react-docgen-typescript-webpack-plugin": "1.1.0",
     "react-scripts": "2.1.5",
     "react-test-renderer": "16.4.0",
+    "ts-jest": "24.0.0",
     "webpack": "4.28.3"
   },
   "browserslist": [
