@@ -9,7 +9,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faUpload, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faUpload, faDownload, faTrash, faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import { CSVLink } from 'react-csv';
 
@@ -29,10 +29,17 @@ import TransactionsTable from './components/TransactionsTable';
 import transactionEditableFields from './transactionEditableFields';
 import TransactionMetadata from './TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
+import BalanceTable from './components/BalanceTable';
 
 const TableActions = styled.div`
   margin-bottom:10px;
+
+  button{
+    margin: 0px 10px 0px 0px;
+  }
 `;
+
+type forecastView = "chart" | "table";
 
 type ForecastData = {
   initialValue: string,
@@ -47,6 +54,7 @@ type State = {
   balance: Balance[],
   importingModalOpened: boolean,
   importingData: object[],
+  forecastView: forecastView,
 }
 
 type Props = {
@@ -70,6 +78,7 @@ class FinancialForecast extends Component<Props, State> {
     importingModalOpened: false,
     importingData: [],
     dbTransactions: [],
+    forecastView: "chart",
   }
 
   fileInput: any;
@@ -160,9 +169,6 @@ class FinancialForecast extends Component<Props, State> {
           default:
             break;
         }
-        console.log({
-          transaction: transaction.convertToTransactionData()
-        })
       }
       return transaction;
     });
@@ -195,16 +201,19 @@ class FinancialForecast extends Component<Props, State> {
             importingData: csvContent,
           });
         } else {
-          const transactions: TransactionData[] = csvContent;
-          this.setState({
-            transactions: this.state.transactions.concat(transactions)
-          });
+          this.addTransactions(csvContent);
         }
 
       }
     )(file);
 
     reader.readAsText(file);
+  }
+
+  switchForecastView(view: forecastView) {
+    this.setState({
+      forecastView: view
+    });
   }
 
   render() {
@@ -214,6 +223,7 @@ class FinancialForecast extends Component<Props, State> {
       forecast,
       importingModalOpened,
       importingData,
+      forecastView
     } = this.state;
 
     return (
@@ -237,6 +247,9 @@ class FinancialForecast extends Component<Props, State> {
               </CSVLink>
               <Button outline color="secondary" size="sm" onClick={() => this.fileInput.click()}>
                 <FontAwesomeIcon icon={faDownload} /> Import
+              </Button>
+              <Button outline color="secondary" size="sm" onClick={() => this.setState({ dbTransactions: [] })}>
+                <FontAwesomeIcon icon={faTrash} /> Clear all
               </Button>
               <input
                 title="Import from .csv file"
@@ -289,21 +302,34 @@ class FinancialForecast extends Component<Props, State> {
                   />
                 </FormGroup>
               </Col>
+              <Col xs={3}>
+                <Button {...(forecastView === 'chart' ? {} : { outline: true })} color="secondary" size="sm" onClick={() => this.switchForecastView('chart')}>Chart <FontAwesomeIcon icon={faChartLine} /></Button>
+                <Button {...(forecastView === 'table' ? {} : { outline: true })} color="secondary" size="sm" onClick={() => this.switchForecastView('table')}>Table <FontAwesomeIcon icon={faTable} /></Button>
+              </Col>
             </Row>
 
 
-            <LineChart
-              width={900}
-              height={300}
-              data={balance ? balance.map((b: Balance) => ({ ...b, date: b.date ? YYYYMMDD(b.date) : null })) : []}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="actualValue" name="Amount (€)" stroke="#8884d8" activeDot={{ r: 8 }} />
-            </LineChart>
+            {
+              (() => {
+                if (forecastView === 'table') {
+                  return <BalanceTable balance={balance} />
+                } else {
+                  return <LineChart
+                    width={900}
+                    height={300}
+                    data={balance ? balance.map((b: Balance) => ({ ...b, date: b.date ? YYYYMMDD(b.date) : null })) : []}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="actualValue" name="Amount (€)" stroke="#8884d8" activeDot={{ r: 8 }} />
+                  </LineChart>
+                }
+              })()
+            }
+
           </Col>
         </Row>
 

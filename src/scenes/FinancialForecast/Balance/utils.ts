@@ -37,7 +37,7 @@ export const sumMonths = (date: Date, months: number): Date => {
 
   if (summedDateMonth > 12) {
     summedDateYear++;
-    summedDateMonth -= 13;
+    summedDateMonth -= 12;
   } else if (summedDateMonth < 1) {
     summedDateYear--;
     summedDateMonth += 12;

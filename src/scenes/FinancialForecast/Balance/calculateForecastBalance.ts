@@ -3,6 +3,7 @@ import Forecast from "./Forecast.class";
 import Transaction from "./Transaction.class";
 import { monthDiff, sumMonths, isMonthsIntervalInGroup, isDateIntervalInGroup } from "./utils";
 import calculateBalance from "./calculateBalance";
+import roundDecimal from "utils/roundDecimal";
 
 export default (forecast: Forecast, transactions: Transaction[]): Balance[] => {
 
@@ -29,7 +30,7 @@ export default (forecast: Forecast, transactions: Transaction[]): Balance[] => {
     const balance = calculateBalance(monthTransactions);
     cumulativeValue += balance.balance;
     balance.date = balanceDate;
-    balance.actualValue = cumulativeValue;
+    balance.actualValue = roundDecimal(cumulativeValue);
     balances.push(balance);
   }
 

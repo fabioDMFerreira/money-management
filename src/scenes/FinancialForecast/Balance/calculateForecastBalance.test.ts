@@ -35,7 +35,7 @@ describe('calculateForecastBalance', () => {
   });
 
   it('should return balance of transactions with interval', () => {
-    const forecast = new Forecast(new Date('2018-01-01'), new Date('2018-04-1'), 1000);
+    const forecast = new Forecast(new Date('2018-01-01'), new Date('2018-04-30'), 1000);
 
     const quarterTransaction =
       new Transaction('home payment', -100, new Date('2018-02-15'));

@@ -9,6 +9,7 @@ import Input from 'reactstrap/lib/Input';
 
 import TransactionData from '../../TransactionData.interface';
 import transactionEditableFields from '../../transactionEditableFields';
+import DateInput from './DateInput';
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -59,15 +60,23 @@ export default class TransactionsTable extends Component<Props, State> {
 
 
   editableCell = (cellInfo: any, type: "text" | "date" | "number") => {
-    return <span>
-      <Input
-        type={type || 'text'}
-        value={cellInfo.value}
-        onChange={e => {
-          this.props.updateTransaction(cellInfo.original.id, e.target.value, cellInfo.column.id)
-        }}
-      />
-    </span>
+    switch (type) {
+      case 'date':
+        return <DateInput
+          onChange={e => {
+            this.props.updateTransaction(cellInfo.original.id, e.target.value, cellInfo.column.id)
+          }}
+          value={cellInfo.value}
+        />;
+      default:
+        return <Input
+          type={type || 'text'}
+          value={cellInfo.value}
+          onChange={e => {
+            this.props.updateTransaction(cellInfo.original.id, e.target.value, cellInfo.column.id)
+          }}
+        />
+    }
   }
 
 
