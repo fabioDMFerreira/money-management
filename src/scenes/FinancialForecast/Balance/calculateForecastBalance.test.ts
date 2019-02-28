@@ -41,12 +41,12 @@ describe('calculateForecastBalance', () => {
       new Transaction('home payment', -100, new Date('2018-02-15'));
 
     quarterTransaction.particles = 2;
-    quarterTransaction.interval = 3;
+    quarterTransaction.interval = 2;
 
     const transactions = [
       new Transaction('water bill', -50, new Date('2018-02-15')),
       quarterTransaction,
-    ]
+    ];
 
     expect(calculateBalance(forecast, transactions)).toEqual([
       {
@@ -71,7 +71,7 @@ describe('calculateForecastBalance', () => {
         actualValue: 900
       },
       {
-        date: new Date('2018-04-01'),
+        date: new Date('2018-03-31T23:00:00.000Z'),
         income: 0,
         outcome: 50,
         balance: -50,

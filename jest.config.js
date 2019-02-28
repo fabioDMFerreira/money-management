@@ -14,4 +14,8 @@ module.exports = {
     "json",
     "node"
   ],
+  "modulePaths": [
+    '<rootDir>',
+    '<rootDir>/src',
+  ],
 }

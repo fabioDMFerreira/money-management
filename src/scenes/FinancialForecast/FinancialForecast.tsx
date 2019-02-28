@@ -26,10 +26,11 @@ import csvJSON from 'utils/csvJSON';
 
 import ImportTransactionsModal from './components/ImportTransactionsModal';
 import TransactionsTable from './components/TransactionsTable';
-import transactionEditableFields from './transactionEditableFields';
 import TransactionMetadata from './TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
 import BalanceTable from './components/BalanceTable';
+import { connect } from 'react-redux';
+import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions } from './FinancialForecastActions';
 
 const TableActions = styled.div`
   margin-bottom:10px;
@@ -50,7 +51,6 @@ type ForecastData = {
 type State = {
   forecast: ForecastData,
   transactions: TransactionData[],
-  dbTransactions: Transaction[],
   balance: Balance[],
   importingModalOpened: boolean,
   importingData: object[],
@@ -58,6 +58,12 @@ type State = {
 }
 
 type Props = {
+  transactions: Transaction[],
+  addNewTransaction: typeof addNewTransaction,
+  bulkAddTransactions: typeof bulkAddTransactions,
+  updateTransaction: typeof updateTransaction,
+  deleteTransaction: typeof deleteTransaction,
+  clearTransactions: typeof clearTransactions,
 }
 
 class FinancialForecast extends Component<Props, State> {
@@ -65,6 +71,7 @@ class FinancialForecast extends Component<Props, State> {
   }
 
   static defaultProps = {
+    transactions: [],
   }
 
   state: State = {
@@ -77,16 +84,15 @@ class FinancialForecast extends Component<Props, State> {
     transactions: [],
     importingModalOpened: false,
     importingData: [],
-    dbTransactions: [],
     forecastView: "chart",
   }
 
   fileInput: any;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
 
-    const transactions: Transaction[] = [];
+    const transactions: Transaction[] = props.transactions;
     const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
 
     this.state.balance = calculateForecastBalance(forecast, transactions);
@@ -94,88 +100,24 @@ class FinancialForecast extends Component<Props, State> {
 
   componentDidUpdate(prevProps: Props, prevState: State) {
     if (
-      this.state.dbTransactions &&
+      this.props.transactions &&
       this.state.forecast &&
       (
-        prevState.dbTransactions !== this.state.dbTransactions ||
+        prevProps.transactions !== this.props.transactions ||
         prevState.forecast !== this.state.forecast
       )
     ) {
-
       const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
 
       this.setState({
-        balance: calculateForecastBalance(forecast, this.state.dbTransactions),
-        transactions: this.state.dbTransactions.map(transaction => transaction.convertToTransactionData())
+        balance: calculateForecastBalance(forecast, this.props.transactions),
+        transactions: this.props.transactions.map(transaction => transaction.convertToTransactionData())
       });
     }
   }
 
   transformForecast = (initialValue: string, startDate: string, endDate: string): Forecast => {
     return new Forecast(new Date(startDate), new Date(endDate), +initialValue)
-  }
-
-  addNewTransaction = () => {
-    const transaction = new Transaction("New Transaction", 0, new Date());
-    const dbTransactions = this.state.dbTransactions.slice();
-    dbTransactions.unshift(transaction);
-
-    this.setState({
-      dbTransactions
-    });
-  }
-
-  addTransactions = (newTransactions: TransactionData[]) => {
-    const dbTransactions = this.state.dbTransactions.concat(newTransactions.map(transaction => Transaction.buildFromTransactionData(transaction)));
-
-    this.setState({
-      dbTransactions
-    });
-  }
-
-  removeTransaction = (id: string) => {
-    const dbTransactions = this.state.dbTransactions.filter((transaction) => transaction.id !== id);
-
-    this.setState({
-      dbTransactions
-    });
-  }
-
-  updateTransaction = (id: string, value: string, keyName: transactionEditableFields) => {
-    const dbTransactions: Transaction[] = this.state.dbTransactions.map((transaction) => {
-      if (transaction.id === id) {
-        switch (keyName) {
-          case 'credit':
-            transaction.value = +value;
-            break;
-          case 'debit':
-            transaction.value = -(+value);
-            break;
-          case 'startDate':
-            transaction.startDate = value ? new Date(value) : new Date();
-            break;
-          case 'endDate':
-            transaction.endDate = value ? new Date(value) : new Date();
-            break;
-          case 'description':
-            transaction.description = value;
-            break;
-          case 'particles':
-            transaction.particles = +value;
-            break;
-          case 'interval':
-            transaction.interval = +value;
-            break;
-          default:
-            break;
-        }
-      }
-      return transaction;
-    });
-
-    this.setState({
-      dbTransactions,
-    });
   }
 
   updateForecast = (keyName: 'initialValue' | 'startDate' | 'endDate') => {
@@ -201,7 +143,7 @@ class FinancialForecast extends Component<Props, State> {
             importingData: csvContent,
           });
         } else {
-          this.addTransactions(csvContent);
+          this.props.bulkAddTransactions(csvContent);
         }
 
       }
@@ -226,6 +168,14 @@ class FinancialForecast extends Component<Props, State> {
       forecastView
     } = this.state;
 
+    const {
+      addNewTransaction,
+      bulkAddTransactions,
+      updateTransaction,
+      deleteTransaction,
+      clearTransactions,
+    } = this.props;
+
     return (
       <div>
         <Row>
@@ -233,7 +183,7 @@ class FinancialForecast extends Component<Props, State> {
             <h3>Transactions</h3>
 
             <TableActions>
-              <Button outline color="secondary" size="sm" onClick={this.addNewTransaction}>
+              <Button outline color="secondary" size="sm" onClick={addNewTransaction}>
                 <FontAwesomeIcon icon={faPlus} /> Add
               </Button>
               <CSVLink
@@ -248,7 +198,7 @@ class FinancialForecast extends Component<Props, State> {
               <Button outline color="secondary" size="sm" onClick={() => this.fileInput.click()}>
                 <FontAwesomeIcon icon={faDownload} /> Import
               </Button>
-              <Button outline color="secondary" size="sm" onClick={() => this.setState({ dbTransactions: [] })}>
+              <Button outline color="secondary" size="sm" onClick={clearTransactions}>
                 <FontAwesomeIcon icon={faTrash} /> Clear all
               </Button>
               <input
@@ -262,8 +212,8 @@ class FinancialForecast extends Component<Props, State> {
             </TableActions>
             <TransactionsTable
               transactions={transactions}
-              updateTransaction={this.updateTransaction}
-              removeTransaction={this.removeTransaction}
+              updateTransaction={updateTransaction}
+              removeTransaction={deleteTransaction}
             />
           </Col>
           <Col xs="12">
@@ -337,7 +287,7 @@ class FinancialForecast extends Component<Props, State> {
           opened={importingModalOpened}
           data={importingData}
           save={(transactions) => {
-            this.addTransactions(transactions);
+            bulkAddTransactions(transactions);
             this.setState({
               importingModalOpened: false
             });
@@ -350,4 +300,19 @@ class FinancialForecast extends Component<Props, State> {
   }
 }
 
-export default FinancialForecast;
+export default connect(
+  (state: any) => {
+    const { financialForecast } = state;
+
+    return {
+      transactions: financialForecast.transactions.toJS(),
+    }
+  },
+  {
+    addNewTransaction,
+    bulkAddTransactions,
+    updateTransaction,
+    deleteTransaction,
+    clearTransactions,
+  }
+)(FinancialForecast);

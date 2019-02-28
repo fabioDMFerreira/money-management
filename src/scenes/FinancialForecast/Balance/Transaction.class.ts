@@ -4,7 +4,18 @@ import TransactionData from "../TransactionData.interface";
 import YYYYMMDD from 'utils/YYYYMMDD';
 import getRandomString from "utils/getRandomString";
 
-export default class Transaction {
+interface ITransaction {
+  id: string;
+  description: string;
+  _startDate: Date;
+  _endDate: Date;
+  _interval: number;
+  _particles: number;
+  _value: number;
+  _totalValue: number;
+}
+
+export default class Transaction implements ITransaction {
   id: string;
   description: string;
   _startDate: Date;
@@ -113,6 +124,21 @@ export default class Transaction {
     const startDate = transactionData.startDate ? new Date(transactionData.startDate) : new Date();
 
     const transaction = new this(transactionData.description, value, startDate);
+
+    return transaction;
+  }
+
+  static buildFromRawTransaction(transactionData: ITransaction): Transaction {
+    const transaction = new this(transactionData.description, transactionData._value);
+
+    transaction.id = transactionData.id;
+    transaction.description = transactionData.description;
+    transaction._value = transaction._value;
+    transaction._totalValue = transactionData._totalValue;
+    transaction._particles = transactionData._particles;
+    transaction._interval = transactionData._interval;
+    transaction._startDate = transactionData._startDate;
+    transaction._endDate = transactionData._endDate;
 
     return transaction;
   }
