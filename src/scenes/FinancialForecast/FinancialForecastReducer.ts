@@ -7,21 +7,32 @@ import {
   DELETE_TRANSACTION,
   CLEAR_TRANSACTIONS
 } from './FinancialForecastActionTypes';
-import Transaction from './Balance/Transaction.class';
 import { FinancialForecastActions } from './FinancialForecastActions';
+import TransactionDataInterface from './TransactionDataInterface';
+import YYYYMMDD from 'utils/YYYYMMDD';
+import Transaction from './Balance/Transaction.class';
+import getRandomString from 'utils/getRandomString';
 
 type State = {
-  transactions: List<Transaction>
+  transactions: List<TransactionDataInterface>
 }
 
 const initialState: State = {
-  transactions: List<Transaction>([]),
+  transactions: List<TransactionDataInterface>([]),
 }
 
 export default (state: State = initialState, action: FinancialForecastActions): State => {
   switch (action.type) {
     case ADD_NEW_TRANSACTION: {
-      const transaction = new Transaction("New Transaction", 0, new Date());
+      const transaction: TransactionDataInterface = {
+        id: getRandomString(),
+        description: 'new transaction',
+        credit: '0',
+        debit: '0',
+        totalValue: '0',
+        startDate: YYYYMMDD(new Date()),
+        visible: true,
+      }
       const transactions = state.transactions.unshift(transaction);
 
       return {
@@ -30,8 +41,11 @@ export default (state: State = initialState, action: FinancialForecastActions): 
       };
     }
     case BULK_ADD_TRANSACTIONS: {
-      const newTransactions = action.transactions.map(transaction => Transaction.buildFromTransactionData(transaction));
-      const transactions = List<Transaction>(state.transactions.concat(newTransactions))
+      const newTransactions = action.transactions.map(transaction => ({
+        ...Transaction.buildFromTransactionData(transaction).convertToTransactionData(),
+        visible: true,
+      }));
+      const transactions = List<TransactionDataInterface>(state.transactions.concat(newTransactions))
 
       return {
         ...state,
@@ -43,32 +57,48 @@ export default (state: State = initialState, action: FinancialForecastActions): 
       const index = state.transactions.findIndex((transaction: any) => transaction.id === id);
 
       const transactions = state.transactions.update(index, transaction => {
+
+        switch (field) {
+          case 'visible':
+            return {
+              ...transaction,
+              visible: value
+            }
+          case 'description':
+            return {
+              ...transaction,
+              description: value,
+            };
+          default:
+            break
+        }
+
+        const transactionDB: Transaction = Transaction.buildFromTransactionData(transaction);
+
         switch (field) {
           case 'credit':
-            transaction.value = +value;
+            transactionDB.value = +value;
             break;
           case 'debit':
-            transaction.value = -(+value);
+            transactionDB.value = -(+value);
             break;
           case 'startDate':
-            transaction.startDate = value ? new Date(value) : new Date();
+            transactionDB.startDate = value ? new Date(value) : new Date();
             break;
           case 'endDate':
-            transaction.endDate = value ? new Date(value) : new Date();
-            break;
-          case 'description':
-            transaction.description = value;
+            transactionDB.endDate = value ? new Date(value) : new Date();
             break;
           case 'particles':
-            transaction.particles = +value;
+            transactionDB.particles = +value;
             break;
           case 'interval':
-            transaction.interval = +value;
+            transactionDB.interval = +value;
             break;
           default:
             break;
         }
-        return transaction;
+
+        return transactionDB.convertToTransactionData();
       })
 
       return {
@@ -89,7 +119,7 @@ export default (state: State = initialState, action: FinancialForecastActions): 
     case CLEAR_TRANSACTIONS:
       return {
         ...state,
-        transactions: List<Transaction>()
+        transactions: List<TransactionDataInterface>()
       }
     default:
       return state;

@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import ReactTable, { SortingRule } from 'react-table';
 import styled from 'styled-components';
 
-import Button from 'reactstrap/lib/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Input from 'reactstrap/lib/Input';
 
-import TransactionData from '../../TransactionData.interface';
+import TransactionData from '../../TransactionDataInterface';
 import transactionEditableFields from '../../transactionEditableFields';
 import DateInput from './DateInput';
+import TransactionsTableRowActions from './TransactionsTableRowActions';
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -21,6 +19,14 @@ const TransactionsTableContainer = styled.div`
       border-radius:0px;
       border:0px;
       line-height:1.5;
+    }
+
+    .not-visible-transaction{
+      background-color: #f4f4f4;
+
+      .form-control{
+        background-color: #f4f4f4;
+      }
     }
   }
 `;
@@ -125,8 +131,15 @@ export default class TransactionsTable extends Component<Props, State> {
       }, {
         Header: '',
         acessor: '',
-        Cell: (cellProps: any) => <Button color="link" onClick={() => props.removeTransaction(cellProps.original.id)}><FontAwesomeIcon icon={faTrash} /></Button>,
-        width: 50,
+        Cell: (cellProps: any) => {
+          return <TransactionsTableRowActions
+            id={cellProps.original.id}
+            visible={cellProps.original.visible}
+            removeTransaction={props.removeTransaction}
+            updateTransaction={props.updateTransaction}
+          />;
+        },
+        width: 100,
       }
     ];
   }
@@ -162,6 +175,14 @@ export default class TransactionsTable extends Component<Props, State> {
         defaultPageSize={10}
         sorted={sorted}
         onSortedChange={this.onSortedChange}
+        getTrProps={(state: any, rowInfo: any, column: any) => {
+          return {
+            className: rowInfo && !rowInfo.original.visible ? 'not-visible-transaction' : '',
+            // style: {
+            //   background: rowInfo && !rowInfo.original.visible ? "#ccc" : "#fff"
+            // }
+          };
+        }}
       />
     </TransactionsTableContainer>
   }

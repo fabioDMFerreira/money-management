@@ -19,7 +19,7 @@ import calculateForecastBalance from './Balance/calculateForecastBalance';
 import Balance from './Balance/Balance.interface';
 
 import { sumMonths } from './Balance/utils';
-import TransactionData from './TransactionData.interface';
+import TransactionData from './TransactionDataInterface';
 
 import YYYYMMDD from 'utils/YYYYMMDD';
 import csvJSON from 'utils/csvJSON';
@@ -31,6 +31,10 @@ import validateTransactionData from './validateTransactionData';
 import BalanceTable from './components/BalanceTable';
 import { connect } from 'react-redux';
 import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions } from './FinancialForecastActions';
+import TransactionDataInterface from './TransactionDataInterface';
+
+
+// Drag and drop table rows - https://codesandbox.io/s/1844xzjvp7
 
 const TableActions = styled.div`
   margin-bottom:10px;
@@ -58,7 +62,7 @@ type State = {
 }
 
 type Props = {
-  transactions: Transaction[],
+  transactions: TransactionDataInterface[],
   addNewTransaction: typeof addNewTransaction,
   bulkAddTransactions: typeof bulkAddTransactions,
   updateTransaction: typeof updateTransaction,
@@ -92,10 +96,8 @@ class FinancialForecast extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const transactions: Transaction[] = props.transactions;
-    const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
 
-    this.state.balance = calculateForecastBalance(forecast, transactions);
+    this.state.balance = this.calculateBalance(props.transactions);
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -107,13 +109,22 @@ class FinancialForecast extends Component<Props, State> {
         prevState.forecast !== this.state.forecast
       )
     ) {
-      const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
 
       this.setState({
-        balance: calculateForecastBalance(forecast, this.props.transactions),
-        transactions: this.props.transactions.map(transaction => transaction.convertToTransactionData())
+        balance: this.calculateBalance(this.props.transactions),
+        transactions: this.props.transactions,
       });
     }
+  }
+
+  calculateBalance = (transactionsData: TransactionDataInterface[]): Balance[] => {
+    const transactions: Transaction[] =
+      transactionsData
+        .filter(transaction => transaction.visible)
+        .map(transaction => Transaction.buildFromTransactionData(transaction));
+    const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
+
+    return calculateForecastBalance(forecast, transactions);
   }
 
   transformForecast = (initialValue: string, startDate: string, endDate: string): Forecast => {

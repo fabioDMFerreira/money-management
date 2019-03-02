@@ -1,3 +1,10 @@
-type transactionEditableFields = "credit" | "debit" | "particles" | "description" | "startDate" | "endDate" | "interval";
+type transactionEditableFields = "credit" |
+  "debit" |
+  "particles" |
+  "description" |
+  "startDate" |
+  "endDate" |
+  "interval" |
+  "visible";
 
 export default transactionEditableFields;

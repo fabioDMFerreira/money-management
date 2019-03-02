@@ -1,4 +1,4 @@
-export default interface TransactionData {
+export default interface TransactionDataInterface {
   id?: string,
   startDate?: string,
   endDate?: string,
@@ -8,4 +8,5 @@ export default interface TransactionData {
   particles?: string,
   totalValue?: string,
   interval?: string,
+  visible?: boolean,
 }

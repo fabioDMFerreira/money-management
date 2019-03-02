@@ -5,7 +5,7 @@ import {
   DELETE_TRANSACTION,
   CLEAR_TRANSACTIONS
 } from "./FinancialForecastActionTypes";
-import TransactionData from "./TransactionData.interface";
+import TransactionData from "./TransactionDataInterface";
 import transactionEditableFields from './transactionEditableFields';
 
 export interface IActionAddNewTransaction {
@@ -28,12 +28,12 @@ export const bulkAddTransactions = (transactions: TransactionData[]): IActionBul
 
 export interface IActionUpdateTransaction {
   id: string,
-  value: string,
+  value: any,
   field: transactionEditableFields,
   type: typeof UPDATE_TRANSACTION,
 }
 
-export const updateTransaction = (id: string, value: string, field: transactionEditableFields): IActionUpdateTransaction => ({
+export const updateTransaction = (id: string, value: any, field: transactionEditableFields): IActionUpdateTransaction => ({
   type: UPDATE_TRANSACTION,
   id,
   field,
