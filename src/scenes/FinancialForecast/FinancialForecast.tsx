@@ -38,6 +38,7 @@ import {
   clearTransactions,
   dragTransaction,
   createTag,
+  changeTransactionsVisibilityByFilter,
 } from './FinancialForecastActions';
 import TransactionDataInterface from './TransactionDataInterface';
 import { TagType } from './TagType';
@@ -76,7 +77,8 @@ type Props = {
   clearTransactions: typeof clearTransactions,
   dragTransaction: typeof dragTransaction
   createTag: typeof createTag,
-  tags: TagType[]
+  tags: TagType[],
+  changeTransactionsVisibilityByFilter: typeof changeTransactionsVisibilityByFilter
 }
 
 class FinancialForecast extends Component<Props, State> {
@@ -197,6 +199,7 @@ class FinancialForecast extends Component<Props, State> {
       dragTransaction,
       createTag,
       tags,
+      changeTransactionsVisibilityByFilter
     } = this.props;
 
     return (
@@ -238,6 +241,7 @@ class FinancialForecast extends Component<Props, State> {
               updateTransaction={updateTransaction}
               removeTransaction={deleteTransaction}
               dragTransaction={dragTransaction}
+              changeTransactionsVisibilityByFilter={changeTransactionsVisibilityByFilter}
 
               tags={tags}
               createTag={createTag}
@@ -344,5 +348,6 @@ export default connect(
     clearTransactions,
     dragTransaction,
     createTag,
+    changeTransactionsVisibilityByFilter,
   }
 )(FinancialForecast);

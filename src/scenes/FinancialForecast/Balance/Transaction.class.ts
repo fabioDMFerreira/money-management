@@ -113,9 +113,9 @@ export default class Transaction implements TransactionInterface {
 
     let value;
 
-    if (transactionData.credit) {
+    if (transactionData.credit && transactionData.credit !== "0") {
       value = +transactionData.credit;
-    } else if (transactionData.debit) {
+    } else if (transactionData.debit && transactionData.debit !== "0") {
       value = -(+transactionData.debit);
     } else {
       value = 0;

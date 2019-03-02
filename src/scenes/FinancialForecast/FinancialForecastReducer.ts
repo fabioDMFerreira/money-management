@@ -7,7 +7,8 @@ import {
   DELETE_TRANSACTION,
   CLEAR_TRANSACTIONS,
   DRAG_TRANSACTION,
-  CREATE_TAG
+  CREATE_TAG,
+  CHANGE_VISIBILITY_BY_FILTER
 } from './FinancialForecastActionTypes';
 import { FinancialForecastActions } from './FinancialForecastActions';
 import TransactionDataInterface from './TransactionDataInterface';
@@ -151,6 +152,53 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         ...state,
         tags: state.tags.push(tag)
       }
+    }
+    case CHANGE_VISIBILITY_BY_FILTER: {
+      const { value, filter } = action;
+
+      const generateFilter: (filter: string, value: string) => (transaction: TransactionDataInterface) => boolean = (filter: string, value: string) => {
+        switch (filter) {
+          case 'tags':
+            return (transaction: TransactionDataInterface): boolean => {
+              if (!transaction || !transaction.tags) {
+                return false;
+              }
+              return !!transaction.tags.find((tag: any) => tag.value.startsWith(value));
+            }
+            break;
+          default:
+            if (filter) {
+              return (transaction: any) => {
+                return typeof transaction[filter] === 'string' && transaction[filter].toLowerCase().startsWith(value)
+              }
+            } else {
+              return () => true
+            }
+        }
+      }
+
+      let filterFn: ((transaction: TransactionDataInterface) => boolean)[] = [];
+
+      if (typeof filter === 'string' && typeof value === 'string') {
+        filterFn = [generateFilter(filter, value)];
+      } else if (filter instanceof Array && value instanceof Array) {
+        filterFn = filter.map((filter, index) => generateFilter(filter, value[index]));
+      }
+
+
+      const transactions = state.transactions.map((transaction: any) => {
+        return {
+          ...transaction,
+          visible: filterFn.every(filter => filter(transaction))
+        };
+      }
+      ).toList()
+
+      return {
+        ...state,
+        transactions,
+      }
+
     }
     default:
       return state;

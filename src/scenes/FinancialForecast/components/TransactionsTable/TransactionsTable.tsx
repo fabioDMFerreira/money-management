@@ -9,7 +9,7 @@ import DateInput from './DateInput';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { DragTrComponent, DropTbodyComponent } from './DragComponents';
-import { dragTransaction, updateTransaction, createTag } from 'scenes/FinancialForecast/FinancialForecastActions';
+import { dragTransaction, updateTransaction, createTag, changeTransactionsVisibilityByFilter } from 'scenes/FinancialForecast/FinancialForecastActions';
 import Select from 'react-select/lib/Creatable';
 import { ValueType } from 'react-select/lib/types';
 import { TagType } from 'scenes/FinancialForecast/TagType';
@@ -51,7 +51,8 @@ type Props = {
   updateTransaction: typeof updateTransaction,
   dragTransaction: typeof dragTransaction,
   createTag: typeof createTag,
-  tags: TagType[]
+  tags: TagType[],
+  changeTransactionsVisibilityByFilter: typeof changeTransactionsVisibilityByFilter
 };
 
 type State = {
@@ -225,6 +226,7 @@ export default class TransactionsTable extends Component<Props, State> {
   render() {
     const {
       transactions,
+      changeTransactionsVisibilityByFilter
     } = this.props
 
     const {
@@ -247,6 +249,22 @@ export default class TransactionsTable extends Component<Props, State> {
               rowInfo,
               className: rowInfo && !rowInfo.original.visible ? 'not-visible-transaction' : '',
             };
+          }}
+          filterable
+          onFilteredChange={(filtered) => {
+            if (filtered && filtered.length) {
+              const filters: string[] = [];
+              const values: string[] = [];
+
+              filtered.forEach(({ id, value }) => {
+                filters.push(id);
+                values.push(value);
+              });
+
+              changeTransactionsVisibilityByFilter(filters, values);
+            } else {
+              changeTransactionsVisibilityByFilter('', '');
+            }
           }}
         />
       </DragDropContext>
