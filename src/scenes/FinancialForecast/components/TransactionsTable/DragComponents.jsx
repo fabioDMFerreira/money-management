@@ -4,14 +4,14 @@ import { ReactTableDefaults } from 'react-table';
 
 // Drag and drop table rows - https://codesandbox.io/s/1844xzjvp7
 
-export class DragTrComponent extends React.Component {
+export const DragTrComponent = dragDisabled => class DragTrComponent extends React.Component {
   render() {
     const { children = null, rowInfo } = this.props;
     if (rowInfo) {
       const { original, index } = rowInfo;
       const { id } = original;
       return (
-        <Draggable key={id} index={index} draggableId={id}>
+        <Draggable key={id} index={index} draggableId={id} isDragDisabled={dragDisabled}>
           {(draggableProvided, draggableSnapshot) => (
             <div
               ref={draggableProvided.innerRef}
@@ -34,12 +34,12 @@ export class DragTrComponent extends React.Component {
   }
 }
 
-export class DropTbodyComponent extends React.Component {
+export const DropTbodyComponent = dropDisabled => class DropTbodyComponent extends React.Component {
   render() {
     const { children = null } = this.props;
 
     return (
-      <Droppable droppableId="droppable">
+      <Droppable droppableId="droppable" isDropDisabled={dropDisabled}>
         {(droppableProvided, droppableSnapshot) => (
           <div ref={droppableProvided.innerRef}>
             <ReactTableDefaults.TbodyComponent  >

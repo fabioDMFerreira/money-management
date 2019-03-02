@@ -138,6 +138,7 @@ export default class TransactionsTable extends Component<Props, State> {
             visible={cellProps.original.visible}
             removeTransaction={props.removeTransaction}
             updateTransaction={props.updateTransaction}
+            dragDisabled={this.state.sorted.length ? true : false}
           />;
         },
         width: 150,
@@ -179,8 +180,8 @@ export default class TransactionsTable extends Component<Props, State> {
     return <TransactionsTableContainer>
       <DragDropContext onDragEnd={this.handleDragEnd}>
         <ReactTable
-          TrComponent={DragTrComponent}
-          TbodyComponent={DropTbodyComponent}
+          TrComponent={DragTrComponent(sorted.length ? true : false)}
+          TbodyComponent={DropTbodyComponent(sorted.length ? true : false)}
           data={transactions}
           columns={this.columns}
           defaultPageSize={10}

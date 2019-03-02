@@ -25,6 +25,7 @@ type Props = {
   visible: boolean,
   removeTransaction: (transactionId: string) => void,
   updateTransaction: (transactionId: string, value: any, keyName: transactionEditableFields) => void
+  dragDisabled: boolean
 };
 
 type State = {
@@ -56,6 +57,7 @@ export default class TransactionsTableRowActions extends Component<Props, State>
       id,
       visible,
       updateTransaction,
+      dragDisabled
     } = this.props;
 
     const { removePopoverOpen } = this.state;
@@ -88,7 +90,12 @@ export default class TransactionsTableRowActions extends Component<Props, State>
         })()
       }
 
-      <FontAwesomeIcon icon={faBars} />
+      {
+        !dragDisabled &&
+        <span title="Drag transaction">
+          <FontAwesomeIcon icon={faBars} />
+        </span>
+      }
 
     </TableActionsContainer>
   }
