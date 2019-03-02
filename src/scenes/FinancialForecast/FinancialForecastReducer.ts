@@ -6,20 +6,24 @@ import {
   UPDATE_TRANSACTION,
   DELETE_TRANSACTION,
   CLEAR_TRANSACTIONS,
-  DRAG_TRANSACTION
+  DRAG_TRANSACTION,
+  CREATE_TAG
 } from './FinancialForecastActionTypes';
 import { FinancialForecastActions } from './FinancialForecastActions';
 import TransactionDataInterface from './TransactionDataInterface';
 import YYYYMMDD from 'utils/YYYYMMDD';
 import Transaction from './Balance/Transaction.class';
 import getRandomString from 'utils/getRandomString';
+import { TagType } from './TagType';
 
 type State = {
   transactions: List<TransactionDataInterface>
+  tags: List<TagType>
 }
 
 const initialState: State = {
   transactions: List<TransactionDataInterface>([]),
+  tags: List<TagType>([])
 }
 
 export default (state: State = initialState, action: FinancialForecastActions): State => {
@@ -33,6 +37,7 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         totalValue: '0',
         startDate: YYYYMMDD(new Date()),
         visible: true,
+        tags: []
       }
       const transactions = state.transactions.unshift(transaction);
 
@@ -45,6 +50,7 @@ export default (state: State = initialState, action: FinancialForecastActions): 
       const newTransactions = action.transactions.map(transaction => ({
         ...Transaction.buildFromTransactionData(transaction).convertToTransactionData(),
         visible: true,
+        tags: []
       }));
       const transactions = List<TransactionDataInterface>(state.transactions.concat(newTransactions))
 
@@ -70,6 +76,11 @@ export default (state: State = initialState, action: FinancialForecastActions): 
               ...transaction,
               description: value,
             };
+          case 'tags':
+            return {
+              ...transaction,
+              tags: value
+            }
           default:
             break
         }
@@ -133,6 +144,14 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         ...state,
         transactions
       };
+    case CREATE_TAG: {
+      const { tag } = action;
+
+      return {
+        ...state,
+        tags: state.tags.push(tag)
+      }
+    }
     default:
       return state;
   }

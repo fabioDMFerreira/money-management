@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import ReactTable, { SortingRule } from 'react-table';
+import ReactTable, { SortingRule, Column } from 'react-table';
 import styled from 'styled-components';
-
 import Input from 'reactstrap/lib/Input';
+import randomColor from 'randomcolor';
 
 import TransactionData from '../../TransactionDataInterface';
 import DateInput from './DateInput';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { DragTrComponent, DropTbodyComponent } from './DragComponents';
-import { dragTransaction, updateTransaction } from 'scenes/FinancialForecast/FinancialForecastActions';
+import { dragTransaction, updateTransaction, createTag } from 'scenes/FinancialForecast/FinancialForecastActions';
+import Select from 'react-select/lib/Creatable';
+import { ValueType } from 'react-select/lib/types';
+import { TagType } from 'scenes/FinancialForecast/TagType';
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -46,28 +49,39 @@ type Props = {
   transactions: TransactionData[],
   removeTransaction: (transactionId: string) => void
   updateTransaction: typeof updateTransaction,
-  dragTransaction: typeof dragTransaction
+  dragTransaction: typeof dragTransaction,
+  createTag: typeof createTag,
+  tags: TagType[]
 };
 
 type State = {
-  sorted: SortingRule[]
+  sorted: SortingRule[],
+  columns: object[],
 };
 
 export default class TransactionsTable extends Component<Props, State> {
 
-  columns: object[] = [];
-
   state = {
-    sorted: []
+    sorted: [],
+    columns: [] as object[],
   }
 
   constructor(props: Props) {
     super(props);
 
-    this.buildColumns(props);
+    this.state.columns = this.buildColumns(props);
   }
 
-  editableCell = (cellInfo: any, type: "text" | "date" | "number") => {
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.tags !== this.props.tags) {
+      this.setState({
+        columns: this.buildColumns(this.props)
+      });
+    }
+  }
+
+  editableCell = (cellInfo: any, type: "text" | "date" | "number" | "multiselect") => {
+
     switch (type) {
       case 'date':
         return <DateInput
@@ -76,9 +90,32 @@ export default class TransactionsTable extends Component<Props, State> {
           }}
           value={cellInfo.value}
         />;
+      case 'multiselect':
+        const { tags, createTag } = this.props;
+
+        return <Select
+          options={tags}
+          onChange={
+            (value: ValueType<{ value: string, label: string, color?: string }>) => {
+              this.props.updateTransaction(cellInfo.original.id, value, cellInfo.column.id)
+            }
+          }
+          value={
+            cellInfo.value
+          }
+          onCreateOption={(newOptionLabel: string) => {
+            const newOption = { label: newOptionLabel, value: newOptionLabel.toLowerCase(), color: randomColor() }
+            createTag(newOption);
+            setTimeout(() => {
+              this.props.updateTransaction(cellInfo.original.id, [...cellInfo.value, newOption], cellInfo.column.id)
+            }, 0);
+          }}
+          isMulti
+        />
       default:
         return <Input
-          type={type || 'text'}
+          type={type || 'text'
+          }
           value={cellInfo.value}
           onChange={e => {
             this.props.updateTransaction(cellInfo.original.id, e.target.value, cellInfo.column.id)
@@ -87,12 +124,29 @@ export default class TransactionsTable extends Component<Props, State> {
     }
   }
 
-  buildColumns(props: Props) {
-    this.columns = [
+  buildColumns(props: Props): Column<any>[] {
+    return [
       {
         Header: 'Description',
         accessor: "description",
         Cell: (props: any) => this.editableCell(props, 'text'),
+        width: 300,
+      }, {
+        Header: 'Tags',
+        accessor: "tags",
+        filterable: true,
+        filterMethod: (filter: any, row: any, column: any) => {
+          const { value } = filter;
+          return !!row.tags.find((tag: TagType) => tag.value.startsWith(value.toLowerCase()));
+        },
+        Cell: (props: any) => this.editableCell(props, 'multiselect'),
+        getProps: () => {
+          return {
+            style: {
+              overflow: 'visible',
+            }
+          };
+        }
       }, {
         Header: 'Start date',
         accessor: "startDate",
@@ -131,7 +185,7 @@ export default class TransactionsTable extends Component<Props, State> {
         width: 100
       }, {
         Header: '',
-        acessor: '',
+        accessor: '',
         Cell: (cellProps: any) => {
           return <TransactionsTableRowActions
             id={cellProps.original.id}
@@ -174,7 +228,8 @@ export default class TransactionsTable extends Component<Props, State> {
     } = this.props
 
     const {
-      sorted
+      sorted,
+      columns
     } = this.state;
 
     return <TransactionsTableContainer>
@@ -183,7 +238,7 @@ export default class TransactionsTable extends Component<Props, State> {
           TrComponent={DragTrComponent(sorted.length ? true : false)}
           TbodyComponent={DropTbodyComponent(sorted.length ? true : false)}
           data={transactions}
-          columns={this.columns}
+          columns={columns}
           defaultPageSize={10}
           sorted={sorted}
           onSortedChange={this.onSortedChange}

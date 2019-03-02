@@ -4,10 +4,12 @@ import {
   UPDATE_TRANSACTION,
   DELETE_TRANSACTION,
   CLEAR_TRANSACTIONS,
-  DRAG_TRANSACTION
+  DRAG_TRANSACTION,
+  CREATE_TAG
 } from "./FinancialForecastActionTypes";
 import TransactionData from "./TransactionDataInterface";
 import transactionEditableFields from './transactionEditableFields';
+import { TagType } from "./TagType";
 
 export interface IActionAddNewTransaction {
   type: typeof ADD_NEW_TRANSACTION
@@ -72,4 +74,21 @@ export const dragTransaction = (startIndex: number, endIndex: number): IActionDr
   endIndex,
 })
 
-export type FinancialForecastActions = IActionAddNewTransaction | IActionBulkAddTransactions | IActionUpdateTransaction | IActionDeleteTransaction | IActionClearTransactions | IActionDragTransaction;
+
+export interface IActionCreateTag {
+  type: typeof CREATE_TAG,
+  tag: TagType
+}
+
+export const createTag = (tag: TagType): IActionCreateTag => ({
+  type: CREATE_TAG,
+  tag,
+})
+
+export type FinancialForecastActions = IActionAddNewTransaction |
+  IActionBulkAddTransactions |
+  IActionUpdateTransaction |
+  IActionDeleteTransaction |
+  IActionClearTransactions |
+  IActionDragTransaction |
+  IActionCreateTag;

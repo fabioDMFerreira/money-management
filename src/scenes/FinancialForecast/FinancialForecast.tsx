@@ -30,8 +30,17 @@ import TransactionMetadata from './TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
 import BalanceTable from './components/BalanceTable';
 import { connect } from 'react-redux';
-import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction } from './FinancialForecastActions';
+import {
+  addNewTransaction,
+  bulkAddTransactions,
+  updateTransaction,
+  deleteTransaction,
+  clearTransactions,
+  dragTransaction,
+  createTag,
+} from './FinancialForecastActions';
 import TransactionDataInterface from './TransactionDataInterface';
+import { TagType } from './TagType';
 
 const TableActions = styled.div`
   margin-bottom:10px;
@@ -66,6 +75,8 @@ type Props = {
   deleteTransaction: typeof deleteTransaction,
   clearTransactions: typeof clearTransactions,
   dragTransaction: typeof dragTransaction
+  createTag: typeof createTag,
+  tags: TagType[]
 }
 
 class FinancialForecast extends Component<Props, State> {
@@ -184,6 +195,8 @@ class FinancialForecast extends Component<Props, State> {
       deleteTransaction,
       clearTransactions,
       dragTransaction,
+      createTag,
+      tags,
     } = this.props;
 
     return (
@@ -225,6 +238,9 @@ class FinancialForecast extends Component<Props, State> {
               updateTransaction={updateTransaction}
               removeTransaction={deleteTransaction}
               dragTransaction={dragTransaction}
+
+              tags={tags}
+              createTag={createTag}
             />
           </Col>
           <Col xs="12">
@@ -316,7 +332,8 @@ export default connect(
     const { financialForecast } = state;
 
     return {
-      transactions: financialForecast.transactions.toJS(),
+      transactions: financialForecast.transactions && financialForecast.transactions.toJS(),
+      tags: financialForecast.tags && financialForecast.tags.toJS(),
     }
   },
   {
@@ -326,5 +343,6 @@ export default connect(
     deleteTransaction,
     clearTransactions,
     dragTransaction,
+    createTag,
   }
 )(FinancialForecast);

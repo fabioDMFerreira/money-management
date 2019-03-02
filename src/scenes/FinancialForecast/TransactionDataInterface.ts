@@ -9,4 +9,5 @@ export default interface TransactionDataInterface {
   totalValue?: string,
   interval?: string,
   visible?: boolean,
+  tags?: string[],
 }
