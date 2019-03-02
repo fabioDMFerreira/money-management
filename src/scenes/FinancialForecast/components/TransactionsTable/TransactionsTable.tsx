@@ -246,9 +246,6 @@ export default class TransactionsTable extends Component<Props, State> {
             return {
               rowInfo,
               className: rowInfo && !rowInfo.original.visible ? 'not-visible-transaction' : '',
-              // style: {
-              //   background: rowInfo && !rowInfo.original.visible ? "#ccc" : "#fff"
-              // }
             };
           }}
         />

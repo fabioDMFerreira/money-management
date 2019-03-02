@@ -6,7 +6,7 @@ import { ReactTableDefaults } from 'react-table';
 
 export const DragTrComponent = dragDisabled => class DragTrComponent extends React.Component {
   render() {
-    const { children = null, rowInfo } = this.props;
+    const { children = null, rowInfo, className } = this.props;
     if (rowInfo) {
       const { original, index } = rowInfo;
       const { id } = original;
@@ -17,8 +17,9 @@ export const DragTrComponent = dragDisabled => class DragTrComponent extends Rea
               ref={draggableProvided.innerRef}
               {...draggableProvided.draggableProps}
               {...draggableProvided.dragHandleProps}
+
             >
-              <ReactTableDefaults.TrComponent style={{ width: '100%' }}>
+              <ReactTableDefaults.TrComponent style={{ width: '100%' }}   className={className || ''}>
                 {children}
               </ReactTableDefaults.TrComponent>
             </div>
@@ -27,7 +28,7 @@ export const DragTrComponent = dragDisabled => class DragTrComponent extends Rea
       );
     } else
       return (
-        <ReactTableDefaults.TrComponent  >
+        <ReactTableDefaults.TrComponent className={className || ''}>
           {children}
         </ReactTableDefaults.TrComponent>
       );
