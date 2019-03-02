@@ -3,7 +3,8 @@ import {
   BULK_ADD_TRANSACTIONS,
   UPDATE_TRANSACTION,
   DELETE_TRANSACTION,
-  CLEAR_TRANSACTIONS
+  CLEAR_TRANSACTIONS,
+  DRAG_TRANSACTION
 } from "./FinancialForecastActionTypes";
 import TransactionData from "./TransactionDataInterface";
 import transactionEditableFields from './transactionEditableFields';
@@ -58,4 +59,17 @@ export const clearTransactions = (): IActionClearTransactions => ({
   type: CLEAR_TRANSACTIONS
 })
 
-export type FinancialForecastActions = IActionAddNewTransaction | IActionBulkAddTransactions | IActionUpdateTransaction | IActionDeleteTransaction | IActionClearTransactions;
+
+export interface IActionDragTransaction {
+  type: typeof DRAG_TRANSACTION,
+  startIndex: number,
+  endIndex: number,
+}
+
+export const dragTransaction = (startIndex: number, endIndex: number): IActionDragTransaction => ({
+  type: DRAG_TRANSACTION,
+  startIndex,
+  endIndex,
+})
+
+export type FinancialForecastActions = IActionAddNewTransaction | IActionBulkAddTransactions | IActionUpdateTransaction | IActionDeleteTransaction | IActionClearTransactions | IActionDragTransaction;

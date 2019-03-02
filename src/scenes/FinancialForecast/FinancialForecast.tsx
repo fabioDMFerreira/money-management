@@ -30,11 +30,8 @@ import TransactionMetadata from './TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
 import BalanceTable from './components/BalanceTable';
 import { connect } from 'react-redux';
-import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions } from './FinancialForecastActions';
+import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction } from './FinancialForecastActions';
 import TransactionDataInterface from './TransactionDataInterface';
-
-
-// Drag and drop table rows - https://codesandbox.io/s/1844xzjvp7
 
 const TableActions = styled.div`
   margin-bottom:10px;
@@ -68,6 +65,7 @@ type Props = {
   updateTransaction: typeof updateTransaction,
   deleteTransaction: typeof deleteTransaction,
   clearTransactions: typeof clearTransactions,
+  dragTransaction: typeof dragTransaction
 }
 
 class FinancialForecast extends Component<Props, State> {
@@ -185,6 +183,7 @@ class FinancialForecast extends Component<Props, State> {
       updateTransaction,
       deleteTransaction,
       clearTransactions,
+      dragTransaction,
     } = this.props;
 
     return (
@@ -225,6 +224,7 @@ class FinancialForecast extends Component<Props, State> {
               transactions={transactions}
               updateTransaction={updateTransaction}
               removeTransaction={deleteTransaction}
+              dragTransaction={dragTransaction}
             />
           </Col>
           <Col xs="12">
@@ -325,5 +325,6 @@ export default connect(
     updateTransaction,
     deleteTransaction,
     clearTransactions,
+    dragTransaction,
   }
 )(FinancialForecast);

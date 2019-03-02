@@ -5,9 +5,11 @@ import styled from 'styled-components';
 import Input from 'reactstrap/lib/Input';
 
 import TransactionData from '../../TransactionDataInterface';
-import transactionEditableFields from '../../transactionEditableFields';
 import DateInput from './DateInput';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
+import { DragDropContext } from 'react-beautiful-dnd';
+import { DragTrComponent, DropTbodyComponent } from './DragComponents';
+import { dragTransaction, updateTransaction } from 'scenes/FinancialForecast/FinancialForecastActions';
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -43,7 +45,8 @@ const NotEditableCell = styled.span`
 type Props = {
   transactions: TransactionData[],
   removeTransaction: (transactionId: string) => void
-  updateTransaction: (transactionId: string, value: string, keyName: transactionEditableFields) => void
+  updateTransaction: typeof updateTransaction,
+  dragTransaction: typeof dragTransaction
 };
 
 type State = {
@@ -64,7 +67,6 @@ export default class TransactionsTable extends Component<Props, State> {
     this.buildColumns(props);
   }
 
-
   editableCell = (cellInfo: any, type: "text" | "date" | "number") => {
     switch (type) {
       case 'date':
@@ -84,7 +86,6 @@ export default class TransactionsTable extends Component<Props, State> {
         />
     }
   }
-
 
   buildColumns(props: Props) {
     this.columns = [
@@ -139,7 +140,7 @@ export default class TransactionsTable extends Component<Props, State> {
             updateTransaction={props.updateTransaction}
           />;
         },
-        width: 100,
+        width: 150,
       }
     ];
   }
@@ -159,6 +160,13 @@ export default class TransactionsTable extends Component<Props, State> {
     });
   }
 
+  handleDragEnd = (result: any) => {
+    if (!result.destination) {
+      return;
+    }
+    this.props.dragTransaction(result.source.index, result.destination.index);
+  }
+
   render() {
     const {
       transactions,
@@ -169,21 +177,26 @@ export default class TransactionsTable extends Component<Props, State> {
     } = this.state;
 
     return <TransactionsTableContainer>
-      <ReactTable
-        data={transactions}
-        columns={this.columns}
-        defaultPageSize={10}
-        sorted={sorted}
-        onSortedChange={this.onSortedChange}
-        getTrProps={(state: any, rowInfo: any, column: any) => {
-          return {
-            className: rowInfo && !rowInfo.original.visible ? 'not-visible-transaction' : '',
-            // style: {
-            //   background: rowInfo && !rowInfo.original.visible ? "#ccc" : "#fff"
-            // }
-          };
-        }}
-      />
+      <DragDropContext onDragEnd={this.handleDragEnd}>
+        <ReactTable
+          TrComponent={DragTrComponent}
+          TbodyComponent={DropTbodyComponent}
+          data={transactions}
+          columns={this.columns}
+          defaultPageSize={10}
+          sorted={sorted}
+          onSortedChange={this.onSortedChange}
+          getTrProps={(state: any, rowInfo: any, column: any) => {
+            return {
+              rowInfo,
+              className: rowInfo && !rowInfo.original.visible ? 'not-visible-transaction' : '',
+              // style: {
+              //   background: rowInfo && !rowInfo.original.visible ? "#ccc" : "#fff"
+              // }
+            };
+          }}
+        />
+      </DragDropContext>
     </TransactionsTableContainer>
   }
 }

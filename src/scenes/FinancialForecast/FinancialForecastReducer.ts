@@ -5,7 +5,8 @@ import {
   BULK_ADD_TRANSACTIONS,
   UPDATE_TRANSACTION,
   DELETE_TRANSACTION,
-  CLEAR_TRANSACTIONS
+  CLEAR_TRANSACTIONS,
+  DRAG_TRANSACTION
 } from './FinancialForecastActionTypes';
 import { FinancialForecastActions } from './FinancialForecastActions';
 import TransactionDataInterface from './TransactionDataInterface';
@@ -121,6 +122,17 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         ...state,
         transactions: List<TransactionDataInterface>()
       }
+    case DRAG_TRANSACTION:
+      const { startIndex, endIndex } = action;
+      const removedTransaction = state.transactions.get(startIndex);
+      let transactions = state.transactions.remove(startIndex);
+
+      transactions = transactions.splice(endIndex, 0, removedTransaction).toList();
+
+      return {
+        ...state,
+        transactions
+      };
     default:
       return state;
   }

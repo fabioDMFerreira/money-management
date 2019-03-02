@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Button from 'reactstrap/lib/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEye, faEyeSlash, faBars } from '@fortawesome/free-solid-svg-icons';
 import transactionEditableFields from 'scenes/FinancialForecast/transactionEditableFields';
 import Popover from 'reactstrap/lib/Popover';
 import PopoverHeader from 'reactstrap/lib/PopoverHeader';
@@ -12,6 +12,12 @@ const PopoverButtonsContainer = styled.div`
   .btn{
     margin-right:10px;
   }
+`;
+
+const TableActionsContainer = styled.div`
+.btn{
+  margin-right:10px;
+}
 `;
 
 type Props = {
@@ -54,7 +60,7 @@ export default class TransactionsTableRowActions extends Component<Props, State>
 
     const { removePopoverOpen } = this.state;
 
-    return <div>
+    return <TableActionsContainer>
       <Button id={`RemoveTransactionPopover${id}`} color="link" type="button" onClick={this.toggleRemovePopover}>
         <FontAwesomeIcon icon={faTrash} />
       </Button>
@@ -82,6 +88,8 @@ export default class TransactionsTableRowActions extends Component<Props, State>
         })()
       }
 
-    </div >
+      <FontAwesomeIcon icon={faBars} />
+
+    </TableActionsContainer>
   }
 };
