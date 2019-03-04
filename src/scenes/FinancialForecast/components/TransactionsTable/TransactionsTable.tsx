@@ -5,14 +5,15 @@ import Input from 'reactstrap/lib/Input';
 import randomColor from 'randomcolor';
 
 import TransactionData from '../../TransactionDataInterface';
-import DateInput from './DateInput';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { DragTrComponent, DropTbodyComponent } from './DragComponents';
-import { dragTransaction, updateTransaction, createTag, changeTransactionsVisibilityByFilter } from 'scenes/FinancialForecast/FinancialForecastActions';
+import { dragTransaction, updateTransaction, createTag, updateTransactionsFilters, filterType } from 'scenes/FinancialForecast/FinancialForecastActions';
 import Select from 'react-select/lib/Creatable';
 import { ValueType } from 'react-select/lib/types';
 import { TagType } from 'scenes/FinancialForecast/TagType';
+import EditableInputHOC from './EditableInputHoc';
+import FilterComponent from './FilterComponent';
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -52,7 +53,8 @@ type Props = {
   dragTransaction: typeof dragTransaction,
   createTag: typeof createTag,
   tags: TagType[],
-  changeTransactionsVisibilityByFilter: typeof changeTransactionsVisibilityByFilter
+  updateTransactionsFilters: typeof updateTransactionsFilters,
+  filters: filterType[]
 };
 
 type State = {
@@ -60,7 +62,10 @@ type State = {
   columns: object[],
 };
 
+const EditableInput = EditableInputHOC(Input);
 export default class TransactionsTable extends Component<Props, State> {
+
+  tagsFieldRef: { [key: string]: any } = {};
 
   state = {
     sorted: [],
@@ -85,11 +90,18 @@ export default class TransactionsTable extends Component<Props, State> {
 
     switch (type) {
       case 'date':
-        return <DateInput
-          onChange={e => {
-            this.props.updateTransaction(cellInfo.original.id, e.target.value, cellInfo.column.id)
-          }}
+        return <EditableInput
+          type='date'
           value={cellInfo.value}
+          onBlur={(e: any) => {
+            const value = e.target.value;
+
+            if (!value || !/[1-2][0-9]{3}-[0-9]{2}-[0-9]{2}/.exec(value)) {
+              return this.props.updateTransaction(cellInfo.original.id, '', cellInfo.column.id);
+            }
+
+            return this.props.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
+          }}
         />;
       case 'multiselect':
         const { tags, createTag } = this.props;
@@ -98,30 +110,35 @@ export default class TransactionsTable extends Component<Props, State> {
           options={tags}
           onChange={
             (value: ValueType<{ value: string, label: string, color?: string }>) => {
-              this.props.updateTransaction(cellInfo.original.id, value, cellInfo.column.id)
+              this.props.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
+              setTimeout(() => {
+                this.tagsFieldRef[cellInfo.index] && this.tagsFieldRef[cellInfo.index].focus();
+              }, 0);
             }
           }
           value={
             cellInfo.value
           }
+          ref={ref => { this.tagsFieldRef[cellInfo.index] = ref }}
           onCreateOption={(newOptionLabel: string) => {
             const newOption = { label: newOptionLabel, value: newOptionLabel.toLowerCase(), color: randomColor() }
             createTag(newOption);
             setTimeout(() => {
-              this.props.updateTransaction(cellInfo.original.id, [...cellInfo.value, newOption], cellInfo.column.id)
+              this.props.updateTransaction(cellInfo.original.id, [...cellInfo.value, newOption], cellInfo.column.id);
+              this.tagsFieldRef[cellInfo.index] && this.tagsFieldRef[cellInfo.index].focus();
             }, 0);
           }}
           isMulti
         />
       default:
-        return <Input
+        return <EditableInput
           type={type || 'text'
           }
           value={cellInfo.value}
-          onChange={e => {
+          onBlur={(e: any) => {
             this.props.updateTransaction(cellInfo.original.id, e.target.value, cellInfo.column.id)
           }}
-        />
+        />;
     }
   }
 
@@ -131,14 +148,14 @@ export default class TransactionsTable extends Component<Props, State> {
         Header: 'Description',
         accessor: "description",
         Cell: (props: any) => this.editableCell(props, 'text'),
-        width: 300,
+        width: 250,
       }, {
         Header: 'Tags',
         accessor: "tags",
         filterable: true,
         filterMethod: (filter: any, row: any, column: any) => {
           const { value } = filter;
-          return !!row.tags.find((tag: TagType) => tag.value.startsWith(value.toLowerCase()));
+          return row.tags && !!row.tags.find((tag: TagType) => tag.value.startsWith(value.toLowerCase()));
         },
         Cell: (props: any) => this.editableCell(props, 'multiselect'),
         getProps: () => {
@@ -163,22 +180,22 @@ export default class TransactionsTable extends Component<Props, State> {
         Header: 'Particles',
         accessor: "particles",
         Cell: (props: any) => this.editableCell(props, 'number'),
-        width: 100
+        width: 80
       }, {
-        Header: 'Interval (months)',
+        Header: 'Interval',
         accessor: "interval",
         Cell: (props: any) => this.editableCell(props, 'number'),
-        width: 150
+        width: 80
       }, {
         Header: 'Credit',
         accessor: "credit",
         Cell: (props: any) => this.editableCell(props, 'number'),
-        width: 100
+        width: 80
       }, {
         Header: 'Debit',
         accessor: "debit",
         Cell: (props: any) => this.editableCell(props, 'number'),
-        width: 100
+        width: 80
       }, {
         Header: 'Total value',
         accessor: "totalValue",
@@ -187,6 +204,7 @@ export default class TransactionsTable extends Component<Props, State> {
       }, {
         Header: '',
         accessor: '',
+        filterable: false,
         Cell: (cellProps: any) => {
           return <TransactionsTableRowActions
             id={cellProps.original.id}
@@ -196,7 +214,7 @@ export default class TransactionsTable extends Component<Props, State> {
             dragDisabled={this.state.sorted.length ? true : false}
           />;
         },
-        width: 150,
+        width: 120,
       }
     ];
   }
@@ -226,7 +244,8 @@ export default class TransactionsTable extends Component<Props, State> {
   render() {
     const {
       transactions,
-      changeTransactionsVisibilityByFilter
+      updateTransactionsFilters,
+      filters,
     } = this.props
 
     const {
@@ -239,6 +258,8 @@ export default class TransactionsTable extends Component<Props, State> {
         <ReactTable
           TrComponent={DragTrComponent(sorted.length ? true : false)}
           TbodyComponent={DropTbodyComponent(sorted.length ? true : false)}
+          FilterComponent={FilterComponent}
+
           data={transactions}
           columns={columns}
           defaultPageSize={10}
@@ -250,22 +271,10 @@ export default class TransactionsTable extends Component<Props, State> {
               className: rowInfo && !rowInfo.original.visible ? 'not-visible-transaction' : '',
             };
           }}
+
           filterable
-          onFilteredChange={(filtered) => {
-            if (filtered && filtered.length) {
-              const filters: string[] = [];
-              const values: string[] = [];
-
-              filtered.forEach(({ id, value }) => {
-                filters.push(id);
-                values.push(value);
-              });
-
-              changeTransactionsVisibilityByFilter(filters, values);
-            } else {
-              changeTransactionsVisibilityByFilter('', '');
-            }
-          }}
+          onFilteredChange={updateTransactionsFilters}
+          filtered={filters}
         />
       </DragDropContext>
     </TransactionsTableContainer>

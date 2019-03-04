@@ -6,7 +6,8 @@ import {
   CLEAR_TRANSACTIONS,
   DRAG_TRANSACTION,
   CREATE_TAG,
-  CHANGE_VISIBILITY_BY_FILTER
+  CHANGE_VISIBILITY_BY_FILTER,
+  UPDATE_TRANSACTIONS_FILTERS
 } from "./FinancialForecastActionTypes";
 import TransactionData from "./TransactionDataInterface";
 import transactionEditableFields from './transactionEditableFields';
@@ -115,6 +116,20 @@ export const changeTransactionsVisibilityByFilter = (filter: string | string[], 
   }
 }
 
+export type filterType = {
+  id: string,
+  value: string,
+}
+export interface IActionUpdateTransactionsFilters {
+  type: typeof UPDATE_TRANSACTIONS_FILTERS,
+  filters: filterType[]
+}
+
+export const updateTransactionsFilters = (filters: filterType[]): IActionUpdateTransactionsFilters => ({
+  type: UPDATE_TRANSACTIONS_FILTERS,
+  filters
+})
+
 export type FinancialForecastActions = IActionAddNewTransaction |
   IActionBulkAddTransactions |
   IActionUpdateTransaction |
@@ -122,4 +137,5 @@ export type FinancialForecastActions = IActionAddNewTransaction |
   IActionClearTransactions |
   IActionDragTransaction |
   IActionCreateTag |
-  IActionChangeVisibilityByFilter;
+  IActionChangeVisibilityByFilter |
+  IActionUpdateTransactionsFilters;

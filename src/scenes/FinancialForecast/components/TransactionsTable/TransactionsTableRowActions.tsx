@@ -16,7 +16,8 @@ const PopoverButtonsContainer = styled.div`
 
 const TableActionsContainer = styled.div`
 .btn{
-  margin-right:10px;
+  padding: 5px;
+  margin-right:15px;
 }
 `;
 

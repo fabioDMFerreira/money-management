@@ -8,9 +8,10 @@ import {
   CLEAR_TRANSACTIONS,
   DRAG_TRANSACTION,
   CREATE_TAG,
-  CHANGE_VISIBILITY_BY_FILTER
+  CHANGE_VISIBILITY_BY_FILTER,
+  UPDATE_TRANSACTIONS_FILTERS
 } from './FinancialForecastActionTypes';
-import { FinancialForecastActions } from './FinancialForecastActions';
+import { FinancialForecastActions, filterType } from './FinancialForecastActions';
 import TransactionDataInterface from './TransactionDataInterface';
 import YYYYMMDD from 'utils/YYYYMMDD';
 import Transaction from './Balance/Transaction.class';
@@ -20,11 +21,13 @@ import { TagType } from './TagType';
 type State = {
   transactions: List<TransactionDataInterface>
   tags: List<TagType>
+  filters: filterType[]
 }
 
 const initialState: State = {
   transactions: List<TransactionDataInterface>([]),
-  tags: List<TagType>([])
+  tags: List<TagType>([]),
+  filters: []
 }
 
 export default (state: State = initialState, action: FinancialForecastActions): State => {
@@ -163,7 +166,7 @@ export default (state: State = initialState, action: FinancialForecastActions): 
               if (!transaction || !transaction.tags) {
                 return false;
               }
-              return !!transaction.tags.find((tag: any) => tag.value.startsWith(value));
+              return transaction.tags && !!transaction.tags.find((tag: any) => tag.value.startsWith(value));
             }
             break;
           default:
@@ -200,6 +203,11 @@ export default (state: State = initialState, action: FinancialForecastActions): 
       }
 
     }
+    case UPDATE_TRANSACTIONS_FILTERS:
+      return {
+        ...state,
+        filters: action.filters,
+      }
     default:
       return state;
   }
