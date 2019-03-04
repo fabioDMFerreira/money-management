@@ -9,5 +9,5 @@ export default interface TransactionDataInterface {
   totalValue?: string,
   interval?: string,
   visible?: boolean,
-  tags?: string[],
+  tags?: { label: string, value: string, color: string }[],
 }

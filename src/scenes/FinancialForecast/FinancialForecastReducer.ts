@@ -54,7 +54,7 @@ export default (state: State = initialState, action: FinancialForecastActions): 
       const newTransactions = action.transactions.map(transaction => ({
         ...Transaction.buildFromTransactionData(transaction).convertToTransactionData(),
         visible: true,
-        tags: []
+        tags: transaction.tags ? transaction.tags : []
       }));
       const transactions = List<TransactionDataInterface>(state.transactions.concat(newTransactions))
 

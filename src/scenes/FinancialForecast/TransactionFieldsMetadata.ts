@@ -8,6 +8,9 @@ const TransactionFieldsMetadata : Metadata[] = [{
   label: 'Description',
   key: 'description',
   required: true
+},{
+  label: 'Tags',
+  key: 'tags',
 }, {
   label: 'Start date',
   key: 'startDate',

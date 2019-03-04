@@ -19,7 +19,7 @@ import calculateForecastBalance from './Balance/calculateForecastBalance';
 import Balance from './Balance/Balance.interface';
 
 import { sumMonths } from './Balance/utils';
-import TransactionData from './TransactionDataInterface';
+import TransactionDataInterface from './TransactionDataInterface';
 
 import YYYYMMDD from 'utils/YYYYMMDD';
 import csvJSON from 'utils/csvJSON';
@@ -41,7 +41,6 @@ import {
   updateTransactionsFilters,
   filterType,
 } from './FinancialForecastActions';
-import TransactionDataInterface from './TransactionDataInterface';
 import { TagType } from './TagType';
 import passesFilters from './passesFilters';
 
@@ -63,7 +62,7 @@ type ForecastData = {
 
 type State = {
   forecast: ForecastData,
-  transactions: TransactionData[],
+  transactions: TransactionDataInterface[],
   balance: Balance[],
   importingModalOpened: boolean,
   importingData: object[],
@@ -132,8 +131,16 @@ class FinancialForecast extends Component<Props, State> {
     }
   }
 
-  calculateBalance = (transactionsData: TransactionDataInterface[]): Balance[] => {
+  parseTransactionsToCsv = (transactions: TransactionDataInterface[]) => {
+    return transactions.map(t => {
+      return {
+        ...t,
+        tags: t.tags ? t.tags.map(tag => tag.value).join(',') : []
+      }
+    });
+  }
 
+  calculateBalance = (transactionsData: TransactionDataInterface[]): Balance[] => {
     const transactions: Transaction[] =
       transactionsData
         .filter(transaction => transaction.visible)
@@ -156,6 +163,26 @@ class FinancialForecast extends Component<Props, State> {
     }
   }
 
+  configureTransactionFromCSV = (transaction: any) =>
+    ({
+      ...transaction,
+      tags: transaction.tags && transaction.tags.split(',').map((tagValue: string) => {
+        const tag = this.props.tags.find(tag => tagValue === tag.value);
+        if (tag) {
+          return {
+            ...tag
+          };
+        };
+
+        // create a new tag if it does not exist in store
+        const newOption = { label: tagValue, value: tagValue.toLowerCase(), color: randomColor() }
+        this.props.createTag(newOption);
+
+        return newOption;
+      })
+    })
+
+
   importTransactions = (event: any) => {
     const reader = new FileReader();
     const file = this.fileInput.files[0];
@@ -164,13 +191,18 @@ class FinancialForecast extends Component<Props, State> {
     };
     reader.onload = (csv =>
       (e: any) => {
-        const csvContent = csvJSON(e.target.result, TransactionMetadata);
+        let csvContent = csvJSON(e.target.result, TransactionMetadata);
         if (csvContent.length && !validateTransactionData(csvContent[0])) {
+
+          csvContent = csvContent.map(this.configureTransactionFromCSV);
+
           this.setState({
             importingModalOpened: true,
             importingData: csvContent,
           });
         } else {
+          csvContent = csvContent.map(this.configureTransactionFromCSV);
+
           this.props.bulkAddTransactions(csvContent);
         }
 
@@ -220,7 +252,7 @@ class FinancialForecast extends Component<Props, State> {
                 <FontAwesomeIcon icon={faPlus} /> Add
               </Button>
               <CSVLink
-                data={transactions}
+                data={this.parseTransactionsToCsv(transactions)}
                 filename={`transactions-${YYYYMMDD(new Date())}.csv`}
                 headers={TransactionMetadata}
               >
