@@ -125,6 +125,10 @@ export default class Transaction implements TransactionInterface {
 
     const transaction = new this(transactionData.description, value, startDate);
 
+    transaction._particles = transactionData.particles ? +transactionData.particles : 1;
+    transaction._interval = transactionData.interval ? +transactionData.interval : 1;
+    transaction._endDate = transactionData.endDate ? new Date(transactionData.endDate) :startDate;
+
     return transaction;
   }
 

@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 import {
   ADD_NEW_TRANSACTION,
@@ -9,7 +9,8 @@ import {
   DRAG_TRANSACTION,
   CREATE_TAG,
   CHANGE_VISIBILITY_BY_FILTER,
-  UPDATE_TRANSACTIONS_FILTERS
+  UPDATE_TRANSACTIONS_FILTERS,
+  UPDATE_FORECAST
 } from './FinancialForecastActionTypes';
 import { FinancialForecastActions, filterType } from './FinancialForecastActions';
 import TransactionDataInterface from './TransactionDataInterface';
@@ -17,17 +18,25 @@ import YYYYMMDD from 'utils/YYYYMMDD';
 import Transaction from './Balance/Transaction.class';
 import getRandomString from 'utils/getRandomString';
 import { TagType } from './TagType';
+import { ForecastDataInterface } from './ForecastDataInterface';
+import { sumMonths } from './Balance/utils';
 
 type State = {
   transactions: List<TransactionDataInterface>
   tags: List<TagType>
   filters: filterType[]
+  forecast: ForecastDataInterface
 }
 
 const initialState: State = {
   transactions: List<TransactionDataInterface>([]),
   tags: List<TagType>([]),
-  filters: []
+  filters: [],
+  forecast: {
+    initialValue: '0',
+    startDate: YYYYMMDD(new Date()),
+    endDate: YYYYMMDD(sumMonths(new Date(), 12)),
+  }
 }
 
 export default (state: State = initialState, action: FinancialForecastActions): State => {
@@ -39,6 +48,8 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         credit: '0',
         debit: '0',
         totalValue: '0',
+        particles: '1',
+        interval: '1',
         startDate: YYYYMMDD(new Date()),
         visible: true,
         tags: []
@@ -114,7 +125,10 @@ export default (state: State = initialState, action: FinancialForecastActions): 
             break;
         }
 
-        return transactionDB.convertToTransactionData();
+        return {
+          ...transaction,
+          ...transactionDB.convertToTransactionData()
+        }
       })
 
       return {
@@ -208,6 +222,15 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         ...state,
         filters: action.filters,
       }
+    case UPDATE_FORECAST: {
+      return {
+        ...state,
+        forecast: {
+          ...state.forecast,
+          [action.keyName]: [action.value]
+        }
+      }
+    }
     default:
       return state;
   }

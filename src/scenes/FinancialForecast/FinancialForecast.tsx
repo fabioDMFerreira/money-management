@@ -40,9 +40,12 @@ import {
   createTag,
   updateTransactionsFilters,
   filterType,
+  updateForecast,
+  ForecastEditableFieldsType,
 } from './FinancialForecastActions';
 import { TagType } from './TagType';
 import passesFilters from './passesFilters';
+import { ForecastDataInterface } from './ForecastDataInterface';
 
 const TableActions = styled.div`
   margin-bottom:10px;
@@ -61,8 +64,6 @@ type ForecastData = {
 }
 
 type State = {
-  forecast: ForecastData,
-  transactions: TransactionDataInterface[],
   balance: Balance[],
   importingModalOpened: boolean,
   importingData: object[],
@@ -80,7 +81,9 @@ type Props = {
   createTag: typeof createTag,
   tags: TagType[],
   updateTransactionsFilters: typeof updateTransactionsFilters
-  filters: filterType[]
+  filters: filterType[],
+  forecast: ForecastDataInterface,
+  updateForecast: typeof updateForecast
 }
 
 class FinancialForecast extends Component<Props, State> {
@@ -92,13 +95,7 @@ class FinancialForecast extends Component<Props, State> {
   }
 
   state: State = {
-    forecast: {
-      initialValue: '0',
-      startDate: YYYYMMDD(new Date()),
-      endDate: YYYYMMDD(sumMonths(new Date(), 12)),
-    },
     balance: [],
-    transactions: [],
     importingModalOpened: false,
     importingData: [],
     forecastView: "chart",
@@ -113,20 +110,19 @@ class FinancialForecast extends Component<Props, State> {
     this.state.balance = this.calculateBalance(props.transactions);
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  componentDidUpdate(prevProps: Props) {
     if (
       this.props.transactions &&
-      this.state.forecast &&
+      this.props.forecast &&
       (
         prevProps.transactions !== this.props.transactions ||
-        prevState.forecast !== this.state.forecast ||
+        prevProps.forecast !== this.props.forecast ||
         prevProps.filters !== this.props.filters
       )
     ) {
 
       this.setState({
         balance: this.calculateBalance(this.props.transactions),
-        transactions: this.props.transactions,
       });
     }
   }
@@ -146,7 +142,7 @@ class FinancialForecast extends Component<Props, State> {
         .filter(transaction => transaction.visible)
         .filter(passesFilters(this.props.filters))
         .map(transaction => Transaction.buildFromTransactionData(transaction));
-    const forecast: Forecast = this.transformForecast(this.state.forecast.initialValue, this.state.forecast.startDate, this.state.forecast.endDate);
+    const forecast: Forecast = this.transformForecast(this.props.forecast.initialValue, this.props.forecast.startDate, this.props.forecast.endDate);
 
     return calculateForecastBalance(forecast, transactions);
   }
@@ -155,11 +151,9 @@ class FinancialForecast extends Component<Props, State> {
     return new Forecast(new Date(startDate), new Date(endDate), +initialValue)
   }
 
-  updateForecast = (keyName: 'initialValue' | 'startDate' | 'endDate') => {
+  updateForecast = (keyName: ForecastEditableFieldsType) => {
     return (e: any) => {
-      const forecast = { ...this.state.forecast };
-      forecast[keyName] = e.target.value;
-      this.setState({ forecast });
+      this.props.updateForecast(keyName, e.target.value)
     }
   }
 
@@ -220,9 +214,7 @@ class FinancialForecast extends Component<Props, State> {
 
   render() {
     const {
-      transactions,
       balance,
-      forecast,
       importingModalOpened,
       importingData,
       forecastView
@@ -238,7 +230,9 @@ class FinancialForecast extends Component<Props, State> {
       createTag,
       tags,
       updateTransactionsFilters,
-      filters
+      filters,
+      forecast,
+      transactions,
     } = this.props;
 
     return (
@@ -379,7 +373,8 @@ export default connect(
     return {
       transactions: financialForecast.transactions && financialForecast.transactions.toJS(),
       tags: financialForecast.tags && financialForecast.tags.toJS(),
-      filters: financialForecast.filters
+      filters: financialForecast.filters,
+      forecast: financialForecast.forecast
     }
   },
   {
@@ -391,5 +386,6 @@ export default connect(
     dragTransaction,
     createTag,
     updateTransactionsFilters,
+    updateForecast,
   }
 )(FinancialForecast);
