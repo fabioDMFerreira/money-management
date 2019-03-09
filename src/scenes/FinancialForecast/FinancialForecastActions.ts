@@ -8,7 +8,8 @@ import {
   CREATE_TAG,
   CHANGE_VISIBILITY_BY_FILTER,
   UPDATE_TRANSACTIONS_FILTERS,
-  UPDATE_FORECAST
+  UPDATE_FORECAST,
+  SET_ACTIVE_TAB
 } from "./FinancialForecastActionTypes";
 import TransactionData from "./TransactionDataInterface";
 import transactionEditableFields from './transactionEditableFields';
@@ -138,9 +139,19 @@ export interface ActionUpdateForecastInterface {
   value: string
 }
 
-export const updateForecast = (keyName: ForecastEditableFieldsType, value: string) => ({
+export const updateForecast = (keyName: ForecastEditableFieldsType, value: string): ActionUpdateForecastInterface => ({
   type: UPDATE_FORECAST,
   keyName,
+  value,
+})
+
+export interface ActionSetActiveTabInterface {
+  type: typeof SET_ACTIVE_TAB,
+  value: string
+}
+
+export const setActiveTab = (value: string):ActionSetActiveTabInterface => ({
+  type: SET_ACTIVE_TAB,
   value,
 })
 
@@ -153,4 +164,5 @@ export type FinancialForecastActions = ActionAddNewTransactionInterface |
   ActionCreateTagInterface |
   ActionChangeVisibilityByFilterInterface |
   ActionUpdateTransactionsFiltersInterface |
-  ActionUpdateForecastInterface;
+  ActionUpdateForecastInterface |
+  ActionSetActiveTabInterface;

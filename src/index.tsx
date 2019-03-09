@@ -9,14 +9,16 @@ import registerServiceWorker from './registerServiceWorker';
 import store from './store';
 import App from './components';
 
+import './shared.css';
+
 ReactDOM.render(
-	<Provider store={store}>
-		<LocalizeProvider store={store}>
-			<Router>
-				<App />
-			</Router>
-		</LocalizeProvider>
-	</Provider >
+		<Provider store={store}>
+			<LocalizeProvider store={store}>
+				<Router>
+					<App />
+				</Router>
+			</LocalizeProvider>
+		</Provider >
 	, document.getElementById('root'),
 );
 registerServiceWorker();

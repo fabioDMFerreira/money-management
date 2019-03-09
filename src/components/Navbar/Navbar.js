@@ -1,9 +1,16 @@
 import React from 'react';
 import { bool } from 'prop-types';
-import { Nav, NavItem, NavLink, UncontrolledDropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
-import { NavLink as RRNavLink } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
+import {
+	Nav,
+	NavItem,
+	// NavLink,
+	// UncontrolledDropdown,
+	// DropdownMenu,
+	// DropdownToggle
+} from 'reactstrap';
+// import { NavLink as RRNavLink } from 'react-router-dom';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 // import {
 // 	HOME,
@@ -14,7 +21,7 @@ import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 
 import './Navbar.css';
-import Logout from '../Logout';
+// import Logout from '../Logout';
 
 const Navbar = ({ isLoggedIn }) => (
 	<Nav className="ml-auto" navbar vertical={false}>
@@ -22,9 +29,9 @@ const Navbar = ({ isLoggedIn }) => (
 			{/* <NavLink tag={RRNavLink} exact to="/">
 				<Translate id={HOME} />
 			</NavLink> */}
-			<NavLink tag={RRNavLink} exact to="/">
+			{/* <NavLink tag={RRNavLink} exact to="/">
 				Financial Forecast
-			</NavLink>
+			</NavLink> */}
 		</NavItem>
 		{
 			// !isLoggedIn &&
@@ -36,14 +43,14 @@ const Navbar = ({ isLoggedIn }) => (
 		}
 		{
 			// isLoggedIn &&
-			<UncontrolledDropdown nav inNavbar>
-				<DropdownToggle nav caret>
-					<FontAwesomeIcon icon={faCog} />
-				</DropdownToggle>
-				<DropdownMenu right>
-					<Logout />
-				</DropdownMenu>
-			</UncontrolledDropdown>
+			// <UncontrolledDropdown nav inNavbar>
+			// 	<DropdownToggle nav caret>
+			// 		<FontAwesomeIcon icon={faCog} />
+			// 	</DropdownToggle>
+			// 	<DropdownMenu right>
+			// 		<Logout />
+			// 	</DropdownMenu>
+			// </UncontrolledDropdown>
 		}
 	</Nav>
 );

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import Input from 'reactstrap/lib/Input';
@@ -12,13 +12,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faUpload, faDownload, faTrash, faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import { CSVLink } from 'react-csv';
+import classnames from 'classnames';
 
 import Transaction from './Balance/Transaction.class';
 import Forecast from './Balance/Forecast.class';
 import calculateForecastBalance from './Balance/calculateForecastBalance';
 import Balance from './Balance/Balance.interface';
 
-import { sumMonths } from './Balance/utils';
 import TransactionDataInterface from './TransactionDataInterface';
 
 import YYYYMMDD from 'utils/YYYYMMDD';
@@ -42,12 +42,22 @@ import {
   filterType,
   updateForecast,
   ForecastEditableFieldsType,
+  setActiveTab,
 } from './FinancialForecastActions';
 import { TagType } from './TagType';
 import passesFilters from './passesFilters';
 import { ForecastDataInterface } from './ForecastDataInterface';
+import Card from 'reactstrap/lib/Card';
+import CardBody from 'reactstrap/lib/CardBody';
+import CardTitle from 'reactstrap/lib/CardTitle';
+import Nav from 'reactstrap/lib/Nav';
+import NavItem from 'reactstrap/lib/NavItem';
+import NavLink from 'reactstrap/lib/NavLink';
+import TabContent from 'reactstrap/lib/TabContent';
+import TabPane from 'reactstrap/lib/TabPane';
 
 const TableActions = styled.div`
+  background-color: $white;
   margin-bottom:10px;
 
   button{
@@ -83,7 +93,9 @@ type Props = {
   updateTransactionsFilters: typeof updateTransactionsFilters
   filters: filterType[],
   forecast: ForecastDataInterface,
-  updateForecast: typeof updateForecast
+  updateForecast: typeof updateForecast,
+  tab: string,
+  setActiveTab: typeof setActiveTab
 }
 
 class FinancialForecast extends Component<Props, State> {
@@ -233,118 +245,142 @@ class FinancialForecast extends Component<Props, State> {
       filters,
       forecast,
       transactions,
+      tab,
+      setActiveTab,
     } = this.props;
 
     return (
       <div>
         <Row>
           <Col xs="12">
-            <h3>Transactions</h3>
-
-            <TableActions>
-              <Button outline color="secondary" size="sm" onClick={addNewTransaction}>
-                <FontAwesomeIcon icon={faPlus} /> Add
+            <Card>
+              <CardBody>
+                <CardTitle>
+                  <Nav tabs>
+                    <NavItem>
+                      <NavLink
+                        className={classnames({ active: tab === 'transactions' })}
+                        onClick={() => { setActiveTab('transactions'); }}
+                      >
+                        Transactions
+            </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink
+                        className={classnames({ active: tab === 'balance' })}
+                        onClick={() => { setActiveTab('balance'); }}
+                      >
+                        Balance
+            </NavLink>
+                    </NavItem>
+                  </Nav>
+                </CardTitle>
+                <TabContent activeTab={tab}>
+                  <TabPane tabId="transactions">
+                    <TableActions>
+                      <Button outline color="secondary" size="sm" onClick={addNewTransaction}>
+                        <FontAwesomeIcon icon={faPlus} /> Add
               </Button>
-              <CSVLink
-                data={this.parseTransactionsToCsv(transactions)}
-                filename={`transactions-${YYYYMMDD(new Date())}.csv`}
-                headers={TransactionMetadata}
-              >
-                <Button outline color="secondary" size="sm">
-                  <FontAwesomeIcon icon={faUpload} /> Export
+                      <CSVLink
+                        data={this.parseTransactionsToCsv(transactions)}
+                        filename={`transactions-${YYYYMMDD(new Date())}.csv`}
+                        headers={TransactionMetadata}
+                      >
+                        <Button outline color="secondary" size="sm">
+                          <FontAwesomeIcon icon={faUpload} /> Export
               </Button>
-              </CSVLink>
-              <Button outline color="secondary" size="sm" onClick={() => this.fileInput.click()}>
-                <FontAwesomeIcon icon={faDownload} /> Import
+                      </CSVLink>
+                      <Button outline color="secondary" size="sm" onClick={() => this.fileInput.click()}>
+                        <FontAwesomeIcon icon={faDownload} /> Import
               </Button>
-              <Button outline color="secondary" size="sm" onClick={clearTransactions}>
-                <FontAwesomeIcon icon={faTrash} /> Clear all
+                      <Button outline color="secondary" size="sm" onClick={clearTransactions}>
+                        <FontAwesomeIcon icon={faTrash} /> Clear all
               </Button>
-              <input
-                title="Import from .csv file"
-                type="file"
-                accept=".csv"
-                ref={(input) => { this.fileInput = input; }}
-                onChange={this.importTransactions}
-                style={{ display: 'none' }}
-              />
-            </TableActions>
-            <TransactionsTable
-              transactions={transactions}
-              updateTransaction={updateTransaction}
-              removeTransaction={deleteTransaction}
-              dragTransaction={dragTransaction}
+                      <input
+                        title="Import from .csv file"
+                        type="file"
+                        accept=".csv"
+                        ref={(input) => { this.fileInput = input; }}
+                        onChange={this.importTransactions}
+                        style={{ display: 'none' }}
+                      />
+                    </TableActions>
+                    <TransactionsTable
+                      transactions={transactions}
+                      updateTransaction={updateTransaction}
+                      removeTransaction={deleteTransaction}
+                      dragTransaction={dragTransaction}
 
-              filters={filters}
-              updateTransactionsFilters={updateTransactionsFilters}
+                      filters={filters}
+                      updateTransactionsFilters={updateTransactionsFilters}
 
-              tags={tags}
-              createTag={createTag}
-            />
-          </Col>
-          <Col xs="12">
-            <hr />
-
-            <h3>Forecast</h3>
-
-            <Row>
-              <Col xs={2}>
-                <FormGroup>
-                  <Label>Initial value:</Label>
-                  <Input
-                    value={forecast.initialValue}
-                    type="number"
-                    onChange={this.updateForecast('initialValue')}
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={3}>
-                <FormGroup>
-                  <Label>Start date:</Label>
-                  <Input
-                    value={forecast.startDate}
-                    type="date"
-                    onChange={this.updateForecast('startDate')}
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={3}>
-                <FormGroup>
-                  <Label>End date:</Label>
-                  <Input
-                    value={forecast.endDate}
-                    type="date"
-                    onChange={this.updateForecast('endDate')}
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={3}>
-                <Button {...(forecastView === 'chart' ? {} : { outline: true })} color="secondary" size="sm" onClick={() => this.switchForecastView('chart')}>Chart <FontAwesomeIcon icon={faChartLine} /></Button>
-                <Button {...(forecastView === 'table' ? {} : { outline: true })} color="secondary" size="sm" onClick={() => this.switchForecastView('table')}>Table <FontAwesomeIcon icon={faTable} /></Button>
-              </Col>
-            </Row>
+                      tags={tags}
+                      createTag={createTag}
+                    />
+                  </TabPane>
+                  <TabPane tabId="balance">
+                    <Row>
+                      <Col xs={2}>
+                        <FormGroup>
+                          <Label>Initial value:</Label>
+                          <Input
+                            value={forecast.initialValue}
+                            type="number"
+                            onChange={this.updateForecast('initialValue')}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col xs={3}>
+                        <FormGroup>
+                          <Label>Start date:</Label>
+                          <Input
+                            value={forecast.startDate}
+                            type="date"
+                            onChange={this.updateForecast('startDate')}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col xs={3}>
+                        <FormGroup>
+                          <Label>End date:</Label>
+                          <Input
+                            value={forecast.endDate}
+                            type="date"
+                            onChange={this.updateForecast('endDate')}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col xs={3}>
+                        <Button {...(forecastView === 'chart' ? {} : { outline: true })} color="secondary" size="sm" onClick={() => this.switchForecastView('chart')}>Chart <FontAwesomeIcon icon={faChartLine} /></Button>
+                        <Button {...(forecastView === 'table' ? {} : { outline: true })} color="secondary" size="sm" onClick={() => this.switchForecastView('table')}>Table <FontAwesomeIcon icon={faTable} /></Button>
+                      </Col>
+                    </Row>
 
 
-            {
-              (() => {
-                if (forecastView === 'table') {
-                  return <BalanceTable balance={balance} />
-                } else {
-                  return <LineChart
-                    width={900}
-                    height={300}
-                    data={balance ? balance.map((b: Balance) => ({ ...b, date: b.date ? YYYYMMDD(b.date) : null })) : []}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="actualValue" name="Amount (€)" stroke="#8884d8" activeDot={{ r: 8 }} />
-                  </LineChart>
-                }
-              })()
-            }
+                    {
+                      (() => {
+                        if (forecastView === 'table') {
+                          return <BalanceTable balance={balance} />
+                        } else {
+                          return <LineChart
+                            width={900}
+                            height={300}
+                            data={balance ? balance.map((b: Balance) => ({ ...b, date: b.date ? YYYYMMDD(b.date) : null })) : []}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="actualValue" name="Amount (€)" stroke="#8884d8" activeDot={{ r: 8 }} />
+                          </LineChart>
+                        }
+                      })()
+                    }
+                  </TabPane>
+                </TabContent>
+              </CardBody>
+            </Card>
 
           </Col>
         </Row>
@@ -374,7 +410,8 @@ export default connect(
       transactions: financialForecast.transactions && financialForecast.transactions.toJS(),
       tags: financialForecast.tags && financialForecast.tags.toJS(),
       filters: financialForecast.filters,
-      forecast: financialForecast.forecast
+      forecast: financialForecast.forecast,
+      tab: financialForecast.tab,
     }
   },
   {
@@ -387,5 +424,6 @@ export default connect(
     createTag,
     updateTransactionsFilters,
     updateForecast,
+    setActiveTab,
   }
 )(FinancialForecast);

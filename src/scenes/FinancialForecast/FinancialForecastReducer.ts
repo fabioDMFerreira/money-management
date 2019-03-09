@@ -10,7 +10,8 @@ import {
   CREATE_TAG,
   CHANGE_VISIBILITY_BY_FILTER,
   UPDATE_TRANSACTIONS_FILTERS,
-  UPDATE_FORECAST
+  UPDATE_FORECAST,
+  SET_ACTIVE_TAB
 } from './FinancialForecastActionTypes';
 import { FinancialForecastActions, filterType } from './FinancialForecastActions';
 import TransactionDataInterface from './TransactionDataInterface';
@@ -26,6 +27,7 @@ type State = {
   tags: List<TagType>
   filters: filterType[]
   forecast: ForecastDataInterface
+  tab: string
 }
 
 const initialState: State = {
@@ -36,7 +38,8 @@ const initialState: State = {
     initialValue: '0',
     startDate: YYYYMMDD(new Date()),
     endDate: YYYYMMDD(sumMonths(new Date(), 12)),
-  }
+  },
+  tab: 'transactions'
 }
 
 export default (state: State = initialState, action: FinancialForecastActions): State => {
@@ -229,6 +232,12 @@ export default (state: State = initialState, action: FinancialForecastActions): 
           ...state.forecast,
           [action.keyName]: [action.value]
         }
+      }
+    }
+    case SET_ACTIVE_TAB:{
+      return {
+        ...state,
+        tab: action.value,
       }
     }
     default:
