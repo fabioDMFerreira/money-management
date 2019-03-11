@@ -1,3 +1,4 @@
+import { TagType } from 'scenes/FinancialForecast/TagType';
 export default interface TransactionDataInterface {
   id?: string,
   startDate?: string,
@@ -9,5 +10,5 @@ export default interface TransactionDataInterface {
   totalValue?: string,
   interval?: string,
   visible?: boolean,
-  tags?: { label: string, value: string, color: string }[],
+  tags?: TagType[],
 }

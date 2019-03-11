@@ -1,3 +1,4 @@
+import { GlobalFiltersType } from './containers/GlobalFilters/GlobalFiltersType';
 import {
   ADD_NEW_TRANSACTION,
   BULK_ADD_TRANSACTIONS,
@@ -6,15 +7,14 @@ import {
   CLEAR_TRANSACTIONS,
   DRAG_TRANSACTION,
   CREATE_TAG,
-  CHANGE_VISIBILITY_BY_FILTER,
   UPDATE_TRANSACTIONS_FILTERS,
   UPDATE_FORECAST,
-  SET_ACTIVE_TAB
+  SET_ACTIVE_TAB,
+  UPDATE_GLOBAL_FILTER
 } from "./FinancialForecastActionTypes";
 import TransactionData from "./TransactionDataInterface";
 import transactionEditableFields from './transactionEditableFields';
 import { TagType } from "./TagType";
-import { instanceOf } from "prop-types";
 
 export interface ActionAddNewTransactionInterface {
   type: typeof ADD_NEW_TRANSACTION
@@ -90,33 +90,7 @@ export const createTag = (tag: TagType): ActionCreateTagInterface => ({
   tag,
 })
 
-export interface ActionChangeVisibilityByFilterInterface {
-  type: typeof CHANGE_VISIBILITY_BY_FILTER,
-  filter: string | string[],
-  value: string | string[],
-}
 
-export const changeTransactionsVisibilityByFilter = (filter: string | string[], value: string | string[]): ActionChangeVisibilityByFilterInterface => {
-  if (typeof filter === 'string' && typeof value === 'string') {
-    return {
-      type: CHANGE_VISIBILITY_BY_FILTER,
-      filter,
-      value: value.toLowerCase()
-    };
-  } else if (filter instanceof Array && value instanceof Array && filter.length === value.length) {
-    return {
-      type: CHANGE_VISIBILITY_BY_FILTER,
-      filter,
-      value: value.map(value => value.toLowerCase())
-    };
-  }
-
-  return {
-    type: CHANGE_VISIBILITY_BY_FILTER,
-    filter: '',
-    value: ''
-  }
-}
 
 export type filterType = {
   id: string,
@@ -150,9 +124,21 @@ export interface ActionSetActiveTabInterface {
   value: string
 }
 
-export const setActiveTab = (value: string):ActionSetActiveTabInterface => ({
+export const setActiveTab = (value: string): ActionSetActiveTabInterface => ({
   type: SET_ACTIVE_TAB,
   value,
+})
+
+export interface ActionUpdateGlobalFilterInterface {
+  type: typeof UPDATE_GLOBAL_FILTER,
+  filterKey: keyof GlobalFiltersType
+  value: any
+}
+
+export const updateGlobalFilter = (filterKey: keyof GlobalFiltersType, value: any): ActionUpdateGlobalFilterInterface => ({
+  type: UPDATE_GLOBAL_FILTER,
+  filterKey,
+  value
 })
 
 export type FinancialForecastActions = ActionAddNewTransactionInterface |
@@ -162,7 +148,8 @@ export type FinancialForecastActions = ActionAddNewTransactionInterface |
   ActionClearTransactionsInterface |
   ActionDragTransactionInterface |
   ActionCreateTagInterface |
-  ActionChangeVisibilityByFilterInterface |
+
   ActionUpdateTransactionsFiltersInterface |
   ActionUpdateForecastInterface |
-  ActionSetActiveTabInterface;
+  ActionSetActiveTabInterface |
+  ActionUpdateGlobalFilterInterface;

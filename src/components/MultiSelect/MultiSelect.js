@@ -4,7 +4,7 @@ import { FormGroup, Label } from 'reactstrap';
 import Select from 'react-select';
 
 import { SELECT_OPTION } from 'locale/consts';
-import { selectItemsList } from 'propTypes';
+import { selectItemsList } from 'prop-types';
 
 import Translate from '../Translate';
 

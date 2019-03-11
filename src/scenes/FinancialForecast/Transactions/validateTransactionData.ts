@@ -1,4 +1,4 @@
-import TransactionFieldsMetadata from "./TransactionFieldsMetadata";
+import TransactionFieldsMetadata from "../TransactionFieldsMetadata";
 
 export default (transactionData: any) => {
   return TransactionFieldsMetadata.every(metadata => {

@@ -128,6 +128,7 @@ export default class Transaction implements TransactionInterface {
     transaction._particles = transactionData.particles ? +transactionData.particles : 1;
     transaction._interval = transactionData.interval ? +transactionData.interval : 1;
     transaction._endDate = transactionData.endDate ? new Date(transactionData.endDate) :startDate;
+    transaction._totalValue = transaction._value * transaction._particles;
 
     return transaction;
   }

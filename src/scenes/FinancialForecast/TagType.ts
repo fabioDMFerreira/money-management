@@ -1,5 +1,5 @@
 export type TagType = {
   label: string,
-  value: string,
+  value: string ,
   color?: string,
 }

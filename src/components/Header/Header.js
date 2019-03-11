@@ -7,6 +7,6 @@ import './Header.css';
 
 export default () => (
 	<NavbarBrand>
-		<FontAwesomeIcon icon={faMoneyBillWave} /> Financial forecast
+		<FontAwesomeIcon icon={faMoneyBillWave} /> Financial Forecast
 	</NavbarBrand>
 );

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactTable, { SortingRule } from 'react-table';
 import styled from 'styled-components';
 
-import Balance from '../../Balance/Balance.interface';
+import Balance from '../../services/Balance.interface';
 import YYYYMMDD from 'utils/YYYYMMDD';
 
 const BalanceTableContainer = styled.div`

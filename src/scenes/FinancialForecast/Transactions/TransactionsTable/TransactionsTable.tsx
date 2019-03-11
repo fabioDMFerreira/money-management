@@ -12,7 +12,7 @@ import { dragTransaction, updateTransaction, createTag, updateTransactionsFilter
 import Select from 'react-select/lib/Creatable';
 import { ValueType } from 'react-select/lib/types';
 import { TagType } from 'scenes/FinancialForecast/TagType';
-import EditableInputHOC from './EditableInputHoc';
+import EditableInputHOC from '../../../../hocs/EditableInputHoc';
 import FilterComponent from './FilterComponent';
 
 const TransactionsTableContainer = styled.div`
@@ -63,6 +63,7 @@ type State = {
 };
 
 const EditableInput = EditableInputHOC(Input);
+
 export default class TransactionsTable extends Component<Props, State> {
 
   tagsFieldRef: { [key: string]: any } = {};
@@ -109,7 +110,7 @@ export default class TransactionsTable extends Component<Props, State> {
         return <Select
           options={tags}
           onChange={
-            (value: ValueType<{ value: string, label: string, color?: string }>) => {
+            (value: ValueType<TagType>) => {
               this.props.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
               setTimeout(() => {
                 this.tagsFieldRef[cellInfo.index] && this.tagsFieldRef[cellInfo.index].focus();
@@ -153,9 +154,9 @@ export default class TransactionsTable extends Component<Props, State> {
         Header: 'Tags',
         accessor: "tags",
         filterable: true,
-        filterMethod: (filter: any, row: any, column: any) => {
+        filterMethod: (filter: any, row: any) => {
           const { value } = filter;
-          return row.tags && !!row.tags.find((tag: TagType) => tag.value.startsWith(value.toLowerCase()));
+          return row.tags && !!row.tags.find((tag: TagType) => tag.value && tag.value.startsWith(value.toLowerCase()));
         },
         Cell: (props: any) => this.editableCell(props, 'multiselect'),
         getProps: () => {
