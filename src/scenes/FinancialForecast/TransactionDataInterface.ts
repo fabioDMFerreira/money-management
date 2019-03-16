@@ -11,4 +11,5 @@ export default interface TransactionDataInterface {
   interval?: string,
   visible?: boolean,
   tags?: TagType[],
+  selected?: boolean,
 }

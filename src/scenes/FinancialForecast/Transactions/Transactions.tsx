@@ -1,7 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faUpload, faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlus,
+  faUpload,
+  faDownload,
+  faTrash,
+  faEdit,
+} from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
 import randomColor from 'randomcolor';
 
@@ -10,11 +16,13 @@ import csvJSON from 'utils/csvJSON';
 import TransactionDataInterface from '../TransactionDataInterface';
 import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType } from '../FinancialForecastActions';
 import { TagType } from '../TagType';
-import TransactionsTable from './TransactionsTable';
+import TransactionsTable from '../containers/TransactionsTable';
 import Button from 'reactstrap/lib/Button';
 import TransactionFieldsMetadata from '../TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
 import ImportTransactionsModal from './ImportTransactionsModal';
+import BulkUpdateModal from './BulkUpdateModal';
+import transactionEditableFields from '../transactionEditableFields';
 
 const TableActions = styled.div`
   background-color: $white;
@@ -40,6 +48,7 @@ type Props = {
 }
 
 type State = {
+  bulkUpdateModalOpened: boolean,
   importingModalOpened: boolean,
   importingData: object[],
 }
@@ -52,6 +61,7 @@ export default class Transactions extends Component<Props, State> {
   }
 
   state: State = {
+    bulkUpdateModalOpened: false,
     importingModalOpened: false,
     importingData: [],
   }
@@ -115,10 +125,42 @@ export default class Transactions extends Component<Props, State> {
       })
     })
 
+  openBulkUpdateModal = () => {
+    this.setState({
+      bulkUpdateModalOpened: true
+    });
+  }
+
+  closeBulkUpdateModal = () => {
+    this.setState({
+      bulkUpdateModalOpened: false
+    });
+  }
+
+  bulkUpdate = (update: any) => {
+    const { updateTransaction, transactions } = this.props;
+
+    transactions
+      .filter(transaction => transaction.selected)
+      .forEach((transaction: TransactionDataInterface) => {
+        Object.entries(update).forEach(([key, value]: [any, any]) => {
+          if (transaction.id) {
+            updateTransaction(transaction.id, value, key);
+            updateTransaction(transaction.id, false, 'selected');
+          }
+        });
+      });
+
+    this.setState({
+      bulkUpdateModalOpened: false
+    });
+  }
+
   render() {
     const {
       importingModalOpened,
       importingData,
+      bulkUpdateModalOpened,
     } = this.state;
 
     const {
@@ -152,9 +194,7 @@ export default class Transactions extends Component<Props, State> {
         <Button outline color="secondary" size="sm" onClick={() => this.fileInput.click()}>
           <FontAwesomeIcon icon={faDownload} /> Import
 </Button>
-        <Button outline color="secondary" size="sm" onClick={clearTransactions}>
-          <FontAwesomeIcon icon={faTrash} /> Clear all
-</Button>
+
         <input
           title="Import from .csv file"
           type="file"
@@ -163,21 +203,22 @@ export default class Transactions extends Component<Props, State> {
           onChange={this.importTransactions}
           style={{ display: 'none' }}
         />
+        <Button outline color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
+          <FontAwesomeIcon icon={faEdit} /> Bulk update
+</Button>
+        <Button outline color="secondary" size="sm" onClick={clearTransactions}>
+          <FontAwesomeIcon icon={faTrash} /> Clear all
+</Button>
       </TableActions>
+
       <TransactionsTable
         transactions={transactions}
-        updateTransaction={updateTransaction}
-        removeTransaction={deleteTransaction}
-        dragTransaction={dragTransaction}
 
         filters={filters}
         updateTransactionsFilters={updateTransactionsFilters}
-
-        tags={tags}
-        createTag={createTag}
       />
 
-<ImportTransactionsModal
+      <ImportTransactionsModal
         opened={importingModalOpened}
         data={importingData}
         save={(transactions) => {
@@ -188,6 +229,14 @@ export default class Transactions extends Component<Props, State> {
         }
         }
         close={() => this.setState({ importingModalOpened: false })}
+      />
+
+      <BulkUpdateModal
+        opened={bulkUpdateModalOpened}
+        save={this.bulkUpdate}
+        close={this.closeBulkUpdateModal}
+        tags={tags}
+        createTag={createTag}
       />
     </Fragment>
   }

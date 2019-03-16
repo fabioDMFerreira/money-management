@@ -10,8 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
+import moment from 'moment';
 
-import YYYYMMDD from 'utils/YYYYMMDD';
 
 import BalanceTable from './BalanceTable';
 import { ForecastDataInterface } from '../ForecastDataInterface';
@@ -22,12 +22,17 @@ import Forecast from '../services/Forecast.class';
 import calculateForecastBalance from '../services/calculateForecastBalance';
 import Transaction from '../services/Transaction.class';
 import Balance from '../services/Balance.interface';
+import YYYYMM from 'utils/YYYYMM';
+import TransactionsTable from '../containers/TransactionsTable';
 
 type forecastView = "chart" | "table";
 
 type State = {
   balance: Balance[],
   forecastView: forecastView,
+  monthSelected?: string,
+  monthBalance?: Balance,
+  transactions: TransactionDataInterface[]
 };
 
 type Props = {
@@ -49,6 +54,7 @@ export default class BalanceComponent extends Component<Props, State> {
   state: State = {
     balance: [] as Balance[],
     forecastView: "chart",
+    transactions: [] as TransactionDataInterface[]
   }
 
   constructor(props: Props) {
@@ -101,10 +107,25 @@ export default class BalanceComponent extends Component<Props, State> {
     return new Forecast(new Date(startDate), new Date(endDate), +initialValue)
   }
 
+  chartClick = (point: any) => {
+    const monthSelected = point.activeLabel;
+
+    this.setState({
+      monthSelected,
+      transactions: this.props.transactions.filter(transaction => {
+        return moment(transaction.startDate).format('YYYY-MM') === monthSelected; 0
+      }),
+      monthBalance: this.state.balance.find((balance: Balance) => moment(balance.date).format('YYYY-MM') === monthSelected)
+    });
+  }
+
   render() {
     const {
       forecastView,
       balance,
+      monthSelected,
+      transactions,
+      monthBalance
     } = this.state;
 
     const {
@@ -149,7 +170,6 @@ export default class BalanceComponent extends Component<Props, State> {
         </Col>
       </Row>
 
-
       {
         (() => {
           if (forecastView === 'table') {
@@ -158,7 +178,8 @@ export default class BalanceComponent extends Component<Props, State> {
             return <LineChart
               width={900}
               height={300}
-              data={balance ? balance.map((b: Balance) => ({ ...b, date: b.date ? YYYYMMDD(b.date) : null })) : []}
+              data={balance ? balance.map((b: Balance) => ({ ...b, date: b.date ? YYYYMM(b.date) : null })) : []}
+              onClick={this.chartClick}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
@@ -169,6 +190,34 @@ export default class BalanceComponent extends Component<Props, State> {
             </LineChart>
           }
         })()
+      }
+
+      {
+        monthSelected &&
+        <Fragment>
+          <h3>{monthSelected} transactions</h3>
+          {
+            monthBalance &&
+            <Fragment>
+              <p>
+                Actual value: {monthBalance.actualValue}
+              </p>
+              <p>
+                Balance:  {monthBalance.balance}
+              </p>
+              <p>
+                Income: {monthBalance.income}
+              </p>
+              <p>
+                Outcome: {monthBalance.outcome}
+              </p>
+            </Fragment>
+          }
+          <TransactionsTable
+            transactions={transactions}
+          />
+        </Fragment>
+
       }
     </Fragment>
   }

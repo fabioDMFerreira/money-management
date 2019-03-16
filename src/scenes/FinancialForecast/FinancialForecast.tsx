@@ -17,11 +17,12 @@ import {
   setActiveTab,
 } from './FinancialForecastActions';
 
-import Balance from './Balance';
+import Timeline from './Timeline';
 import Transactions from './Transactions';
 import Labels from './Labels';
 import GlobalFilters from './containers/GlobalFilters';
 import TransactionDataInterface from './TransactionDataInterface';
+import Settings from './Settings';
 
 type State = {
 }
@@ -33,10 +34,9 @@ type Props = {
   allTransactions: TransactionDataInterface[],
 }
 
-const GlobalFiltersContainer = styled.div`
-  margin-bottom: 15px;
-  background-color: #ddd;
-  padding: 5px;
+const NumberTransactionsFiltered = styled.p`
+  margin: 10px 0px 20px 0px;
+  font-weight: 500;
 `;
 
 class FinancialForecast extends Component<Props, State> {
@@ -63,54 +63,62 @@ class FinancialForecast extends Component<Props, State> {
           <Col xs="12">
             <Card>
               <CardBody>
-                <GlobalFiltersContainer>
-                  Transactions Filters:
-                  <GlobalFilters />
-                </GlobalFiltersContainer>
-                <CardTitle>
-                  <Nav tabs>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({ active: tab === 'transactions' })}
-                        onClick={() => { setActiveTab('transactions'); }}
-                      >
-                        Transactions
-            </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({ active: tab === 'balance' })}
-                        onClick={() => { setActiveTab('balance'); }}
-                      >
-                        Balance
-            </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({ active: tab === 'labels' })}
-                        onClick={() => { setActiveTab('labels'); }}
-                      >
-                        Labels
-            </NavLink>
-                    </NavItem>
-                  </Nav>
-                </CardTitle>
-                <p>
-                  Displaying {transactions.length} transactions of {allTransactions.length}
-                </p>
-                <TabContent activeTab={tab}>
-                  <TabPane tabId="transactions">
-                    <Transactions />
-                  </TabPane>
-                  <TabPane tabId="balance">
-                    <Balance />
-                  </TabPane>
-                  <TabPane tabId="labels">
-                    <Labels />
-                  </TabPane>
-                </TabContent>
+                <GlobalFilters />
               </CardBody>
             </Card>
+          </Col>
+          <Col xs="12" style={{ marginTop: '20px' }}>
+            <Nav tabs>
+              <NavItem>
+                <NavLink
+                  className={classnames({ active: tab === 'transactions' })}
+                  onClick={() => { setActiveTab('transactions'); }}
+                >
+                  Transactions
+            </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({ active: tab === 'timeline' })}
+                  onClick={() => { setActiveTab('timeline'); }}
+                >
+                  Timeline
+            </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({ active: tab === 'tags' })}
+                  onClick={() => { setActiveTab('tags'); }}
+                >
+                  Tags
+            </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({ active: tab === 'settings' })}
+                  onClick={() => { setActiveTab('settings'); }}
+                >
+                  Settings
+            </NavLink>
+              </NavItem>
+            </Nav>
+            <NumberTransactionsFiltered>
+              Displaying {transactions.length} of {allTransactions.length} transactions.
+            </NumberTransactionsFiltered>
+            <TabContent activeTab={tab}>
+              <TabPane tabId="transactions">
+                <Transactions />
+              </TabPane>
+              <TabPane tabId="timeline">
+                <Timeline />
+              </TabPane>
+              <TabPane tabId="tags">
+                <Labels />
+              </TabPane>
+              <TabPane tabId="settings">
+                <Settings />
+              </TabPane>
+            </TabContent>
 
           </Col>
         </Row>
@@ -131,8 +139,8 @@ export default connect(
 
     return {
       tab,
-      transactions: transactions.toJS(),
-      allTransactions: allTransactions.toJS(),
+      transactions: transactions ? transactions.toJS() : [],
+      allTransactions: allTransactions ? allTransactions.toJS() : [],
     }
   },
   {

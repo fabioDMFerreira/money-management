@@ -14,6 +14,8 @@ import { ValueType } from 'react-select/lib/types';
 import { TagType } from 'scenes/FinancialForecast/TagType';
 import EditableInputHOC from '../../../../hocs/EditableInputHoc';
 import FilterComponent from './FilterComponent';
+import TransactionDataInterface from '../../TransactionDataInterface';
+import FormGroup from 'reactstrap/lib/FormGroup';
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -53,13 +55,14 @@ type Props = {
   dragTransaction: typeof dragTransaction,
   createTag: typeof createTag,
   tags: TagType[],
-  updateTransactionsFilters: typeof updateTransactionsFilters,
-  filters: filterType[]
+  updateTransactionsFilters?: typeof updateTransactionsFilters,
+  filters?: filterType[]
 };
 
 type State = {
   sorted: SortingRule[],
   columns: object[],
+  allSelected: boolean
 };
 
 const EditableInput = EditableInputHOC(Input);
@@ -71,6 +74,7 @@ export default class TransactionsTable extends Component<Props, State> {
   state = {
     sorted: [],
     columns: [] as object[],
+    allSelected: false
   }
 
   constructor(props: Props) {
@@ -143,8 +147,40 @@ export default class TransactionsTable extends Component<Props, State> {
     }
   }
 
+  selectAll = (value: boolean) => {
+    this.props.transactions.forEach((transaction: TransactionDataInterface) => {
+      if (transaction.id) {
+        this.props.updateTransaction(transaction.id, value, 'selected');
+      }
+    });
+
+    this.setState({
+      allSelected: value
+    });
+  }
+
   buildColumns(props: Props): Column<any>[] {
     return [
+      {
+        Header: () => <Input
+          type="checkbox"
+          checked={this.state.allSelected}
+          onChange={e => this.selectAll(e.target.checked)}
+        />,
+        accessor: 'selected',
+        filterable: false,
+        sortable: false,
+        Cell: (cellInfo: any) => {
+          return <FormGroup check>
+            <Input
+              type="checkbox"
+              checked={cellInfo.value}
+              onChange={(e) => this.props.updateTransaction(cellInfo.original.id, e.target.checked, 'selected')}
+            />
+          </FormGroup>
+        },
+        width: 50,
+      },
       {
         Header: 'Description',
         accessor: "description",
@@ -153,7 +189,7 @@ export default class TransactionsTable extends Component<Props, State> {
       }, {
         Header: 'Tags',
         accessor: "tags",
-        filterable: true,
+        filterable: false,
         filterMethod: (filter: any, row: any) => {
           const { value } = filter;
           return row.tags && !!row.tags.find((tag: TagType) => tag.value && tag.value.startsWith(value.toLowerCase()));
@@ -191,12 +227,12 @@ export default class TransactionsTable extends Component<Props, State> {
         Header: 'Credit',
         accessor: "credit",
         Cell: (props: any) => this.editableCell(props, 'number'),
-        width: 80
+        width: 100
       }, {
         Header: 'Debit',
         accessor: "debit",
         Cell: (props: any) => this.editableCell(props, 'number'),
-        width: 80
+        width: 100
       }, {
         Header: 'Total value',
         accessor: "totalValue",
@@ -273,7 +309,7 @@ export default class TransactionsTable extends Component<Props, State> {
             };
           }}
 
-          filterable
+          filterable={false}
           onFilteredChange={updateTransactionsFilters}
           filtered={filters}
         />

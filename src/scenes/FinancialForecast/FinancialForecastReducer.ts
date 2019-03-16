@@ -1,4 +1,4 @@
-import { List, Map } from 'immutable';
+import { List } from 'immutable';
 
 import {
   ADD_NEW_TRANSACTION,
@@ -11,7 +11,9 @@ import {
   UPDATE_TRANSACTIONS_FILTERS,
   UPDATE_FORECAST,
   SET_ACTIVE_TAB,
-  UPDATE_GLOBAL_FILTER
+  UPDATE_GLOBAL_FILTER,
+  DELETE_TAG,
+  UPDATE_TAG
 } from './FinancialForecastActionTypes';
 import { FinancialForecastActions, filterType } from './FinancialForecastActions';
 import TransactionDataInterface from './TransactionDataInterface';
@@ -48,10 +50,13 @@ export const initialState: State = {
   globalFilters: {}
 }
 
-const passesGlobalFilters = (globalFilters: GlobalFiltersType) => (transaction: TransactionDataInterface) => {
+const passesGlobalFilters = (globalFilters: GlobalFiltersType = {}) => (transaction: TransactionDataInterface) => {
   let matchesStartDate = true;
   let matchesEndDate = true;
   let matchesTags = true;
+  let matchesCredit = true;
+  let matchesDebit = true;
+  let matchesDescription = true;
 
   if (globalFilters.startDate && transaction.startDate) {
     matchesStartDate = new Date(transaction.startDate) >= new Date(globalFilters.startDate);
@@ -69,12 +74,58 @@ const passesGlobalFilters = (globalFilters: GlobalFiltersType) => (transaction: 
     const globalTagsIds = globalFilters.tags.map(tag => tag.value);
     matchesTags = transaction.tags.some(tag => globalTagsIds.includes(tag.value));
 
-    if(globalTagsIds.includes('null') && (!transaction.tags || !transaction.tags.length)){
+    if (globalTagsIds.includes('null') && (!transaction.tags || !transaction.tags.length)) {
       matchesTags = true;
     }
   }
 
-  return matchesStartDate && matchesEndDate && matchesTags;
+  if (globalFilters.credit && transaction.credit && +transaction.credit > 0) {
+    matchesCredit = +transaction.credit >= globalFilters.credit[0] && +transaction.credit <= globalFilters.credit[1];
+  } else if (globalFilters.credit && !transaction.credit) {
+    matchesCredit = false;
+  }
+
+  if (globalFilters.debit && transaction.debit && +transaction.debit > 0) {
+    matchesDebit = +transaction.debit >= globalFilters.debit[0] && +transaction.debit <= globalFilters.debit[1];
+  } else if (globalFilters.debit && !transaction.debit) {
+    matchesDebit = false;
+  }
+
+  if (globalFilters.description && transaction.description) {
+    matchesDescription = transaction.description.toLowerCase().includes(globalFilters.description.toLowerCase());
+  } else if (globalFilters.description && !transaction.description) {
+    matchesDescription = false;
+  }
+
+  return matchesStartDate && matchesEndDate && matchesTags && matchesCredit && matchesDebit && matchesDescription;
+}
+
+const removeTag = (tag: TagType) => {
+  return (transaction: any) => {
+    if (transaction.tags && transaction.tags.length) {
+      const tagIndex = transaction.tags.map((tag: any) => tag.value).indexOf(tag.value);
+
+      if (tagIndex >= 0) {
+        transaction.tags.splice(tagIndex, 1);
+      }
+    }
+
+    return transaction;
+  }
+}
+
+const updateTag = (tag: TagType, newTag: TagType) => {
+  return (transaction: any) => {
+    if (transaction.tags && transaction.tags.length) {
+      const tagIndex = transaction.tags.map((tag: any) => tag.value).indexOf(tag.value);
+
+      if (tagIndex >= 0) {
+        transaction.tags[tagIndex] = newTag;
+      }
+    }
+
+    return transaction;
+  }
 }
 
 const updateTransaction = (field: transactionEditableFields, value: any) => (transaction: TransactionDataInterface) => {
@@ -94,6 +145,11 @@ const updateTransaction = (field: transactionEditableFields, value: any) => (tra
       return {
         ...transaction,
         tags: value
+      }
+    case 'selected':
+      return {
+        ...transaction,
+        selected: value
       }
     default:
       break
@@ -177,7 +233,6 @@ export default (state: State = initialState, action: FinancialForecastActions): 
 
       const transactions = List<TransactionDataInterface>(state.transactions.concat(filteredTransactions))
       const allTransactions = List<TransactionDataInterface>(state.transactions.concat(newTransactions))
-
 
       return {
         ...state,
@@ -280,6 +335,36 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         ...state,
         globalFilters,
         transactions,
+      }
+    }
+    case DELETE_TAG: {
+      const transactions = state.transactions.map(removeTag(action.tag)).toList();
+      const allTransactions = state.transactions.map(removeTag(action.tag)).toList();
+
+      const tags = state.tags
+        .filter((tag: any) => tag.value !== action.tag.value)
+        .toList();
+
+      return {
+        ...state,
+        transactions,
+        allTransactions,
+        tags
+      }
+    }
+    case UPDATE_TAG: {
+      const transactions = state.transactions.map(updateTag(action.tag, action.newTag)).toList();
+      const allTransactions = state.transactions.map(updateTag(action.tag, action.newTag)).toList();
+
+      const tags = state.tags
+        .map((tag: any) => tag.value === action.tag.value ? action.newTag : tag)
+        .toList();
+
+      return {
+        ...state,
+        transactions,
+        allTransactions,
+        tags
       }
     }
     default:

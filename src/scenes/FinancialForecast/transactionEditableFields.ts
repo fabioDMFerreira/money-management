@@ -6,6 +6,7 @@ type transactionEditableFields = "credit" |
   "endDate" |
   "interval" |
   "visible" |
-  "tags";
+  "tags" |
+  "selected";
 
 export default transactionEditableFields;

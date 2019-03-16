@@ -10,9 +10,9 @@ import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import Select from 'react-select';
 import SelectCreatable from 'react-select/lib/Creatable';
-import ReactTable from 'react-table';
 import { createTag, updateTransaction } from '../FinancialForecastActions';
 import { ValueType } from 'react-select/lib/types';
+import TransactionsTable from '../containers/TransactionsTable';
 
 type Props = {
   transactions: TransactionDataInterface[]
@@ -24,7 +24,8 @@ type Props = {
 type State = {
   pieDebitData: object[]
   pieCreditData: object[]
-  filter: any
+  filter: any,
+  transactions: TransactionDataInterface[]
 }
 
 const RADIAN = Math.PI / 180;
@@ -49,7 +50,8 @@ export default class Labels extends Component<Props, State> {
   state: State = {
     pieCreditData: [],
     pieDebitData: [],
-    filter: [{ label: 'Unsassigned', value: null }]
+    filter: [],
+    transactions: [] as TransactionDataInterface[]
   }
 
   constructor(props: Props) {
@@ -130,7 +132,16 @@ export default class Labels extends Component<Props, State> {
 
   changeFilters = (filter: any) => {
     this.setState({
-      filter
+      filter,
+      transactions: this.props.transactions.filter(transaction => {
+        if (transaction.tags && !transaction.tags.length && filter.find((option: any) => option.value === null)) {
+          return true;
+        }
+
+        return filter.some((f: any) => {
+          return transaction.tags && transaction.tags.map(tag => tag.value).includes(f.value);
+        })
+      })
     });
   }
 
@@ -163,10 +174,21 @@ export default class Labels extends Component<Props, State> {
     />
   }
 
-  render() {
-    const { pieCreditData, pieDebitData, filter } = this.state;
+  clickChart = (sliceClicked: any) => {
+    const { tags } = this.props;
 
-    const { tags, transactions } = this.props;
+    const tagSelected =
+      [{ label: 'Unassigned', value: null }, ...tags].find(tag => tag.label === sliceClicked.name);
+
+    if (tagSelected) {
+      this.changeFilters([tagSelected]);
+    }
+  }
+
+  render() {
+    const { pieCreditData, pieDebitData, filter, transactions } = this.state;
+
+    const { tags } = this.props;
 
     return <Fragment>
       <Row>
@@ -182,6 +204,7 @@ export default class Labels extends Component<Props, State> {
               outerRadius={140}
               fill="#8884d8"
               dataKey="value"
+              onClick={this.clickChart}
             >
               {
                 pieCreditData.map((entry: any, index) => <Cell key={`cell-${index}`} fill={entry && entry.color ? entry.color : randomColor()} />)
@@ -202,6 +225,7 @@ export default class Labels extends Component<Props, State> {
               outerRadius={140}
               fill="#8884d8"
               dataKey="value"
+              onClick={this.clickChart}
             >
               {
                 pieDebitData.map((entry: any, index) => <Cell key={`cell-${index}`} fill={entry && entry.color ? entry.color : randomColor()} />)
@@ -218,63 +242,20 @@ export default class Labels extends Component<Props, State> {
             isMulti
             value={filter}
             onChange={this.changeFilters}
-            options={[{ label: 'Unsassigned', value: null }, ...tags]}
+            options={[{ label: 'Unassigned', value: null }, ...tags]}
             placeholder={"Select tags"}
           />
         </Col>
       </Row>
 
-      <ReactTable
-        columns={
-          [
-            {
-              Header: 'Description',
-              accessor: "description",
-              width: 250,
-            },
-            {
-              Header: 'Start date',
-              accessor: "startDate",
-              width: 180
-            },
-            {
-              Header: 'Credit',
-              accessor: "credit",
-              width: 80
-            }, {
-              Header: 'Debit',
-              accessor: "debit",
-              width: 80
-            }, {
-              Header: 'Total value',
-              accessor: "totalValue",
-              width: 80
-            },{
-              Header: 'Tags',
-              accessor: "tags",
-              Cell: (props: any) => this.editableCell(props),
-              getProps: () => {
-                return {
-                  style: {
-                    overflow: 'visible',
-                  }
-                };
-              }
-            },
-          ]
-        }
-        data={
-          transactions.filter(transaction => {
-            if (transaction.tags && !transaction.tags.length && filter.find((option: any) => option.value === null)) {
-              return true;
-            }
-
-            return filter.some((f: any) => {
-              return transaction.tags && transaction.tags.map(tag => tag.value).includes(f.value);
-            })
-          })
-        }
-      />
+      {
+        filter && filter.length ?
+          <TransactionsTable
+            transactions={transactions}
+          />
+          :
+          ''
+      }
 
     </Fragment>
   }

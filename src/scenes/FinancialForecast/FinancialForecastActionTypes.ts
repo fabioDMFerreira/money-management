@@ -13,3 +13,6 @@ export const UPDATE_FORECAST = 'UPDATE_FORECAST';
 export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB';
 
 export const UPDATE_GLOBAL_FILTER = 'UPDATE_GLOBAL_FILTER';
+
+export const DELETE_TAG = 'DELETE_TAG';
+export const UPDATE_TAG = 'UPDATE_TAG';

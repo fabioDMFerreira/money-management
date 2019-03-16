@@ -10,15 +10,15 @@ import NavbarComponent from '../Navbar';
 import Main from '../Main';
 
 import './App.css';
-import LanguagesToggle from '../LanguagesToggle';
+// import LanguagesToggle from '../LanguagesToggle';
 
 const App = ({ isLoggedIn }) => (
 	<div id="root">
 		{
 			<React.Fragment>
-				<div id="languages-container">
+				{/* <div id="languages-container">
 					<LanguagesToggle />
-				</div>
+				</div> */}
 				<Navbar id="navbar" color="primary" dark expand="md">
 					<Container fluid>
 						<Header />
