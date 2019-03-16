@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+- stable
+cache:
+  directories:
+  - node_modules
+script:
+- npm run test:ci
+true:
+  branch: master
+deploy:
+  provider: heroku
+  api_key:
+    secure: LNcUFdMv39CYYPkB3pYQ7ca2h8c9Ut5MpivtdM2XYF7UArb5nAwZs60D/Imd3z7ezvWjJLosD4ulfkPPLdhRYeAn6c/UAHTXgydnmNvb4fcw6CM9w2tL+gvR012HbtYZ/Vr9W4yrHLq03Vxxp9Y7GZ3XuLykBZWxVZ9xNyI6r3CHWLwnYSDg5a3Fs16fOzZX4JqQCkorfzDdrF7h7EhHBgk6QeRVe6My7wG7AiPIRseXWtt9FphNqCiCmN1cOd2vZGO66d4xK2d+I6ELhuihb6uLppGlJLNcWEhWlqIA8Ic9L3erLi9m9fFC7QZf6RAnr9u8UW+LshPlvswwgHyciNVwz+Y/95Nj80E1XywvuOu9tqV7uMdRK5g3dd+V5yX6I75YL/vleSqDCLAybuelUUkufr+XkiXhxb00FsP38he4ioz57+JWut/r4z+vJU5HtTBNUwPUvfUwVIPLCTzR87gIfqdQUAt5O3cgeZzhOCPtD4WS6Yzl7hvZjm4ZZU4v4be1ZI6tmFV2FaMItCNrQ+mSux48plJOIWBd2IJelOoxvn55TsxAXX9jN0Ce3xX6af9+sIUnwLn6pWvUDQsYjuwOYffPjzAWLiC4LCcMAJuN2IA9YwmvNl1GUqcC8rOladUCYX66jtlIdum3sYhEre1+NX6W0LlWTgaktPgN3d0=
+  app: mmanagement
+  on:
+    repo: fabioDMFerreira/money-management
