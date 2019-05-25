@@ -4,18 +4,19 @@ import styled from 'styled-components';
 import Input from 'reactstrap/lib/Input';
 import randomColor from 'randomcolor';
 
-import TransactionData from '../../TransactionDataInterface';
+import TransactionData from 'scenes/FinancialForecast/TransactionDataInterface';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { DragTrComponent, DropTbodyComponent } from './DragComponents';
-import { dragTransaction, updateTransaction, createTag, updateTransactionsFilters, filterType } from 'scenes/FinancialForecast/FinancialForecastActions';
+import { dragTransaction, updateTransaction, createTag, updateTransactionsFilters, filterType } from 'scenes/FinancialForecast/state/FinancialForecastActions';
 import Select from 'react-select/lib/Creatable';
 import { ValueType } from 'react-select/lib/types';
 import { TagType } from 'scenes/FinancialForecast/TagType';
-import EditableInputHOC from '../../../../hocs/EditableInputHoc';
+import EditableInputHOC from 'hocs/EditableInputHoc';
 import FilterComponent from './FilterComponent';
-import TransactionDataInterface from '../../TransactionDataInterface';
+import TransactionDataInterface from 'scenes/FinancialForecast/TransactionDataInterface';
 import FormGroup from 'reactstrap/lib/FormGroup';
+import { AnyAaaaRecord } from 'dns';
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -48,14 +49,14 @@ const NotEditableCell = styled.span`
   color: rgb(73, 80, 87);
 `;
 
-type Props = {
+export type Props = {
   transactions: TransactionData[],
   removeTransaction: (transactionId: string) => void
-  updateTransaction: typeof updateTransaction,
-  dragTransaction: typeof dragTransaction,
+  updateTransaction: any,
+  dragTransaction: any,
   createTag: typeof createTag,
   tags: TagType[],
-  updateTransactionsFilters?: typeof updateTransactionsFilters,
+  updateTransactionsFilters?: any,
   filters?: filterType[]
 };
 

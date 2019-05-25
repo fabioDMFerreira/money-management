@@ -15,7 +15,7 @@ import moment from 'moment';
 
 import BalanceTable from './BalanceTable';
 import { ForecastDataInterface } from '../ForecastDataInterface';
-import { updateForecast, ForecastEditableFieldsType, filterType } from '../FinancialForecastActions';
+import { updateForecast, ForecastEditableFieldsType, filterType } from '../state/FinancialForecastActions';
 import TransactionDataInterface from '../TransactionDataInterface';
 import passesFilters from './passesFilters';
 import Forecast from '../services/Forecast.class';
@@ -23,7 +23,8 @@ import calculateForecastBalance from '../services/calculateForecastBalance';
 import Transaction from '../services/Transaction.class';
 import Balance from '../services/Balance.interface';
 import YYYYMM from 'utils/YYYYMM';
-import TransactionsTable from '../containers/TransactionsTable';
+import TransactionsTable from '../TransactionsPage';
+import YYYYMMDD from 'utils/YYYYMMDD';
 
 type forecastView = "chart" | "table";
 
@@ -32,11 +33,13 @@ type State = {
   forecastView: forecastView,
   monthSelected?: string,
   monthBalance?: Balance,
-  transactions: TransactionDataInterface[]
+  transactions: TransactionDataInterface[],
+  estimatesTransactions: TransactionDataInterface[]
 };
 
 type Props = {
   transactions: TransactionDataInterface[],
+  estimatesTransactions: TransactionDataInterface[],
   forecast: ForecastDataInterface,
   updateForecast: typeof updateForecast,
   filters: filterType[],
@@ -54,13 +57,14 @@ export default class BalanceComponent extends Component<Props, State> {
   state: State = {
     balance: [] as Balance[],
     forecastView: "chart",
-    transactions: [] as TransactionDataInterface[]
+    transactions: [] as TransactionDataInterface[],
+    estimatesTransactions: [] as TransactionDataInterface[]
   }
 
   constructor(props: Props) {
     super(props);
 
-    this.state.balance = this.calculateBalance(props.transactions);
+    this.state.balance = this.calculateBalance(props.transactions, props.estimatesTransactions);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -68,6 +72,7 @@ export default class BalanceComponent extends Component<Props, State> {
       this.props.transactions &&
       this.props.forecast &&
       (
+        prevProps.estimatesTransactions !== this.props.estimatesTransactions ||
         prevProps.transactions !== this.props.transactions ||
         prevProps.forecast !== this.props.forecast ||
         prevProps.filters !== this.props.filters
@@ -75,7 +80,7 @@ export default class BalanceComponent extends Component<Props, State> {
     ) {
 
       this.setState({
-        balance: this.calculateBalance(this.props.transactions),
+        balance: this.calculateBalance(this.props.transactions, this.props.estimatesTransactions),
       });
     }
   }
@@ -92,15 +97,33 @@ export default class BalanceComponent extends Component<Props, State> {
     });
   }
 
-  calculateBalance = (transactionsData: TransactionDataInterface[]): Balance[] => {
+  calculateBalance = (transactionsData: TransactionDataInterface[], estimatesData: TransactionDataInterface[]): Balance[] => {
     const transactions: Transaction[] =
       transactionsData
         .filter(transaction => transaction.visible)
         .filter(passesFilters(this.props.filters))
         .map(transaction => Transaction.buildFromTransactionData(transaction));
+    const estimates: Transaction[] =
+      estimatesData
+        .filter(transaction => transaction.visible)
+        .filter(passesFilters(this.props.filters))
+        .map(transaction => Transaction.buildFromTransactionData(transaction));
+
     const forecast: Forecast = this.transformForecast(this.props.forecast.initialValue, this.props.forecast.startDate, this.props.forecast.endDate);
 
-    return calculateForecastBalance(forecast, transactions);
+
+    const balance = calculateForecastBalance(forecast, transactions);
+    const estimatesBalance = calculateForecastBalance(forecast, estimates);
+
+    balance.forEach((monthData: any) => {
+      const estimate = estimatesBalance.find((month: any) => YYYYMMDD(month.date) === YYYYMMDD(monthData.date));
+
+      if (estimate) {
+        monthData.estimateValue = estimate.actualValue;
+      }
+    });
+
+    return balance;
   }
 
   transformForecast = (initialValue: string, startDate: string, endDate: string): Forecast => {
@@ -187,6 +210,7 @@ export default class BalanceComponent extends Component<Props, State> {
               <Tooltip />
               <Legend />
               <Line type="monotone" dataKey="actualValue" name="Amount (€)" stroke="#8884d8" activeDot={{ r: 8 }} />
+              <Line type="monotone" dataKey="estimateValue" name="Estimated Amount (€)" stroke="#82ca9d" activeDot={{ r: 8 }} />
             </LineChart>
           }
         })()

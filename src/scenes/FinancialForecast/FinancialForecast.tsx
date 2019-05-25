@@ -5,7 +5,6 @@ import Col from 'reactstrap/lib/Col';
 import classnames from 'classnames';
 import Card from 'reactstrap/lib/Card';
 import CardBody from 'reactstrap/lib/CardBody';
-import CardTitle from 'reactstrap/lib/CardTitle';
 import Nav from 'reactstrap/lib/Nav';
 import NavItem from 'reactstrap/lib/NavItem';
 import NavLink from 'reactstrap/lib/NavLink';
@@ -15,14 +14,18 @@ import styled from 'styled-components';
 
 import {
   setActiveTab,
-} from './FinancialForecastActions';
+} from './state/FinancialForecastActions';
 
+import TransactionsPage from './TransactionsPage';
+import Estimates from './Estimates';
 import Timeline from './Timeline';
-import Transactions from './Transactions';
 import Labels from './Labels';
-import GlobalFilters from './containers/GlobalFilters';
-import TransactionDataInterface from './TransactionDataInterface';
 import Settings from './Settings';
+
+import TransactionDataInterface from './TransactionDataInterface';
+
+import Transactions from './components/Transactions';
+import GlobalFilters from './containers/GlobalFilters';
 
 type State = {
 }
@@ -79,6 +82,14 @@ class FinancialForecast extends Component<Props, State> {
               </NavItem>
               <NavItem>
                 <NavLink
+                  className={classnames({ active: tab === 'estimates' })}
+                  onClick={() => { setActiveTab('estimates'); }}
+                >
+                  Estimates
+            </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
                   className={classnames({ active: tab === 'timeline' })}
                   onClick={() => { setActiveTab('timeline'); }}
                 >
@@ -107,7 +118,14 @@ class FinancialForecast extends Component<Props, State> {
             </NumberTransactionsFiltered>
             <TabContent activeTab={tab}>
               <TabPane tabId="transactions">
-                <Transactions />
+                <TransactionsPage
+                  TransactionsComponent={Transactions}
+                />
+              </TabPane>
+              <TabPane tabId="estimates">
+                <Estimates
+                  TransactionsComponent={Transactions}
+                />
               </TabPane>
               <TabPane tabId="timeline">
                 <Timeline />

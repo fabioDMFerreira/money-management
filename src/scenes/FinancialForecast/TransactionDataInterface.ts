@@ -1,4 +1,4 @@
-import { TagType } from 'scenes/FinancialForecast/TagType';
+import { TagType } from './TagType';
 export default interface TransactionDataInterface {
   id?: string,
   startDate?: string,

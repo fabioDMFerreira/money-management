@@ -10,15 +10,15 @@ import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import Select from 'react-select';
 import SelectCreatable from 'react-select/lib/Creatable';
-import { createTag, updateTransaction } from '../FinancialForecastActions';
+import { createTag, updateTransaction } from '../state/FinancialForecastActions';
 import { ValueType } from 'react-select/lib/types';
-import TransactionsTable from '../containers/TransactionsTable';
+import TransactionsTable from '../TransactionsPage';
 
 type Props = {
   transactions: TransactionDataInterface[]
   tags: TagType[]
   createTag: typeof createTag
-  updateTransaction: typeof updateTransaction
+  updateTransaction: any
 }
 
 type State = {

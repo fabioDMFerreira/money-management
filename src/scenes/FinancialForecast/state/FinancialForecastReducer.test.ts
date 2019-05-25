@@ -8,7 +8,7 @@ import {
   updateGlobalFilter
 } from "./FinancialForecastActions";
 import { List } from "immutable";
-import TransactionDataInterface from "./TransactionDataInterface";
+import TransactionDataInterface from "../TransactionDataInterface";
 
 describe(`FinancialForecastReducer`, () => {
 

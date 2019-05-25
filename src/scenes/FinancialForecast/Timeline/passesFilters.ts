@@ -1,5 +1,5 @@
 import TransactionDataInterface from "../TransactionDataInterface";
-import { filterType } from "../FinancialForecastActions";
+import { filterType } from "../state/FinancialForecastActions";
 
 export default (filters: filterType[] | undefined | null) => (transaction: TransactionDataInterface) => {
   if (!filters) {

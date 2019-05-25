@@ -6,7 +6,7 @@ import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 
 import { TagType } from '../TagType';
-import { deleteTag, updateTag } from '../FinancialForecastActions';
+import { deleteTag, updateTag } from '../state/FinancialForecastActions';
 import TagItem from './TagItem';
 
 type Props = {

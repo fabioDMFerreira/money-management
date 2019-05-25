@@ -10,19 +10,20 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
 import randomColor from 'randomcolor';
+import Button from 'reactstrap/lib/Button';
 
 import YYYYMMDD from 'utils/YYYYMMDD';
 import csvJSON from 'utils/csvJSON';
-import TransactionDataInterface from '../TransactionDataInterface';
-import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType } from '../FinancialForecastActions';
-import { TagType } from '../TagType';
-import TransactionsTable from '../containers/TransactionsTable';
-import Button from 'reactstrap/lib/Button';
-import TransactionFieldsMetadata from '../TransactionFieldsMetadata';
+
+import TransactionDataInterface from '../../TransactionDataInterface';
+import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType } from '../../state/FinancialForecastActions';
+import { TagType } from '../../TagType';
+import TransactionFieldsMetadata from '../../TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
 import ImportTransactionsModal from './ImportTransactionsModal';
 import BulkUpdateModal from './BulkUpdateModal';
-import transactionEditableFields from '../transactionEditableFields';
+
+import TransactionsTable from './TransactionsTable';
 
 const TableActions = styled.div`
   background-color: $white;
@@ -35,15 +36,15 @@ const TableActions = styled.div`
 
 type Props = {
   transactions: TransactionDataInterface[],
-  addNewTransaction: typeof addNewTransaction,
-  bulkAddTransactions: typeof bulkAddTransactions,
-  updateTransaction: typeof updateTransaction,
-  deleteTransaction: typeof deleteTransaction,
-  clearTransactions: typeof clearTransactions,
-  dragTransaction: typeof dragTransaction
+  addNewTransaction: any
+  bulkAddTransactions: any,
+  updateTransaction: any,
+  deleteTransaction: any,
+  clearTransactions: any,
+  dragTransaction: any
   createTag: typeof createTag,
   tags: TagType[],
-  updateTransactionsFilters: typeof updateTransactionsFilters
+  updateTransactionsFilters: any
   filters: filterType[],
 }
 
@@ -165,16 +166,16 @@ export default class Transactions extends Component<Props, State> {
 
     const {
       addNewTransaction,
-      updateTransaction,
-      deleteTransaction,
       clearTransactions,
-      dragTransaction,
       createTag,
       tags,
       updateTransactionsFilters,
       filters,
       transactions,
       bulkAddTransactions,
+      updateTransaction,
+      deleteTransaction,
+      dragTransaction
     } = this.props;
 
     return <Fragment>
@@ -216,6 +217,12 @@ export default class Transactions extends Component<Props, State> {
 
         filters={filters}
         updateTransactionsFilters={updateTransactionsFilters}
+
+        tags={tags}
+        createTag={createTag}
+        updateTransaction={updateTransaction}
+        removeTransaction={deleteTransaction}
+        dragTransaction={dragTransaction}
       />
 
       <ImportTransactionsModal

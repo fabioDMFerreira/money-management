@@ -1,4 +1,4 @@
-import { GlobalFiltersType } from './containers/GlobalFilters/GlobalFiltersType';
+import { GlobalFiltersType } from '../containers/GlobalFilters/GlobalFiltersType';
 import {
   ADD_NEW_TRANSACTION,
   BULK_ADD_TRANSACTIONS,
@@ -14,26 +14,32 @@ import {
   DELETE_TAG,
   UPDATE_TAG
 } from "./FinancialForecastActionTypes";
-import TransactionData from "./TransactionDataInterface";
-import transactionEditableFields from './transactionEditableFields';
-import { TagType } from "./TagType";
+import TransactionData from "../TransactionDataInterface";
+import transactionEditableFields from '../transactionEditableFields';
+import { TagType } from "../TagType";
+
+type TransactionType = "TRANSACTIONS" | "ESTIMATES";
 
 export interface ActionAddNewTransactionInterface {
-  type: typeof ADD_NEW_TRANSACTION
+  type: typeof ADD_NEW_TRANSACTION,
+  key: TransactionType,
 }
 
-export const addNewTransaction = (): ActionAddNewTransactionInterface => ({
+export const addNewTransaction = (key: TransactionType) => (): ActionAddNewTransactionInterface => ({
   type: ADD_NEW_TRANSACTION,
+  key
 });
 
 export interface ActionBulkAddTransactionsInterface {
   transactions: TransactionData[],
   type: typeof BULK_ADD_TRANSACTIONS,
+  key: TransactionType
 }
 
-export const bulkAddTransactions = (transactions: TransactionData[]): ActionBulkAddTransactionsInterface => ({
+export const bulkAddTransactions = (key: TransactionType) => (transactions: TransactionData[]): ActionBulkAddTransactionsInterface => ({
   type: BULK_ADD_TRANSACTIONS,
-  transactions
+  transactions,
+  key,
 });
 
 export interface ActionUpdateTransactionInterface {
@@ -41,31 +47,37 @@ export interface ActionUpdateTransactionInterface {
   value: any,
   field: transactionEditableFields,
   type: typeof UPDATE_TRANSACTION,
+  key: TransactionType
 }
 
-export const updateTransaction = (id: string, value: any, field: transactionEditableFields): ActionUpdateTransactionInterface => ({
+export const updateTransaction = (key: TransactionType) => (id: string, value: any, field: transactionEditableFields): ActionUpdateTransactionInterface => ({
   type: UPDATE_TRANSACTION,
   id,
   field,
-  value
+  value,
+  key,
 })
 
 export interface ActionDeleteTransactionInterface {
   type: typeof DELETE_TRANSACTION,
-  id: string
+  id: string,
+  key: TransactionType
 }
 
-export const deleteTransaction = (id: string): ActionDeleteTransactionInterface => ({
+export const deleteTransaction = (key: TransactionType) => (id: string): ActionDeleteTransactionInterface => ({
   type: DELETE_TRANSACTION,
-  id
+  id,
+  key
 })
 
 export interface ActionClearTransactionsInterface {
   type: typeof CLEAR_TRANSACTIONS,
+  key: TransactionType
 }
 
-export const clearTransactions = (): ActionClearTransactionsInterface => ({
-  type: CLEAR_TRANSACTIONS
+export const clearTransactions = (key: TransactionType) => (): ActionClearTransactionsInterface => ({
+  type: CLEAR_TRANSACTIONS,
+  key
 })
 
 
@@ -73,12 +85,31 @@ export interface ActionDragTransactionInterface {
   type: typeof DRAG_TRANSACTION,
   startIndex: number,
   endIndex: number,
+  key: TransactionType
 }
 
-export const dragTransaction = (startIndex: number, endIndex: number): ActionDragTransactionInterface => ({
+export const dragTransaction = (key: TransactionType) => (startIndex: number, endIndex: number): ActionDragTransactionInterface => ({
   type: DRAG_TRANSACTION,
   startIndex,
   endIndex,
+  key
+})
+
+
+export type filterType = {
+  id: string,
+  value: string,
+}
+export interface ActionUpdateTransactionsFiltersInterface {
+  type: typeof UPDATE_TRANSACTIONS_FILTERS,
+  filters: filterType[]
+  key: TransactionType
+}
+
+export const updateTransactionsFilters =(key: TransactionType) =>  (filters: filterType[]): ActionUpdateTransactionsFiltersInterface => ({
+  type: UPDATE_TRANSACTIONS_FILTERS,
+  filters,
+  key
 })
 
 
@@ -92,21 +123,6 @@ export const createTag = (tag: TagType): ActionCreateTagInterface => ({
   tag,
 })
 
-
-
-export type filterType = {
-  id: string,
-  value: string,
-}
-export interface ActionUpdateTransactionsFiltersInterface {
-  type: typeof UPDATE_TRANSACTIONS_FILTERS,
-  filters: filterType[]
-}
-
-export const updateTransactionsFilters = (filters: filterType[]): ActionUpdateTransactionsFiltersInterface => ({
-  type: UPDATE_TRANSACTIONS_FILTERS,
-  filters
-})
 
 export type ForecastEditableFieldsType = 'initialValue' | 'startDate' | 'endDate';
 export interface ActionUpdateForecastInterface {

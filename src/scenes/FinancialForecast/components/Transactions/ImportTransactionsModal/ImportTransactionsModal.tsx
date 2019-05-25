@@ -8,8 +8,8 @@ import Label from 'reactstrap/lib/Label';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Select from 'react-select';
 
-import TransactionData from '../../TransactionDataInterface';
-import TransactionFieldsMetadata, { Metadata } from '../../TransactionFieldsMetadata';
+import TransactionData from '../../../TransactionDataInterface';
+import TransactionFieldsMetadata, { Metadata } from '../../../TransactionFieldsMetadata';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 

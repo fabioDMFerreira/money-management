@@ -1,4 +1,4 @@
-import { updateGlobalFilter, createTag } from 'scenes/FinancialForecast/FinancialForecastActions';
+import { updateGlobalFilter, createTag } from 'scenes/FinancialForecast/state/FinancialForecastActions';
 import { connect } from 'react-redux';
 
 import GlobalFilters from './GlobalFilters';

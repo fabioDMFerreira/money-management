@@ -3,7 +3,7 @@ import { reducer as FormReducer } from 'redux-form';
 import { localizeReducer as localize } from 'react-localize-redux';
 
 import authentication from './authentication';
-import FinancialForecastReducer from 'scenes/FinancialForecast/FinancialForecastReducer';
+import FinancialForecastReducer from 'scenes/FinancialForecast/state/FinancialForecastReducer';
 
 const rootReducer = combineReducers({
 	form: FormReducer,

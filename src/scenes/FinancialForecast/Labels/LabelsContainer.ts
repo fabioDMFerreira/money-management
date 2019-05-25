@@ -1,5 +1,5 @@
-import { updateTransaction } from './../FinancialForecastActions';
-import { createTag } from 'scenes/FinancialForecast/FinancialForecastActions';
+import { updateTransaction } from '../state/FinancialForecastActions';
+import { createTag } from 'scenes/FinancialForecast/state/FinancialForecastActions';
 import { connect } from 'react-redux';
 
 import Labels from './Labels';

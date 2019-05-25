@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Input from 'reactstrap/lib/Input';
 
-import EditableInputHoc from '../../../../hocs/EditableInputHoc';
+import EditableInputHoc from 'hocs/EditableInputHoc';
 
 const EditableInput = EditableInputHoc(Input)
 
