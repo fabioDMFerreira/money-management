@@ -24,6 +24,7 @@ import ImportTransactionsModal from './ImportTransactionsModal';
 import BulkUpdateModal from './BulkUpdateModal';
 
 import TransactionsTable from './TransactionsTable';
+import ButtonWithConfirmation from 'components/ButtonWithConfirmation';
 
 const TableActions = styled.div`
   background-color: $white;
@@ -207,9 +208,10 @@ export default class Transactions extends Component<Props, State> {
         <Button outline color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
           <FontAwesomeIcon icon={faEdit} /> Bulk update
 </Button>
-        <Button outline color="secondary" size="sm" onClick={clearTransactions}>
+        <ButtonWithConfirmation outline color="secondary" size="sm" onClick={clearTransactions}>
           <FontAwesomeIcon icon={faTrash} /> Clear all
-</Button>
+      </ButtonWithConfirmation>
+
       </TableActions>
 
       <TransactionsTable
