@@ -45,7 +45,7 @@
     "react-router-prop-types": "1.0.4",
     "react-select": "2.0.0",
     "react-table": "6.9.0",
-    "reactstrap": "6.3.0",
+    "reactstrap": "8.0.1",
     "recharts": "1.5.0",
     "reduce-reducers": "0.3.0",
     "redux": "4.0.1",

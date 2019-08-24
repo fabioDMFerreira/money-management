@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { TagType } from '../TagType';
 import Form from 'reactstrap/lib/Form';
 import Badge from 'reactstrap/lib/Badge';
+import ButtonWithConfirmation from 'components/ButtonWithConfirmation';
 
 type Props = {
   tag: TagType,
@@ -87,7 +88,9 @@ export default class TagItem extends Component<Props, State> {
 
     return <Fragment>
       <ButtonsContainer>
-        <Button size="sm" onClick={() => deleteTag(tag)}><FontAwesomeIcon icon={faTrash} /></Button>
+        <ButtonWithConfirmation size="sm" onClick={() => deleteTag(tag)}>
+          <FontAwesomeIcon icon={faTrash} />
+        </ButtonWithConfirmation>
         <Button size="sm" onClick={() => this.setState({ value: tag.label, editing: true })} > <FontAwesomeIcon icon={faEdit} /></Button>
       </ButtonsContainer>
       {tag.label}
