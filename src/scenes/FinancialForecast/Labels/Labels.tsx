@@ -57,8 +57,10 @@ export default class Labels extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state.pieCreditData = this.generatePieCreditData();
-    this.state.pieDebitData = this.generatePieDebitData();
+    if (props.transactions) {
+      this.state.pieCreditData = this.generatePieCreditData();
+      this.state.pieDebitData = this.generatePieDebitData();
+    }
   }
 
   componentDidUpdate(prevProps: Props) {

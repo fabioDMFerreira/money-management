@@ -1,18 +1,21 @@
 import React from 'react';
 import { Navbar, Container } from 'reactstrap';
-import { bool } from 'prop-types';
-import { connect } from 'react-redux';
 
 // import Authentication from '../../scenes/Authentication';
 
 import Header from '../Header';
 import NavbarComponent from '../Navbar';
 import Main from '../Main';
+import FinancialForecastNavbar from 'scenes/FinancialForecast/Navbar';
 
 import './App.css';
+import GlobalFilters from 'scenes/FinancialForecast/containers/GlobalFilters';
+import Card from 'reactstrap/lib/Card';
+import CardBody from 'reactstrap/lib/CardBody';
+import NumberTransactionsFiltered from 'scenes/FinancialForecast/containers/NumberTransactionsFiltered';
 // import LanguagesToggle from '../LanguagesToggle';
 
-const App = ({ isLoggedIn }) => (
+const App = () => (
 	<div id="root">
 		{
 			<React.Fragment>
@@ -26,6 +29,15 @@ const App = ({ isLoggedIn }) => (
 					</Container>
 				</Navbar>
 				<Container fluid>
+					<Card style={{ marginTop: '20px' }}>
+						<CardBody>
+							<GlobalFilters />
+						</CardBody>
+					</Card>
+					<div style={{ marginTop: '20px' }}>
+						<FinancialForecastNavbar />
+						<NumberTransactionsFiltered />
+					</div>
 					<Main />
 				</Container>
 			</React.Fragment>
@@ -38,17 +50,4 @@ const App = ({ isLoggedIn }) => (
 	</div>
 );
 
-App.propTypes = {
-	isLoggedIn: bool
-};
-
-const mapStateToProps = state => {
-
-	const { isLoggedIn } = state.authentication;
-
-	return {
-		isLoggedIn
-	}
-}
-
-export default connect(mapStateToProps)(App);
+export default App;
