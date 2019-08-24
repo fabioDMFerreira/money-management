@@ -21,7 +21,7 @@ const Settings = (props: Props) =>
     <ListGroup>
       <Row>
         {
-          props.tags && props.tags.map((tag: TagType) => <Col xs="4">
+          props.tags && props.tags.map((tag: TagType) => <Col xs="4" key={tag.label}>
             <ListGroupItem>
               <TagItem tag={tag} deleteTag={props.deleteTag} updateTag={props.updateTag} />
             </ListGroupItem>

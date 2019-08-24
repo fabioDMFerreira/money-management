@@ -7,12 +7,7 @@ import Popover from 'reactstrap/lib/Popover';
 import PopoverHeader from 'reactstrap/lib/PopoverHeader';
 import PopoverBody from 'reactstrap/lib/PopoverBody';
 import styled from 'styled-components';
-
-const PopoverButtonsContainer = styled.div`
-  .btn{
-    margin-right:10px;
-  }
-`;
+import ButtonWithConfirmation from 'components/ButtonWithConfirmation';
 
 const TableActionsContainer = styled.div`
 .btn{
@@ -64,22 +59,9 @@ export default class TransactionsTableRowActions extends Component<Props, State>
     const { removePopoverOpen } = this.state;
 
     return <TableActionsContainer>
-      <Button id={`RemoveTransactionPopover${id}`} color="link" type="button" onClick={this.toggleRemovePopover}>
+      <ButtonWithConfirmation color="link" type="button" onClick={this.removeTransaction} confirmationMessage="Are you sure you want to remove this transaction?">
         <FontAwesomeIcon icon={faTrash} />
-      </Button>
-      <Popover placement="top" isOpen={removePopoverOpen} target={`RemoveTransactionPopover${id}`} toggle={this.toggleRemovePopover}>
-        <PopoverHeader>Are you sure you want to remove this transaction?</PopoverHeader>
-        <PopoverBody>
-          <PopoverButtonsContainer>
-            <Button color="primary" onClick={this.removeTransaction}>
-              Yes
-          </Button>
-            <Button color="secondary" onClick={this.toggleRemovePopover}>
-              No
-          </Button>
-          </PopoverButtonsContainer>
-        </PopoverBody>
-      </Popover>
+      </ButtonWithConfirmation>
 
       {
         (() => {

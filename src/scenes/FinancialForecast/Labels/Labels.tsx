@@ -97,6 +97,10 @@ export default class Labels extends Component<Props, State> {
       }))
     ].filter(data => data.value);
 
+    creditData.forEach(option => {
+      option.value = +option.value.toFixed(2);
+    });
+
     return creditData;
   }
 
@@ -126,6 +130,10 @@ export default class Labels extends Component<Props, State> {
         }, 0)
       }))
     ].filter(data => data.value);
+
+    debitData.forEach(option => {
+      option.value = +option.value.toFixed(2);
+    });
 
     return debitData;
   }

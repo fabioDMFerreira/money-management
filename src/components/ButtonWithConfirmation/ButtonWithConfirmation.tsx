@@ -7,6 +7,7 @@ import getRandomString from 'utils/getRandomString';
 
 type Props = {
   onClick: () => any
+  confirmationMessage?: string
   [key: string]: any
 }
 
@@ -32,7 +33,7 @@ export default class ButtonWithConfirmation extends Component<Props, State> {
   }
 
   render() {
-    const { children, ...props } = this.props;
+    const { children, confirmationMessage, ...props } = this.props;
 
     return (
       <Fragment>
@@ -40,8 +41,8 @@ export default class ButtonWithConfirmation extends Component<Props, State> {
           {children}
         </Button>
         <Popover placement="bottom" isOpen={this.state.popoverOpen} target={`Confirm-${this.state.id}`}>
-          <PopoverHeader>Are you sure?</PopoverHeader>
-          <PopoverBody><Button outline onClick={this.confirm}>Yes</Button> <Button onClick={this.closePopover} color="secondary">No</Button></PopoverBody>
+          <PopoverHeader>{confirmationMessage || "Are you sure?"}</PopoverHeader>
+          <PopoverBody><Button color="primary" onClick={this.confirm}>Yes</Button> <Button onClick={this.closePopover} color="secondary">No</Button></PopoverBody>
         </Popover>
       </Fragment>
     );
