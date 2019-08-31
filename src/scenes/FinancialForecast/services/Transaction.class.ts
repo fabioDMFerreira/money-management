@@ -1,4 +1,4 @@
-import { sumMonths, monthDiff } from "./utils";
+import { sumMonths, monthDiff, convertCurrencyToNumber } from "./utils";
 import TransactionDataInterface from "../TransactionDataInterface";
 
 import YYYYMMDD from 'utils/YYYYMMDD';
@@ -114,9 +114,9 @@ export default class Transaction implements TransactionInterface {
     let value;
 
     if (transactionData.credit && transactionData.credit !== "0") {
-      value = +transactionData.credit;
+      value = convertCurrencyToNumber(transactionData.credit);
     } else if (transactionData.debit && transactionData.debit !== "0") {
-      value = -(+transactionData.debit);
+      value = -(convertCurrencyToNumber(transactionData.debit));
     } else {
       value = 0;
     }
@@ -127,7 +127,7 @@ export default class Transaction implements TransactionInterface {
 
     transaction._particles = transactionData.particles ? +transactionData.particles : 1;
     transaction._interval = transactionData.interval ? +transactionData.interval : 1;
-    transaction._endDate = transactionData.endDate ? new Date(transactionData.endDate) :startDate;
+    transaction._endDate = transactionData.endDate ? new Date(transactionData.endDate) : startDate;
     transaction._totalValue = transaction._value * transaction._particles;
 
     return transaction;

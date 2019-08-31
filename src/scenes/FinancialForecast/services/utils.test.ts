@@ -1,4 +1,4 @@
-import { monthDiff, sumMonths, isDateIntervalInGroup, firstMonthDay, lastMonthDay, isMonthsIntervalInGroup } from './utils';
+import { monthDiff, sumMonths, isDateIntervalInGroup, firstMonthDay, lastMonthDay, isMonthsIntervalInGroup, convertCurrencyToNumber } from './utils';
 
 describe('Forecast utils', () => {
 
@@ -10,7 +10,7 @@ describe('Forecast utils', () => {
     expect(monthDiff(new Date('2018-01-01'), new Date('2018-02-28'))).toEqual(2);
   });
 
-  describe('sumMonths',()=>{
+  describe('sumMonths', () => {
     it('should return a date with the months summed', () => {
       expect(sumMonths(new Date('2018-01-1'), 9)).toEqual(new Date('2018-10-1'));
       expect(sumMonths(new Date('2018-01-1'), 14)).toEqual(new Date('2019-3-1'));
@@ -90,3 +90,9 @@ describe('Forecast utils', () => {
   });
 
 });
+
+describe('convertCurrencyToNumber', () => {
+  it('should fix numbers like 12.123,00', () => {
+    expect(convertCurrencyToNumber("12.123,50")).toEqual(12123.50)
+  });
+})

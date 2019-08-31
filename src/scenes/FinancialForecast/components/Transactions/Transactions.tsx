@@ -83,7 +83,8 @@ export default class Transactions extends Component<Props, State> {
     const reader = new FileReader();
     const file = this.fileInput.files[0];
 
-    reader.onerror = () => {
+    reader.onerror = (err) => {
+      console.log({ err });
     };
     reader.onload = (csv =>
       (e: any) => {
@@ -98,6 +99,7 @@ export default class Transactions extends Component<Props, State> {
           });
         } else {
           csvContent = csvContent.map(this.configureTransactionFromCSV);
+          console.log({ csvContent });
 
           this.props.bulkAddTransactions(csvContent);
         }
@@ -179,74 +181,76 @@ export default class Transactions extends Component<Props, State> {
       dragTransaction
     } = this.props;
 
-    return <Fragment>
-      <TableActions>
-        <Button outline color="secondary" size="sm" onClick={addNewTransaction}>
-          <FontAwesomeIcon icon={faPlus} /> Add
-</Button>
-        <CSVLink
-          data={this.parseTransactionsToCsv(transactions)}
-          filename={`transactions-${YYYYMMDD(new Date())}.csv`}
-          headers={TransactionFieldsMetadata}
-        >
-          <Button outline color="secondary" size="sm">
-            <FontAwesomeIcon icon={faUpload} /> Export
-</Button>
-        </CSVLink>
-        <Button outline color="secondary" size="sm" onClick={() => this.fileInput.click()}>
-          <FontAwesomeIcon icon={faDownload} /> Import
-</Button>
+    return (
+      <Fragment>
+        <TableActions>
+          <Button outline color="secondary" size="sm" onClick={addNewTransaction}>
+            <FontAwesomeIcon icon={faPlus} /> Add
+          </Button>
+          <CSVLink
+            data={this.parseTransactionsToCsv(transactions)}
+            filename={`transactions-${YYYYMMDD(new Date())}.csv`}
+            headers={TransactionFieldsMetadata}
+          >
+            <Button outline color="secondary" size="sm">
+              <FontAwesomeIcon icon={faUpload} /> Export
+            </Button>
+          </CSVLink>
+          <Button outline color="secondary" size="sm" onClick={() => this.fileInput.click()}>
+            <FontAwesomeIcon icon={faDownload} /> Import
+          </Button>
 
-        <input
-          title="Import from .csv file"
-          type="file"
-          accept=".csv"
-          ref={(input) => { this.fileInput = input; }}
-          onChange={this.importTransactions}
-          style={{ display: 'none' }}
-        />
-        <Button outline color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
-          <FontAwesomeIcon icon={faEdit} /> Bulk update
+          <input
+            title="Import from .csv file"
+            type="file"
+            accept=".csv"
+            ref={(input) => { this.fileInput = input; }}
+            onChange={this.importTransactions}
+            style={{ display: 'none' }}
+          />
+          <Button outline color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
+            <FontAwesomeIcon icon={faEdit} /> Bulk update
 </Button>
-        <ButtonWithConfirmation outline color="secondary" size="sm" onClick={clearTransactions}>
-          <FontAwesomeIcon icon={faTrash} /> Clear all
+          <ButtonWithConfirmation outline color="secondary" size="sm" onClick={clearTransactions}>
+            <FontAwesomeIcon icon={faTrash} /> Clear all
       </ButtonWithConfirmation>
 
-      </TableActions>
+        </TableActions>
 
-      <TransactionsTable
-        transactions={transactions}
+        <TransactionsTable
+          transactions={transactions}
 
-        filters={filters}
-        updateTransactionsFilters={updateTransactionsFilters}
+          filters={filters}
+          updateTransactionsFilters={updateTransactionsFilters}
 
-        tags={tags}
-        createTag={createTag}
-        updateTransaction={updateTransaction}
-        removeTransaction={deleteTransaction}
-        dragTransaction={dragTransaction}
-      />
+          tags={tags}
+          createTag={createTag}
+          updateTransaction={updateTransaction}
+          removeTransaction={deleteTransaction}
+          dragTransaction={dragTransaction}
+        />
 
-      <ImportTransactionsModal
-        opened={importingModalOpened}
-        data={importingData}
-        save={(transactions) => {
-          bulkAddTransactions(transactions);
-          this.setState({
-            importingModalOpened: false
-          });
-        }
-        }
-        close={() => this.setState({ importingModalOpened: false })}
-      />
+        <ImportTransactionsModal
+          opened={importingModalOpened}
+          data={importingData}
+          save={(transactions) => {
+            bulkAddTransactions(transactions);
+            this.setState({
+              importingModalOpened: false
+            });
+          }
+          }
+          close={() => this.setState({ importingModalOpened: false })}
+        />
 
-      <BulkUpdateModal
-        opened={bulkUpdateModalOpened}
-        save={this.bulkUpdate}
-        close={this.closeBulkUpdateModal}
-        tags={tags}
-        createTag={createTag}
-      />
-    </Fragment>
+        <BulkUpdateModal
+          opened={bulkUpdateModalOpened}
+          save={this.bulkUpdate}
+          close={this.closeBulkUpdateModal}
+          tags={tags}
+          createTag={createTag}
+        />
+      </Fragment>
+    );
   }
 }

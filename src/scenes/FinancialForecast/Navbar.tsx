@@ -8,7 +8,6 @@ import classnames from 'classnames';
 
 const FinancialForecastNavbar = ({ location: { pathname } }: RouteComponentProps<any>) => (
   <Nav tabs>
-    {console.log({ location })}
     <NavItem>
       <NavLink
         className={classnames({ active: pathname === '/' })}

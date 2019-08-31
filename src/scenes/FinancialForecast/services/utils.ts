@@ -87,3 +87,14 @@ export const lastMonthDay = (date: Date): Date => {
   date.setDate(date.getDate() - 1);
   return date;
 }
+
+export const convertCurrencyToNumber = (number: string): number => {
+  const commaIndex: number = number.indexOf(',');
+
+  if (commaIndex >= 0 && commaIndex === number.length - 3) {
+    number = number.replace('.', '');
+    number = number.replace(',','.');
+  }
+
+  return +number;
+}

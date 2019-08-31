@@ -16,6 +16,9 @@ import Transaction from '../services/Transaction.class';
 import passesGlobalFilters from './passesGlobalFilters';
 import TransactionDataInterface from '../TransactionDataInterface';
 import { State } from './FinancialForecastReducer';
+import getDatesPartsPositions from './utils/getDatesPartsPositions';
+import fixDatePartsPositionsFactory from './utils/fixDatePartsPositionsFactory';
+import checkTransactionDuplicatedFactory from './utils/checkTransactionDuplicatedFactory';
 
 export default (key: string, transactionsKey: string, allTransactionsKey: string, filtersKey: string) => (state: any, action: FinancialForecastActions): any => {
   if (!('key' in action) || action.key !== key) {
@@ -59,11 +62,23 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
       };
     }
     case BULK_ADD_TRANSACTIONS: {
-      const newTransactions = action.transactions.map((transaction: any) => ({
-        ...Transaction.buildFromTransactionData(transaction).convertToTransactionData(),
-        visible: true,
-        tags: transaction.tags ? transaction.tags : []
-      }));
+      const dates = action.transactions.map(transaction => transaction.startDate);
+      const datesPartsPositions = getDatesPartsPositions(dates);
+      const fixDateParts = fixDatePartsPositionsFactory(datesPartsPositions);
+      action.transactions = action.transactions.map(transaction => ({
+        ...transaction,
+        startDate: fixDateParts(transaction.startDate),
+        endDate: fixDateParts(transaction.endDate),
+      }))
+
+
+      const newTransactions = action.transactions
+        .map((transaction: any) => ({
+          ...Transaction.buildFromTransactionData(transaction).convertToTransactionData(),
+          visible: true,
+          tags: transaction.tags ? transaction.tags : []
+        }))
+        .filter(checkTransactionDuplicatedFactory(state[allTransactionsKey]));
 
       const filteredTransactions = newTransactions.filter(passesGlobalFilters(state.globalFilters));
 

@@ -1,10 +1,19 @@
 export default (csv: string, headersMapper: object[]): any => {
 
+  let delimiter = ',';
+  const commaCounter = (csv.match(/,/g) || []).length;
+  const semiCollonCounter = (csv.match(/;/g) || []).length;
+
+  if (semiCollonCounter > commaCounter) {
+    delimiter = ';';
+  }
+
+
   var lines = csv.split("\n");
 
   var result = [];
 
-  let headers = lines[0].split(",").map(str => str ? str.replace(/"/g, "") : "");
+  let headers = lines[0].split(delimiter).map(str => str ? str.replace(/"/g, "") : "");
 
   if (headers) {
     headers =
@@ -17,7 +26,7 @@ export default (csv: string, headersMapper: object[]): any => {
   for (var i = 1; i < lines.length; i++) {
 
     var obj: any = {};
-    var currentline = lines[i].split(",");
+    var currentline = lines[i].split(delimiter);
 
     for (var j = 0; j < headers.length; j++) {
       obj[headers[j]] = currentline[j] ? currentline[j].replace(/"/g, "") : "";
