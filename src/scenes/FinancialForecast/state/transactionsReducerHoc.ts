@@ -72,7 +72,6 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
         endDate: fixDateParts(transaction.endDate),
       }))
 
-
       const newTransactions = action.transactions
         .map((transaction: any) => ({
           ...Transaction.buildFromTransactionData(transaction).convertToTransactionData(),

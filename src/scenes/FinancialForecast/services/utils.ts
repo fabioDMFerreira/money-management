@@ -89,6 +89,10 @@ export const lastMonthDay = (date: Date): Date => {
 }
 
 export const convertCurrencyToNumber = (number: string): number => {
+  if(!number.indexOf){
+    return 0;
+  }
+
   const commaIndex: number = number.indexOf(',');
 
   if (commaIndex >= 0 && commaIndex === number.length - 3) {
