@@ -16,7 +16,6 @@ import EditableInputHOC from 'hocs/EditableInputHoc';
 import FilterComponent from './FilterComponent';
 import TransactionDataInterface from 'scenes/FinancialForecast/TransactionDataInterface';
 import FormGroup from 'reactstrap/lib/FormGroup';
-import { AnyAaaaRecord } from 'dns';
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -53,7 +52,7 @@ export type Props = {
   transactions: TransactionData[],
   removeTransaction: (transactionId: string) => void
   updateTransaction: any,
-  dragTransaction: any,
+  dragTransaction?: any,
   createTag: typeof createTag,
   tags: TagType[],
   updateTransactionsFilters?: any,
@@ -276,7 +275,9 @@ export default class TransactionsTable extends Component<Props, State> {
     if (!result.destination) {
       return;
     }
-    this.props.dragTransaction(result.source.index, result.destination.index);
+    if (this.props.dragTransaction) {
+      this.props.dragTransaction(result.source.index, result.destination.index);
+    }
   }
 
   render() {

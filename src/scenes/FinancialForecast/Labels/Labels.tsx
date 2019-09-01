@@ -12,7 +12,7 @@ import Select from 'react-select';
 import SelectCreatable from 'react-select/lib/Creatable';
 import { createTag, updateTransaction } from '../state/FinancialForecastActions';
 import { ValueType } from 'react-select/lib/types';
-import TransactionsTable from '../TransactionsPage';
+import TransactionsTable from '../components/Transactions/TransactionsTable/TransactionsTableContainer';
 
 type Props = {
   transactions: TransactionDataInterface[]
