@@ -16,7 +16,7 @@ import YYYYMMDD from 'utils/YYYYMMDD';
 import csvJSON from 'utils/csvJSON';
 
 import TransactionDataInterface from '../../TransactionDataInterface';
-import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType } from '../../state/FinancialForecastActions';
+import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType, bulkDeleteTransactions } from '../../state/FinancialForecastActions';
 import { TagType } from '../../TagType';
 import TransactionFieldsMetadata from '../../TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
@@ -39,6 +39,7 @@ type Props = {
   transactions: TransactionDataInterface[],
   addNewTransaction: any
   bulkAddTransactions: any,
+  bulkDeleteTransactions: any,
   updateTransaction: any,
   deleteTransaction: any,
   clearTransactions: any,
@@ -211,6 +212,9 @@ export default class Transactions extends Component<Props, State> {
           <Button outline color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
             <FontAwesomeIcon icon={faEdit} /> Bulk update
 </Button>
+          <ButtonWithConfirmation outline color="secondary" size="sm" onClick={this.props.bulkDeleteTransactions}>
+            <FontAwesomeIcon icon={faTrash} /> Bulk delete
+      </ButtonWithConfirmation>
           <ButtonWithConfirmation outline color="secondary" size="sm" onClick={clearTransactions}>
             <FontAwesomeIcon icon={faTrash} /> Clear all
       </ButtonWithConfirmation>

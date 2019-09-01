@@ -10,6 +10,7 @@ import {
   updateTransaction,
   clearTransactions,
   updateTransactionsFilters,
+  bulkDeleteTransactions,
 } from '../state/FinancialForecastActions';
 
 import { TRANSACTIONS } from '../state/consts';
@@ -30,6 +31,7 @@ export default connect(
   {
     addNewTransaction: addNewTransaction(TRANSACTIONS),
     bulkAddTransactions: bulkAddTransactions(TRANSACTIONS),
+    bulkDeleteTransactions: bulkDeleteTransactions(TRANSACTIONS),
     updateTransaction: updateTransaction(TRANSACTIONS),
     deleteTransaction: deleteTransaction(TRANSACTIONS),
     clearTransactions: clearTransactions(TRANSACTIONS),

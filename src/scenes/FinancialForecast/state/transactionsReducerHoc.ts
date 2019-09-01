@@ -10,6 +10,7 @@ import {
   CLEAR_TRANSACTIONS,
   DRAG_TRANSACTION,
   UPDATE_TRANSACTIONS_FILTERS,
+  BULK_DELETE_TRANSACTIONS,
 } from './FinancialForecastActionTypes';
 import YYYYMMDD from 'utils/YYYYMMDD';
 import Transaction from '../services/Transaction.class';
@@ -90,6 +91,13 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
         [transactionsKey]: transactions,
         [allTransactionsKey]: allTransactions
       };
+    }
+    case BULK_DELETE_TRANSACTIONS: {
+      return {
+        ...state,
+        [transactionsKey]: state[transactionsKey].filter((transaction: TransactionDataInterface) => !transaction.selected),
+        [allTransactionsKey]: state[allTransactionsKey].filter((transaction: TransactionDataInterface) => !transaction.selected),
+      }
     }
     case UPDATE_TRANSACTION: {
       const { id, field, value } = action;

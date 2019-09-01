@@ -12,7 +12,8 @@ import {
   SET_ACTIVE_TAB,
   UPDATE_GLOBAL_FILTER,
   DELETE_TAG,
-  UPDATE_TAG
+  UPDATE_TAG,
+  BULK_DELETE_TRANSACTIONS
 } from "./FinancialForecastActionTypes";
 import TransactionData from "../TransactionDataInterface";
 import transactionEditableFields from '../transactionEditableFields';
@@ -36,9 +37,19 @@ export interface ActionBulkAddTransactionsInterface {
   key: TransactionType
 }
 
+export interface ActionBulkDeleteTransactionsInterface {
+  type: typeof BULK_DELETE_TRANSACTIONS,
+  key: TransactionType
+}
+
 export const bulkAddTransactions = (key: TransactionType) => (transactions: TransactionData[]): ActionBulkAddTransactionsInterface => ({
   type: BULK_ADD_TRANSACTIONS,
   transactions,
+  key,
+});
+
+export const bulkDeleteTransactions = (key: TransactionType) => (): ActionBulkDeleteTransactionsInterface => ({
+  type: BULK_DELETE_TRANSACTIONS,
   key,
 });
 
@@ -184,6 +195,7 @@ export const updateTag = (tag: TagType, newTag: TagType): ActionUpdateTagInterfa
 
 export type FinancialForecastActions = ActionAddNewTransactionInterface |
   ActionBulkAddTransactionsInterface |
+  ActionBulkDeleteTransactionsInterface |
   ActionUpdateTransactionInterface |
   ActionDeleteTransactionInterface |
   ActionClearTransactionsInterface |
