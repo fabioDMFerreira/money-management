@@ -25,6 +25,7 @@ import Balance from 'models/IBalance';
 import YYYYMM from 'utils/YYYYMM';
 import TransactionsTable from '../TransactionsPage';
 import YYYYMMDD from 'utils/YYYYMMDD';
+import DateRangePicker from 'views/components/DateRangePicker';
 
 type forecastView = "chart" | "table";
 
@@ -86,8 +87,8 @@ export default class BalanceComponent extends Component<Props, State> {
   }
 
   updateForecast = (keyName: ForecastEditableFieldsType) => {
-    return (e: any) => {
-      this.props.updateForecast(keyName, e.target.value)
+    return (value: any) => {
+      this.props.updateForecast(keyName, value)
     }
   }
 
@@ -163,27 +164,18 @@ export default class BalanceComponent extends Component<Props, State> {
             <Input
               value={forecast.initialValue}
               type="number"
-              onChange={this.updateForecast('initialValue')}
+              onChange={e => this.updateForecast('initialValue')(e.target.value)}
             />
           </FormGroup>
         </Col>
-        <Col xs={3}>
+        <Col xs={4}>
           <FormGroup>
-            <Label>Start date:</Label>
-            <Input
-              value={forecast.startDate}
-              type="date"
-              onChange={this.updateForecast('startDate')}
-            />
-          </FormGroup>
-        </Col>
-        <Col xs={3}>
-          <FormGroup>
-            <Label>End date:</Label>
-            <Input
-              value={forecast.endDate}
-              type="date"
-              onChange={this.updateForecast('endDate')}
+            <Label>Date Range:</Label><br />
+            <DateRangePicker
+              startDate={forecast.startDate}
+              endDate={forecast.endDate}
+              updateStartDate={this.updateForecast('startDate')}
+              updateEndDate={this.updateForecast('endDate')}
             />
           </FormGroup>
         </Col>

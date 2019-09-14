@@ -4,19 +4,17 @@ import Col from 'reactstrap/lib/Col';
 import Input from 'reactstrap/lib/Input';
 import Select from 'react-select/lib/Creatable';
 import randomColor from 'randomcolor';
-import { DateRangePicker } from 'react-dates';
-import moment, { Moment } from 'moment';
-import Slider, { createSliderWithTooltip, Range as SliderRange } from 'rc-slider';
+import { createSliderWithTooltip, Range as SliderRange } from 'rc-slider';
 import { DebounceInput } from 'react-debounce-input';
 
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Label from 'reactstrap/lib/Label';
 import styled from 'styled-components';
 
-import { GlobalFiltersType } from '../../../../../models/GlobalFiltersType';
+import { GlobalFiltersType } from 'models/GlobalFiltersType';
 import { Tag } from 'models/ITag';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'reactstrap/lib/Button';
+import DateRangePicker from 'views/components/DateRangePicker';
 
 type Props = {
   globalFilters: GlobalFiltersType,
@@ -26,7 +24,6 @@ type Props = {
 }
 
 type State = {
-  dateRangeFocused: string | null,
   credit?: number[],
   debit?: number[],
 }
@@ -71,7 +68,6 @@ export default class GlobalFilters extends Component<Props, State> {
   }
 
   state = {
-    dateRangeFocused: null,
     credit: undefined,
     debit: undefined
   }
@@ -131,26 +127,10 @@ export default class GlobalFilters extends Component<Props, State> {
           <FormGroup>
             <Label>Date range</Label><br />
             <DateRangePicker
-              showClearDates={true}
-              isOutsideRange={() => false}
-              startDate={startDate ? moment(startDate) : null}
-              startDateId="global-filter-start-date"
-              endDate={endDate ? moment(endDate) : null}
-              endDateId="global-filter-end-date"
-              onDatesChange={
-                ({ startDate: newStartDate, endDate: newEndDate }) => {
-                  if (!newStartDate && startDate || newStartDate && newStartDate.format('YYYY-MM-DD') !== startDate) {
-                    updateGlobalFilter('startDate', newStartDate && newStartDate.format('YYYY-MM-DD'));
-                  }
-
-                  if (!newEndDate && endDate || newEndDate && newEndDate.format('YYYY-MM-DD') !== endDate) {
-                    updateGlobalFilter('endDate', newEndDate && newEndDate.format('YYYY-MM-DD'));
-                  }
-                }
-              }
-              focusedInput={this.state.dateRangeFocused}
-              onFocusChange={dateRangeFocused => this.setState({ dateRangeFocused })}
-              displayFormat="YYYY-MM-DD"
+              startDate={startDate}
+              endDate={endDate}
+              updateStartDate={(startDate) => updateGlobalFilter('startDate', startDate)}
+              updateEndDate={(endDate) => updateGlobalFilter('endDate', endDate)}
             />
           </FormGroup>
         </Col>
