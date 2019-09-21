@@ -115,7 +115,7 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         ...state,
         forecast: {
           ...state.forecast,
-          [action.keyName]: [action.value]
+          [action.keyName]: action.value
         }
       }
     }

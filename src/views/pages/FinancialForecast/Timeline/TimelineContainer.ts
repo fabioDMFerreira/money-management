@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { updateForecast } from 'redux/ducks/financial-forecast/actions';
 
-import Balance from './Balance';
+import Balance from './Timeline';
 
 export default connect(
   (state: any) => {

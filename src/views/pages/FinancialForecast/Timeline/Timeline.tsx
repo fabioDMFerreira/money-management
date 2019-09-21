@@ -13,7 +13,7 @@ import Col from 'reactstrap/lib/Col';
 import moment from 'moment';
 
 
-import BalanceTable from './BalanceTable';
+import BalanceTable from './components/BalanceTable';
 import { ForecastDataInterface } from 'models/IForecastData';
 import { updateForecast, ForecastEditableFieldsType, filterType } from 'redux/ducks/financial-forecast/actions';
 import TransactionDataInterface from 'models/ITransactionData';
@@ -110,25 +110,34 @@ export default class BalanceComponent extends Component<Props, State> {
         .filter(passesFilters(this.props.filters))
         .map(transaction => Transaction.buildFromTransactionData(transaction));
 
-    const forecast: Forecast = this.transformForecast(this.props.forecast.initialValue, this.props.forecast.startDate, this.props.forecast.endDate);
 
+    const startDates = transactions.concat(estimates).map((transaction: Transaction) => transaction.startDate.getTime());
+    const endDates = transactions.concat(estimates).map((transaction: Transaction) => transaction.endDate ? transaction.endDate.getTime() : transaction.startDate.getTime());
 
-    const balance = calculateForecastBalance(forecast, transactions);
-    const estimatesBalance = calculateForecastBalance(forecast, estimates);
+    let minDate = new Date(Math.min.apply(null, startDates));
+    let maxDate = new Date(Math.max.apply(null, endDates));
 
-    balance.forEach((monthData: any) => {
-      const estimate = estimatesBalance.find((month: any) => YYYYMMDD(month.date) === YYYYMMDD(monthData.date));
+    const forecast: Forecast = this.createForecast("0", minDate, maxDate);
+    const balance: Balance[] = calculateForecastBalance(forecast, transactions);
+
+    const forecastStartValue = balance && balance.length ? "" + balance[0].actualValue : "0";
+
+    const estimateForecast: Forecast = this.createForecast(forecastStartValue, minDate, maxDate);
+    const estimatesBalance = calculateForecastBalance(estimateForecast, estimates);
+
+    balance.forEach((monthBalance: Balance) => {
+      const estimate = estimatesBalance.find((month: Balance) => monthBalance.date && month.date && YYYYMMDD(month.date) === YYYYMMDD(monthBalance.date) ? true : false);
 
       if (estimate) {
-        monthData.estimateValue = estimate.actualValue;
+        monthBalance.estimateValue = monthBalance.actualValue && estimate.actualValue ? monthBalance.actualValue + (estimate.actualValue - +forecastStartValue) : estimate.actualValue;
       }
     });
 
     return balance;
   }
 
-  transformForecast = (initialValue: string, startDate: string, endDate: string): Forecast => {
-    return new Forecast(new Date(startDate), new Date(endDate), +initialValue)
+  createForecast = (initialValue: string, startDate: Date, endDate: Date): Forecast => {
+    return new Forecast(startDate, endDate, +initialValue)
   }
 
   chartClick = (point: any) => {
@@ -158,7 +167,9 @@ export default class BalanceComponent extends Component<Props, State> {
 
     return <Fragment>
       <Row>
-        <Col xs={2}>
+        {
+          // Filter features deprecated. The timeline values are based on actual transactions/estimates. This way it can be used global filters to filter timeline values.
+          /* <Col xs={2}>
           <FormGroup>
             <Label>Initial value:</Label>
             <Input
@@ -178,8 +189,8 @@ export default class BalanceComponent extends Component<Props, State> {
               updateEndDate={this.updateForecast('endDate')}
             />
           </FormGroup>
-        </Col>
-        <Col xs={3}>
+        </Col> */}
+        <Col xs={3} className="mb-4">
           <Button {...(forecastView === 'chart' ? {} : { outline: true })} color="secondary" size="sm" onClick={() => this.switchForecastView('chart')}>Chart <FontAwesomeIcon icon={faChartLine} /></Button>
           <Button {...(forecastView === 'table' ? {} : { outline: true })} color="secondary" size="sm" onClick={() => this.switchForecastView('table')}>Table <FontAwesomeIcon icon={faTable} /></Button>
         </Col>

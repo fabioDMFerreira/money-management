@@ -31,35 +31,6 @@ type State = {
 
 const Range = createSliderWithTooltip(SliderRange);
 
-const GlobalFiltersContainer = styled.div`
-.form-control,.react-select__control {
-  border: 1px solid #dbdbdb;
-  border-radius: 2px;
-  font-size: 19px;
-  line-height: 24px;
-  color: #484848;
-  font-weight: 200;
-  height: auto;
-  background-color: #fff;
-}
-
-.form-control{
-  padding: 11px 11px 11px;
-}
-
-.react-select__control{
-  padding: 6px 5px 8px;
-}
-
-.react-select__value-container{
-  padding:0;
-}
-
-.react-select__indicator{
-  padding:0;
-}
-`;
-
 export default class GlobalFilters extends Component<Props, State> {
 
   static defaultProps = {
@@ -87,7 +58,7 @@ export default class GlobalFilters extends Component<Props, State> {
       createTag,
     } = this.props;
 
-    return <GlobalFiltersContainer>
+    return <div>
       <Row>
         <Col xs={2}>
           <FormGroup>
@@ -187,6 +158,6 @@ export default class GlobalFilters extends Component<Props, State> {
           </FormGroup>
         </Col>
       </Row>
-    </GlobalFiltersContainer>
+    </div>
   }
 }

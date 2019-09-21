@@ -30,6 +30,7 @@ const NotEditableCell = styled.span`
 
 type BalanceData = {
   actualValue: number | undefined,
+  estimateValue: number | undefined
   income: number,
   outcome: number,
   balance: number,
@@ -75,12 +76,13 @@ export default class BalanceTable extends Component<Props, State> {
     }
   }
 
-  parseBalanceIntoJSON = ({ balance, income, outcome, actualValue, date }: Balance): BalanceData => {
+  parseBalanceIntoJSON = ({ balance, income, outcome, actualValue, estimateValue, date }: Balance): BalanceData => {
     return {
       balance,
       income,
       outcome,
-      actualValue: actualValue,
+      actualValue,
+      estimateValue,
       date: date ? YYYYMMDD(date) : undefined
     };
   }
@@ -95,6 +97,11 @@ export default class BalanceTable extends Component<Props, State> {
       {
         Header: 'Actual value',
         accessor: "actualValue",
+        Cell: numberCell,
+      },
+      {
+        Header: 'Estimate value',
+        accessor: "estimateValue",
         Cell: numberCell,
       },
       {
