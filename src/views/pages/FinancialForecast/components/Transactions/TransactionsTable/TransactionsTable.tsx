@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactTable, { SortingRule, Column } from 'react-table';
 import styled from 'styled-components';
 import Input from 'reactstrap/lib/Input';
-import randomColor from 'randomcolor';
 
 import TransactionData from 'models/ITransactionData';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
@@ -16,6 +15,7 @@ import EditableInputHOC from 'views/hocs/EditableInputHoc';
 import FilterComponent from './FilterComponent';
 import TransactionDataInterface from 'models/ITransactionData';
 import FormGroup from 'reactstrap/lib/FormGroup';
+import TagSelect from 'views/pages/FinancialForecast/containers/TagSelect';
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -69,8 +69,6 @@ const EditableInput = EditableInputHOC(Input);
 
 export default class TransactionsTable extends Component<Props, State> {
 
-  tagsFieldRef: { [key: string]: any } = {};
-
   state = {
     sorted: [],
     columns: [] as object[],
@@ -109,31 +107,13 @@ export default class TransactionsTable extends Component<Props, State> {
           }}
         />;
       case 'multiselect':
-        const { tags, createTag } = this.props;
-
-        return <Select
-          options={tags}
+        return <TagSelect
+          tagsSelected={cellInfo.value}
           onChange={
             (value: ValueType<Tag>) => {
               this.props.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
-              setTimeout(() => {
-                this.tagsFieldRef[cellInfo.index] && this.tagsFieldRef[cellInfo.index].focus();
-              }, 0);
             }
           }
-          value={
-            cellInfo.value
-          }
-          ref={ref => { this.tagsFieldRef[cellInfo.index] = ref }}
-          onCreateOption={(newOptionLabel: string) => {
-            const newOption = { label: newOptionLabel, value: newOptionLabel.toLowerCase(), color: randomColor() }
-            createTag(newOption);
-            setTimeout(() => {
-              this.props.updateTransaction(cellInfo.original.id, [...cellInfo.value, newOption], cellInfo.column.id);
-              this.tagsFieldRef[cellInfo.index] && this.tagsFieldRef[cellInfo.index].focus();
-            }, 0);
-          }}
-          isMulti
         />
       default:
         return <EditableInput

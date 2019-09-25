@@ -9,7 +9,6 @@ import {
   faEdit,
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
-import randomColor from 'randomcolor';
 import Button from 'reactstrap/lib/Button';
 
 import YYYYMMDD from 'utils/YYYYMMDD';
@@ -122,7 +121,7 @@ export default class Transactions extends Component<Props, State> {
         };
 
         // create a new tag if it does not exist in store
-        const newOption = { label: tagValue, value: tagValue.toLowerCase(), color: randomColor() }
+        const newOption = { label: tagValue, value: tagValue.toLowerCase() }
         this.props.createTag(newOption);
 
         return newOption;

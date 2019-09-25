@@ -7,7 +7,7 @@ import Col from 'reactstrap/lib/Col';
 
 import { Tag } from 'models/ITag';
 import { deleteTag, updateTag } from 'redux/ducks/financial-forecast/actions';
-import TagItem from './TagItem';
+import TagItem from '../containers/TagItem';
 
 type Props = {
   tags: Tag[],
@@ -23,7 +23,9 @@ const Settings = (props: Props) =>
         {
           props.tags && props.tags.map((tag: Tag) => <Col xs="4" key={tag.label}>
             <ListGroupItem>
-              <TagItem tag={tag} deleteTag={props.deleteTag} updateTag={props.updateTag} />
+              <TagItem
+                tag={tag}
+              />
             </ListGroupItem>
           </Col>)
         }
@@ -40,7 +42,7 @@ export default connect(
       tags: tags && tags.toJS()
     }
   }, {
-    deleteTag,
-    updateTag
-  }
+  deleteTag,
+  updateTag
+}
 )(Settings);

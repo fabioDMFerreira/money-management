@@ -1,43 +1,38 @@
 import React from 'react';
-import { Navbar, Container } from 'reactstrap';
 import { BrowserRouter as Router } from 'react-router-dom';
+import Row from 'reactstrap/lib/Row';
+import Container from 'reactstrap/lib/Container';
+import Navbar from 'reactstrap/lib/Navbar';
+import Col from 'reactstrap/lib/Col';
 
-import Header from '../Header';
+import SideNav from '../SideNav';
 import NavbarComponent from '../Navbar';
 import Main from '../Main';
 
 import './App.css';
-import Card from 'reactstrap/lib/Card';
-import CardBody from 'reactstrap/lib/CardBody';
-
-import FinancialForecastNavbar from 'views/pages/FinancialForecast/Navbar';
-import GlobalFilters from 'views/pages/FinancialForecast/containers/GlobalFilters';
-import NumberTransactionsFiltered from 'views/pages/FinancialForecast/containers/NumberTransactionsFiltered';
 
 const App = () => (
 	<Router>
 		<div id="root">
 			{
-				<React.Fragment>
-					<Navbar id="navbar" color="primary" dark expand="md">
-						<Container fluid>
-							<Header />
-							<NavbarComponent />
-						</Container>
-					</Navbar>
-					<Container fluid>
-						<Card style={{ marginTop: '20px' }}>
-							<CardBody>
-								<GlobalFilters />
-							</CardBody>
-						</Card>
-						<div style={{ marginTop: '20px' }}>
-							<FinancialForecastNavbar />
-							<NumberTransactionsFiltered />
-						</div>
-						<Main />
-					</Container>
-				</React.Fragment>
+				<Container fluid>
+					<Row>
+						<Col xs={2}>
+							<SideNav />
+						</Col>
+						<Col xs={10} style={{ background: '#fff', minHeight: '100vh' }} >
+							<Navbar id="navbar" color="primary" dark expand="md">
+								<Container fluid>
+									{/* <Header /> */}
+									<NavbarComponent />
+								</Container>
+							</Navbar>
+							<Container fluid className="pb-4">
+								<Main />
+							</Container>
+						</Col>
+					</Row>
+				</Container>
 			}
 		</div>
 	</Router>

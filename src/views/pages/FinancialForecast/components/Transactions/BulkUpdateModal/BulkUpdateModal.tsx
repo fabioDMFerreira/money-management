@@ -7,12 +7,10 @@ import Button from 'reactstrap/lib/Button';
 import Label from 'reactstrap/lib/Label';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Select from 'react-select/lib/Creatable';
-import randomColor from 'randomcolor';
 
 import Form from 'reactstrap/lib/Form';
 import Input from 'reactstrap/lib/Input';
 import { Tag } from 'models/ITag';
-import { valueContainerCSS } from 'react-select/lib/components/containers';
 
 type Props = {
   opened: boolean | undefined,
@@ -89,7 +87,7 @@ export default class BulkUpdateModal extends Component<Props, State> {
               onChange={(value: any) => this.change('tags', value)}
               value={update.tags ? update.tags : []}
               onCreateOption={(newOptionLabel: string) => {
-                const newOption = { label: newOptionLabel, value: newOptionLabel.toLowerCase(), color: randomColor() }
+                const newOption = { label: newOptionLabel, value: newOptionLabel.toLowerCase() }
                 createTag(newOption);
                 if (update.tags) {
                   this.change('tags', [...update.tags, newOption])

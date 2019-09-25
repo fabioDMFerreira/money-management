@@ -1,1 +1,1 @@
-export { default } from './FinancialForecast';
+export { default } from './FinancialForecastHOC';

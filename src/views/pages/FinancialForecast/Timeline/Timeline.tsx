@@ -26,6 +26,7 @@ import YYYYMM from 'utils/YYYYMM';
 import TransactionsTable from '../TransactionsPage';
 import YYYYMMDD from 'utils/YYYYMMDD';
 import DateRangePicker from 'views/components/DateRangePicker';
+import ToggleButton from 'views/components/ToggleButton';
 
 type forecastView = "chart" | "table";
 
@@ -191,8 +192,8 @@ export default class BalanceComponent extends Component<Props, State> {
           </FormGroup>
         </Col> */}
         <Col xs={3} className="mb-4">
-          <Button {...(forecastView === 'chart' ? {} : { outline: true })} color="secondary" size="sm" onClick={() => this.switchForecastView('chart')}>Chart <FontAwesomeIcon icon={faChartLine} /></Button>
-          <Button {...(forecastView === 'table' ? {} : { outline: true })} color="secondary" size="sm" onClick={() => this.switchForecastView('table')}>Table <FontAwesomeIcon icon={faTable} /></Button>
+          <ToggleButton active={forecastView === 'chart'} onClick={() => { this.switchForecastView('chart') }} icon={faChartLine} text="Chart" />
+          <ToggleButton active={forecastView === 'table'} onClick={() => { this.switchForecastView('table') }} icon={faTable} text="Table" />
         </Col>
       </Row>
 

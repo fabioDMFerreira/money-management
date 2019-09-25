@@ -10,9 +10,9 @@ const FinancialForecastNavbar = ({ location: { pathname } }: RouteComponentProps
   <Nav tabs>
     <NavItem>
       <NavLink
-        className={classnames({ active: pathname === '/' })}
+        className={classnames({ active: pathname === '/transactions' })}
         tag={Link}
-        to="/"
+        to="/transactions"
       >
         Transactions
       </NavLink>
@@ -44,7 +44,7 @@ const FinancialForecastNavbar = ({ location: { pathname } }: RouteComponentProps
         Tags
 </NavLink>
     </NavItem>
-    <NavItem>
+    {/* <NavItem>
       <NavLink
         className={classnames({ active: pathname === '/settings' })}
         tag={Link}
@@ -52,7 +52,7 @@ const FinancialForecastNavbar = ({ location: { pathname } }: RouteComponentProps
       >
         Settings
 </NavLink>
-    </NavItem>
+    </NavItem> */}
   </Nav>
 )
 

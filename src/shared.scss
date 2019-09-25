@@ -3,11 +3,13 @@ $theme-colors: (primary: #679e37);
 @import "node_modules/react-table/react-table";
 
 body {
+  font-family: 'Roboto', sans-serif;
   color: #484848;
   font-size: 14px;
+  background: #2d353c;
 }
 
-.btn {
+.btn,.badge {
   border-radius: 0;
 }
 
@@ -15,7 +17,7 @@ body {
 .react-select__control {
   border: 1px solid #dbdbdb;
   border-radius: 2px;
-  font-size: 19px;
+  font-size: 16px;
   line-height: 24px;
   color: #484848;
   font-weight: 200;

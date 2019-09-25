@@ -3,18 +3,17 @@ import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import Input from 'reactstrap/lib/Input';
 import Select from 'react-select/lib/Creatable';
-import randomColor from 'randomcolor';
 import { createSliderWithTooltip, Range as SliderRange } from 'rc-slider';
 import { DebounceInput } from 'react-debounce-input';
 
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Label from 'reactstrap/lib/Label';
-import styled from 'styled-components';
 
 import { GlobalFiltersType } from 'models/GlobalFiltersType';
 import { Tag } from 'models/ITag';
 import Button from 'reactstrap/lib/Button';
 import DateRangePicker from 'views/components/DateRangePicker';
+import TagSelect from '../TagSelect';
 
 type Props = {
   globalFilters: GlobalFiltersType,
@@ -74,23 +73,10 @@ export default class GlobalFilters extends Component<Props, State> {
         <Col xs={2}>
           <FormGroup>
             <Label>Tags</Label>
-            <Select
-              isMulti
+            <TagSelect
               classNamePrefix="react-select"
-              value={tagsSelected}
-              onChange={(value) => {
-                updateGlobalFilter('tags', value)
-              }}
-              options={[{ label: 'Unsassigned', value: 'null' }, ...tags]}
-              placeholder={"Select tags"}
-              onCreateOption={newOptionLabel => {
-                const newOption = { label: newOptionLabel, value: newOptionLabel.toLowerCase(), color: randomColor() }
-                createTag(newOption);
-                updateGlobalFilter("tags", [
-                  ...(tagsSelected && tagsSelected instanceof Array ? tagsSelected : []),
-                  newOption
-                ]);
-              }}
+              tagsSelected={tagsSelected || []}
+              onChange={value => updateGlobalFilter('tags', value)}
             />
           </FormGroup>
         </Col>

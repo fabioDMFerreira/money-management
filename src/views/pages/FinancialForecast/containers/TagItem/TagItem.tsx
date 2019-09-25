@@ -3,12 +3,14 @@ import Button from 'reactstrap/lib/Button';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Input from 'reactstrap/lib/Input';
-import randomColor from 'randomcolor';
 import styled from 'styled-components';
+import chroma from 'chroma-js';
 
 import { Tag } from 'models/ITag';
 import Form from 'reactstrap/lib/Form';
 import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
+import { Link } from 'react-router-dom';
+import Badge from 'reactstrap/lib/Badge';
 
 type Props = {
   tag: Tag,
@@ -23,7 +25,7 @@ type State = {
 
 const ButtonsContainer = styled.span`
 button{
-  margin: 0px 10px 0px 0px;
+  margin: 0px 2px 0px 0px;
 }
 `;
 
@@ -49,7 +51,6 @@ export default class TagItem extends Component<Props, State> {
     const newTag = {
       label: value,
       value: value.toLowerCase(),
-      color: randomColor()
     }
 
     updateTag(tag, newTag);
@@ -85,14 +86,24 @@ export default class TagItem extends Component<Props, State> {
       </Form>
     }
 
+    const color = chroma(tag.color || 'grey');
+
+
     return <Fragment>
       <ButtonsContainer>
-        <ButtonWithConfirmation size="sm" onClick={() => deleteTag(tag)}>
+        <ButtonWithConfirmation color="link" size="sm" onClick={() => deleteTag(tag)}>
           <FontAwesomeIcon icon={faTrash} />
         </ButtonWithConfirmation>
-        <Button size="sm" onClick={() => this.setState({ value: tag.label, editing: true })} > <FontAwesomeIcon icon={faEdit} /></Button>
+        <Button size="sm" color="link" onClick={() => this.setState({ value: tag.label, editing: true })} > <FontAwesomeIcon icon={faEdit} /></Button>
       </ButtonsContainer>
-      {tag.label}
+      <Link to={`/tags/${tag.value}`} >
+        <Badge style={{
+          backgroundColor: color.alpha(0.1).css(),
+          color: tag.color || 'grey',
+          fontSize: '0.8rem',
+          lineHeight: '1.5rem'
+        }}>{tag.label}</Badge>
+      </Link>
     </Fragment>
 
   }

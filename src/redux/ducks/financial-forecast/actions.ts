@@ -13,7 +13,8 @@ import {
   UPDATE_GLOBAL_FILTER,
   DELETE_TAG,
   UPDATE_TAG,
-  BULK_DELETE_TRANSACTIONS
+  BULK_DELETE_TRANSACTIONS,
+  UPDATE_TAGS_VIEW
 } from "./types";
 import TransactionData from "models/ITransactionData";
 import transactionEditableFields from 'models/TransactionEditableFields';
@@ -117,7 +118,7 @@ export interface ActionUpdateTransactionsFiltersInterface {
   key: TransactionType
 }
 
-export const updateTransactionsFilters =(key: TransactionType) =>  (filters: filterType[]): ActionUpdateTransactionsFiltersInterface => ({
+export const updateTransactionsFilters = (key: TransactionType) => (filters: filterType[]): ActionUpdateTransactionsFiltersInterface => ({
   type: UPDATE_TRANSACTIONS_FILTERS,
   filters,
   key
@@ -193,6 +194,20 @@ export const updateTag = (tag: Tag, newTag: Tag): ActionUpdateTagInterface => ({
   newTag
 })
 
+export type TagsView = 'chart' | 'table';
+
+export interface ActionUpdateTagsView {
+  type: typeof UPDATE_TAGS_VIEW,
+  payload: TagsView,
+}
+
+export const updateTagsView = (payload: TagsView):ActionUpdateTagsView => {
+  return {
+    type: UPDATE_TAGS_VIEW,
+    payload,
+  }
+}
+
 export type FinancialForecastActions = ActionAddNewTransactionInterface |
   ActionBulkAddTransactionsInterface |
   ActionBulkDeleteTransactionsInterface |
@@ -208,4 +223,5 @@ export type FinancialForecastActions = ActionAddNewTransactionInterface |
   ActionUpdateGlobalFilterInterface |
 
   ActionDeleteTagInterface |
-  ActionUpdateTagInterface;
+  ActionUpdateTagInterface |
+  ActionUpdateTagsView;

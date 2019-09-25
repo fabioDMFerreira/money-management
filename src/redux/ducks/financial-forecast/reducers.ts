@@ -1,3 +1,4 @@
+import randomColor from 'randomcolor';
 import { List } from 'immutable';
 
 import { TRANSACTIONS, ESTIMATES } from './consts';
@@ -10,15 +11,15 @@ import { sumMonths } from 'models/utils';
 import { GlobalFiltersType } from 'models/GlobalFiltersType';
 
 import {
-
   CREATE_TAG,
   UPDATE_FORECAST,
   SET_ACTIVE_TAB,
   UPDATE_GLOBAL_FILTER,
   DELETE_TAG,
-  UPDATE_TAG
+  UPDATE_TAG,
+  UPDATE_TAGS_VIEW
 } from './types';
-import { FinancialForecastActions, filterType } from './actions';
+import { FinancialForecastActions, filterType, TagsView } from './actions';
 
 import passesGlobalFilters from './utils/passesGlobalFilters';
 import transactionsReducerHoc from './utils/transactionsReducerFactory';
@@ -33,7 +34,8 @@ export type State = {
   tags: List<Tag>
   forecast: ForecastDataInterface
   tab: string
-  globalFilters: GlobalFiltersType
+  globalFilters: GlobalFiltersType,
+  tagsView: TagsView
 }
 
 export const initialState: State = {
@@ -50,7 +52,8 @@ export const initialState: State = {
   },
   tags: List<Tag>([]),
   tab: 'transactions',
-  globalFilters: {}
+  globalFilters: {},
+  tagsView: 'chart',
 }
 
 const removeTag = (tag: Tag) => {
@@ -128,6 +131,8 @@ export default (state: State = initialState, action: FinancialForecastActions): 
     case CREATE_TAG: {
       const { tag } = action;
 
+      tag.color = randomColor({ luminosity: 'dark' });
+
       return {
         ...state,
         tags: state.tags.push(tag)
@@ -149,6 +154,11 @@ export default (state: State = initialState, action: FinancialForecastActions): 
       }
     }
     case UPDATE_TAG: {
+      action.newTag = {
+        ...action.newTag,
+        color: action.newTag.color || randomColor({ luminosity: 'dark' })
+      };
+
       const transactions = state.transactions.map(updateTag(action.tag, action.newTag)).toList();
       const allTransactions = state.transactions.map(updateTag(action.tag, action.newTag)).toList();
 
@@ -161,6 +171,12 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         transactions,
         allTransactions,
         tags
+      }
+    }
+    case UPDATE_TAGS_VIEW: {
+      return {
+        ...state,
+        tagsView: action.payload
       }
     }
     default:

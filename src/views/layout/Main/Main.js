@@ -7,11 +7,17 @@ import NotFound from 'views/pages/NotFound';
 
 import './Main.css';
 import BalanceContainer from 'views/pages/FinancialForecast/Timeline';
-import Labels from 'views/pages/FinancialForecast/Labels';
+import Tags from 'views/pages/FinancialForecast/Tags';
 import Settings from 'views/pages/FinancialForecast/Settings';
 import Estimates from 'views/pages/FinancialForecast/Estimates';
 import Transactions from 'views/pages/FinancialForecast/components/Transactions';
 import TransactionsPage from 'views/pages/FinancialForecast/TransactionsPage';
+import TagsPage from 'views/pages/FinancialForecast/Tags/TagPage';
+import Dashboard from 'views/pages/Dashboard';
+import FinancialForecastHOC from 'views/pages/FinancialForecast';
+
+
+
 
 const Main = ({ isLoggedIn }) => (
 	<div id="main">
@@ -19,16 +25,19 @@ const Main = ({ isLoggedIn }) => (
 			{
 				// isLoggedIn &&
 				<React.Fragment>
-					{/* <Route path="" exact component={Home} /> */}
+					<Route path="/" exact component={Dashboard} />
 					{/* <Route path="/" component={FinancialForecast} /> */}
-					<Route exact path="/" component={() => <TransactionsPage
+					<Route exact path="/transactions" component={FinancialForecastHOC(
+						()=><TransactionsPage
 						TransactionsComponent={Transactions}
-					/>}/>
-					<Route path="/estimates" component={() => <Estimates
+					/>
+					)} />
+					<Route path="/estimates" component={FinancialForecastHOC(() => <Estimates
 						TransactionsComponent={Transactions}
-					/>}/>
-					<Route path="/timeline" component={BalanceContainer} />
-					<Route path="/tags" component={Labels} />
+					/>)} />
+					<Route path="/timeline" component={FinancialForecastHOC(BalanceContainer)} />
+					<Route path="/tags" exact component={FinancialForecastHOC(Tags)} />
+					<Route path="/tags/:id" component={FinancialForecastHOC(TagsPage)} />
 					<Route path="/settings" component={Settings} />
 					<Route path="/not-found" component={NotFound} />
 				</React.Fragment>
