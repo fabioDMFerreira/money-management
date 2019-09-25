@@ -7,7 +7,7 @@ import { Tag } from 'models/ITag';
 import TransactionDataInterface from 'models/ITransactionData';
 import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
-import { Link, match } from 'react-router-dom';
+import { Link, match, withRouter } from 'react-router-dom';
 
 interface Props {
   tag: Tag | undefined,
@@ -63,5 +63,5 @@ const mapStateToProps = (state: any, props: any) => {
   };
 }
 
-export default connect(mapStateToProps)(TagsPageContainer)
+export default withRouter(connect(mapStateToProps)(TagsPageContainer))
 
