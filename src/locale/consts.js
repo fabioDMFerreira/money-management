@@ -1,62 +1,62 @@
-// export const REQUIRED = 'REQUIRED';
+export const REQUIRED = 'REQUIRED';
 
 
-// const INVALID_PASSWORD = 'INVALID_PASSWORD';
+export const INVALID_PASSWORD = 'INVALID_PASSWORD';
 
 
-// const INVALID_EMAIL = 'INVALID_EMAIL';
+export const INVALID_EMAIL = 'INVALID_EMAIL';
 
 
-// const USER_DOES_NOT_EXIST = 'USER_DOES_NOT_EXIST';
+export const USER_DOES_NOT_EXIST = 'USER_DOES_NOT_EXIST';
 
 
-// const EMAIL = 'EMAIL';
+export const EMAIL = 'EMAIL';
 
 
-// const PASSWORD = 'PASSWORD';
+export const PASSWORD = 'PASSWORD';
 
 
-// const LOGIN = 'LOGIN';
+export const LOGIN = 'LOGIN';
 
 
-// const LOGOUT = 'LOGOUT';
+export const LOGOUT = 'LOGOUT';
 
 
-// const AUTHENTICATION = 'AUTHENTICATION';
+export const AUTHENTICATION = 'AUTHENTICATION';
 
 
-// const PROFILE = 'PROFILE';
+export const PROFILE = 'PROFILE';
 
 
-// const HOME = 'HOME';
+export const HOME = 'HOME';
 
 
-// const SELECT_OPTION = 'SELECT_OPTION';
+export const SELECT_OPTION = 'SELECT_OPTION';
 
 
-// const CLEAR_FILTERS = 'CLEAR_FILTERS';
+export const CLEAR_FILTERS = 'CLEAR_FILTERS';
 
 
-// const LOADING = 'LOADING';
+export const LOADING = 'LOADING';
 
 
-// const NO_RESULTS_FOUND = 'NO_RESULTS_FOUND';
+export const NO_RESULTS_FOUND = 'NO_RESULTS_FOUND';
 
 
-// const INCORRECT_PASSWORD = 'INCORRECT_PASSWORD';
+export const INCORRECT_PASSWORD = 'INCORRECT_PASSWORD';
 
 
-// const NETWORK_ERROR = 'Network Error';
+export const NETWORK_ERROR = 'Network Error';
 
 
-// const NETWORK_500 = 'Request failed with status code 500';
+export const NETWORK_500 = 'Request failed with status code 500';
 
 
-// const NETWORK_NOT_FOUND = 'Request failed with status code 404';
+export const NETWORK_NOT_FOUND = 'Request failed with status code 404';
 
 
-// const NETWORK_UNSUPPORTED_MEDIA_TYPE = 'Request failed with status code 415';
+export const NETWORK_UNSUPPORTED_MEDIA_TYPE = 'Request failed with status code 415';
 
 
-// const ORDER_BY = 'ORDER_BY';
+export const ORDER_BY = 'ORDER_BY';
 

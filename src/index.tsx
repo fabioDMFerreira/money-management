@@ -6,7 +6,7 @@ import 'react-dates/initialize';
 
 import registerServiceWorker from './registerServiceWorker';
 
-import store from './redux';
+import store from './state';
 import App from './views/layout/App';
 
 import './shared.css';

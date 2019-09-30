@@ -1,4 +1,4 @@
-import { updateGlobalFilter, createTag } from 'redux/ducks/financial-forecast/actions';
+import { updateGlobalFilter, createTag } from 'state/ducks/financial-forecast/actions';
 import { connect } from 'react-redux';
 
 import GlobalFilters from './GlobalFilters';

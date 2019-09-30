@@ -15,7 +15,7 @@ import YYYYMMDD from 'utils/YYYYMMDD';
 import csvJSON from 'utils/csvJSON';
 
 import TransactionDataInterface from 'models/TransactionData';
-import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType, bulkDeleteTransactions } from 'redux/ducks/financial-forecast/actions';
+import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType, bulkDeleteTransactions } from 'state/ducks/financial-forecast/actions';
 import { Tag } from 'models/Tag';
 import TransactionFieldsMetadata from 'models/TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
@@ -74,7 +74,7 @@ export default class Transactions extends Component<Props, State> {
     return transactions.map(t => {
       return {
         ...t,
-        tags: t.tags ? t.tags.map(tag => tag.value).join(',') : []
+        tags: t.tags ? t.tags.map(tag => tag.id).join(',') : []
       }
     });
   }
@@ -113,7 +113,7 @@ export default class Transactions extends Component<Props, State> {
     ({
       ...transaction,
       tags: transaction.tags && transaction.tags.split(',').map((tagValue: string) => {
-        const tag = this.props.tags.find(tag => tagValue === tag.value);
+        const tag = this.props.tags.find(tag => tagValue === tag.id);
         if (tag) {
           return {
             ...tag
@@ -121,7 +121,7 @@ export default class Transactions extends Component<Props, State> {
         };
 
         // create a new tag if it does not exist in store
-        const newOption = { label: tagValue, value: tagValue.toLowerCase() }
+        const newOption = { label: tagValue, id: tagValue.toLowerCase() }
         this.props.createTag(newOption);
 
         return newOption;

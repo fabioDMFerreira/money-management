@@ -11,9 +11,9 @@ import {
   clearTransactions,
   updateTransactionsFilters,
   bulkDeleteTransactions,
-} from 'redux/ducks/financial-forecast/actions';
+} from 'state/ducks/financial-forecast/actions';
 
-import { TRANSACTIONS } from 'redux/ducks/financial-forecast/consts';
+import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
 
 
 const Transactions = ({ TransactionsComponent, ...props }: any) => <TransactionsComponent {...props} />

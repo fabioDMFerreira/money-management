@@ -4,7 +4,7 @@ import TransactionDataInterface from 'models/TransactionData';
 import { Tag } from 'models/Tag';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
-import { createTag, TagsView, updateTagsView } from 'redux/ducks/financial-forecast/actions';
+import { createTag, TagsView, updateTagsView } from 'state/ducks/financial-forecast/actions';
 import Button from 'reactstrap/lib/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faChartPie, faTable } from '@fortawesome/free-solid-svg-icons';

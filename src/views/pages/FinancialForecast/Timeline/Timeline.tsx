@@ -15,7 +15,7 @@ import moment from 'moment';
 
 import BalanceTable from './components/BalanceTable';
 import { ForecastData } from 'models/ForecastData';
-import { updateForecast, ForecastEditableFieldsType, filterType } from 'redux/ducks/financial-forecast/actions';
+import { updateForecast, ForecastEditableFieldsType, filterType } from 'state/ducks/financial-forecast/actions';
 import TransactionDataInterface from 'models/TransactionData';
 import passesFilters from './passesFilters';
 import Forecast from 'models/Forecast';

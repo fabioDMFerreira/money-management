@@ -1,5 +1,5 @@
 import TransactionDataInterface from "models/TransactionData";
-import { filterType } from "redux/ducks/financial-forecast/actions";
+import { filterType } from "state/ducks/financial-forecast/actions";
 
 export default (filters: filterType[] | undefined | null) => (transaction: TransactionDataInterface) => {
   if (!filters) {

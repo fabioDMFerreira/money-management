@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { updateForecast } from 'redux/ducks/financial-forecast/actions';
+import { updateForecast } from 'state/ducks/financial-forecast/actions';
 
 import Balance from './Timeline';
 

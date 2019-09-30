@@ -4,6 +4,10 @@ import chroma from 'chroma-js';
 
 import { Tag } from 'models/Tag';
 
+interface TagOption extends Tag {
+  value: string,
+}
+
 interface Props {
   tags: Tag[],
   tagsSelected: Tag[],
@@ -66,16 +70,16 @@ export default class TagSelect extends Component<Props, State>{
       <Select
         {...props}
         isMulti
-        value={tagsSelected}
-        options={[{ label: 'Unsassigned', value: 'null' }, ...tags]}
+        value={tagsSelected.map(tag => ({ ...tag, value: tag.id }))}
+        options={[{ label: 'Unsassigned', value: 'null' }, ...tags.map(tag => ({ ...tag, value: tag.id }))]}
         placeholder={"Select tags"}
         onChange={value => {
           onChange(value);
         }}
         onCreateOption={newOptionLabel => {
-          const newOption = { label: newOptionLabel, value: newOptionLabel.toLowerCase() }
+          const newOption = { label: newOptionLabel, id: newOptionLabel.toLowerCase() }
           createTag(newOption);
-          onChange([...tagsSelected, newOption]);
+          onChange([...tagsSelected, { ...newOption, value: newOption.id }]);
         }}
         styles={colorStyles}
       />

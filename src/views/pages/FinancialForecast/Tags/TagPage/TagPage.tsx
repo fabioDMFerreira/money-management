@@ -6,7 +6,7 @@ import TransactionsTable from '../../components/Transactions/TransactionsTable/T
 import TransactionDataInterface from 'models/TransactionData';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
-import TagItem from '../../containers/TagItem';
+import TagItem from '../../../Settings/containers/TagItem';
 
 interface Props {
   tag: Tag,

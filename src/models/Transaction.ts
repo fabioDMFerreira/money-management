@@ -1,21 +1,11 @@
 import { sumMonths, monthDiff, convertCurrencyToNumber } from "./utils";
-import TransactionDataInterface from "./TransactionData";
+import TransactionData from "./TransactionData";
 
 import YYYYMMDD from 'utils/YYYYMMDD';
 import getRandomString from "utils/getRandomString";
 
-interface TransactionInterface {
-  id: string;
-  description: string;
-  _startDate: Date;
-  _endDate: Date;
-  _interval: number;
-  _particles: number;
-  _value: number;
-  _totalValue: number;
-}
 
-export default class Transaction implements TransactionInterface {
+export default class Transaction {
   id: string;
   description: string;
   _startDate: Date;
@@ -109,7 +99,7 @@ export default class Transaction implements TransactionInterface {
     this._endDate = this._startDate;
   }
 
-  static buildFromTransactionData(transactionData: TransactionDataInterface): Transaction {
+  static buildFromTransactionData(transactionData: TransactionData): Transaction {
 
     let value;
 
@@ -133,7 +123,7 @@ export default class Transaction implements TransactionInterface {
     return transaction;
   }
 
-  static buildFromRawTransaction(transactionData: TransactionInterface): Transaction {
+  static buildFromRawTransaction(transactionData: Transaction): Transaction {
     const transaction = new this(transactionData.description, transactionData._value);
 
     transaction.id = transactionData.id;
@@ -148,7 +138,7 @@ export default class Transaction implements TransactionInterface {
     return transaction;
   }
 
-  convertToTransactionData(): TransactionDataInterface {
+  convertToTransactionData(): TransactionData {
     return {
       id: this.id,
       description: this.description,

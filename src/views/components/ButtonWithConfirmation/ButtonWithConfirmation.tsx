@@ -1,15 +1,14 @@
-import React, { Fragment, Component } from 'react';
-import Button from 'reactstrap/lib/Button';
+import React, { Fragment, Component, MouseEvent } from 'react';
+import Button, { ButtonProps } from 'reactstrap/lib/Button';
 import Popover from 'reactstrap/lib/Popover';
 import PopoverHeader from 'reactstrap/lib/PopoverHeader';
 import PopoverBody from 'reactstrap/lib/PopoverBody';
 import getRandomString from 'utils/getRandomString';
 
 type Props = {
-  onClick: () => any
   confirmationMessage?: string
   [key: string]: any
-}
+} & ButtonProps;
 
 type State = {
   id: string,
@@ -27,9 +26,11 @@ export default class ButtonWithConfirmation extends Component<Props, State> {
 
   closePopover = () => this.setState({ popoverOpen: false })
 
-  confirm = () => {
+  confirm = (e: React.MouseEvent<HTMLButtonElement>): void => {
     this.closePopover();
-    this.props.onClick();
+    if (this.props.onClick) {
+      this.props.onClick(e);
+    }
   }
 
   render() {

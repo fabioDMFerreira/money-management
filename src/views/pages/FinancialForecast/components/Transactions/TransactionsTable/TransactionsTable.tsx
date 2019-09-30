@@ -7,7 +7,7 @@ import TransactionData from 'models/TransactionData';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { DragTrComponent, DropTbodyComponent } from './DragComponents';
-import { dragTransaction, updateTransaction, createTag, updateTransactionsFilters, filterType } from 'redux/ducks/financial-forecast/actions';
+import { dragTransaction, updateTransaction, createTag, updateTransactionsFilters, filterType } from 'state/ducks/financial-forecast/actions';
 import Select from 'react-select/lib/Creatable';
 import { ValueType } from 'react-select/lib/types';
 import { Tag } from 'models/Tag';
@@ -172,7 +172,7 @@ export default class TransactionsTable extends Component<Props, State> {
         filterable: false,
         filterMethod: (filter: any, row: any) => {
           const { value } = filter;
-          return row.tags && !!row.tags.find((tag: Tag) => tag.value && tag.value.startsWith(value.toLowerCase()));
+          return row.tags && !!row.tags.find((tag: Tag) => tag.id && tag.id.startsWith(value.toLowerCase()));
         },
         Cell: (props: any) => this.editableCell(props, 'multiselect'),
         getProps: () => {

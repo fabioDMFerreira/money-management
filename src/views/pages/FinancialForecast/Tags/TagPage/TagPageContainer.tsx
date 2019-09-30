@@ -49,10 +49,10 @@ const mapStateToProps = (state: any, props: any) => {
   let transactions: TransactionDataInterface[] = [];
 
   if (props.match.params && props.match.params.id) {
-    tag = tags.find((tag: Tag) => tag.value === props.match.params.id);
+    tag = tags.find((tag: Tag) => tag.id === props.match.params.id);
     if (tag) {
       transactions = stateTransactions.filter((transaction: TransactionDataInterface) => {
-        return transaction.tags && transaction.tags.map(t => t.value).includes(tag.value)
+        return transaction.tags && transaction.tags.map(t => t.id).includes(tag.id)
       });
     }
   }

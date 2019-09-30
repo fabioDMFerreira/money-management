@@ -6,9 +6,9 @@ import {
   createTag,
   deleteTransaction,
   updateTransaction,
-} from 'redux/ducks/financial-forecast/actions';
+} from 'state/ducks/financial-forecast/actions';
 
-import { TRANSACTIONS } from 'redux/ducks/financial-forecast/consts';
+import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
 
 
 export default connect(

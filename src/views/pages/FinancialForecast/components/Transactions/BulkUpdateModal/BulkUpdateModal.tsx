@@ -87,7 +87,7 @@ export default class BulkUpdateModal extends Component<Props, State> {
               onChange={(value: any) => this.change('tags', value)}
               value={update.tags ? update.tags : []}
               onCreateOption={(newOptionLabel: string) => {
-                const newOption = { label: newOptionLabel, value: newOptionLabel.toLowerCase() }
+                const newOption = { label: newOptionLabel, id: newOptionLabel.toLowerCase() }
                 createTag(newOption);
                 if (update.tags) {
                   this.change('tags', [...update.tags, newOption])

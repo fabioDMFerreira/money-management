@@ -6,7 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import NotFound from 'views/pages/NotFound';
 import BalanceContainer from 'views/pages/FinancialForecast/Timeline';
 import Tags from 'views/pages/FinancialForecast/Tags';
-import Settings from 'views/pages/FinancialForecast/Settings';
+import Settings from 'views/pages/Settings';
 import Estimates from 'views/pages/FinancialForecast/Estimates';
 import Transactions from 'views/pages/FinancialForecast/components/Transactions';
 import TransactionsPage from 'views/pages/FinancialForecast/TransactionsPage';
@@ -15,7 +15,6 @@ import Dashboard from 'views/pages/Dashboard';
 import FinancialForecastHOC from 'views/pages/FinancialForecast';
 
 import './Main.css';
-
 
 const Main = () => (
 	<div id="main">

@@ -13,7 +13,7 @@ storiesOf('BulkUpdateModal', module)
       close={action('closed')}
       save={action('save')}
       tags={[
-        { label: 'tag 1', value: 'tag2' }
+        { label: 'tag 1', id: 'tag2' }
       ]}
       createTag={action('create tag')}
     />

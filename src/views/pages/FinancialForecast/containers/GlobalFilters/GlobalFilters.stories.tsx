@@ -20,16 +20,16 @@ storiesOf('GlobalFilters', module)
         endDate: YYYYMMDD(sumMonths(new Date(), 12)),
         tags: [{
           label: 'Tag 1',
-          value: 'tag1',
+          id: 'tag1',
         }]
       }}
       tags={
         [{
           label: 'Tag 1',
-          value: 'tag1',
+          id: 'tag1',
         }, {
           label: 'Tag 2',
-          value: 'tag2',
+          id: 'tag2',
         }]}
       updateGlobalFilter={action('update global filter')}
       createTag={action('create tag')}

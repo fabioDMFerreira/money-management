@@ -1,5 +1,5 @@
-import { updateTagsView } from 'redux/ducks/financial-forecast/actions';
-import { createTag } from 'redux/ducks/financial-forecast/actions';
+import { updateTagsView } from 'state/ducks/financial-forecast/actions';
+import { createTag } from 'state/ducks/financial-forecast/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 

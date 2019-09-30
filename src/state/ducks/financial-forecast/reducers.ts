@@ -59,7 +59,7 @@ export const initialState: State = {
 const removeTag = (tag: Tag) => {
   return (transaction: any) => {
     if (transaction.tags && transaction.tags.length) {
-      const tagIndex = transaction.tags.map((tag: any) => tag.value).indexOf(tag.value);
+      const tagIndex = transaction.tags.map((tag: any) => tag.id).indexOf(tag.id);
 
       if (tagIndex >= 0) {
         transaction.tags.splice(tagIndex, 1);
@@ -73,7 +73,7 @@ const removeTag = (tag: Tag) => {
 const updateTag = (tag: Tag, newTag: Tag) => {
   return (transaction: any) => {
     if (transaction.tags && transaction.tags.length) {
-      const tagIndex = transaction.tags.map((tag: any) => tag.value).indexOf(tag.value);
+      const tagIndex = transaction.tags.map((tag: any) => tag.id).indexOf(tag.id);
 
       if (tagIndex >= 0) {
         transaction.tags[tagIndex] = newTag;
@@ -143,7 +143,7 @@ export default (state: State = initialState, action: FinancialForecastActions): 
       const allTransactions = state.transactions.map(removeTag(action.tag)).toList();
 
       const tags = state.tags
-        .filter((tag: any) => tag.value !== action.tag.value)
+        .filter((tag: any) => tag.id !== action.tag.id)
         .toList();
 
       return {
@@ -163,7 +163,7 @@ export default (state: State = initialState, action: FinancialForecastActions): 
       const allTransactions = state.transactions.map(updateTag(action.tag, action.newTag)).toList();
 
       const tags = state.tags
-        .map((tag: any) => tag.value === action.tag.value ? action.newTag : tag)
+        .map((tag: any) => tag.id === action.tag.id ? action.newTag : tag)
         .toList();
 
       return {

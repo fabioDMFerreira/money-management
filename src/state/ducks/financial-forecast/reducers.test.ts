@@ -64,10 +64,10 @@ describe(`FinancialForecastReducer`, () => {
           globalFilters: {
             tags: [{
               label: 'label1',
-              value: 'label1'
+              id: 'label1'
             }, {
               label: 'label2',
-              value: 'label2'
+              id: 'label2'
             }]
           }
         };
@@ -78,10 +78,10 @@ describe(`FinancialForecastReducer`, () => {
 
         expect(createdTransaction.tags).toEqual([{
           label: 'label1',
-          value: 'label1'
+          id: 'label1'
         }, {
           label: 'label2',
-          value: 'label2'
+          id: 'label2'
         }]);
       })
     })
@@ -139,10 +139,10 @@ describe(`FinancialForecastReducer`, () => {
           globalFilters: {
             tags: [{
               label: 'tag1',
-              value: 'tag1'
+              id: 'tag1'
             }, {
               label: 'tag2',
-              value: 'tag2'
+              id: 'tag2'
             }]
           }
         }
@@ -152,17 +152,17 @@ describe(`FinancialForecastReducer`, () => {
           startDate: '2018-04-21',
           tags: [{
             label: 'tag1',
-            value: 'tag1'
+            id: 'tag1'
           }, {
             label: 'tag2',
-            value: 'tag2'
+            id: 'tag2'
           }]
         }, {
           description: 't2',
           startDate: '2019-12-12',
           tags: [{
             label: 'tag1',
-            value: 'tag1'
+            id: 'tag1'
           }],
         },
         {
@@ -170,7 +170,7 @@ describe(`FinancialForecastReducer`, () => {
           startDate: '2019-12-12',
           tags: [{
             label: 'tag3',
-            value: 'tag3'
+            id: 'tag3'
           }]
         }
         ]));

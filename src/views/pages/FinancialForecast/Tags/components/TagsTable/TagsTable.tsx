@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTable from 'react-table';
-import TagItem from 'views/pages/FinancialForecast/containers/TagItem';
+import TagItem from 'views/pages/Settings/containers/TagItem';
 
 const columns = [
   {
@@ -9,13 +9,13 @@ const columns = [
     Cell: (cellInfo: any) => {
       return <TagItem tag={{
         label: cellInfo.original.name,
-        value: cellInfo.original.id,
+        id: cellInfo.original.id,
         color: cellInfo.original.color,
       }} />
     }
   }, {
     Header: 'Value',
-    accessor: 'value'
+    accessor: 'id'
   }, {
     Header: 'Percentage',
     accessor: 'percentage'
