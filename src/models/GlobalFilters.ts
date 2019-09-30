@@ -1,10 +1,11 @@
 import { Tag } from "models/Tag";
 
-export type GlobalFilters = {
+export interface GlobalFilters {
   startDate?: string,
   endDate?: string,
   tags?: Tag[],
   credit?: number[],
   debit?: number[],
-  description?: string
+  description?: string,
+  wallet?: string,
 };

@@ -4,10 +4,6 @@ import chroma from 'chroma-js';
 
 import { Tag } from 'models/Tag';
 
-interface TagOption extends Tag {
-  value: string,
-}
-
 interface Props {
   tags: Tag[],
   tagsSelected: Tag[],
@@ -16,8 +12,6 @@ interface Props {
   classNamePrefix?: string
 }
 
-interface State {
-}
 
 const colorStyles = {
   option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
@@ -61,7 +55,7 @@ const colorStyles = {
   }),
 }
 
-export default class TagSelect extends Component<Props, State>{
+export default class TagSelect extends Component<Props>{
 
   render() {
     const { tagsSelected, tags, createTag, onChange, ...props } = this.props;

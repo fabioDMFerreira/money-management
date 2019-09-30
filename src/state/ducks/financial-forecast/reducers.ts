@@ -4,9 +4,9 @@ import { List } from 'immutable';
 import { TRANSACTIONS, ESTIMATES } from './consts';
 
 import YYYYMMDD from 'utils/YYYYMMDD';
-import TransactionDataInterface from 'models/TransactionData';
+import TransactionDataInterface from 'models/Transaction/TransactionConfig';
 import { Tag } from 'models/Tag';
-import { ForecastData } from 'models/ForecastData';
+import { ForecastConfig } from 'models/Forecast/ForecastConfig';
 import { sumMonths } from 'models/utils';
 import { GlobalFilters } from 'models/GlobalFilters';
 
@@ -32,7 +32,7 @@ export type State = {
   estimatesAllTransactions: List<TransactionDataInterface>
   estimatesFilters: filterType[]
   tags: List<Tag>
-  forecast: ForecastData
+  forecast: ForecastConfig
   tab: string
   globalFilters: GlobalFilters,
   tagsView: TagsView

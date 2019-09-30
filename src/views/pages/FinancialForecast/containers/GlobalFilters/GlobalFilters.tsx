@@ -13,12 +13,11 @@ import { Tag } from 'models/Tag';
 import Button from 'reactstrap/lib/Button';
 import DateRangePicker from 'views/components/DateRangePicker';
 import TagSelect from '../TagSelect';
+import WalletSelect from '../WalletSelect';
 
 type Props = {
   globalFilters: GlobalFilters,
-  tags: Tag[],
   updateGlobalFilter: (keyFilter: keyof GlobalFilters, value: any) => any,
-  createTag: (tag: Tag) => any
 }
 
 type State = {
@@ -33,7 +32,6 @@ export default class GlobalFiltersComponent extends Component<Props, State> {
 
   static defaultProps = {
     globalFilters: {},
-    tags: []
   }
 
   state = {
@@ -49,11 +47,10 @@ export default class GlobalFiltersComponent extends Component<Props, State> {
         tags: tagsSelected,
         credit,
         debit,
-        description
+        description,
+        wallet
       },
-      tags,
       updateGlobalFilter,
-      createTag,
     } = this.props;
 
     return <div>
@@ -76,6 +73,16 @@ export default class GlobalFiltersComponent extends Component<Props, State> {
               classNamePrefix="react-select"
               tagsSelected={tagsSelected || []}
               onChange={value => updateGlobalFilter('tags', value)}
+            />
+          </FormGroup>
+        </Col>
+        <Col xs={2}>
+          <FormGroup>
+            <Label>Wallet</Label>
+            <WalletSelect
+              classNamePrefix="react-select"
+              walletSelected={wallet || ""}
+              onChange={(option: any) => updateGlobalFilter('wallet', option.value || "")}
             />
           </FormGroup>
         </Col>

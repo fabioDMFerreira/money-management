@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import TransactionDataInterface from 'models/TransactionData';
+import TransactionDataInterface from 'models/Transaction/TransactionConfig';
 import { Tag } from 'models/Tag';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';

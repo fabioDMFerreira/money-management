@@ -1,5 +1,5 @@
-import { sumMonths, monthDiff, convertCurrencyToNumber } from "./utils";
-import TransactionData from "./TransactionData";
+import { sumMonths, monthDiff, convertCurrencyToNumber } from "../utils";
+import TransactionData from "./TransactionConfig";
 
 import YYYYMMDD from 'utils/YYYYMMDD';
 import getRandomString from "utils/getRandomString";
@@ -8,6 +8,7 @@ import getRandomString from "utils/getRandomString";
 export default class Transaction {
   id: string;
   description: string;
+  wallet?: string;
   _startDate: Date;
   _endDate: Date;
   _interval: number;

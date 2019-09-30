@@ -11,6 +11,7 @@ import Select from 'react-select/lib/Creatable';
 import Form from 'reactstrap/lib/Form';
 import Input from 'reactstrap/lib/Input';
 import { Tag } from 'models/Tag';
+import WalletSelect from 'views/pages/FinancialForecast/containers/WalletSelect';
 
 type Props = {
   opened: boolean | undefined,
@@ -23,6 +24,7 @@ type Props = {
 type UpdateType = {
   tags?: any
   description?: string
+  wallet?: string
 }
 
 type State = {
@@ -36,7 +38,6 @@ export default class BulkUpdateModal extends Component<Props, State> {
   }
 
   change = (key: keyof UpdateType, value: any) => {
-
     if (!value || !value.length) {
       const update = { ...this.state.update };
 
@@ -68,44 +69,53 @@ export default class BulkUpdateModal extends Component<Props, State> {
       update
     } = this.state;
 
-    return <Modal isOpen={opened} toggle={close}>
-      <ModalHeader toggle={close} > Bulk update</ModalHeader>
-      <ModalBody>
-        <Form>
-          <FormGroup>
-            <Label>Description</Label>
-            <Input
-              type="text"
-              value={update.description ? update.description : ''}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => { this.change("description", e.target.value) }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>Tags</Label>
-            <Select
-              options={tags}
-              onChange={(value: any) => this.change('tags', value)}
-              value={update.tags ? update.tags : []}
-              onCreateOption={(newOptionLabel: string) => {
-                const newOption = { label: newOptionLabel, id: newOptionLabel.toLowerCase() }
-                createTag(newOption);
-                if (update.tags) {
-                  this.change('tags', [...update.tags, newOption])
-                }
-                else {
-                  this.change('tags', [newOption]);
-                }
-              }}
-              isMulti
-            />
-          </FormGroup>
-        </Form>
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={() => save(this.state.update)}>Bulk update</Button>{' '}
-        <Button color="secondary" onClick={close}>Cancel</Button>
-      </ModalFooter>
-    </Modal >
+    return (
+      <Modal isOpen={opened} toggle={close}>
+        <ModalHeader toggle={close} > Bulk update</ModalHeader>
+        <ModalBody>
+          <Form>
+            <FormGroup>
+              <Label>Description</Label>
+              <Input
+                type="text"
+                value={update.description ? update.description : ''}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => { this.change("description", e.target.value) }}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label>Tags</Label>
+              <Select
+                options={tags}
+                onChange={(value: any) => this.change('tags', value)}
+                value={update.tags ? update.tags : []}
+                onCreateOption={(newOptionLabel: string) => {
+                  const newOption = { label: newOptionLabel, id: newOptionLabel.toLowerCase() }
+                  createTag(newOption);
+                  if (update.tags) {
+                    this.change('tags', [...update.tags, newOption])
+                  }
+                  else {
+                    this.change('tags', [newOption]);
+                  }
+                }}
+                isMulti
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label>Wallet</Label>
+              <WalletSelect
+                onChange={(value: any) => this.change('wallet', value.value)}
+                walletSelected={update.wallet ? update.wallet : ""}
+              />
+            </FormGroup>
+          </Form>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={() => save(this.state.update)}>Bulk update</Button>{' '}
+          <Button color="secondary" onClick={close}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+    )
   }
 }
 

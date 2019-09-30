@@ -16,8 +16,8 @@ import {
   BULK_DELETE_TRANSACTIONS,
   UPDATE_TAGS_VIEW
 } from "./types";
-import TransactionData from "models/TransactionData";
-import transactionEditableFields from 'models/TransactionEditableFields';
+import TransactionData from "models/Transaction/TransactionConfig";
+import transactionEditableFields from 'models/Transaction/TransactionEditableFields';
 import { Tag } from "models/Tag";
 
 type TransactionType = "TRANSACTIONS" | "ESTIMATES";

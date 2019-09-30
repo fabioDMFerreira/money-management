@@ -3,19 +3,21 @@ import ReactTable, { SortingRule, Column } from 'react-table';
 import styled from 'styled-components';
 import Input from 'reactstrap/lib/Input';
 
-import TransactionData from 'models/TransactionData';
+import TransactionData from 'models/Transaction/TransactionConfig';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { DragTrComponent, DropTbodyComponent } from './DragComponents';
 import { dragTransaction, updateTransaction, createTag, updateTransactionsFilters, filterType } from 'state/ducks/financial-forecast/actions';
 import Select from 'react-select/lib/Creatable';
-import { ValueType } from 'react-select/lib/types';
+import { ValueType, OptionsType } from 'react-select/lib/types';
 import { Tag } from 'models/Tag';
 import EditableInputHOC from 'views/hocs/EditableInputHoc';
 import FilterComponent from './FilterComponent';
-import TransactionDataInterface from 'models/TransactionData';
+import TransactionDataInterface from 'models/Transaction/TransactionConfig';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import TagSelect from 'views/pages/FinancialForecast/containers/TagSelect';
+import WalletSelect from 'views/pages/FinancialForecast/containers/WalletSelect';
+import { createWallet} from 'state/ducks/wallets';
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -106,15 +108,6 @@ export default class TransactionsTable extends Component<Props, State> {
             return this.props.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
           }}
         />;
-      case 'multiselect':
-        return <TagSelect
-          tagsSelected={cellInfo.value}
-          onChange={
-            (value: ValueType<Tag>) => {
-              this.props.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
-            }
-          }
-        />
       default:
         return <EditableInput
           type={type || 'text'
@@ -174,7 +167,35 @@ export default class TransactionsTable extends Component<Props, State> {
           const { value } = filter;
           return row.tags && !!row.tags.find((tag: Tag) => tag.id && tag.id.startsWith(value.toLowerCase()));
         },
-        Cell: (props: any) => this.editableCell(props, 'multiselect'),
+        Cell: (cellInfo: any) => (
+          <TagSelect
+            tagsSelected={cellInfo.value}
+            onChange={
+              (value: ValueType<Tag>) => {
+                this.props.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
+              }
+            }
+          />
+        ),
+        getProps: () => {
+          return {
+            style: {
+              overflow: 'visible',
+            }
+          };
+        }
+      }, {
+        Header: 'Wallet',
+        accessor: 'wallet',
+        width: 150,
+        Cell: (cellInfo: any) => (
+          <WalletSelect
+            onChange={(option: { label: string, value: string }) => {
+              this.props.updateTransaction(cellInfo.original.id, option && option.value ? option.value : null, cellInfo.column.id);
+            }}
+            walletSelected={cellInfo.value}
+          />
+        ),
         getProps: () => {
           return {
             style: {

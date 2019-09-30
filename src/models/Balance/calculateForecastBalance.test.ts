@@ -1,5 +1,5 @@
-import Forecast from "./Forecast";
-import Transaction from "./Transaction";
+import Forecast from "../Forecast/Forecast";
+import Transaction from "../Transaction";
 import calculateBalance from "./calculateForecastBalance";
 
 describe('calculateForecastBalance', () => {

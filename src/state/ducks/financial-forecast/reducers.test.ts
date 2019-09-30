@@ -8,7 +8,7 @@ import {
   updateGlobalFilter
 } from "./actions";
 import { List } from "immutable";
-import TransactionDataInterface from "../../../models/TransactionData";
+import TransactionConfig from "../../../models/Transaction/TransactionConfig";
 
 describe(`FinancialForecastReducer`, () => {
 
@@ -190,12 +190,12 @@ describe(`FinancialForecastReducer`, () => {
     it('should update transaction in transactions list and in all transactions list', () => {
       const state: State = {
         ...initialState,
-        transactions: List<TransactionDataInterface>([{
+        transactions: List<TransactionConfig>([{
           id: '1',
           description: 't1',
           credit: 50
         }]),
-        allTransactions: List<TransactionDataInterface>([{ id: '2', description: 't2' }, {
+        allTransactions: List<TransactionConfig>([{ id: '2', description: 't2' }, {
           id: '1',
           description: 't1',
           credit: 50
@@ -214,12 +214,12 @@ describe(`FinancialForecastReducer`, () => {
         globalFilters: {
           startDate: '2019-04-01'
         },
-        transactions: List<TransactionDataInterface>([{
+        transactions: List<TransactionConfig>([{
           id: '1',
           description: 't1',
           startDate: '2019-04-10'
         }]),
-        allTransactions: List<TransactionDataInterface>([{
+        allTransactions: List<TransactionConfig>([{
           id: '1',
           description: 't1',
           startDate: '2019-04-10'
@@ -238,12 +238,12 @@ describe(`FinancialForecastReducer`, () => {
     it('should delete transactions from transactions list and all transactions list', () => {
       const state: State = {
         ...initialState,
-        transactions: List<TransactionDataInterface>([{
+        transactions: List<TransactionConfig>([{
           id: '1',
           description: 't1',
           startDate: '2019-04-10'
         }]),
-        allTransactions: List<TransactionDataInterface>([{
+        allTransactions: List<TransactionConfig>([{
           id: '2',
           description: 't2',
         }, {
@@ -265,12 +265,12 @@ describe(`FinancialForecastReducer`, () => {
     it('should delete all transactions from transactions list and all transactions list', () => {
       const state: State = {
         ...initialState,
-        transactions: List<TransactionDataInterface>([{
+        transactions: List<TransactionConfig>([{
           id: '1',
           description: 't1',
           startDate: '2019-04-10'
         }]),
-        allTransactions: List<TransactionDataInterface>([{
+        allTransactions: List<TransactionConfig>([{
           id: '2',
           description: 't2',
         }, {
@@ -292,7 +292,7 @@ describe(`FinancialForecastReducer`, () => {
     it('should update global filter and filter transactions', () => {
       const state: State = {
         ...initialState,
-        transactions: List<TransactionDataInterface>([{
+        transactions: List<TransactionConfig>([{
           id: '2',
           description: 't2',
           startDate: '2020-04-03'
@@ -301,7 +301,7 @@ describe(`FinancialForecastReducer`, () => {
           description: 't1',
           startDate: '2019-04-10'
         }]),
-        allTransactions: List<TransactionDataInterface>([{
+        allTransactions: List<TransactionConfig>([{
           id: '2',
           description: 't2',
           startDate: '2020-04-03'

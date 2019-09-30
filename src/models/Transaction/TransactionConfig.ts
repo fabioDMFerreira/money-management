@@ -1,6 +1,6 @@
-import { Tag } from './Tag';
+import { Tag } from '../Tag';
 
-export default interface TransactionData {
+export default interface TransactionConfig {
   id?: string,
   startDate?: string,
   endDate?: string,
@@ -13,4 +13,5 @@ export default interface TransactionData {
   visible?: boolean,
   tags?: Tag[],
   selected?: boolean,
+  wallet?: string,
 }

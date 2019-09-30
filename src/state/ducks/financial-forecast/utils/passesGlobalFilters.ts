@@ -1,5 +1,5 @@
 import { GlobalFilters } from 'models/GlobalFilters';
-import TransactionDataInterface from 'models/TransactionData';
+import TransactionDataInterface from 'models/Transaction/TransactionConfig';
 
 export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionDataInterface) => {
   let matchesStartDate = true;
@@ -8,6 +8,7 @@ export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionD
   let matchesCredit = true;
   let matchesDebit = true;
   let matchesDescription = true;
+  let matchesWallet = true;
 
   if (globalFilters.startDate && transaction.startDate) {
     matchesStartDate = new Date(transaction.startDate) >= new Date(globalFilters.startDate);
@@ -30,6 +31,10 @@ export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionD
     }
   }
 
+  if(globalFilters.wallet){
+    matchesWallet = transaction.wallet === globalFilters.wallet;
+  }
+
   if (globalFilters.credit && transaction.credit && +transaction.credit > 0) {
     matchesCredit = +transaction.credit >= globalFilters.credit[0] && +transaction.credit <= globalFilters.credit[1];
   } else if (globalFilters.credit && !transaction.credit) {
@@ -48,5 +53,11 @@ export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionD
     matchesDescription = false;
   }
 
-  return matchesStartDate && matchesEndDate && matchesTags && matchesCredit && matchesDebit && matchesDescription;
+  return matchesStartDate &&
+  matchesEndDate &&
+  matchesTags &&
+  matchesCredit &&
+  matchesDebit &&
+  matchesDescription &&
+  matchesWallet;
 }

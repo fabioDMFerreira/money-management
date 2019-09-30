@@ -1,8 +1,8 @@
 import Balance from "./Balance";
-import Forecast from "./Forecast";
-import Transaction from "./Transaction";
-import { monthDiff, sumMonths, isMonthsIntervalInGroup, isDateIntervalInGroup } from "./utils";
-import calculateBalance from "./Balance/calculateBalance";
+import Forecast from "../Forecast/Forecast";
+import Transaction from "../Transaction";
+import { monthDiff, sumMonths, isMonthsIntervalInGroup, isDateIntervalInGroup } from "../utils";
+import calculateBalance from "./calculateBalance";
 import roundDecimal from "utils/roundDecimal";
 
 export default (forecast: Forecast, transactions: Transaction[]): Balance[] => {

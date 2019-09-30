@@ -14,7 +14,8 @@ import { sumMonths } from 'models/utils';
 
 storiesOf('GlobalFilters', module)
   .add('default', () => (
-    <GlobalFilters
+    <span></span>
+    /*<GlobalFilters
       globalFilters={{
         startDate: YYYYMMDD(new Date()),
         endDate: YYYYMMDD(sumMonths(new Date(), 12)),
@@ -23,15 +24,6 @@ storiesOf('GlobalFilters', module)
           id: 'tag1',
         }]
       }}
-      tags={
-        [{
-          label: 'Tag 1',
-          id: 'tag1',
-        }, {
-          label: 'Tag 2',
-          id: 'tag2',
-        }]}
       updateGlobalFilter={action('update global filter')}
-      createTag={action('create tag')}
-    />
+    />*/
   ));

@@ -1,4 +1,4 @@
-import TransactionDataInterface from "models/TransactionData";
+import TransactionDataInterface from "models/Transaction/TransactionConfig";
 import { filterType } from "state/ducks/financial-forecast/actions";
 
 export default (filters: filterType[] | undefined | null) => (transaction: TransactionDataInterface) => {

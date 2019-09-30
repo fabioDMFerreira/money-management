@@ -8,16 +8,13 @@ export default connect(
     const {
       financialForecast: {
         globalFilters,
-        tags
       }
     } = state;
 
     return {
       globalFilters,
-      tags
     }
   }, {
-    updateGlobalFilter,
-    createTag
-  }
+  updateGlobalFilter,
+}
 )(GlobalFilters)

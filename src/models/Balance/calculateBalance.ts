@@ -1,4 +1,4 @@
-import Transaction from "./Transaction";
+import Transaction from "../Transaction";
 import Balance from "./Balance";
 import roundDecimal from "utils/roundDecimal";
 

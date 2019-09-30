@@ -14,16 +14,18 @@ import Button from 'reactstrap/lib/Button';
 import YYYYMMDD from 'utils/YYYYMMDD';
 import csvJSON from 'utils/csvJSON';
 
-import TransactionDataInterface from 'models/TransactionData';
+import TransactionConfig from 'models/Transaction/TransactionConfig';
 import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType, bulkDeleteTransactions } from 'state/ducks/financial-forecast/actions';
 import { Tag } from 'models/Tag';
-import TransactionFieldsMetadata from 'models/TransactionFieldsMetadata';
+import TransactionFieldsMetadata from 'models/Transaction/TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
 import ImportTransactionsModal from './ImportTransactionsModal';
 import BulkUpdateModal from './BulkUpdateModal';
 
 import TransactionsTable from './TransactionsTable';
 import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
+import { createWallet } from 'state/ducks/wallets';
+import { Wallet } from 'models/Wallet';
 
 const TableActions = styled.div`
   background-color: $white;
@@ -35,7 +37,7 @@ const TableActions = styled.div`
 `;
 
 type Props = {
-  transactions: TransactionDataInterface[],
+  transactions: TransactionConfig[],
   addNewTransaction: any
   bulkAddTransactions: any,
   bulkDeleteTransactions: any,
@@ -44,6 +46,7 @@ type Props = {
   clearTransactions: any,
   dragTransaction: any
   createTag: typeof createTag,
+  createWallet: typeof createWallet,
   tags: Tag[],
   updateTransactionsFilters: any
   filters: filterType[],
@@ -70,7 +73,7 @@ export default class Transactions extends Component<Props, State> {
 
   fileInput: any;
 
-  parseTransactionsToCsv = (transactions: TransactionDataInterface[]) => {
+  parseTransactionsToCsv = (transactions: TransactionConfig[]) => {
     return transactions.map(t => {
       return {
         ...t,
@@ -145,7 +148,7 @@ export default class Transactions extends Component<Props, State> {
 
     transactions
       .filter(transaction => transaction.selected)
-      .forEach((transaction: TransactionDataInterface) => {
+      .forEach((transaction: TransactionConfig) => {
         Object.entries(update).forEach(([key, value]: [any, any]) => {
           if (transaction.id) {
             updateTransaction(transaction.id, value, key);
@@ -177,7 +180,8 @@ export default class Transactions extends Component<Props, State> {
       bulkAddTransactions,
       updateTransaction,
       deleteTransaction,
-      dragTransaction
+      dragTransaction,
+      createWallet,
     } = this.props;
 
     return (

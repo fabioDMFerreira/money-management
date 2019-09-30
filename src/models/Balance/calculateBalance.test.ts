@@ -1,4 +1,4 @@
-import Transaction from "./Transaction";
+import Transaction from "../Transaction";
 import calculateBalance from "./calculateBalance";
 import Balance from "./Balance";
 

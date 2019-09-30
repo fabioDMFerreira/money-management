@@ -1,12 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import Input from 'reactstrap/lib/Input';
-import Button from 'reactstrap/lib/Button';
-import FormGroup from 'reactstrap/lib/FormGroup';
-import Label from 'reactstrap/lib/Label';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
@@ -14,14 +9,14 @@ import moment from 'moment';
 
 
 import BalanceTable from './components/BalanceTable';
-import { ForecastData } from 'models/ForecastData';
+import { ForecastConfig } from 'models/Forecast/ForecastConfig';
 import { updateForecast, ForecastEditableFieldsType, filterType } from 'state/ducks/financial-forecast/actions';
-import TransactionDataInterface from 'models/TransactionData';
+import TransactionConfig from 'models/Transaction/TransactionConfig';
 import passesFilters from './passesFilters';
-import Forecast from 'models/Forecast';
-import calculateForecastBalance from 'models/calculateForecastBalance';
+import Forecast from 'models/Forecast/Forecast';
+import calculateForecastBalance from 'models/Balance/calculateForecastBalance';
 import Transaction from 'models/Transaction';
-import Balance from 'models/Balance';
+import Balance from 'models/Balance/Balance';
 import YYYYMM from 'utils/YYYYMM';
 import TransactionsTable from '../TransactionsPage';
 import YYYYMMDD from 'utils/YYYYMMDD';
@@ -35,14 +30,14 @@ type State = {
   forecastView: forecastView,
   monthSelected?: string,
   monthBalance?: Balance,
-  transactions: TransactionDataInterface[],
-  estimatesTransactions: TransactionDataInterface[]
+  transactions: TransactionConfig[],
+  estimatesTransactions: TransactionConfig[]
 };
 
 type Props = {
-  transactions: TransactionDataInterface[],
-  estimatesTransactions: TransactionDataInterface[],
-  forecast: ForecastData,
+  transactions: TransactionConfig[],
+  estimatesTransactions: TransactionConfig[],
+  forecast: ForecastConfig,
   updateForecast: typeof updateForecast,
   filters: filterType[],
 };
@@ -59,8 +54,8 @@ export default class BalanceComponent extends Component<Props, State> {
   state: State = {
     balance: [] as Balance[],
     forecastView: "chart",
-    transactions: [] as TransactionDataInterface[],
-    estimatesTransactions: [] as TransactionDataInterface[]
+    transactions: [] as TransactionConfig[],
+    estimatesTransactions: [] as TransactionConfig[]
   }
 
   constructor(props: Props) {
@@ -99,7 +94,7 @@ export default class BalanceComponent extends Component<Props, State> {
     });
   }
 
-  calculateBalance = (transactionsData: TransactionDataInterface[], estimatesData: TransactionDataInterface[]): Balance[] => {
+  calculateBalance = (transactionsData: TransactionConfig[], estimatesData: TransactionConfig[]): Balance[] => {
     const transactions: Transaction[] =
       transactionsData
         .filter(transaction => transaction.visible)

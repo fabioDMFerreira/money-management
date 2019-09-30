@@ -1,8 +1,8 @@
 import Transaction from "models/Transaction";
-import transactionEditableFields from "models/TransactionEditableFields";
-import TransactionDataInterface from "models/TransactionData";
+import transactionEditableFields from "models/Transaction/TransactionEditableFields";
+import TransactionConfig from "models/Transaction/TransactionConfig";
 
-export default (field: transactionEditableFields, value: any) => (transaction: TransactionDataInterface) => {
+export default (field: transactionEditableFields, value: any) => (transaction: TransactionConfig) => {
 
   switch (field) {
     case 'visible':
@@ -25,6 +25,12 @@ export default (field: transactionEditableFields, value: any) => (transaction: T
         ...transaction,
         selected: value
       }
+    case 'wallet': {
+      return {
+        ...transaction,
+        wallet: value,
+      }
+    }
     default:
       break
   }
