@@ -1,6 +1,6 @@
-import { Tag } from "models/ITag";
+import { Tag } from "models/Tag";
 
-export type GlobalFiltersType = {
+export type GlobalFilters = {
   startDate?: string,
   endDate?: string,
   tags?: Tag[],

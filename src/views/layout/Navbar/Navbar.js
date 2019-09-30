@@ -1,5 +1,4 @@
 import React from 'react';
-import { bool } from 'prop-types';
 import {
 	Nav,
 	NavItem,
@@ -23,7 +22,7 @@ import {
 import './Navbar.css';
 // import Logout from '../Logout';
 
-const Navbar = ({ isLoggedIn }) => (
+const Navbar = () => (
 	<Nav className="ml-auto" navbar vertical={false}>
 		<NavItem>
 			{/* <NavLink tag={RRNavLink} exact to="/">
@@ -56,11 +55,11 @@ const Navbar = ({ isLoggedIn }) => (
 );
 
 Navbar.propTypes = {
-	isLoggedIn: bool,
+	// isLoggedIn: bool,
 };
 
 Navbar.defaultProps = {
-	isLoggedIn: false,
+	// isLoggedIn: false,
 };
 
 export default Navbar;

@@ -1,6 +1,6 @@
 import Transaction from "models/Transaction";
 import transactionEditableFields from "models/TransactionEditableFields";
-import TransactionDataInterface from "models/ITransactionData";
+import TransactionDataInterface from "models/TransactionData";
 
 export default (field: transactionEditableFields, value: any) => (transaction: TransactionDataInterface) => {
 

@@ -15,7 +15,7 @@ import {
 import YYYYMMDD from 'utils/YYYYMMDD';
 import Transaction from 'models/Transaction';
 import passesGlobalFilters from './passesGlobalFilters';
-import TransactionDataInterface from 'models/ITransactionData';
+import TransactionDataInterface from 'models/TransactionData';
 import getDatesPartsPositions from './getDatesPartsPositions';
 import fixDatePartsPositionsFactory from './fixDatePartsPositionsFactory';
 import checkTransactionDuplicatedFactory from './checkTransactionDuplicatedFactory';

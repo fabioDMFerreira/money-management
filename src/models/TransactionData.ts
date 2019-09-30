@@ -1,6 +1,6 @@
-import { Tag } from './ITag';
+import { Tag } from './Tag';
 
-export default interface TransactionDataInterface {
+export default interface TransactionData {
   id?: string,
   startDate?: string,
   endDate?: string,

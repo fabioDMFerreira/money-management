@@ -19,7 +19,7 @@ import {
 	NETWORK_UNSUPPORTED_MEDIA_TYPE,
 	ORDER_BY,
 	NETWORK_500,
-	LOGOUT
+	LOGOUT,
 } from './consts';
 
 export default {
@@ -43,5 +43,5 @@ export default {
 	[NETWORK_UNSUPPORTED_MEDIA_TYPE]: 'Unsupported media type',
 	[NETWORK_500]: 'Error doing request',
 	[ORDER_BY]: 'Order by',
-	[LOGOUT]: 'Exit'
+	[LOGOUT]: 'Exit',
 };

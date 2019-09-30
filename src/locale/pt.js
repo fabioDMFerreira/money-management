@@ -18,7 +18,7 @@ import {
 	NETWORK_UNSUPPORTED_MEDIA_TYPE,
 	ORDER_BY,
 	NETWORK_500,
-	LOGOUT
+	LOGOUT,
 } from './consts';
 
 export default {
@@ -42,5 +42,5 @@ export default {
 	[NETWORK_UNSUPPORTED_MEDIA_TYPE]: 'Media type não suportado',
 	[NETWORK_500]: 'Erro ao fazer pedido',
 	[ORDER_BY]: 'Ordenar por',
-	[LOGOUT]: 'Sair'
+	[LOGOUT]: 'Sair',
 };

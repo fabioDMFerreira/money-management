@@ -1,5 +1,5 @@
 import { List } from "immutable";
-import TransactionDataInterface from "models/ITransactionData";
+import TransactionDataInterface from "models/TransactionData";
 
 export default (allTransactions: List<TransactionDataInterface>) => (transaction: TransactionDataInterface): boolean => {
   return !allTransactions.some((listTransaction) => {

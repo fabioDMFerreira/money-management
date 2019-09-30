@@ -7,13 +7,15 @@ import { LANGUAGE_CODE } from 'localstorage/consts';
 
 export default (dispatch) => {
 	const languages = [{
-			name: 'EN',
-			code: 'en',
-		}, {
-			name: 'PT',
-			code: 'pt',
-		}],
-		activeLanguage = localStorage.getItem(LANGUAGE_CODE) || languages[0].code;
+		name: 'EN',
+		code: 'en',
+	}, {
+		name: 'PT',
+		code: 'pt',
+	}];
+
+
+	const activeLanguage = window.localStorage.getItem(LANGUAGE_CODE) || languages[0].code;
 
 	dispatch(initialize({
 		languages,

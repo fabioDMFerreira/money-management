@@ -1,5 +1,5 @@
-import { Tag } from 'models/ITag';
-import TransactionDataInterface from 'models/ITransactionData';
+import { Tag } from 'models/Tag';
+import TransactionDataInterface from 'models/TransactionData';
 
 type TransactionValueField = "credit" | "debit";
 

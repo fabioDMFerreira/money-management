@@ -13,8 +13,8 @@ const persistConfig = {
 	key: 'state',
 	storage,
 	transforms: [immutableTransform({
-		whitelist: ['financialForecast']
-	})]
+		whitelist: ['financialForecast'],
+	})],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -14,14 +14,14 @@ import moment from 'moment';
 
 
 import BalanceTable from './components/BalanceTable';
-import { ForecastDataInterface } from 'models/IForecastData';
+import { ForecastData } from 'models/ForecastData';
 import { updateForecast, ForecastEditableFieldsType, filterType } from 'redux/ducks/financial-forecast/actions';
-import TransactionDataInterface from 'models/ITransactionData';
+import TransactionDataInterface from 'models/TransactionData';
 import passesFilters from './passesFilters';
 import Forecast from 'models/Forecast';
 import calculateForecastBalance from 'models/calculateForecastBalance';
 import Transaction from 'models/Transaction';
-import Balance from 'models/IBalance';
+import Balance from 'models/Balance';
 import YYYYMM from 'utils/YYYYMM';
 import TransactionsTable from '../TransactionsPage';
 import YYYYMMDD from 'utils/YYYYMMDD';
@@ -42,7 +42,7 @@ type State = {
 type Props = {
   transactions: TransactionDataInterface[],
   estimatesTransactions: TransactionDataInterface[],
-  forecast: ForecastDataInterface,
+  forecast: ForecastData,
   updateForecast: typeof updateForecast,
   filters: filterType[],
 };

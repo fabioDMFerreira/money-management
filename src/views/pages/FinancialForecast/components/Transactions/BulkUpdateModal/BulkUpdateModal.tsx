@@ -10,7 +10,7 @@ import Select from 'react-select/lib/Creatable';
 
 import Form from 'reactstrap/lib/Form';
 import Input from 'reactstrap/lib/Input';
-import { Tag } from 'models/ITag';
+import { Tag } from 'models/Tag';
 
 type Props = {
   opened: boolean | undefined,

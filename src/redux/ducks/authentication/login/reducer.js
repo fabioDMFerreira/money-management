@@ -4,7 +4,6 @@ export default (state = {}, action = {}) => {
 	switch (action.type) {
 	case LOGIN_FULFILLED:
 		if (!action.payload || !action.payload.token) {
-			console.trace('Token undefined');
 			return state;
 		}
 		return {

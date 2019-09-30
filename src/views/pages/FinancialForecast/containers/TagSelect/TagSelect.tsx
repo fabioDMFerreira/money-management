@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Select from 'react-select/lib/Creatable';
 import chroma from 'chroma-js';
 
-import { Tag } from 'models/ITag';
+import { Tag } from 'models/Tag';
 
 interface Props {
   tags: Tag[],

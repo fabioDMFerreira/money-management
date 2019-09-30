@@ -4,11 +4,11 @@ import { List } from 'immutable';
 import { TRANSACTIONS, ESTIMATES } from './consts';
 
 import YYYYMMDD from 'utils/YYYYMMDD';
-import TransactionDataInterface from 'models/ITransactionData';
-import { Tag } from 'models/ITag';
-import { ForecastDataInterface } from 'models/IForecastData';
+import TransactionDataInterface from 'models/TransactionData';
+import { Tag } from 'models/Tag';
+import { ForecastData } from 'models/ForecastData';
 import { sumMonths } from 'models/utils';
-import { GlobalFiltersType } from 'models/GlobalFiltersType';
+import { GlobalFilters } from 'models/GlobalFilters';
 
 import {
   CREATE_TAG,
@@ -32,9 +32,9 @@ export type State = {
   estimatesAllTransactions: List<TransactionDataInterface>
   estimatesFilters: filterType[]
   tags: List<Tag>
-  forecast: ForecastDataInterface
+  forecast: ForecastData
   tab: string
-  globalFilters: GlobalFiltersType,
+  globalFilters: GlobalFilters,
   tagsView: TagsView
 }
 

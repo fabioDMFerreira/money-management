@@ -18,13 +18,14 @@ export default (provider, BaseComponent) => {
 			setToken: func.isRequired,
 		};
 
-		state = {
-			disabled: false,
-		}
 
 		constructor(props) {
 			super(props);
 			this.startAuth = this.startAuth.bind(this);
+		}
+
+		state = {
+			disabled: false,
 		}
 
 		componentDidMount() {
@@ -48,28 +49,29 @@ export default (provider, BaseComponent) => {
 			}, 1000);
 		}
 
-		openPopup() {
-			const width = 600,
-				height = 600;
-			const left = (window.innerWidth / 2) - (width / 2);
-			const top = (window.innerHeight / 2) - (height / 2);
-			const url = `${API_URL}/api/users/${provider}?socketId=${socket.id}`;
+		// openPopup() {
+		// 	const width = 600;
 
-			return window.open(
-				url, '',
-				`toolbar=no, location=no, directories=no, status=no, menubar=no,
-				scrollbars=no, resizable=no, copyhistory=no, width=${width},
-				height=${height}, top=${top}, left=${left}`,
-			);
-		}
+		// 	const height = 600;
+		// 	const left = (window.innerWidth / 2) - (width / 2);
+		// 	const top = (window.innerHeight / 2) - (height / 2);
+		// 	const url = `${API_URL}/api/users/${provider}?socketId=${socket.id}`;
+
+		// 	return window.open(
+		// 		url, '',
+		// 		`toolbar=no, location=no, directories=no, status=no, menubar=no,
+		// 		scrollbars=no, resizable=no, copyhistory=no, width=${width},
+		// 		height=${height}, top=${top}, left=${left}`,
+		// 	);
+		// }
 
 		startAuth = () => {
 			if (!this.state.disabled) {
-				window.authenticateCallback = function(token) {
+				window.authenticateCallback = function (token) {
 					setToken(token);
 				};
 
-				window.open(`${ API_URL }/api/users/${ provider }`);
+				window.open(`${API_URL}/api/users/${provider}`);
 				// this.popup = this.openPopup();
 				// this.checkPopup();
 				// this.setState({ disabled: true });
@@ -81,7 +83,7 @@ export default (provider, BaseComponent) => {
 
 
 			return (
-				<div className='oauth'>
+				<div className="oauth">
 					<BaseComponent
 						onClick={this.startAuth}
 						disabled={disabled}
@@ -92,5 +94,4 @@ export default (provider, BaseComponent) => {
 	}
 
 	return connect(null, { setToken })(OAuth);
-
 };

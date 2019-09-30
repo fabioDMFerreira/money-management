@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Input from 'reactstrap/lib/Input';
 
-import { Tag } from 'models/ITag';
+import { Tag } from 'models/Tag';
 import TransactionsTable from '../../components/Transactions/TransactionsTable/TransactionsTableContainer';
-import TransactionDataInterface from 'models/ITransactionData';
+import TransactionDataInterface from 'models/TransactionData';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import TagItem from '../../containers/TagItem';

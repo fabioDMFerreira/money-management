@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
 	form: FormReducer,
 	localize,
 	authentication,
-	financialForecast: FinancialForecastReducer
+	financialForecast: FinancialForecastReducer,
 });
 
 export default rootReducer;

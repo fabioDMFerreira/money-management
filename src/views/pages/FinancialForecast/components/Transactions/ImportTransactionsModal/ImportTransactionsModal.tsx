@@ -8,7 +8,7 @@ import Label from 'reactstrap/lib/Label';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Select from 'react-select';
 
-import TransactionData from 'models/ITransactionData';
+import TransactionData from 'models/TransactionData';
 import TransactionFieldsMetadata, { Metadata } from 'models/TransactionFieldsMetadata';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';

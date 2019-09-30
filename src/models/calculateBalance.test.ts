@@ -1,6 +1,6 @@
 import Transaction from "./Transaction";
 import calculateBalance from "./calculateBalance";
-import Balance from "./IBalance";
+import Balance from "./Balance";
 
 describe('calculate balance', () => {
   it('should return balance of transactions passed', () => {

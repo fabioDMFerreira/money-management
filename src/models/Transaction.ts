@@ -1,5 +1,5 @@
 import { sumMonths, monthDiff, convertCurrencyToNumber } from "./utils";
-import TransactionDataInterface from "./ITransactionData";
+import TransactionDataInterface from "./TransactionData";
 
 import YYYYMMDD from 'utils/YYYYMMDD';
 import getRandomString from "utils/getRandomString";

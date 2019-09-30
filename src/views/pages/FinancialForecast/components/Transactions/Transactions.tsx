@@ -14,9 +14,9 @@ import Button from 'reactstrap/lib/Button';
 import YYYYMMDD from 'utils/YYYYMMDD';
 import csvJSON from 'utils/csvJSON';
 
-import TransactionDataInterface from 'models/ITransactionData';
+import TransactionDataInterface from 'models/TransactionData';
 import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType, bulkDeleteTransactions } from 'redux/ducks/financial-forecast/actions';
-import { Tag } from 'models/ITag';
+import { Tag } from 'models/Tag';
 import TransactionFieldsMetadata from 'models/TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
 import ImportTransactionsModal from './ImportTransactionsModal';

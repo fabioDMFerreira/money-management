@@ -5,7 +5,7 @@ import ListGroupItem from 'reactstrap/lib/ListGroupItem';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 
-import { Tag } from 'models/ITag';
+import { Tag } from 'models/Tag';
 import { deleteTag, updateTag } from 'redux/ducks/financial-forecast/actions';
 import TagItem from '../containers/TagItem';
 

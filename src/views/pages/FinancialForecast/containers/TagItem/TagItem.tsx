@@ -6,7 +6,7 @@ import Input from 'reactstrap/lib/Input';
 import styled from 'styled-components';
 import chroma from 'chroma-js';
 
-import { Tag } from 'models/ITag';
+import { Tag } from 'models/Tag';
 import Form from 'reactstrap/lib/Form';
 import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
 import { Link } from 'react-router-dom';

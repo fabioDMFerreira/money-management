@@ -3,17 +3,17 @@ import ReactTable, { SortingRule, Column } from 'react-table';
 import styled from 'styled-components';
 import Input from 'reactstrap/lib/Input';
 
-import TransactionData from 'models/ITransactionData';
+import TransactionData from 'models/TransactionData';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { DragTrComponent, DropTbodyComponent } from './DragComponents';
 import { dragTransaction, updateTransaction, createTag, updateTransactionsFilters, filterType } from 'redux/ducks/financial-forecast/actions';
 import Select from 'react-select/lib/Creatable';
 import { ValueType } from 'react-select/lib/types';
-import { Tag } from 'models/ITag';
+import { Tag } from 'models/Tag';
 import EditableInputHOC from 'views/hocs/EditableInputHoc';
 import FilterComponent from './FilterComponent';
-import TransactionDataInterface from 'models/ITransactionData';
+import TransactionDataInterface from 'models/TransactionData';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import TagSelect from 'views/pages/FinancialForecast/containers/TagSelect';
 

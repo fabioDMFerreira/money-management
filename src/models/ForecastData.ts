@@ -1,4 +1,4 @@
-export interface ForecastDataInterface {
+export interface ForecastData {
   initialValue: string,
   startDate: string,
   endDate: string,

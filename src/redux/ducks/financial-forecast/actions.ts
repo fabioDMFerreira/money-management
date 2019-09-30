@@ -1,4 +1,4 @@
-import { GlobalFiltersType } from 'models/GlobalFiltersType';
+import { GlobalFilters } from 'models/GlobalFilters';
 import {
   ADD_NEW_TRANSACTION,
   BULK_ADD_TRANSACTIONS,
@@ -16,9 +16,9 @@ import {
   BULK_DELETE_TRANSACTIONS,
   UPDATE_TAGS_VIEW
 } from "./types";
-import TransactionData from "models/ITransactionData";
+import TransactionData from "models/TransactionData";
 import transactionEditableFields from 'models/TransactionEditableFields';
-import { Tag } from "models/ITag";
+import { Tag } from "models/Tag";
 
 type TransactionType = "TRANSACTIONS" | "ESTIMATES";
 
@@ -161,11 +161,11 @@ export const setActiveTab = (value: string): ActionSetActiveTabInterface => ({
 
 export interface ActionUpdateGlobalFilterInterface {
   type: typeof UPDATE_GLOBAL_FILTER,
-  filterKey: keyof GlobalFiltersType
+  filterKey: keyof GlobalFilters
   value: any
 }
 
-export const updateGlobalFilter = (filterKey: keyof GlobalFiltersType, value: any): ActionUpdateGlobalFilterInterface => ({
+export const updateGlobalFilter = (filterKey: keyof GlobalFilters, value: any): ActionUpdateGlobalFilterInterface => ({
   type: UPDATE_GLOBAL_FILTER,
   filterKey,
   value

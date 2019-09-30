@@ -23,7 +23,9 @@ module.exports = {
         "react/jsx-indent": [1, "tab"],
         "react/jsx-indent-props": [1, 0],
         "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["registration"] }],
-        "one-var": ["error", "never "]
+        "one-var": ["error", "never"],
+        "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
+        "no-underscore-dangle": [2, { "allow": ["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"] }]
     },
     "globals": {
         "document": true,

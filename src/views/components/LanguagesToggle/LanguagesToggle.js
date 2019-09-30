@@ -8,18 +8,23 @@ import './LanguagesToggle.css';
 const LanguagesToggle = ({ currentLanguage, languages, setActiveLanguage }) => (
 	<React.Fragment>
 		{
-			languages.map(
-				language =>
+			languages.map(language =>
+				(
 					<React.Fragment>
-						<span
-							className={'language-badge ' + (currentLanguage.code === language.code ? 'active' : '')}
+						<a
+							href="javascrip:void(0)"
+							className={
+								`language-badge ${currentLanguage.code === language.code ?
+									'active' : ''
+								}`}
 							key={generateKey(language.code)}
 							onClick={() => setActiveLanguage(language.code)}
+							onKeyDown={() => setActiveLanguage(language.code)}
 						>
 							{language.name}
-						</span>{' '}
+						</a>{' '}
 					</React.Fragment>
-			)
+				))
 		}
 	</React.Fragment>
 );

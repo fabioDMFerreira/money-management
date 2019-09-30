@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
-import TransactionDataInterface from 'models/ITransactionData';
-import { Tag } from 'models/ITag';
+import TransactionDataInterface from 'models/TransactionData';
+import { Tag } from 'models/Tag';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import { createTag, TagsView, updateTagsView } from 'redux/ducks/financial-forecast/actions';

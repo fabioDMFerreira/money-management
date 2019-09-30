@@ -2,23 +2,22 @@ import React, { Component } from 'react';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import Input from 'reactstrap/lib/Input';
-import Select from 'react-select/lib/Creatable';
 import { createSliderWithTooltip, Range as SliderRange } from 'rc-slider';
 import { DebounceInput } from 'react-debounce-input';
 
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Label from 'reactstrap/lib/Label';
 
-import { GlobalFiltersType } from 'models/GlobalFiltersType';
-import { Tag } from 'models/ITag';
+import { GlobalFilters } from 'models/GlobalFilters';
+import { Tag } from 'models/Tag';
 import Button from 'reactstrap/lib/Button';
 import DateRangePicker from 'views/components/DateRangePicker';
 import TagSelect from '../TagSelect';
 
 type Props = {
-  globalFilters: GlobalFiltersType,
+  globalFilters: GlobalFilters,
   tags: Tag[],
-  updateGlobalFilter: (keyFilter: keyof GlobalFiltersType, value: any) => any,
+  updateGlobalFilter: (keyFilter: keyof GlobalFilters, value: any) => any,
   createTag: (tag: Tag) => any
 }
 
@@ -30,7 +29,7 @@ type State = {
 
 const Range = createSliderWithTooltip(SliderRange);
 
-export default class GlobalFilters extends Component<Props, State> {
+export default class GlobalFiltersComponent extends Component<Props, State> {
 
   static defaultProps = {
     globalFilters: {},

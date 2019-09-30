@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import TagPage from './TagPage';
 
-import { Tag } from 'models/ITag';
-import TransactionDataInterface from 'models/ITransactionData';
+import { Tag } from 'models/Tag';
+import TransactionDataInterface from 'models/TransactionData';
 import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 import { Link, match, withRouter } from 'react-router-dom';

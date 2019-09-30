@@ -1,4 +1,4 @@
-import Balance from "./IBalance";
+import Balance from "./Balance";
 import Forecast from "./Forecast";
 import Transaction from "./Transaction";
 import { monthDiff, sumMonths, isMonthsIntervalInGroup, isDateIntervalInGroup } from "./utils";

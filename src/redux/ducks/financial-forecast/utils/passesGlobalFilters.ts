@@ -1,7 +1,7 @@
-import { GlobalFiltersType } from 'models/GlobalFiltersType';
-import TransactionDataInterface from 'models/ITransactionData';
+import { GlobalFilters } from 'models/GlobalFilters';
+import TransactionDataInterface from 'models/TransactionData';
 
-export default (globalFilters: GlobalFiltersType = {}) => (transaction: TransactionDataInterface) => {
+export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionDataInterface) => {
   let matchesStartDate = true;
   let matchesEndDate = true;
   let matchesTags = true;

@@ -1,5 +1,5 @@
 import Transaction from "./Transaction";
-import Balance from "./IBalance";
+import Balance from "./Balance";
 import roundDecimal from "utils/roundDecimal";
 
 export default (transactions: Transaction[]): Balance => {
