@@ -1,5 +1,5 @@
 import { sumMonths, monthDiff, convertCurrencyToNumber } from "../utils";
-import TransactionData from "./TransactionConfig";
+import TransactionConfig from "./TransactionConfig";
 
 import YYYYMMDD from 'utils/YYYYMMDD';
 import getRandomString from "utils/getRandomString";
@@ -100,7 +100,7 @@ export default class Transaction {
     this._endDate = this._startDate;
   }
 
-  static buildFromTransactionData(transactionData: TransactionData): Transaction {
+  static buildFromTransactionData(transactionData: TransactionConfig): Transaction {
 
     let value;
 
@@ -139,7 +139,7 @@ export default class Transaction {
     return transaction;
   }
 
-  convertToTransactionData(): TransactionData {
+  convertToTransactionData(): TransactionConfig {
     return {
       id: this.id,
       description: this.description,

@@ -56,6 +56,7 @@ export default class EditableRemovableListItem<T> extends Component<Props<T>, St
       label,
       color,
       link,
+      update,
     } = this.props;
 
     const {
@@ -77,10 +78,22 @@ export default class EditableRemovableListItem<T> extends Component<Props<T>, St
           link &&
           <LinkButton to={link} />
         }
-        <EditButton onClick={() => this.setState({ editing: true })} />
-        <DeleteButton onClick={() => remove(element)} />
+        {
+          update &&
+          <EditButton onClick={() => this.setState({ editing: true })} />
+        }
+        {
+          remove &&
+          <DeleteButton onClick={() => remove(element)} />
+        }
       </ButtonsContainer>
-      <Badge label={label} color={color} />
+      {
+        color &&
+        <Badge label={label} color={color} />
+      }
+      {
+        !color && label
+      }
     </Fragment>
 
   }

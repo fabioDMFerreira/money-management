@@ -8,7 +8,6 @@ import TransactionsTableRowActions from './TransactionsTableRowActions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { DragTrComponent, DropTbodyComponent } from './DragComponents';
 import { dragTransaction, updateTransaction, createTag, updateTransactionsFilters, filterType } from 'state/ducks/financial-forecast/actions';
-import Select from 'react-select/lib/Creatable';
 import { ValueType, OptionsType } from 'react-select/lib/types';
 import { Tag } from 'models/Tag';
 import EditableInputHOC from 'views/hocs/EditableInputHoc';
@@ -17,7 +16,6 @@ import TransactionDataInterface from 'models/Transaction/TransactionConfig';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import TagSelect from 'views/pages/FinancialForecast/containers/TagSelect';
 import WalletSelect from 'views/pages/FinancialForecast/containers/WalletSelect';
-import { createWallet} from 'state/ducks/wallets';
 
 const TransactionsTableContainer = styled.div`
   &&&&{

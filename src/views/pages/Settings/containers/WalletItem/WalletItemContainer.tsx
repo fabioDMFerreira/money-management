@@ -17,6 +17,7 @@ const WalletItemContainer = (props: Props) => (
     remove={props.remove}
     label={props.wallet.name}
     color={props.wallet.color}
+    link={`/wallets/${props.wallet.id}`}
   />
 )
 

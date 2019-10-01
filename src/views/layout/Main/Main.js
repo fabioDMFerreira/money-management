@@ -13,6 +13,7 @@ import TransactionsPage from 'views/pages/FinancialForecast/TransactionsPage';
 import TagsPage from 'views/pages/FinancialForecast/Tags/TagPage';
 import Dashboard from 'views/pages/Dashboard';
 import FinancialForecastHOC from 'views/pages/FinancialForecast';
+import Wallet from 'views/pages/Wallet';
 
 import './Main.css';
 
@@ -43,6 +44,7 @@ const Main = () => (
 					<Route path="/timeline" component={FinancialForecastHOC(BalanceContainer)} />
 					<Route path="/tags" exact component={FinancialForecastHOC(Tags)} />
 					<Route path="/tags/:id" component={FinancialForecastHOC(TagsPage)} />
+					<Route path="/wallets/:id" component={FinancialForecastHOC(Wallet)} />
 					<Route path="/settings" component={Settings} />
 					<Route path="/not-found" component={NotFound} />
 				</React.Fragment>

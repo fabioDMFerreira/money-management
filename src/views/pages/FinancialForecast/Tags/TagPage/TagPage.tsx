@@ -13,23 +13,14 @@ interface Props {
   transactions: TransactionDataInterface[]
 }
 
-interface State {
-  tagLabel: string,
-}
-
-class TagPage extends Component<Props, State> {
+class TagPage extends Component<Props> {
 
   constructor(props: Props) {
     super(props);
-
-    this.state = {
-      tagLabel: props.tag.label
-    };
   }
 
   render() {
     const { tag, transactions } = this.props;
-    const { tagLabel } = this.state;
 
     return (
       <div>
