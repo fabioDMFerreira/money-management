@@ -1,6 +1,8 @@
 # Money Management
 Save, label and organise your transactions. Add your estimations to plan your financial life.
 
+[Demo](https://mmanagement.herokuapp.com/)
+
 # Features
 
 - Displays **transaction history**.
