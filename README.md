@@ -1,5 +1,5 @@
-# Financial forecast
-The financial forecast applications pretends to help people managing their money.
+# Money Management
+Save, label and organise your transactions. Add your estimations to plan your financial life.
 
 # Features
 
@@ -7,28 +7,23 @@ The financial forecast applications pretends to help people managing their money
 - **Imports** transactions from **csv file**.
   - Map headers fields to application transaction structure.
 - Calculate **balance** of transactions history on a line chart and a table.
-
+- Add wallets and assign transactions to wallets.
+- Add tags to transactions.
+- Display transactions values by tag.
 
 # Folder Structure
 
-- assets
-- components - contains components used in more than one scene and components that don't fit in any scene like App and Header.
-- locale - constants that identify strings and locale strings files.
-- localstorage - constains constants that identify properties that can be saved in localstorage.
-- scenes - contains pages and their own components
-- services - constains all services. Most of them are used as the layer that connects with server.
-- store - contains all logic related with Redux state.
-  - /*/actions - contains action creators
-  - /*/types - contains types used in action creators and reducer
-  - /*/thunks - contains operations related with asyncronous chages of state like getting data from server
-  - /*/reducer - contains reducer, the function that changes state. The rootReducer uses reducers of other modules like authentication, localize, etc.
+- **models** - types, classes and interfaces.
+- **state** - redux code. It uses ducks architecture.
+- **views** - react components.
+  - **components** - shared components.
+  - **hocs** - enhanced components.
+  - **layout** - page structure components like navigation bar and header.
+  - **pages** - application pages.
 
 # Configuration
 
-Configuration properties are defined in root files .env.{environment}, where environment can be `production` or `development`.
-
-Variables of `development` are used on `npm start`.<br />
-Variables of `production` are used on `npm run-script build`.
+Environment variables are defined in .env.{environment} files. Examples of environment values are `production` and `development`.
 
 All variables must start with `REACT_APP_`, so `create-react-app` can inject them in project.
 
@@ -61,9 +56,9 @@ Generate bundle of application minified and run static server with bundle genera
 
 # Available Scripts
 
-In the project directory, you can run:
+## Start application
 
-## `npm start`
+`npm start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -71,12 +66,16 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-## `npm test`
+## Test
+
+`npm test`
 
 Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](#running-tests) for more information.
+<!-- See the section about [running tests](#running-tests) for more information. -->
 
-## `npm run build`
+## Build
+
+`npm run build`
 
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -86,6 +85,6 @@ Your app is ready to be deployed!
 
 # Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+Bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-You will find information on how to perform common tasks on this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+Find more information about how to perform common tasks on this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).

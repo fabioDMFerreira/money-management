@@ -30,7 +30,7 @@ const Settings = (props: Props) =>
       <ListGroup>
         <Row>
           {
-            props.tags && props.tags.map((tag: Tag) => <Col xs="2" key={tag.label}>
+            props.tags && props.tags.map((tag: Tag) => <Col xs="4" key={tag.label}>
               <ListGroupItem>
                 <TagItem
                   tag={tag}
