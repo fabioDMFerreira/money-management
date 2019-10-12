@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
 import { faChartLine, faTable } from '@fortawesome/free-solid-svg-icons';
 import Row from 'reactstrap/lib/Row';
@@ -31,7 +31,7 @@ type State = {
   monthSelected?: string,
   monthBalance?: Balance,
   transactions: TransactionConfig[],
-  estimatesTransactions: TransactionConfig[]
+  estimatesTransactions: TransactionConfig[],
 };
 
 type Props = {
@@ -40,6 +40,7 @@ type Props = {
   forecast: ForecastConfig,
   updateForecast: typeof updateForecast,
   filters: filterType[],
+  hideControls?: boolean,
 };
 
 export default class BalanceComponent extends Component<Props, State> {
@@ -159,11 +160,14 @@ export default class BalanceComponent extends Component<Props, State> {
 
     const {
       forecast,
+      hideControls
     } = this.props;
 
     return <Fragment>
-      <Row>
-        {
+      {
+        !hideControls &&
+        <Row>
+          {
           // Filter features deprecated. The timeline values are based on actual transactions/estimates. This way it can be used global filters to filter timeline values.
           /* <Col xs={2}>
           <FormGroup>
@@ -186,31 +190,32 @@ export default class BalanceComponent extends Component<Props, State> {
             />
           </FormGroup>
         </Col> */}
-        <Col xs={3} className="mb-4">
-          <ToggleButton active={forecastView === 'chart'} onClick={() => { this.switchForecastView('chart') }} icon={faChartLine} text="Chart" />
-          <ToggleButton active={forecastView === 'table'} onClick={() => { this.switchForecastView('table') }} icon={faTable} text="Table" />
-        </Col>
-      </Row>
+          <Col xs={3} className="mb-4">
+            <ToggleButton active={forecastView === 'chart'} onClick={() => { this.switchForecastView('chart') }} icon={faChartLine} text="Chart" />
+            <ToggleButton active={forecastView === 'table'} onClick={() => { this.switchForecastView('table') }} icon={faTable} text="Table" />
+          </Col>
+        </Row>
+      }
 
       {
         (() => {
           if (forecastView === 'table') {
             return <BalanceTable balance={balance} />
           } else {
-            return <LineChart
-              width={900}
-              height={300}
-              data={balance ? balance.map((b: Balance) => ({ ...b, date: b.date ? YYYYMM(b.date) : null })) : []}
-              onClick={this.chartClick}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="actualValue" name="Amount (€)" stroke="#8884d8" activeDot={{ r: 8 }} />
-              <Line type="monotone" dataKey="estimateValue" name="Estimated Amount (€)" stroke="#82ca9d" activeDot={{ r: 8 }} />
-            </LineChart>
+            return <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={balance ? balance.map((b: Balance) => ({ ...b, date: b.date ? YYYYMM(b.date) : null })) : []}
+                onClick={this.chartClick}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="actualValue" name="Amount (€)" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="estimateValue" name="Estimated Amount (€)" stroke="#82ca9d" activeDot={{ r: 8 }} />
+              </LineChart>
+            </ResponsiveContainer>
           }
         })()
       }

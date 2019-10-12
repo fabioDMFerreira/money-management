@@ -12,7 +12,7 @@ const DashboardContainer = (props: Props) => (
 
 export default connect(
   (state: any) => {
-    const { financialForecast: { allTransactions, tags }, wallets: { wallets } } = state;
+    const { financialForecast: { allTransactions, tags, estimatesAllTransactions }, wallets: { wallets } } = state;
 
     return {
       totalBalance: wallets ?
@@ -23,7 +23,11 @@ export default connect(
         }, 0) :
         0,
       totalTransactions: allTransactions.size,
-      totalTags: tags.size
+      totalTags: tags.size,
+      totalWallets: wallets.size,
+      totalEstimates: estimatesAllTransactions.size,
+      lastTransactions: allTransactions.slice(0, 5),
+      wallets: wallets.toJS()
     };
   }
 )(DashboardContainer)

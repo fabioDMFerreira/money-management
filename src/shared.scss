@@ -9,8 +9,17 @@ body {
   background: #2d353c;
 }
 
-.btn,.badge {
+.btn,
+.badge {
   border-radius: 0;
+}
+
+a.no-link-styles {
+  color: #484848;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .form-control,

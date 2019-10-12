@@ -16,6 +16,7 @@ import FinancialForecastHOC from 'views/pages/FinancialForecast';
 import Wallet from 'views/pages/Wallet';
 
 import './Main.css';
+import Wallets from 'views/pages/Wallets';
 
 const Main = () => (
 	<div id="main">
@@ -44,7 +45,8 @@ const Main = () => (
 					<Route path="/timeline" component={FinancialForecastHOC(BalanceContainer)} />
 					<Route path="/tags" exact component={FinancialForecastHOC(Tags)} />
 					<Route path="/tags/:id" component={FinancialForecastHOC(TagsPage)} />
-					<Route path="/wallets/:id" component={FinancialForecastHOC(Wallet)} />
+					<Route path="/wallets" exact component={Wallets} />
+					<Route path="/wallets/:id" component={Wallet} />
 					<Route path="/settings" component={Settings} />
 					<Route path="/not-found" component={NotFound} />
 				</React.Fragment>

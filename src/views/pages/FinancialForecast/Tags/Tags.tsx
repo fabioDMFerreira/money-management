@@ -20,6 +20,7 @@ type Props = RouteComponentProps & {
   createTag: typeof createTag
   updateTagsView: typeof updateTagsView
   tagsView: TagsView
+  hideControls?: boolean
 }
 
 type State = {
@@ -65,28 +66,31 @@ export default class Tags extends Component<Props, State> {
   render() {
     const { pieCreditData, pieDebitData, filter, transactions } = this.state;
 
-    const { tagsView, updateTagsView } = this.props;
+    const { tagsView, updateTagsView, hideControls } = this.props;
 
     return <Fragment>
-      <Row className="mb-4">
-        <Col xs="6">
-          <ToggleButton
-            active={tagsView === 'chart'}
-            text='Chart'
-            onClick={() => { updateTagsView('chart') }}
-            icon={faChartPie}
-          />
-          <ToggleButton
-            active={tagsView === 'table'}
-            text='Table'
-            onClick={() => { updateTagsView('table') }}
-            icon={faTable}
-          />
-          <Link title="Tags management page" to="/settings" className="ml-2">
-            <Button size="sm" color="link">Manage tags <FontAwesomeIcon icon={faCog} /></Button>
-          </Link>
-        </Col>
-      </Row>
+      {
+        !hideControls &&
+        <Row className="mb-4">
+          <Col xs="6">
+            <ToggleButton
+              active={tagsView === 'chart'}
+              text='Chart'
+              onClick={() => { updateTagsView('chart') }}
+              icon={faChartPie}
+            />
+            <ToggleButton
+              active={tagsView === 'table'}
+              text='Table'
+              onClick={() => { updateTagsView('table') }}
+              icon={faTable}
+            />
+            <Link title="Tags management page" to="/settings" className="ml-2">
+              <Button size="sm" color="link">Manage tags <FontAwesomeIcon icon={faCog} /></Button>
+            </Link>
+          </Col>
+        </Row>
+      }
       <Row>
         <Col xs="6">
           <h4>Credit</h4>

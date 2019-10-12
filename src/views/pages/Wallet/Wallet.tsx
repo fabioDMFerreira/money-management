@@ -4,7 +4,7 @@ import Col from 'reactstrap/lib/Col';
 
 import { Wallet } from 'models/Wallet';
 
-import WalletItemContainer from '../Settings/containers/WalletItem';
+import WalletItemContainer from '../Wallets/containers/WalletItem';
 import TransactionsTable from '../FinancialForecast/components/Transactions/TransactionsTable/TransactionsTableContainer';
 import TransactionConfig from 'models/Transaction/TransactionConfig';
 import Label from 'reactstrap/lib/Label';

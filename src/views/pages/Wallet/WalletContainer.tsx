@@ -23,7 +23,7 @@ const WalletContainer = ({ wallet, transactions, update }: Props) => (
       <Fragment>
         <Breadcrumb>
           <BreadcrumbItem>
-            <Link to="/settings">Wallets</Link>
+            <Link to="/wallets">Wallets</Link>
           </BreadcrumbItem>
           <BreadcrumbItem active>{wallet.name}</BreadcrumbItem>
         </Breadcrumb>

@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { SideNav, Nav } from "react-sidenav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGlobe, faCreditCard, faCog, faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe, faCreditCard, faCog, faMoneyBillWave, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
 const Container = styled.div`
@@ -78,7 +78,7 @@ const SubTitleIndicator = styled.div<{ selected: boolean }>`
   height: 8px;
   background: ${props => (props.selected ? "#679D37" : "inherit")} !important;
 `;
-const SubNavItemTitle = styled.div<{selected:boolean}>`
+const SubNavItemTitle = styled.div<{ selected: boolean }>`
   padding: 4px;
   color: ${props => (props.selected ? "#679D37" : "inherit")} !important;
 `;
@@ -113,6 +113,9 @@ export default withRouter(({ location: { pathname } }: RouteComponentProps) => {
           <NavItem icon={faGlobe} title={"Dashboard"} to="/" active={pathname === '/'} />
         </Nav>
         <Nav id="2">
+          <NavItem icon={faWallet} to="/wallets" active={pathname === '/wallets'} title="Wallets" />
+        </Nav>
+        <Nav id="3">
           <NavItem icon={faCreditCard} title={"Transactions"} to="/transactions" active={pathname === '/transactions'} />
           <Nav id="1">
             <SubNavItem to="/transactions" active={pathname === '/transactions'} title="Transactions" />
@@ -127,7 +130,7 @@ export default withRouter(({ location: { pathname } }: RouteComponentProps) => {
             <SubNavItem to="/tags" active={pathname === '/tags'} title="Tags" />
           </Nav>
         </Nav>
-        <Nav id="3">
+        <Nav id="4">
           <NavItem icon={faCog} title={"Settings"} to="/settings" active={pathname === '/settings'} />
         </Nav>
       </SideNav>
