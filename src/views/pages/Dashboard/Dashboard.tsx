@@ -9,12 +9,14 @@ import CardBody from 'reactstrap/lib/CardBody';
 import CardTitle from 'reactstrap/lib/CardTitle';
 import CardText from 'reactstrap/lib/CardText';
 import Timeline from '../FinancialForecast/Timeline/Timeline';
-import TagsContainer from '../FinancialForecast/Tags';
 import Nav from 'reactstrap/lib/Nav';
-import { NavLink as RRNavLink } from 'react-router-dom';
+import { NavLink as RRNavLink, withRouter } from 'react-router-dom';
 import NavLink from 'reactstrap/lib/NavLink';
 import ListGroup from 'reactstrap/lib/ListGroup';
 import ListGroupItem from 'reactstrap/lib/ListGroupItem';
+import Tags from '../FinancialForecast/Tags/Tags';
+
+const TagsEnhanced = withRouter(Tags);
 
 export default (props: DashboardProps) => (
   <Row>
@@ -130,7 +132,7 @@ export default (props: DashboardProps) => (
         <Col xs={12}>
           <Card>
             <CardBody>
-              <TagsContainer hideControls />
+              <TagsEnhanced transactions={props.allTransactions} tags={props.tags} hideControls />
             </CardBody>
           </Card>
         </Col>

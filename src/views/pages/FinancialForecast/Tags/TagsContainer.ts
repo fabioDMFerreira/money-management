@@ -17,7 +17,6 @@ export default
       }
     },
     {
-      createTag,
       updateTagsView
     }
   )(withRouter(Tags))

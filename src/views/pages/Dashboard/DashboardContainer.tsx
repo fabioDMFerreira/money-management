@@ -29,7 +29,8 @@ export default connect(
       lastTransactions: allTransactions.slice(0, 5),
       wallets: wallets.toJS() || [],
       allTransactions: allTransactions.toJS() || [],
-      estimatesAllTransactions: estimatesAllTransactions.toJS() || []
+      estimatesAllTransactions: estimatesAllTransactions.toJS() || [],
+      tags: tags && tags.toJS()
     };
   }
 )(DashboardContainer)
