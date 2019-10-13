@@ -4,7 +4,7 @@ import TransactionDataInterface from 'models/Transaction/TransactionConfig';
 import { Tag } from 'models/Tag';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
-import { createTag, TagsView, updateTagsView } from 'state/ducks/financial-forecast/actions';
+import { TagsView, updateTagsView } from 'state/ducks/financial-forecast/actions';
 import Button from 'reactstrap/lib/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faChartPie, faTable } from '@fortawesome/free-solid-svg-icons';
@@ -17,9 +17,8 @@ import { generatePieCreditData, generatePieDebitData } from './components/TagsPi
 type Props = RouteComponentProps & {
   transactions: TransactionDataInterface[]
   tags: Tag[]
-  createTag: typeof createTag
-  updateTagsView: typeof updateTagsView
-  tagsView: TagsView
+  updateTagsView?: typeof updateTagsView
+  tagsView?: TagsView
   hideControls?: boolean
 }
 
@@ -64,9 +63,11 @@ export default class Tags extends Component<Props, State> {
   }
 
   render() {
-    const { pieCreditData, pieDebitData, filter, transactions } = this.state;
+    const { pieCreditData, pieDebitData } = this.state;
 
-    const { tagsView, updateTagsView, hideControls } = this.props;
+    const { updateTagsView, hideControls } = this.props;
+
+    let tagsView = this.props.tagsView || 'chart';
 
     return <Fragment>
       {
@@ -76,13 +77,13 @@ export default class Tags extends Component<Props, State> {
             <ToggleButton
               active={tagsView === 'chart'}
               text='Chart'
-              onClick={() => { updateTagsView('chart') }}
+              onClick={() => { updateTagsView && updateTagsView('chart') }}
               icon={faChartPie}
             />
             <ToggleButton
               active={tagsView === 'table'}
               text='Table'
-              onClick={() => { updateTagsView('table') }}
+              onClick={() => { updateTagsView && updateTagsView('table') }}
               icon={faTable}
             />
             <Link title="Tags management page" to="/settings" className="ml-2">

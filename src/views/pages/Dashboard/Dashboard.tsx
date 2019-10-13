@@ -8,7 +8,7 @@ import Card from 'reactstrap/lib/Card';
 import CardBody from 'reactstrap/lib/CardBody';
 import CardTitle from 'reactstrap/lib/CardTitle';
 import CardText from 'reactstrap/lib/CardText';
-import TimelineContainer from '../FinancialForecast/Timeline';
+import Timeline from '../FinancialForecast/Timeline/Timeline';
 import TagsContainer from '../FinancialForecast/Tags';
 import Nav from 'reactstrap/lib/Nav';
 import { NavLink as RRNavLink } from 'react-router-dom';
@@ -63,7 +63,7 @@ export default (props: DashboardProps) => (
         <Col xs={12}>
           <Card>
             <CardBody>
-              <TimelineContainer hideControls />
+              <Timeline transactions={props.allTransactions} estimatesTransactions={props.estimatesAllTransactions} wallets={props.wallets} hideControls />
             </CardBody>
           </Card>
         </Col>

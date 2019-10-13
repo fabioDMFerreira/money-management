@@ -12,9 +12,11 @@ describe('Forecast utils', () => {
 
   describe('sumMonths', () => {
     it('should return a date with the months summed', () => {
-      expect(sumMonths(new Date('2018-01-1'), 9)).toEqual(new Date('2018-10-1'));
+      expect(sumMonths(new Date(Date.UTC(2018, 1, 1)), 9)).toEqual(new Date(Date.UTC(2018, 10, 1)));
+      expect(sumMonths(new Date(Date.UTC(2018, 0, 1)), -1)).toEqual(new Date(Date.UTC(2017, 11, 1)));
       expect(sumMonths(new Date('2018-01-1'), 14)).toEqual(new Date('2019-3-1'));
       expect(sumMonths(new Date('2018-01-1'), 1)).toEqual(new Date('2018-2-1'));
+      expect(sumMonths(new Date('2018-01-1'), 0 * -1)).toEqual(new Date('2018-01-1'));
     });
     it('should return a date with the months subtracted', () => {
       expect(sumMonths(new Date('2018-01-1'), -1)).toEqual(new Date('2017-12-1'));

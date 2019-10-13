@@ -11,10 +11,11 @@ export default (forecast: Forecast, transactions: Transaction[]): Balance[] => {
 
   const balanceMonths: number = monthDiff(forecast.startDate, forecast.endDate);
 
-  let cumulativeValue: number = forecast.initialValue;
+  let cumulativeValue: number = forecast.endValue;
+  let valueToChangePreviousMonth = 0;
 
   for (let i = 0; i < balanceMonths; i++) {
-    const balanceDate: Date = sumMonths(firstMonthDay(forecast.startDate), i);
+    const balanceDate: Date = sumMonths(firstMonthDay(forecast.endDate), i * -1);
 
     const monthTransactions: Transaction[] =
       transactions.filter(
@@ -28,10 +29,11 @@ export default (forecast: Forecast, transactions: Transaction[]): Balance[] => {
       );
 
     const balance = calculateBalance(monthTransactions);
-    cumulativeValue += balance.balance;
+    cumulativeValue -= valueToChangePreviousMonth;
+    valueToChangePreviousMonth = balance.balance;
     balance.date = balanceDate;
     balance.actualValue = roundDecimal(cumulativeValue);
-    balances.push(balance);
+    balances.unshift(balance);
   }
 
   return balances;

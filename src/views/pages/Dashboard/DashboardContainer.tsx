@@ -27,7 +27,9 @@ export default connect(
       totalWallets: wallets.size,
       totalEstimates: estimatesAllTransactions.size,
       lastTransactions: allTransactions.slice(0, 5),
-      wallets: wallets.toJS()
+      wallets: wallets.toJS() || [],
+      allTransactions: allTransactions.toJS() || [],
+      estimatesAllTransactions: estimatesAllTransactions.toJS() || []
     };
   }
 )(DashboardContainer)

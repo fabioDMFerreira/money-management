@@ -9,10 +9,8 @@ import moment from 'moment';
 
 
 import BalanceTable from './components/BalanceTable';
-import { ForecastConfig } from 'models/Forecast/ForecastConfig';
-import { updateForecast, ForecastEditableFieldsType, filterType } from 'state/ducks/financial-forecast/actions';
+import { ForecastEditableFieldsType } from 'state/ducks/financial-forecast/actions';
 import TransactionConfig from 'models/Transaction/TransactionConfig';
-import passesFilters from './passesFilters';
 import Forecast from 'models/Forecast/Forecast';
 import calculateForecastBalance from 'models/Balance/calculateForecastBalance';
 import Transaction from 'models/Transaction';
@@ -20,8 +18,8 @@ import Balance from 'models/Balance/Balance';
 import YYYYMM from 'utils/YYYYMM';
 import TransactionsTable from '../TransactionsPage';
 import YYYYMMDD from 'utils/YYYYMMDD';
-import DateRangePicker from 'views/components/DateRangePicker';
 import ToggleButton from 'views/components/ToggleButton';
+import { WalletConfig } from 'state/ducks/wallets';
 
 type forecastView = "chart" | "table";
 
@@ -37,10 +35,8 @@ type State = {
 type Props = {
   transactions: TransactionConfig[],
   estimatesTransactions: TransactionConfig[],
-  forecast: ForecastConfig,
-  updateForecast: typeof updateForecast,
-  filters: filterType[],
   hideControls?: boolean,
+  wallets: WalletConfig[]
 };
 
 export default class BalanceComponent extends Component<Props, State> {
@@ -68,24 +64,15 @@ export default class BalanceComponent extends Component<Props, State> {
   componentDidUpdate(prevProps: Props) {
     if (
       this.props.transactions &&
-      this.props.forecast &&
       (
         prevProps.estimatesTransactions !== this.props.estimatesTransactions ||
-        prevProps.transactions !== this.props.transactions ||
-        prevProps.forecast !== this.props.forecast ||
-        prevProps.filters !== this.props.filters
+        prevProps.transactions !== this.props.transactions
       )
     ) {
 
       this.setState({
         balance: this.calculateBalance(this.props.transactions, this.props.estimatesTransactions),
       });
-    }
-  }
-
-  updateForecast = (keyName: ForecastEditableFieldsType) => {
-    return (value: any) => {
-      this.props.updateForecast(keyName, value)
     }
   }
 
@@ -98,15 +85,10 @@ export default class BalanceComponent extends Component<Props, State> {
   calculateBalance = (transactionsData: TransactionConfig[], estimatesData: TransactionConfig[]): Balance[] => {
     const transactions: Transaction[] =
       transactionsData
-        .filter(transaction => transaction.visible)
-        .filter(passesFilters(this.props.filters))
         .map(transaction => Transaction.buildFromTransactionData(transaction));
     const estimates: Transaction[] =
       estimatesData
-        .filter(transaction => transaction.visible)
-        .filter(passesFilters(this.props.filters))
         .map(transaction => Transaction.buildFromTransactionData(transaction));
-
 
     const startDates = transactions.concat(estimates).map((transaction: Transaction) => transaction.startDate.getTime());
     const endDates = transactions.concat(estimates).map((transaction: Transaction) => transaction.endDate ? transaction.endDate.getTime() : transaction.startDate.getTime());
@@ -114,12 +96,32 @@ export default class BalanceComponent extends Component<Props, State> {
     let minDate = new Date(Math.min.apply(null, startDates));
     let maxDate = new Date(Math.max.apply(null, endDates));
 
-    const forecast: Forecast = this.createForecast("0", minDate, maxDate);
+    // const today = new Date();
+
+    // if (today < maxDate) {
+    //   const todayUtcDate = new Date(Date.UTC(today.getFullYear(), today.getMonth() - 1, today.getDate()));
+
+    //   const endValue = this.props.wallets.reduce((total, wallet: Wallet) => {
+    //     total += wallet.balance;
+    //     return total;
+    //   }, 0)
+
+    //   const forecastBeforeToday = new Forecast(minDate, firstMonthDay(todayUtcDate), { endValue });
+    //   const forecastAfterToday = new Forecast(firstMonthDay(todayUtcDate), maxDate, { initialValue: endValue });
+
+    //   console.log([
+    //     calculateReverseBalance(forecastBeforeToday, transactions),
+    //     calculateForecastBalance(forecastAfterToday, transactions),
+    //   ]);
+
+    // }
+
+    const forecast: Forecast = new Forecast(minDate, maxDate, { initialValue: 0 });
     const balance: Balance[] = calculateForecastBalance(forecast, transactions);
 
     const forecastStartValue = balance && balance.length ? "" + balance[0].actualValue : "0";
 
-    const estimateForecast: Forecast = this.createForecast(forecastStartValue, minDate, maxDate);
+    const estimateForecast: Forecast = new Forecast(minDate, maxDate, { initialValue: +forecastStartValue });
     const estimatesBalance = calculateForecastBalance(estimateForecast, estimates);
 
     balance.forEach((monthBalance: Balance) => {
@@ -131,10 +133,6 @@ export default class BalanceComponent extends Component<Props, State> {
     });
 
     return balance;
-  }
-
-  createForecast = (initialValue: string, startDate: Date, endDate: Date): Forecast => {
-    return new Forecast(startDate, endDate, +initialValue)
   }
 
   chartClick = (point: any) => {
@@ -159,7 +157,6 @@ export default class BalanceComponent extends Component<Props, State> {
     } = this.state;
 
     const {
-      forecast,
       hideControls
     } = this.props;
 
@@ -167,29 +164,6 @@ export default class BalanceComponent extends Component<Props, State> {
       {
         !hideControls &&
         <Row>
-          {
-          // Filter features deprecated. The timeline values are based on actual transactions/estimates. This way it can be used global filters to filter timeline values.
-          /* <Col xs={2}>
-          <FormGroup>
-            <Label>Initial value:</Label>
-            <Input
-              value={forecast.initialValue}
-              type="number"
-              onChange={e => this.updateForecast('initialValue')(e.target.value)}
-            />
-          </FormGroup>
-        </Col>
-        <Col xs={4}>
-          <FormGroup>
-            <Label>Date Range:</Label><br />
-            <DateRangePicker
-              startDate={forecast.startDate}
-              endDate={forecast.endDate}
-              updateStartDate={this.updateForecast('startDate')}
-              updateEndDate={this.updateForecast('endDate')}
-            />
-          </FormGroup>
-        </Col> */}
           <Col xs={3} className="mb-4">
             <ToggleButton active={forecastView === 'chart'} onClick={() => { this.switchForecastView('chart') }} icon={faChartLine} text="Chart" />
             <ToggleButton active={forecastView === 'table'} onClick={() => { this.switchForecastView('table') }} icon={faTable} text="Table" />

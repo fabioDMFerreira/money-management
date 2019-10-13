@@ -30,6 +30,7 @@ export const sumMonths = (date: Date, months: number): Date => {
   } else if (months < -11) {
     yearsToSum = Math.ceil(months / 12);
   }
+
   let summedDateYear = date.getFullYear() + yearsToSum;
 
   let summedDateMonth = date.getMonth() + 1 + monthsToSum;
@@ -43,7 +44,7 @@ export const sumMonths = (date: Date, months: number): Date => {
     summedDateMonth += 12;
   }
 
-  let summedDate = new Date(`${summedDateYear}-${summedDateMonth}-${summedDateDay}`);
+  let summedDate = new Date(Date.UTC(summedDateYear, summedDateMonth - 1, summedDateDay));
 
   return summedDate;
 }
@@ -77,8 +78,7 @@ export const isDateIntervalInGroup = (startDate: Date, endDate: Date, groupDate:
 }
 
 export const firstMonthDay = (date: Date): Date => {
-  date = new Date(date.getTime());
-  date.setDate(1);
+  date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), 1));
   return date;
 }
 
@@ -89,7 +89,7 @@ export const lastMonthDay = (date: Date): Date => {
 }
 
 export const convertCurrencyToNumber = (number: string): number => {
-  if(!number.indexOf){
+  if (!number.indexOf) {
     return 0;
   }
 
@@ -97,7 +97,7 @@ export const convertCurrencyToNumber = (number: string): number => {
 
   if (commaIndex >= 0 && commaIndex === number.length - 3) {
     number = number.replace('.', '');
-    number = number.replace(',','.');
+    number = number.replace(',', '.');
   }
 
   return +number;

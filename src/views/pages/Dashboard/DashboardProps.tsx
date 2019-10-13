@@ -8,5 +8,7 @@ export default interface Props {
   totalWallets: number,
   totalEstimates: number,
   lastTransactions: [TransactionConfig],
-  wallets: [WalletConfig]
+  wallets: [WalletConfig],
+  allTransactions: [TransactionConfig],
+  estimatesAllTransactions: [TransactionConfig],
 }
