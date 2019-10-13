@@ -1,6 +1,7 @@
 import TransactionConfig from "models/Transaction/TransactionConfig";
 import { WalletConfig } from "state/ducks/wallets";
 import { Tag } from "models/Tag";
+import Balance from "models/Balance";
 
 export default interface Props {
   totalBalance: number,
@@ -12,5 +13,6 @@ export default interface Props {
   wallets: [WalletConfig],
   allTransactions: [TransactionConfig],
   estimatesAllTransactions: [TransactionConfig],
-  tags: [Tag]
+  tags: [Tag],
+  balance: Balance[]
 }

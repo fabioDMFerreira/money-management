@@ -65,7 +65,7 @@ export default (props: DashboardProps) => (
         <Col xs={12}>
           <Card>
             <CardBody>
-              <Timeline transactions={props.allTransactions} estimatesTransactions={props.estimatesAllTransactions} wallets={props.wallets} hideControls />
+              <Timeline balance={props.balance} transactions={props.allTransactions} estimatesTransactions={props.estimatesAllTransactions} wallets={props.wallets} hideControls />
             </CardBody>
           </Card>
         </Col>
