@@ -38,6 +38,9 @@ export default ({ wallet, transactions, update }: Props) => (
         </Col>
       </Row>
     </div>
-    <TransactionsTable transactions={transactions} />
+    {
+      transactions && transactions.length &&
+      <TransactionsTable transactions={transactions} />
+    }
   </div>
 )

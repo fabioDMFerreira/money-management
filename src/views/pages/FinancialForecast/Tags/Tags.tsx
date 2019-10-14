@@ -13,6 +13,7 @@ import ToggleButton from 'views/components/ToggleButton';
 import TagsTable from './components/TagsTable';
 import TagsPie from './components/TagsPie';
 import { generatePieCreditData, generatePieDebitData } from './components/TagsPie/utils';
+import Onboarding from 'views/components/Onboarding';
 
 type Props = RouteComponentProps & {
   transactions: TransactionDataInterface[]
@@ -65,9 +66,17 @@ export default class Tags extends Component<Props, State> {
   render() {
     const { pieCreditData, pieDebitData } = this.state;
 
-    const { updateTagsView, hideControls } = this.props;
+    const { updateTagsView, hideControls, transactions } = this.props;
 
     let tagsView = this.props.tagsView || 'chart';
+
+    if (!pieCreditData.length || !pieDebitData.length) {
+      return <Row>
+        <Col xs="6">
+          <Onboarding transactions={transactions} tags={[]} />
+        </Col>
+      </Row>
+    }
 
     return <Fragment>
       {

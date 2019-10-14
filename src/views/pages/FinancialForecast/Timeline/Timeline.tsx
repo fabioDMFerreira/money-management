@@ -15,6 +15,7 @@ import YYYYMM from 'utils/YYYYMM';
 import TransactionsTable from '../TransactionsPage';
 import ToggleButton from 'views/components/ToggleButton';
 import { WalletConfig } from 'state/ducks/wallets';
+import Onboarding from 'views/components/Onboarding';
 
 type forecastView = "chart" | "table";
 
@@ -77,8 +78,17 @@ export default class BalanceComponent extends Component<Props, State> {
 
     const {
       balance,
-      hideControls
+      hideControls,
+      transactions: propsTransactions
     } = this.props;
+
+    if (!propsTransactions.length) {
+      return <Row>
+        <Col xs="6">
+          <Onboarding transactions={propsTransactions} />
+        </Col>
+      </Row>
+    }
 
     return <Fragment>
       {

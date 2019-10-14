@@ -27,7 +27,7 @@ const WalletContainer = ({ wallet, transactions, update }: Props) => (
           </BreadcrumbItem>
           <BreadcrumbItem active>{wallet.name}</BreadcrumbItem>
         </Breadcrumb>
-        <WalletComponent wallet={wallet} transactions={transactions} update={update}/>
+        <WalletComponent wallet={wallet} transactions={transactions} update={update} />
       </Fragment>
     }
   </Fragment>
@@ -49,12 +49,12 @@ export default
           transactions: wallet ?
             stateTransactions.filter((transaction: TransactionConfig) => {
               return transaction.wallet === wallet.id;
-            }) :
+            }).toJS() :
             []
           ,
         };
-      },{
-        update: updateWallet
-      }
+      }, {
+      update: updateWallet
+    }
     )(WalletContainer)
   )
