@@ -5,18 +5,18 @@ import { Switch, Route } from 'react-router-dom';
 // import Authentication from 'scenes/Authentication';
 import NotFound from 'views/pages/NotFound';
 import BalanceContainer from 'views/pages/FinancialForecast/Timeline';
-import Tags from 'views/pages/FinancialForecast/Tags';
-import Settings from 'views/pages/Settings';
-import Estimates from 'views/pages/FinancialForecast/Estimates';
+import Tags from 'views/pages/Tags';
+import Settings from 'views/pages/Tags/Settings';
 import Transactions from 'views/pages/FinancialForecast/components/Transactions';
 import TransactionsPage from 'views/pages/FinancialForecast/TransactionsPage';
-import TagsPage from 'views/pages/FinancialForecast/Tags/TagPage';
+import TagsPage from 'views/pages/Tags/TagPage';
 import Dashboard from 'views/pages/Dashboard';
 import FinancialForecastHOC from 'views/pages/FinancialForecast';
 import Wallet from 'views/pages/Wallet';
+import Wallets from 'views/pages/Wallets';
+import Forecast from 'views/pages/Forecast';
 
 import './Main.css';
-import Wallets from 'views/pages/Wallets';
 
 const Main = () => (
 	<div id="main">
@@ -35,19 +35,14 @@ const Main = () => (
 							/>
 						))}
 					/>
-					<Route
-						path="/estimates"
-						component={FinancialForecastHOC(() => (
-							<Estimates
-								TransactionsComponent={Transactions}
-							/>))}
-					/>
+					<Route path="/transactions/tags" component={FinancialForecastHOC(Tags)} />
 					<Route path="/timeline" component={FinancialForecastHOC(BalanceContainer)} />
-					<Route path="/tags" exact component={FinancialForecastHOC(Tags)} />
-					<Route path="/tags/:id" component={FinancialForecastHOC(TagsPage)} />
+					<Route path="/tags" exact component={Tags} />
+					<Route path="/tags/settings/list" exact component={Settings} />
+					<Route path="/tags/:id" exact component={TagsPage} />
 					<Route path="/wallets" exact component={Wallets} />
 					<Route path="/wallets/:id" component={Wallet} />
-					<Route path="/settings" component={Settings} />
+					<Route path="/forecast" component={Forecast} />
 					<Route path="/not-found" component={NotFound} />
 				</React.Fragment>
 			}

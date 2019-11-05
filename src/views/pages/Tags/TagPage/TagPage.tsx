@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import Input from 'reactstrap/lib/Input';
+import Timeline from "views/pages/FinancialForecast/Timeline/Timeline";
 
 import { Tag } from 'models/Tag';
-import TransactionsTable from '../../components/Transactions/TransactionsTable/TransactionsTableContainer';
+import TransactionsTable from '../../FinancialForecast/components/Transactions/TransactionsTable/TransactionsTableContainer';
 import TransactionDataInterface from 'models/Transaction/TransactionConfig';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
-import TagItem from '../../../Settings/containers/TagItem';
+import TagItem from '../Settings/containers/TagItem';
+import TimelineContainer from 'views/pages/FinancialForecast/Timeline';
+import Balance from 'models/Balance';
 
 interface Props {
   tag: Tag,
-  transactions: TransactionDataInterface[]
+  transactions: TransactionDataInterface[],
+  balance: Balance[]
 }
 
 class TagPage extends Component<Props> {
@@ -20,7 +24,7 @@ class TagPage extends Component<Props> {
   }
 
   render() {
-    const { tag, transactions } = this.props;
+    const { tag, transactions, balance } = this.props;
 
     return (
       <div>
@@ -29,9 +33,15 @@ class TagPage extends Component<Props> {
         <div className="mb-4 mt-4">
           <Row>
             <Col xs={2}>
-              <TagItem tag={tag}/>
+              <TagItem tag={tag} />
             </Col>
           </Row>
+        </div>
+        <div className="mb-4">
+          <Timeline
+            balance={balance}
+            transactions={transactions}
+          />
         </div>
         <TransactionsTable
           transactions={transactions}

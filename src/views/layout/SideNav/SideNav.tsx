@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { SideNav, Nav } from "react-sidenav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGlobe, faCreditCard, faCog, faMoneyBillWave, faWallet } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe, faCreditCard, faCog, faMoneyBillWave, faWallet, faCloud, faTag } from "@fortawesome/free-solid-svg-icons";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
 const Container = styled.div`
@@ -120,18 +120,21 @@ export default withRouter(({ location: { pathname } }: RouteComponentProps) => {
           <Nav id="1">
             <SubNavItem to="/transactions" active={pathname === '/transactions'} title="Transactions" />
           </Nav>
-          <Nav id="2">
+          {/* <Nav id="2">
             <SubNavItem to="/estimates" active={pathname === '/estimates'} title="Estimates" />
-          </Nav>
+          </Nav> */}
           <Nav id="3">
             <SubNavItem to="/timeline" active={pathname === '/timeline'} title="Timeline" />
           </Nav>
           <Nav id="4">
-            <SubNavItem to="/tags" active={pathname === '/tags'} title="Tags" />
+            <SubNavItem to="/transactions/tags" active={pathname === '/transactions/tags'} title="Tags" />
           </Nav>
         </Nav>
-        <Nav id="4">
-          <NavItem icon={faCog} title={"Settings"} to="/settings" active={pathname === '/settings'} />
+        <Nav id="3">
+          <NavItem icon={faCloud} to="/forecast" active={pathname === '/forecast'} title="Forecast" />
+        </Nav>
+        <Nav id="5">
+          <NavItem icon={faTag} title={"Tags"} to="/tags" active={pathname === '/tags'} />
         </Nav>
       </SideNav>
     </Container>

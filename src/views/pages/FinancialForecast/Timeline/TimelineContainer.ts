@@ -18,47 +18,27 @@ const calculateBalance = (transactionsData: TransactionConfig[], estimatesData: 
     estimatesData
       .map(transaction => Transaction.buildFromTransactionData(transaction));
 
-  const startDates = transactions.concat(estimates).map((transaction: Transaction) => transaction.startDate.getTime());
-  const endDates = transactions.concat(estimates).map((transaction: Transaction) => transaction.endDate ? transaction.endDate.getTime() : transaction.startDate.getTime());
+  const startDates = transactions.map((transaction: Transaction) => transaction.startDate.getTime());
+  const endDates = transactions.map((transaction: Transaction) => transaction.endDate ? transaction.endDate.getTime() : transaction.startDate.getTime());
 
   let minDate = new Date(Math.min.apply(null, startDates));
   let maxDate = new Date(Math.max.apply(null, endDates));
 
-  // const today = new Date();
-
-  // if (today < maxDate) {
-  //   const todayUtcDate = new Date(Date.UTC(today.getFullYear(), today.getMonth() - 1, today.getDate()));
-
-  //   const endValue = this.props.wallets.reduce((total, wallet: Wallet) => {
-  //     total += wallet.balance;
-  //     return total;
-  //   }, 0)
-
-  //   const forecastBeforeToday = new Forecast(minDate, firstMonthDay(todayUtcDate), { endValue });
-  //   const forecastAfterToday = new Forecast(firstMonthDay(todayUtcDate), maxDate, { initialValue: endValue });
-
-  //   console.log([
-  //     calculateReverseBalance(forecastBeforeToday, transactions),
-  //     calculateForecastBalance(forecastAfterToday, transactions),
-  //   ]);
-
-  // }
-
   const forecast: Forecast = new Forecast(minDate, maxDate, { initialValue: 0 });
   const balance: Balance[] = calculateForecastBalance(forecast, transactions);
 
-  const forecastStartValue = balance && balance.length ? "" + balance[0].actualValue : "0";
+  // const forecastStartValue = balance && balance.length ? "" + balance[0].actualValue : "0";
 
-  const estimateForecast: Forecast = new Forecast(minDate, maxDate, { initialValue: +forecastStartValue });
-  const estimatesBalance = calculateForecastBalance(estimateForecast, estimates);
+  // const estimateForecast: Forecast = new Forecast(minDate, maxDate, { initialValue: +forecastStartValue });
+  // const estimatesBalance = calculateForecastBalance(estimateForecast, estimates);
 
-  balance.forEach((monthBalance: Balance) => {
-    const estimate = estimatesBalance.find((month: Balance) => monthBalance.date && month.date && YYYYMMDD(month.date) === YYYYMMDD(monthBalance.date) ? true : false);
+  // balance.forEach((monthBalance: Balance) => {
+  //   const estimate = estimatesBalance.find((month: Balance) => monthBalance.date && month.date && YYYYMMDD(month.date) === YYYYMMDD(monthBalance.date) ? true : false);
 
-    if (estimate) {
-      monthBalance.estimateValue = monthBalance.actualValue && estimate.actualValue ? monthBalance.actualValue + (estimate.actualValue - +forecastStartValue) : estimate.actualValue;
-    }
-  });
+  //   if (estimate) {
+  //     monthBalance.estimateValue = monthBalance.actualValue && estimate.actualValue ? monthBalance.actualValue + (estimate.actualValue - +forecastStartValue) : estimate.actualValue;
+  //   }
+  // });
 
   return balance;
 }

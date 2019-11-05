@@ -101,14 +101,22 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
       const { id, field, value } = action;
 
       const index = state[transactionsKey].findIndex((transaction: any) => transaction.id === id);
-      let transactions = state[transactionsKey].update(index, updateTransaction(field, value))
+      let transactions = state[transactionsKey];
+
+      if (index >= 0) {
+        transactions = state[transactionsKey].update(index, updateTransaction(field, value))
+      }
 
       if (!passesGlobalFilters(state.globalFilters)(transactions.get(index))) {
         transactions = transactions.remove(index);
       }
 
       const allTransactionsIndex = state[allTransactionsKey].findIndex((transaction: any) => transaction.id === id);
-      const allTransactions = state[allTransactionsKey].update(allTransactionsIndex, updateTransaction(field, value))
+      let allTransactions = state[allTransactionsKey];
+
+      if (allTransactionsIndex >= 0) {
+        allTransactions = state[allTransactionsKey].update(allTransactionsIndex, updateTransaction(field, value))
+      }
 
       return {
         ...state,

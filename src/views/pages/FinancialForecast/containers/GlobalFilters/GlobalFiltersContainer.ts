@@ -8,11 +8,15 @@ export default connect(
     const {
       financialForecast: {
         globalFilters,
+        transactions,
+        allTransactions,
       }
     } = state;
 
     return {
       globalFilters,
+      transactionsCount: transactions.size,
+      allTransactionsCount: allTransactions.size,
     }
   }, {
   updateGlobalFilter,

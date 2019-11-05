@@ -95,7 +95,7 @@ export default class Tags extends Component<Props, State> {
               onClick={() => { updateTagsView && updateTagsView('table') }}
               icon={faTable}
             />
-            <Link title="Tags management page" to="/settings" className="ml-2">
+            <Link title="Tags management page" to="/tags/settings/list" className="ml-2">
               <Button size="sm" color="link">Manage tags <FontAwesomeIcon icon={faCog} /></Button>
             </Link>
           </Col>

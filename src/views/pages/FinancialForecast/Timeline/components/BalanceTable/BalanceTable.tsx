@@ -46,7 +46,7 @@ type State = {
   balance: BalanceData[],
 };
 
-const numberCell = (cellInfo: any) => <span>{cellInfo.value.toFixed(2)}</span>
+const numberCell = (cellInfo: any) => <span>{cellInfo.value && cellInfo.value.toFixed(2)}</span>
 
 export default class BalanceTable extends Component<Props, State> {
 

@@ -116,6 +116,7 @@ export default class Transaction {
 
     const transaction = new this(transactionData.description, value, startDate);
 
+    transaction.id = transactionData.id || transaction.id;
     transaction._particles = transactionData.particles ? +transactionData.particles : 1;
     transaction._interval = transactionData.interval ? +transactionData.interval : 1;
     transaction._endDate = transactionData.endDate ? new Date(transactionData.endDate) : startDate;

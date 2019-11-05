@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -15,10 +14,7 @@ import {
 
 import { ESTIMATES } from 'state/ducks/financial-forecast/consts';
 
-
-const Transactions = ({ TransactionsComponent, ...props }: any) => <TransactionsComponent {...props} />
-
-export default connect(
+export default (Component: any) => connect(
   (state: any) => {
     const { financialForecast } = state;
 
@@ -40,4 +36,4 @@ export default connect(
 
     createTag,
   }
-)(Transactions)
+)(Component)

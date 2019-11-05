@@ -9,6 +9,9 @@ import { Tag } from 'models/Tag';
 import TagItem from './containers/TagItem';
 import { createTag } from 'state/ducks/financial-forecast/actions';
 import NewButton from 'views/components/NewButton';
+import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
+import { Link } from 'react-router-dom';
+import { Breadcrumb } from 'reactstrap';
 
 type Props = {
   tags: Tag[],
@@ -17,8 +20,13 @@ type Props = {
 
 const Settings = (props: Props) =>
   <Fragment>
+    <Breadcrumb>
+      <BreadcrumbItem>
+        <Link to="/tags">Tags</Link>
+      </BreadcrumbItem>
+      <BreadcrumbItem active>Settings</BreadcrumbItem>
+    </Breadcrumb>
     <div className="mb-4">
-      <h3>Tags</h3>
       <NewButton className="mb-2" onClick={() => {
         props.createTag({ label: 'new tag', id: 'new tag' });
       }} />

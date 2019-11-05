@@ -1,7 +1,5 @@
 import React from 'react';
 import Container from 'reactstrap/lib/Container';
-import Card from 'reactstrap/lib/Card';
-import CardBody from 'reactstrap/lib/CardBody';
 
 import FinancialForecastNavbar from 'views/pages/FinancialForecast/Navbar';
 import GlobalFilters from 'views/pages/FinancialForecast/containers/GlobalFilters';
@@ -9,15 +7,12 @@ import NumberTransactionsFiltered from 'views/pages/FinancialForecast/containers
 
 export default (Component: React.FC) => () => (
   <Container fluid>
-    <Card style={{ marginTop: '20px' }}>
-      <CardBody>
-        <GlobalFilters />
-      </CardBody>
-    </Card>
-    <div style={{ marginTop: '20px' }}>
+    <GlobalFilters />
+    <div className="mt-4">
       <FinancialForecastNavbar />
-      <NumberTransactionsFiltered />
     </div>
-    <Component />
+    <div className="mt-2">
+      <Component />
+    </div>
   </Container>
 )

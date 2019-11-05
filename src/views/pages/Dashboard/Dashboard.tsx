@@ -14,7 +14,7 @@ import { NavLink as RRNavLink, withRouter } from 'react-router-dom';
 import NavLink from 'reactstrap/lib/NavLink';
 import ListGroup from 'reactstrap/lib/ListGroup';
 import ListGroupItem from 'reactstrap/lib/ListGroupItem';
-import Tags from '../FinancialForecast/Tags/Tags';
+import Tags from '../Tags/Tags';
 import Onboarding from 'views/components/Onboarding';
 
 const TagsEnhanced = withRouter(Tags);
@@ -79,7 +79,7 @@ export default (props: DashboardProps) => (
           <Col xs={12}>
             <Card>
               <CardBody>
-                <Timeline balance={props.balance} transactions={props.allTransactions} estimatesTransactions={props.estimatesAllTransactions} wallets={props.wallets} hideControls />
+                <Timeline balance={props.balance} transactions={props.allTransactions} hideControls />
               </CardBody>
             </Card>
           </Col>

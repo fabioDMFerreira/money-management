@@ -15,7 +15,7 @@ export default ({ label, color = 'grey' }: Props) => {
       backgroundColor: chromaColor.alpha(0.1).css(),
       color,
       fontSize: '0.8rem',
-      lineHeight: '1.5rem'
+      lineHeight: '0.8rem'
     }}>{label}</Badge>
   );
 }

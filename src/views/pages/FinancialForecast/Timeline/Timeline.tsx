@@ -14,7 +14,6 @@ import Balance from 'models/Balance/Balance';
 import YYYYMM from 'utils/YYYYMM';
 import TransactionsTable from '../TransactionsPage';
 import ToggleButton from 'views/components/ToggleButton';
-import { WalletConfig } from 'state/ducks/wallets';
 import Onboarding from 'views/components/Onboarding';
 
 type forecastView = "chart" | "table";
@@ -24,14 +23,11 @@ type State = {
   monthSelected?: string,
   monthBalance?: Balance,
   transactions: TransactionConfig[],
-  estimatesTransactions: TransactionConfig[],
 };
 
 type Props = {
   transactions: TransactionConfig[],
-  estimatesTransactions: TransactionConfig[],
   hideControls?: boolean,
-  wallets: WalletConfig[],
   balance: Balance[]
 };
 
@@ -47,7 +43,6 @@ export default class BalanceComponent extends Component<Props, State> {
   state: State = {
     forecastView: "chart",
     transactions: [] as TransactionConfig[],
-    estimatesTransactions: [] as TransactionConfig[]
   }
 
   switchForecastView(view: forecastView) {

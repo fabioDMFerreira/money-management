@@ -7,10 +7,10 @@ import Tags from 'views/pages/Tags/Tags';
 export default
   connect(
     (state: any) => {
-      const { financialForecast: { transactions, tags, tagsView } } = state;
+      const { financialForecast: { allTransactions, tags, tagsView } } = state;
 
       return {
-        transactions: transactions && transactions.toJS(),
+        transactions: allTransactions && allTransactions.toJS(),
         tags: tags && tags.toJS(),
         tagsView,
       }

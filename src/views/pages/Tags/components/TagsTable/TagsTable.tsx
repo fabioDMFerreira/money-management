@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTable from 'react-table';
-import TagItem from 'views/pages/Settings/containers/TagItem';
+import TagItem from 'views/pages/Tags/Settings/containers/TagItem';
 
 const columns = [
   {

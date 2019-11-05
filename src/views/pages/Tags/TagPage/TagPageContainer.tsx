@@ -4,21 +4,24 @@ import { connect } from 'react-redux';
 import TagPage from './TagPage';
 
 import { Tag } from 'models/Tag';
-import TransactionDataInterface from 'models/Transaction/TransactionConfig';
+import TransactionConfig from 'models/Transaction/TransactionConfig';
 import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 import { Link, match, withRouter } from 'react-router-dom';
+import Balance from 'models/Balance';
+import calculateTransactionsBalance from 'models/calculateTransactionsBalance';
 
 interface Props {
   tag: Tag | undefined,
-  transactions: TransactionDataInterface[] | [],
+  transactions: TransactionConfig[] | [],
   match: match<{ id: string }>
+  balance: Balance[]
 }
 
 class TagsPageContainer extends Component<Props> {
 
   render() {
-    const { tag, transactions } = this.props;
+    const { tag, transactions, balance } = this.props;
 
     return (
       <Fragment>
@@ -33,6 +36,7 @@ class TagsPageContainer extends Component<Props> {
           <TagPage
             tag={tag}
             transactions={transactions}
+            balance={balance}
           />
         }
         {
@@ -46,12 +50,12 @@ class TagsPageContainer extends Component<Props> {
 const mapStateToProps = (state: any, props: any) => {
   const { financialForecast: { transactions: stateTransactions, tags } } = state;
   let tag: any;
-  let transactions: TransactionDataInterface[] = [];
+  let transactions: TransactionConfig[] = [];
 
   if (props.match.params && props.match.params.id) {
     tag = tags.find((tag: Tag) => tag.id === props.match.params.id);
     if (tag) {
-      transactions = stateTransactions.filter((transaction: TransactionDataInterface) => {
+      transactions = stateTransactions.toJS().filter((transaction: TransactionConfig) => {
         return transaction.tags && transaction.tags.map(t => t.id).includes(tag.id)
       });
     }
@@ -59,7 +63,8 @@ const mapStateToProps = (state: any, props: any) => {
 
   return {
     tag,
-    transactions,
+    transactions: transactions,
+    balance: calculateTransactionsBalance(transactions),
   };
 }
 
