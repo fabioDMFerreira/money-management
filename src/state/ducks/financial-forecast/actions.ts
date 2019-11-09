@@ -14,7 +14,8 @@ import {
   DELETE_TAG,
   UPDATE_TAG,
   BULK_DELETE_TRANSACTIONS,
-  UPDATE_TAGS_VIEW
+  UPDATE_TAGS_VIEW,
+  CLEAR_TAGS
 } from "./types";
 import TransactionData from "models/Transaction/TransactionConfig";
 import transactionEditableFields from 'models/Transaction/TransactionEditableFields';
@@ -201,12 +202,20 @@ export interface ActionUpdateTagsView {
   payload: TagsView,
 }
 
-export const updateTagsView = (payload: TagsView):ActionUpdateTagsView => {
+export const updateTagsView = (payload: TagsView): ActionUpdateTagsView => {
   return {
     type: UPDATE_TAGS_VIEW,
     payload,
   }
 }
+
+interface ActionClearTags {
+  type: typeof CLEAR_TAGS
+}
+
+export const clearTags = (): ActionClearTags => ({
+  type: CLEAR_TAGS
+});
 
 export type FinancialForecastActions = ActionAddNewTransactionInterface |
   ActionBulkAddTransactionsInterface |
@@ -224,4 +233,5 @@ export type FinancialForecastActions = ActionAddNewTransactionInterface |
 
   ActionDeleteTagInterface |
   ActionUpdateTagInterface |
-  ActionUpdateTagsView;
+  ActionUpdateTagsView |
+  ActionClearTags;

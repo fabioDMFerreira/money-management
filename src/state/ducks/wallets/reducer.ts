@@ -3,7 +3,8 @@ import {
   WalletActions,
   CREATE_WALLET,
   UPDATE_WALLET,
-  REMOVE_WALLET
+  REMOVE_WALLET,
+  CLEAR_WALLETS
 } from "./types";
 import { List } from "immutable";
 
@@ -33,6 +34,10 @@ export default (state: WalletsState = initialState, action: WalletActions): Wall
       ...state,
       wallets: state.wallets.remove(state.wallets.findIndex(wallet => !!(wallet && wallet.id === action.id)))
     };
+    case CLEAR_WALLETS: return {
+      ...state,
+      wallets: List<Wallet>()
+    }
   }
 
   return state;

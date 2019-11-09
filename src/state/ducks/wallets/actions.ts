@@ -4,7 +4,8 @@ import {
   WalletActions,
   CREATE_WALLET,
   UPDATE_WALLET,
-  REMOVE_WALLET
+  REMOVE_WALLET,
+  CLEAR_WALLETS
 } from "./types";
 
 export const createWallet = (payload: Wallet): WalletActions => {
@@ -27,4 +28,10 @@ export const removeWallet = (id: string): WalletActions => {
     type: REMOVE_WALLET,
     id
   }
+}
+
+export const clearWallets = (): WalletActions => {
+  return {
+    type: CLEAR_WALLETS
+  };
 }

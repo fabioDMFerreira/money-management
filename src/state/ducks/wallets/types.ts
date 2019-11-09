@@ -2,6 +2,7 @@ import { Wallet } from 'models/Wallet/Wallet';
 export const CREATE_WALLET = 'wallets/CREATE_WALLET';
 export const REMOVE_WALLET = 'wallets/REMOVE_WALLET';
 export const UPDATE_WALLET = 'wallets/UPDATE_WALLET';
+export const CLEAR_WALLETS = 'wallets/CLEAR_WALLETS';
 
 export interface WalletConfig {
   name?: string,
@@ -24,4 +25,8 @@ interface RemoveWalletAction {
   id: string
 }
 
-export type WalletActions = CreateWalletAction | UpdateWalletAction | RemoveWalletAction
+interface ClearWalletsAction {
+  type: typeof CLEAR_WALLETS
+}
+
+export type WalletActions = CreateWalletAction | UpdateWalletAction | RemoveWalletAction | ClearWalletsAction

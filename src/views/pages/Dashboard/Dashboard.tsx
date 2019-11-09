@@ -16,6 +16,9 @@ import ListGroup from 'reactstrap/lib/ListGroup';
 import ListGroupItem from 'reactstrap/lib/ListGroupItem';
 import Tags from '../Tags/Tags';
 import Onboarding from 'views/components/Onboarding';
+import { generateRandomData } from 'models/Seed/generateRandomData';
+import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
+import NavItem from 'reactstrap/lib/NavItem';
 
 const TagsEnhanced = withRouter(Tags);
 
@@ -165,10 +168,10 @@ export default (props: DashboardProps) => (
       }
     </Col>
     {
-      props.wallets && props.wallets.length > 0 &&
-      props.tags && props.tags.length > 0 &&
-      props.allTransactions && props.allTransactions.length > 0 &&
-      props.estimatesAllTransactions && props.estimatesAllTransactions.length > 0 &&
+      // props.wallets && props.wallets.length > 0 &&
+      // props.tags && props.tags.length > 0 &&
+      // props.allTransactions && props.allTransactions.length > 0 &&
+      // props.estimatesAllTransactions && props.estimatesAllTransactions.length > 0 &&
       <Col xs={2}>
         <h4>Quick actions</h4>
         <Nav vertical>
@@ -184,6 +187,14 @@ export default (props: DashboardProps) => (
           <NavLink tag={RRNavLink} exact to="/estimates">
             Add estimates
         </NavLink>
+          <NavItem>
+            <ButtonWithConfirmation
+              confirmationMessage="All your current transactions will be deleted."
+              onClick={props.loadSampleData}
+            >
+              Load transactions sample
+              </ButtonWithConfirmation>
+          </NavItem>
         </Nav>
       </Col>
     }

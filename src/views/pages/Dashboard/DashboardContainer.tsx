@@ -7,6 +7,7 @@ import Props from './DashboardProps';
 import Dashboard from "./Dashboard";
 import Balance from 'models/Balance';
 import calculateWalletsTransactionsBalance from 'models/calculateWalletsTransactionsBalance';
+import { generateRandomSeedAction } from 'state/middlewares/generateRandomSeedMiddleware';
 
 const DashboardContainer = (props: Props) => (
   <Dashboard {...props} />
@@ -40,5 +41,7 @@ export default connect(
       tags: tags && tags.toJS(),
       balance
     };
-  }
+  }, {
+  loadSampleData: generateRandomSeedAction,
+}
 )(DashboardContainer)

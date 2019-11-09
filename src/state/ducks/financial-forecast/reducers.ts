@@ -17,7 +17,8 @@ import {
   UPDATE_GLOBAL_FILTER,
   DELETE_TAG,
   UPDATE_TAG,
-  UPDATE_TAGS_VIEW
+  UPDATE_TAGS_VIEW,
+  CLEAR_TAGS
 } from './types';
 import { FinancialForecastActions, filterType, TagsView } from './actions';
 
@@ -178,6 +179,12 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         ...state,
         tagsView: action.payload
       }
+    }
+    case CLEAR_TAGS:{
+      return {
+        ...state,
+        tags: List<Tag>()
+      };
     }
     default:
       return state;

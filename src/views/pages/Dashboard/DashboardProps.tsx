@@ -2,6 +2,7 @@ import TransactionConfig from "models/Transaction/TransactionConfig";
 import { Tag } from "models/Tag";
 import Balance from "models/Balance";
 import { Wallet } from "models/Wallet";
+import { bulkAddTransactions } from "state/ducks/financial-forecast/actions";
 
 export default interface Props {
   totalBalance: number,
@@ -14,5 +15,6 @@ export default interface Props {
   allTransactions: [TransactionConfig],
   estimatesAllTransactions: [TransactionConfig],
   tags: [Tag],
-  balance: Balance[]
+  balance: Balance[],
+  loadSampleData: () => void
 }

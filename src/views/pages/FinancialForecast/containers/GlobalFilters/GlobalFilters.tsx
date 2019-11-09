@@ -180,9 +180,6 @@ export default class GlobalFiltersComponent extends Component<Props, State> {
           </CardBody>
         </Card>
       </Collapse>
-      <div className="mt-2">
-        Displaying {transactionsCount} of {allTransactionsCount} transactions.
-      </div>
     </div>
   }
 }

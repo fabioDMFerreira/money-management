@@ -7,15 +7,21 @@ import { Tag } from 'models/Tag';
 import Jumbotron from 'reactstrap/lib/Jumbotron';
 import TransactionConfig from 'models/Transaction/TransactionConfig';
 import { WalletConfig } from 'state/ducks/wallets';
+import { connect } from 'react-redux';
+import { bulkAddTransactions } from 'state/ducks/financial-forecast/actions';
+import { generateRandomData } from 'models/Seed/generateRandomData';
 
 interface Props {
   wallets?: WalletConfig[],
   tags?: Tag[],
   transactions?: TransactionConfig[],
-  estimates?: TransactionConfig[]
+  estimates?: TransactionConfig[],
+  bulkAddTransactions: (transactions: TransactionConfig[]) => any
 }
 
-export default (props: Props) => {
+export default connect(null, {
+  bulkAddTransactions: bulkAddTransactions("TRANSACTIONS")
+})((props: Props) => {
 
   const links = [];
 
@@ -62,7 +68,15 @@ export default (props: Props) => {
             </NavLink>
           ))
         }
+        {/* <NavLink>
+          <a href="javascript:void(0)" onClick={() => {
+            const { transactions, tags} = generateRandomData(new Date(2018, 1, 1), new Date());
+            props.bulkAddTransactions(transactions);
+          }}>
+            Load transactions sample
+        </a>
+        </NavLink> */}
       </Nav>
     </Jumbotron>
   );
-};
+});

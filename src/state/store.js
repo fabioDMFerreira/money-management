@@ -8,6 +8,7 @@ import { createLogger } from 'redux-logger';
 
 import rootReducer from './rootReducer';
 import InitLocalization from './localize';
+import generateRandomSeedMiddleware from './middlewares/generateRandomSeedMiddleware';
 
 const persistConfig = {
 	key: 'state',
@@ -31,6 +32,7 @@ const composeEnhancers =
 const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(
 	thunkMiddleware,
 	promiseMiddleware(),
+	generateRandomSeedMiddleware,
 	loggerMiddleware,
 )));
 
