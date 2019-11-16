@@ -29,17 +29,19 @@ export default ({ wallet, transactions, update }: Props) => (
       <Row>
         <Col xs={4}>
           <WalletItemContainer wallet={wallet} />
+          <div className="mt-4">
+            <FormGroup>
+              <Label>Balance:</Label>
+              <EditableInput type="number" value={wallet.balance} onBlur={(e: any) => update(wallet.id, { balance: +e.target.value })} />
+            </FormGroup>
+          </div>
         </Col>
         <Col xs={4}>
-          <FormGroup>
-            <Label>Balance:</Label>
-            <EditableInput type="number" value={wallet.balance} onBlur={(e: any) => update(wallet.id, { balance: +e.target.value })} />
-          </FormGroup>
         </Col>
       </Row>
     </div>
     {
-      transactions && transactions.length &&
+      transactions && transactions.length > 0 &&
       <TransactionsTable transactions={transactions} />
     }
   </div>

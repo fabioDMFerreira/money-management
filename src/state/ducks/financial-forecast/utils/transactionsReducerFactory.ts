@@ -75,7 +75,8 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
         .map((transaction: any) => ({
           ...Transaction.buildFromTransactionData(transaction).convertToTransactionData(),
           visible: true,
-          tags: transaction.tags ? transaction.tags : []
+          tags: transaction.tags ? transaction.tags : [],
+          wallet: transaction.wallet
         }))
         .filter(checkTransactionDuplicatedFactory(state[allTransactionsKey]));
 

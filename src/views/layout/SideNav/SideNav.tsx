@@ -113,10 +113,14 @@ export default withRouter(({ location: { pathname } }: RouteComponentProps) => {
           <NavItem icon={faGlobe} title={"Dashboard"} to="/" active={pathname === '/'} />
         </Nav>
         <Nav id="2">
-          <NavItem icon={faWallet} to="/wallets" active={pathname === '/wallets'} title="Wallets" />
+          <div id="wallets-link">
+            <NavItem icon={faWallet} to="/wallets" active={pathname === '/wallets'} title="Wallets" />
+          </div>
         </Nav>
         <Nav id="3">
-          <NavItem icon={faCreditCard} title={"Transactions"} to="/transactions" active={pathname === '/transactions'} />
+          <div id="transactions-link">
+            <NavItem icon={faCreditCard} title={"Transactions"} to="/transactions" active={pathname === '/transactions'} />
+          </div>
           <Nav id="1">
             <SubNavItem to="/transactions" active={pathname === '/transactions'} title="Transactions" />
           </Nav>
@@ -131,10 +135,14 @@ export default withRouter(({ location: { pathname } }: RouteComponentProps) => {
           </Nav>
         </Nav>
         <Nav id="3">
-          <NavItem icon={faCloud} to="/forecast" active={pathname === '/forecast'} title="Forecast" />
+          <div id="forecast-link">
+            <NavItem icon={faCloud} to="/forecast" active={pathname === '/forecast'} title="Forecast" />
+          </div>
         </Nav>
         <Nav id="5">
-          <NavItem icon={faTag} title={"Tags"} to="/tags" active={pathname === '/tags'} />
+          <div id="tags-link">
+            <NavItem icon={faTag} title={"Tags"} to="/tags" active={pathname === '/tags'} />
+          </div>
         </Nav>
       </SideNav>
     </Container>

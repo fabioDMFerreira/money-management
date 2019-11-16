@@ -58,7 +58,7 @@ export default connect(null, {
   }
 
   return (
-    <Jumbotron>
+    <Jumbotron id="onboarding">
       <h2>Start here</h2>
       <Nav vertical>
         {

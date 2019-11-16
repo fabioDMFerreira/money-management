@@ -16,16 +16,121 @@ import ListGroup from 'reactstrap/lib/ListGroup';
 import ListGroupItem from 'reactstrap/lib/ListGroupItem';
 import Tags from '../Tags/Tags';
 import Onboarding from 'views/components/Onboarding';
-import { generateRandomData } from 'models/Seed/generateRandomData';
 import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
 import NavItem from 'reactstrap/lib/NavItem';
+import Button from 'reactstrap/lib/Button';
+import introJs from 'intro.js';
+
+import 'intro.js/introjs.css';
 
 const TagsEnhanced = withRouter(Tags);
+
+const startGuideTour = () => {
+  const intro = introJs();
+
+
+  const steps: IntroJs.Step[] = [];
+
+  const loadDataSampleElement = document.querySelector("#load-data-sample");
+
+  if (loadDataSampleElement) {
+    steps.push({
+      element: loadDataSampleElement,
+      intro: "Clicking in this button will generate random data. Fast way to see all functionalities of the product.",
+    })
+  }
+
+  const statisticsElement = document.querySelector("#statistics");
+
+  if (statisticsElement) {
+    steps.push({
+      element: statisticsElement,
+      intro: "Displays a resume of data saved in your account.",
+    })
+  };
+
+  const onboardingElement = document.querySelector("#onboarding");
+
+  if (onboardingElement) {
+    steps.push({
+      element: onboardingElement,
+      intro: `
+        This onboarding container shows links to pages where you can do actions.
+
+        After doing these actions more data will appear on this dashboard.
+      `,
+    })
+  };
+
+  const walletsLinkElement = document.querySelector("#wallets-link");
+
+  if (walletsLinkElement) {
+    steps.push({
+      element: walletsLinkElement,
+      intro: `
+        Create wallets and see wallets details like balance and trasactions.
+      `,
+    })
+  };
+
+  const transactionsLinkElement = document.querySelector("#transactions-link");
+
+  if (transactionsLinkElement) {
+    steps.push({
+      element: transactionsLinkElement,
+      intro: `
+        Import and manage your transactions.
+      `,
+    })
+  };
+
+  const forecastLinkElement = document.querySelector("#forecast-link");
+
+  if (forecastLinkElement) {
+    steps.push({
+      element: forecastLinkElement,
+      intro: `
+        Plan you financial future.
+      `,
+    })
+  };
+
+  const tagsLinkElement = document.querySelector("#tags-link");
+
+  if (tagsLinkElement) {
+    steps.push({
+      element: tagsLinkElement,
+      intro: `
+        Create tags and see tags details like trasactions associated.
+      `,
+    })
+  };
+
+  const quickactionsElement = document.querySelector("#quick-actions");
+
+  if (quickactionsElement) {
+    steps.push({
+      element: quickactionsElement,
+      intro: `
+        Buttons and actions to make your onboarding easier.
+      `,
+    })
+  };
+
+  const introOptions = {
+    steps,
+    showProgress: true,
+  }
+
+  intro.setOptions(introOptions);
+
+  intro.start();
+}
 
 export default (props: DashboardProps) => (
   <Row>
     <Col xs={10}>
-      <Row className="mb-3">
+      <Row id="statistics" className="mb-3">
         <Col xs={3}>
           <Card>
             <CardBody>
@@ -65,10 +170,9 @@ export default (props: DashboardProps) => (
           </RRNavLink>
         </Col>
       </Row>
-      <Row className="mb-3">
+      <Row className="mb-3" >
         <Col xs={6}>
           <Onboarding
-            estimates={props.estimatesAllTransactions}
             transactions={props.allTransactions}
             tags={props.tags}
             wallets={props.wallets}
@@ -172,10 +276,31 @@ export default (props: DashboardProps) => (
       // props.tags && props.tags.length > 0 &&
       // props.allTransactions && props.allTransactions.length > 0 &&
       // props.estimatesAllTransactions && props.estimatesAllTransactions.length > 0 &&
-      <Col xs={2}>
+      <Col xs={2} id="quick-actions">
         <h4>Quick actions</h4>
-        <Nav vertical>
-          <NavLink tag={RRNavLink} exact to="/wallets">
+        <Nav vertical >
+          <NavItem className="mt-2">
+            <Button
+              block
+              color="info"
+              onClick={startGuideTour}
+            >
+              Start Guide Tour
+              </Button>
+          </NavItem>
+          <NavItem className="mt-3">
+            <div id="load-data-sample">
+              <ButtonWithConfirmation
+                block
+                color="warning"
+                confirmationMessage="All your current transactions will be deleted."
+                onClick={props.loadSampleData}
+              >
+                Load Data Sample
+              </ButtonWithConfirmation>
+            </div>
+          </NavItem>
+          <NavLink className="mt-3" tag={RRNavLink} exact to="/wallets">
             Add wallets
         </NavLink>
           <NavLink tag={RRNavLink} exact to="/tags">
@@ -187,16 +312,8 @@ export default (props: DashboardProps) => (
           <NavLink tag={RRNavLink} exact to="/estimates">
             Add estimates
         </NavLink>
-          <NavItem>
-            <ButtonWithConfirmation
-              confirmationMessage="All your current transactions will be deleted."
-              onClick={props.loadSampleData}
-            >
-              Load transactions sample
-              </ButtonWithConfirmation>
-          </NavItem>
         </Nav>
       </Col>
     }
   </Row >
-)
+);

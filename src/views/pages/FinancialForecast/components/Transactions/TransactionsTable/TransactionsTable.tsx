@@ -217,26 +217,28 @@ export default class TransactionsTable extends Component<Props, State> {
         accessor: "particles",
         Cell: (props: any) => this.editableCell(props, 'number'),
         width: 80
-      }, {
-        Header: 'Interval',
-        accessor: "interval",
-        Cell: (props: any) => this.editableCell(props, 'number'),
-        width: 80
-      }, {
+      },
+      // {
+      //   Header: 'Interval',
+      //   accessor: "interval",
+      //   Cell: (props: any) => this.editableCell(props, 'number'),
+      //   width: 80
+      // },
+      {
         Header: 'Credit',
         accessor: "credit",
         Cell: (props: any) => this.editableCell(props, 'number'),
-        width: 100
+        width: 80
       }, {
         Header: 'Debit',
         accessor: "debit",
         Cell: (props: any) => this.editableCell(props, 'number'),
-        width: 100
+        width: 80
       }, {
         Header: 'Total value',
         accessor: "totalValue",
         Cell: (props: any) => <NotEditableCell>{props.value}</NotEditableCell>,
-        width: 100
+        width: 80
       }, {
         Header: '',
         accessor: '',
@@ -247,7 +249,8 @@ export default class TransactionsTable extends Component<Props, State> {
             visible={cellProps.original.visible}
             removeTransaction={props.removeTransaction}
             updateTransaction={props.updateTransaction}
-            dragDisabled={this.state.sorted.length ? true : false}
+            // dragDisabled={this.state.sorted.length ? true : false}
+            dragDisabled
           />;
         },
         width: 120,
@@ -292,10 +295,10 @@ export default class TransactionsTable extends Component<Props, State> {
     } = this.state;
 
     return <TransactionsTableContainer>
-      <DragDropContext onDragEnd={this.handleDragEnd}>
+      {/* <DragDropContext onDragEnd={this.handleDragEnd}> */}
         <ReactTable
-          TrComponent={DragTrComponent(sorted.length ? true : false)}
-          TbodyComponent={DropTbodyComponent(sorted.length ? true : false)}
+          // TrComponent={DragTrComponent(sorted.length ? true : false)}
+          // TbodyComponent={DropTbodyComponent(sorted.length ? true : false)}
           FilterComponent={FilterComponent}
 
           data={transactions}
@@ -314,7 +317,7 @@ export default class TransactionsTable extends Component<Props, State> {
           onFilteredChange={updateTransactionsFilters}
           filtered={filters}
         />
-      </DragDropContext>
+      {/* </DragDropContext> */}
     </TransactionsTableContainer>
   }
 }
