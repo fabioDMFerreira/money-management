@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
@@ -19,301 +19,225 @@ import Onboarding from 'views/components/Onboarding';
 import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
 import NavItem from 'reactstrap/lib/NavItem';
 import Button from 'reactstrap/lib/Button';
-import introJs from 'intro.js';
-
-import 'intro.js/introjs.css';
+import GuideTour from 'views/containers/GuideTour';
+import dashboardTourGuideSteps from './dashboardTourGuideSteps';
+import Translate from 'views/components/Translate';
+import {
+  BALANCE,
+  WALLETS,
+  TRANSACTIONS,
+  ESTIMATES,
+  LAST_TRANSACTIONS,
+  LOAD_DATA_SAMPLE,
+  START_GUIDE_TOUR,
+  MORE,
+  ADD,
+  TAGS,
+  QUICK_ACTIONS,
+  NO_WALLETS_FOUND,
+  NO_TRANSACTIONS_FOUND,
+  LOAD_DATA_SAMPLE_CONFIRMATION_MESSAGE
+} from 'locale/consts';
 
 const TagsEnhanced = withRouter(Tags);
 
-const startGuideTour = () => {
-  const intro = introJs();
+export default (props: DashboardProps) => {
 
+  const [guideTourStarted, setGuideTourStarted] = useState(false);
 
-  const steps: IntroJs.Step[] = [];
-
-  const loadDataSampleElement = document.querySelector("#load-data-sample");
-
-  if (loadDataSampleElement) {
-    steps.push({
-      element: loadDataSampleElement,
-      intro: "Clicking in this button will generate random data. Fast way to see all functionalities of the product.",
-    })
-  }
-
-  const statisticsElement = document.querySelector("#statistics");
-
-  if (statisticsElement) {
-    steps.push({
-      element: statisticsElement,
-      intro: "Displays a resume of data saved in your account.",
-    })
-  };
-
-  const onboardingElement = document.querySelector("#onboarding");
-
-  if (onboardingElement) {
-    steps.push({
-      element: onboardingElement,
-      intro: `
-        This onboarding container shows links to pages where you can do actions.
-
-        After doing these actions more data will appear on this dashboard.
-      `,
-    })
-  };
-
-  const walletsLinkElement = document.querySelector("#wallets-link");
-
-  if (walletsLinkElement) {
-    steps.push({
-      element: walletsLinkElement,
-      intro: `
-        Create wallets and see wallets details like balance and trasactions.
-      `,
-    })
-  };
-
-  const transactionsLinkElement = document.querySelector("#transactions-link");
-
-  if (transactionsLinkElement) {
-    steps.push({
-      element: transactionsLinkElement,
-      intro: `
-        Import and manage your transactions.
-      `,
-    })
-  };
-
-  const forecastLinkElement = document.querySelector("#forecast-link");
-
-  if (forecastLinkElement) {
-    steps.push({
-      element: forecastLinkElement,
-      intro: `
-        Plan you financial future.
-      `,
-    })
-  };
-
-  const tagsLinkElement = document.querySelector("#tags-link");
-
-  if (tagsLinkElement) {
-    steps.push({
-      element: tagsLinkElement,
-      intro: `
-        Create tags and see tags details like trasactions associated.
-      `,
-    })
-  };
-
-  const quickactionsElement = document.querySelector("#quick-actions");
-
-  if (quickactionsElement) {
-    steps.push({
-      element: quickactionsElement,
-      intro: `
-        Buttons and actions to make your onboarding easier.
-      `,
-    })
-  };
-
-  const introOptions = {
-    steps,
-    showProgress: true,
-  }
-
-  intro.setOptions(introOptions);
-
-  intro.start();
-}
-
-export default (props: DashboardProps) => (
-  <Row>
-    <Col xs={10}>
-      <Row id="statistics" className="mb-3">
-        <Col xs={3}>
-          <Card>
-            <CardBody>
-              <CardTitle>Balance</CardTitle>
-              <CardText><h2>{props.totalBalance}</h2></CardText>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col xs={3}>
-          <RRNavLink to="/wallets" className="no-link-styles">
+  return (
+    <Row>
+      <GuideTour
+        steps={dashboardTourGuideSteps}
+        started={guideTourStarted}
+        onClose={() => setGuideTourStarted(false)}
+      />
+      <Col xs={10}>
+        <Row id="statistics" className="mb-3">
+          <Col xs={3}>
             <Card>
               <CardBody>
-                <CardTitle>Wallets</CardTitle>
-                <CardText><h2>{props.totalWallets}</h2></CardText>
-              </CardBody>
-            </Card>
-          </RRNavLink>
-        </Col>
-        <Col xs={3}>
-          <RRNavLink to="/transactions" className="no-link-styles">
-            <Card>
-              <CardBody>
-                <CardTitle>Transactions</CardTitle>
-                <CardText><h2>{props.totalTransactions}</h2></CardText>
-              </CardBody>
-            </Card>
-          </RRNavLink>
-        </Col>
-        <Col xs={3}>
-          <RRNavLink to="/estimates" className="no-link-styles">
-            <Card>
-              <CardBody>
-                <CardTitle>Estimates</CardTitle>
-                <CardText><h2>{props.totalEstimates}</h2></CardText>
-              </CardBody>
-            </Card>
-          </RRNavLink>
-        </Col>
-      </Row>
-      <Row className="mb-3" >
-        <Col xs={6}>
-          <Onboarding
-            transactions={props.allTransactions}
-            tags={props.tags}
-            wallets={props.wallets}
-          />
-        </Col>
-      </Row>
-      {
-        props.wallets && props.wallets.length > 0 &&
-        props.allTransactions && props.allTransactions.length > 0 &&
-        <Row className="mb-3">
-          <Col xs={12}>
-            <Card>
-              <CardBody>
-                <Timeline balance={props.balance} transactions={props.allTransactions} hideControls />
+                <CardTitle><Translate id={BALANCE} /></CardTitle>
+                <CardText><h2>{props.totalBalance}</h2></CardText>
               </CardBody>
             </Card>
           </Col>
+          <Col xs={3}>
+            <RRNavLink to="/wallets" className="no-link-styles">
+              <Card>
+                <CardBody>
+                  <CardTitle><Translate id={WALLETS} /></CardTitle>
+                  <CardText><h2>{props.totalWallets}</h2></CardText>
+                </CardBody>
+              </Card>
+            </RRNavLink>
+          </Col>
+          <Col xs={3}>
+            <RRNavLink to="/transactions" className="no-link-styles">
+              <Card>
+                <CardBody>
+                  <CardTitle><Translate id={TRANSACTIONS} /></CardTitle>
+                  <CardText><h2>{props.totalTransactions}</h2></CardText>
+                </CardBody>
+              </Card>
+            </RRNavLink>
+          </Col>
+          <Col xs={3}>
+            <RRNavLink to="/estimates" className="no-link-styles">
+              <Card>
+                <CardBody>
+                  <CardTitle><Translate id={ESTIMATES} /></CardTitle>
+                  <CardText><h2>{props.totalEstimates}</h2></CardText>
+                </CardBody>
+              </Card>
+            </RRNavLink>
+          </Col>
         </Row>
-      }
-      <Row>
+        <Row className="mb-3" >
+          <Col xs={6}>
+            <Onboarding
+              transactions={props.allTransactions}
+              tags={props.tags}
+              wallets={props.wallets}
+            />
+          </Col>
+        </Row>
         {
           props.wallets && props.wallets.length > 0 &&
-          <Col xs={6}>
-            <Card>
-              <CardBody style={{ minHeight: 348 }}>
-                <CardTitle><h4>Wallets</h4></CardTitle>
-                {
-                  props.wallets ?
-                    <ListGroup>
-                      {
-                        props.wallets.map(wallet =>
-                          <ListGroupItem>
-                            <RRNavLink to={'/wallets/' + wallet.id}>
-                              {wallet.name}
-                            </RRNavLink>
-                            <span style={{ float: 'right', color: 'green' }}>
-                              {'+' + wallet.balance}
-                            </span>
-                          </ListGroupItem>)
-                      }
-                    </ListGroup>
-                    :
-                    "No wallets found"
-                }
-                <NavLink tag={RRNavLink} exact to="/wallets">Add more wallets</NavLink>
-              </CardBody>
-            </Card>
-          </Col>
-        }
-        {
           props.allTransactions && props.allTransactions.length > 0 &&
-          <Col xs={6} className="mb-3">
-            <Card>
-              <CardBody style={{ minHeight: 348 }}>
-                <CardTitle><h4>Last transactions</h4></CardTitle>
-                {
-                  props.lastTransactions ?
-                    <ListGroup>
-                      {
-                        props.lastTransactions.map(transaction =>
-                          <ListGroupItem>
-                            {transaction.description}
-                            <small className="ml-2">{transaction.startDate}</small>
-                            <span style={{ float: 'right' }}>
-                              {(transaction.credit && +transaction.credit > 0) ?
-                                <span style={{ color: 'green' }}>
-                                  {'+' + transaction.credit}
-                                </span> :
-                                <span style={{ color: 'red' }}>
-                                  {'-' + transaction.debit}
-                                </span>
-                              }
-                            </span>
-                          </ListGroupItem>)
-                      }
-                    </ListGroup>
-                    :
-                    "No transactions found"
-                }
-                <NavLink tag={RRNavLink} exact to="/transactions">More Transactions</NavLink>
-              </CardBody>
-            </Card>
-          </Col>
+          <Row className="mb-3">
+            <Col xs={12}>
+              <Card>
+                <CardBody>
+                  <Timeline balance={props.balance} transactions={props.allTransactions} hideControls />
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
         }
-      </Row>
-      {
-        props.tags && props.tags.length > 0 && props.allTransactions && props.allTransactions.length > 0 &&
-        <Row className="mb-3">
-          <Col xs={12}>
-            <Card>
-              <CardBody>
-                <TagsEnhanced transactions={props.allTransactions} tags={props.tags} hideControls />
-              </CardBody>
-            </Card>
-          </Col>
+        <Row>
+          {
+            props.wallets && props.wallets.length > 0 &&
+            <Col xs={6}>
+              <Card>
+                <CardBody style={{ minHeight: 348 }}>
+                  <CardTitle><h4><Translate id={WALLETS} /></h4></CardTitle>
+                  {
+                    props.wallets ?
+                      <ListGroup>
+                        {
+                          props.wallets.map(wallet =>
+                            <ListGroupItem>
+                              <RRNavLink to={'/wallets/' + wallet.id}>
+                                {wallet.name}
+                              </RRNavLink>
+                              <span style={{ float: 'right', color: 'green' }}>
+                                {'+' + wallet.balance}
+                              </span>
+                            </ListGroupItem>)
+                        }
+                      </ListGroup>
+                      :
+                      <Translate id={NO_WALLETS_FOUND} />
+                  }
+                  <NavLink tag={RRNavLink} exact to="/wallets"><Translate id={`${ADD} ${MORE} ${WALLETS}`} /></NavLink>
+                </CardBody>
+              </Card>
+            </Col>
+          }
+          {
+            props.allTransactions && props.allTransactions.length > 0 &&
+            <Col xs={6} className="mb-3">
+              <Card>
+                <CardBody style={{ minHeight: 348 }}>
+                  <CardTitle><h4><Translate id={LAST_TRANSACTIONS} /></h4></CardTitle>
+                  {
+                    props.lastTransactions ?
+                      <ListGroup>
+                        {
+                          props.lastTransactions.map(transaction =>
+                            <ListGroupItem>
+                              {transaction.description}
+                              <small className="ml-2">{transaction.startDate}</small>
+                              <span style={{ float: 'right' }}>
+                                {(transaction.credit && +transaction.credit > 0) ?
+                                  <span style={{ color: 'green' }}>
+                                    {'+' + transaction.credit}
+                                  </span> :
+                                  <span style={{ color: 'red' }}>
+                                    {'-' + transaction.debit}
+                                  </span>
+                                }
+                              </span>
+                            </ListGroupItem>)
+                        }
+                      </ListGroup>
+                      :
+                      <Translate id={NO_TRANSACTIONS_FOUND} />
+                  }
+                  <NavLink tag={RRNavLink} exact to="/transactions"><Translate id={MORE} /> <Translate id={TRANSACTIONS} /></NavLink>
+                </CardBody>
+              </Card>
+            </Col>
+          }
         </Row>
-      }
-    </Col>
-    {
-      // props.wallets && props.wallets.length > 0 &&
-      // props.tags && props.tags.length > 0 &&
-      // props.allTransactions && props.allTransactions.length > 0 &&
-      // props.estimatesAllTransactions && props.estimatesAllTransactions.length > 0 &&
-      <Col xs={2} id="quick-actions">
-        <h4>Quick actions</h4>
-        <Nav vertical >
-          <NavItem className="mt-2">
-            <Button
-              block
-              color="info"
-              onClick={startGuideTour}
-            >
-              Start Guide Tour
-              </Button>
-          </NavItem>
-          <NavItem className="mt-3">
-            <div id="load-data-sample">
-              <ButtonWithConfirmation
-                block
-                color="warning"
-                confirmationMessage="All your current transactions will be deleted."
-                onClick={props.loadSampleData}
-              >
-                Load Data Sample
-              </ButtonWithConfirmation>
-            </div>
-          </NavItem>
-          <NavLink className="mt-3" tag={RRNavLink} exact to="/wallets">
-            Add wallets
-        </NavLink>
-          <NavLink tag={RRNavLink} exact to="/tags">
-            Add tags
-        </NavLink>
-          <NavLink tag={RRNavLink} exact to="/transactions">
-            Add transactions
-        </NavLink>
-          <NavLink tag={RRNavLink} exact to="/estimates">
-            Add estimates
-        </NavLink>
-        </Nav>
+        {
+          props.tags && props.tags.length > 0 && props.allTransactions && props.allTransactions.length > 0 &&
+          <Row className="mb-3">
+            <Col xs={12}>
+              <Card>
+                <CardBody>
+                  <TagsEnhanced transactions={props.allTransactions} tags={props.tags} hideControls />
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        }
       </Col>
-    }
-  </Row >
-);
+      {
+        // props.wallets && props.wallets.length > 0 &&
+        // props.tags && props.tags.length > 0 &&
+        // props.allTransactions && props.allTransactions.length > 0 &&
+        // props.estimatesAllTransactions && props.estimatesAllTransactions.length > 0 &&
+        <Col xs={2} >
+          <h4><Translate id={QUICK_ACTIONS} /></h4>
+          <Nav vertical id="quick-actions" >
+            <NavItem className="mt-2">
+              <Button
+                block
+                color="info"
+                onClick={() => setGuideTourStarted(true)}
+              >
+                <Translate id={START_GUIDE_TOUR} />
+              </Button>
+            </NavItem>
+            <NavItem className="mt-3">
+              <div id="load-data-sample">
+                <ButtonWithConfirmation
+                  block
+                  color="warning"
+                  confirmationMessage={<Translate id={LOAD_DATA_SAMPLE_CONFIRMATION_MESSAGE} />}
+                  onClick={props.loadSampleData}
+                >
+                  <Translate id={LOAD_DATA_SAMPLE} />
+                </ButtonWithConfirmation>
+              </div>
+            </NavItem>
+            <NavLink className="mt-3" tag={RRNavLink} exact to="/wallets">
+              <Translate id={ADD} /> <Translate id={WALLETS} />
+            </NavLink>
+            <NavLink tag={RRNavLink} exact to="/tags">
+              <Translate id={ADD} /> <Translate id={TAGS} />
+            </NavLink>
+            <NavLink tag={RRNavLink} exact to="/transactions">
+              <Translate id={ADD} /> <Translate id={TRANSACTIONS} />
+            </NavLink>
+            <NavLink tag={RRNavLink} exact to="/estimates">
+              <Translate id={ADD} /> <Translate id={ESTIMATES} />
+            </NavLink>
+          </Nav>
+        </Col>
+      }
+    </Row >
+  );
+};

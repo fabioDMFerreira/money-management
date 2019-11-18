@@ -19,6 +19,37 @@ import {
 	ORDER_BY,
 	NETWORK_500,
 	LOGOUT,
+	DASHBOARD_LOAD_SAMPLE_PRESENTATION,
+	BALANCE,
+	TRANSACTIONS,
+	ESTIMATES,
+	WALLETS,
+	LAST_TRANSACTIONS,
+	CREDIT,
+	DEBIT,
+	QUICK_ACTIONS,
+	ADD,
+	TAGS,
+	START_GUIDE_TOUR,
+	LOAD_DATA_SAMPLE,
+	MORE,
+	AMOUNT,
+	ESTIMATED,
+	NO_WALLETS_FOUND,
+	NO_TRANSACTIONS_FOUND,
+	LOAD_DATA_SAMPLE_CONFIRMATION_MESSAGE,
+	YES,
+	NO,
+	DASHBOARD,
+	FORECAST,
+	TIMELINE,
+	DASHBOARD_STATISTICS_PRESENTATION,
+	DASHBOARD_ONBOARDING_PRESENTATION,
+	DASHBOARD_WALLETS_PRESENTATION,
+	DASHBOARD_TRANSACTIONS_PRESENTATION,
+	DASHBOARD_FORECAST_PRESENTATION,
+	DASHBOARD_TAGS_PRESENTATION,
+	DASHBOARD_QUICK_ACTIONS_PRESENTATION,
 } from './consts';
 
 export default {
@@ -43,4 +74,49 @@ export default {
 	[NETWORK_500]: 'Erro ao fazer pedido',
 	[ORDER_BY]: 'Ordenar por',
 	[LOGOUT]: 'Sair',
+	[DASHBOARD_LOAD_SAMPLE_PRESENTATION]: 'Clica no botão para gerar dados aleatrórios. Começa a utilizar o produto.',
+	[DASHBOARD_STATISTICS_PRESENTATION]: 'Mostra estatísticas dos dados da tua conta.',
+	[DASHBOARD_ONBOARDING_PRESENTATION]: `
+	Ações principais da plataforma.
+
+	Depois de introduzir dados mais secções aparecerão nesta página.
+	`,
+	[DASHBOARD_WALLETS_PRESENTATION]: `
+	Cria contas bancárias e consulta o saldo e os movimentos associados.
+`,
+	[DASHBOARD_TRANSACTIONS_PRESENTATION]: `
+	Importa e gere movimentos.
+`,
+	[DASHBOARD_FORECAST_PRESENTATION]: `
+	Planeia o futuro financeiro.
+`,
+	[DASHBOARD_TAGS_PRESENTATION]: `
+	Cria tags e consulta os movimentos associados.
+`,
+	[DASHBOARD_QUICK_ACTIONS_PRESENTATION]: `
+	Ações que facilitam a utilização da plataforma.
+`,
+	[BALANCE]: 'Saldo',
+	[TRANSACTIONS]: 'Movimentos',
+	[ESTIMATES]: 'Estimativas',
+	[WALLETS]: 'Contas Bancárias',
+	[LAST_TRANSACTIONS]: 'Últimos Movimentos',
+	[CREDIT]: 'Crédito',
+	[DEBIT]: 'Débito',
+	[QUICK_ACTIONS]: 'Ações Rápidas',
+	[ADD]: 'Cria',
+	[TAGS]: 'Tags',
+	[START_GUIDE_TOUR]: 'Tutorial',
+	[LOAD_DATA_SAMPLE]: 'Carrega Amostra de Dados',
+	[MORE]: 'Mais',
+	[AMOUNT]: 'Montante',
+	[ESTIMATED]: 'Estimado',
+	[NO_WALLETS_FOUND]: 'Sem Contas Bancárias',
+	[NO_TRANSACTIONS_FOUND]: 'Sem Movimentos',
+	[LOAD_DATA_SAMPLE_CONFIRMATION_MESSAGE]: 'Todos os dados atuais vão ser substituídos por novos dados.',
+	[YES]: 'Sim',
+	[NO]: 'Não',
+	[DASHBOARD]: 'Dashboard',
+	[FORECAST]: 'Previsão',
+	[TIMELINE]: 'Evolução',
 };

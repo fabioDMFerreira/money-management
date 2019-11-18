@@ -5,16 +5,16 @@ import { LANGUAGE_CODE } from 'localstorage/consts';
 
 import LanguagesToggle from './LanguagesToggle';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
 	return {
 		languages: getLanguages(state.localize),
 		currentLanguage: getActiveLanguage(state.localize),
 	};
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: any) {
 	return {
-		setActiveLanguage: (language) => {
+		setActiveLanguage: (language: any) => {
 			window.localStorage.setItem(LANGUAGE_CODE, language);
 			dispatch(setActiveLanguage(language));
 		},

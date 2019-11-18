@@ -4,9 +4,11 @@ import Popover from 'reactstrap/lib/Popover';
 import PopoverHeader from 'reactstrap/lib/PopoverHeader';
 import PopoverBody from 'reactstrap/lib/PopoverBody';
 import getRandomString from 'utils/getRandomString';
+import { YES, NO } from 'locale/consts';
+import Translate from '../Translate';
 
 type Props = {
-  confirmationMessage?: string
+  confirmationMessage?: any
   [key: string]: any
 } & ButtonProps;
 
@@ -43,7 +45,8 @@ export default class ButtonWithConfirmation extends Component<Props, State> {
         </Button>
         <Popover placement="bottom" isOpen={this.state.popoverOpen} target={`Confirm-${this.state.id}`}>
           <PopoverHeader>{confirmationMessage || "Are you sure?"}</PopoverHeader>
-          <PopoverBody><Button color="primary" onClick={this.confirm}>Yes</Button> <Button onClick={this.closePopover} color="secondary">No</Button></PopoverBody>
+          <PopoverBody>
+            <Button color="primary" onClick={this.confirm}><Translate id={YES} /></Button> <Button onClick={this.closePopover} color="secondary"><Translate id={NO} /></Button></PopoverBody>
         </Popover>
       </Fragment>
     );

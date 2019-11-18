@@ -1,38 +1,38 @@
 import React from 'react';
-import { arrayOf, string, func, shape } from 'prop-types';
-
-import { generateKey } from 'models/utils';
 
 import './LanguagesToggle.css';
+import { Language } from 'react-localize-redux';
+import Button from 'reactstrap/lib/Button';
 
-const LanguagesToggle = ({ currentLanguage, languages, setActiveLanguage }) => (
+interface Props {
+	languages: Language[],
+	currentLanguage: { code: string },
+	setActiveLanguage: (code: string) => void,
+}
+
+const LanguagesToggle = ({ currentLanguage, languages, setActiveLanguage }: Props) => (
 	<React.Fragment>
 		{
 			languages.map(language =>
 				(
 					<React.Fragment>
-						<a
-							href="javascrip:void(0)"
+						<Button
+							color="link"
+							small
 							className={
 								`language-badge ${currentLanguage.code === language.code ?
 									'active' : ''
 								}`}
-							key={generateKey(language.code)}
+							key={language.code}
 							onClick={() => setActiveLanguage(language.code)}
 							onKeyDown={() => setActiveLanguage(language.code)}
 						>
 							{language.name}
-						</a>{' '}
+						</Button>{' '}
 					</React.Fragment>
 				))
 		}
 	</React.Fragment>
 );
-
-LanguagesToggle.propTypes = {
-	languages: arrayOf(shape({ code: string, name: string })).isRequired,
-	currentLanguage: shape({ code: string }).isRequired,
-	setActiveLanguage: func.isRequired,
-};
 
 export default LanguagesToggle;

@@ -7,7 +7,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import { createLogger } from 'redux-logger';
 
 import rootReducer from './rootReducer';
-import InitLocalization from './localize';
+import initilizeLocalize from './localize';
 import generateRandomSeedMiddleware from './middlewares/generateRandomSeedMiddleware';
 
 const persistConfig = {
@@ -39,7 +39,7 @@ const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(
 const persistor = persistStore(store);
 
 
-InitLocalization(store.dispatch, store.getState());
+initilizeLocalize(store.dispatch, store.getState());
 
 export { persistor };
 

@@ -9,6 +9,8 @@ import { Wallet, WalletFactory } from 'models/Wallet';
 import WalletItem from './containers/WalletItem';
 import { createWallet } from 'state/ducks/wallets';
 import NewButton from 'views/components/NewButton';
+import { Translate } from 'react-localize-redux';
+import { WALLETS } from 'locale/consts';
 
 type Props = {
   wallets: Wallet[],
@@ -18,7 +20,7 @@ type Props = {
 const Settings = (props: Props) =>
   <Fragment>
     <div className="mb-4">
-      <h3>Wallets</h3>
+      <h3><Translate id={WALLETS} /></h3>
       <NewButton className="mb-2" onClick={() => {
         const wallet = WalletFactory.build("new wallet", 0);
         props.createWallet(wallet);

@@ -5,6 +5,9 @@ import { SideNav, Nav } from "react-sidenav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobe, faCreditCard, faCog, faMoneyBillWave, faWallet, faCloud, faTag } from "@fortawesome/free-solid-svg-icons";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import LanguagesToggle from "views/containers/LanguagesToggle";
+import { Translate } from "react-localize-redux";
+import { WALLETS, TRANSACTIONS, TAGS, FORECAST, TIMELINE, DASHBOARD } from "locale/consts";
 
 const Container = styled.div`
   background: #2d353c;
@@ -54,7 +57,7 @@ const NavItem: React.FC<INavItemProp> = props => {
         <IconCont selected={props.active}>
           <FontAwesomeIcon icon={props.icon} />
         </IconCont>
-        <TextCont selected={props.active}>{props.title}</TextCont>
+        <TextCont selected={props.active}><Translate id={props.title} /></TextCont>
       </Link>
     </FlexCont>
   );
@@ -95,7 +98,7 @@ const SubNavItem: React.FC<SubNavItemProps> = (props) => {
       <SubTitleIndicator selected={props.active} />
       <SubNavItemTitle selected={props.active}>
         <Link to={props.to}>
-          {props.title}
+          <Translate id={props.title} />
         </Link>
       </SubNavItemTitle>
     </SubTitle>
@@ -110,41 +113,44 @@ export default withRouter(({ location: { pathname } }: RouteComponentProps) => {
       </NavTitle>
       <SideNav defaultSelectedPath="1">
         <Nav id="1">
-          <NavItem icon={faGlobe} title={"Dashboard"} to="/" active={pathname === '/'} />
+          <NavItem icon={faGlobe} title={DASHBOARD} to="/" active={pathname === '/'} />
         </Nav>
         <Nav id="2">
           <div id="wallets-link">
-            <NavItem icon={faWallet} to="/wallets" active={pathname === '/wallets'} title="Wallets" />
+            <NavItem icon={faWallet} to="/wallets" active={pathname === '/wallets'} title={WALLETS} />
           </div>
         </Nav>
         <Nav id="3">
           <div id="transactions-link">
-            <NavItem icon={faCreditCard} title={"Transactions"} to="/transactions" active={pathname === '/transactions'} />
+            <NavItem icon={faCreditCard} title={TRANSACTIONS} to="/transactions" active={pathname === '/transactions'} />
           </div>
           <Nav id="1">
-            <SubNavItem to="/transactions" active={pathname === '/transactions'} title="Transactions" />
+            <SubNavItem to="/transactions" active={pathname === '/transactions'} title={TRANSACTIONS} />
           </Nav>
           {/* <Nav id="2">
             <SubNavItem to="/estimates" active={pathname === '/estimates'} title="Estimates" />
           </Nav> */}
           <Nav id="3">
-            <SubNavItem to="/timeline" active={pathname === '/timeline'} title="Timeline" />
+            <SubNavItem to="/timeline" active={pathname === '/timeline'} title={TIMELINE} />
           </Nav>
           <Nav id="4">
-            <SubNavItem to="/transactions/tags" active={pathname === '/transactions/tags'} title="Tags" />
+            <SubNavItem to="/transactions/tags" active={pathname === '/transactions/tags'} title={TAGS} />
           </Nav>
         </Nav>
         <Nav id="3">
           <div id="forecast-link">
-            <NavItem icon={faCloud} to="/forecast" active={pathname === '/forecast'} title="Forecast" />
+            <NavItem icon={faCloud} to="/forecast" active={pathname === '/forecast'} title={FORECAST} />
           </div>
         </Nav>
         <Nav id="5">
           <div id="tags-link">
-            <NavItem icon={faTag} title={"Tags"} to="/tags" active={pathname === '/tags'} />
+            <NavItem icon={faTag} title={TAGS} to="/tags" active={pathname === '/tags'} />
           </div>
         </Nav>
       </SideNav>
+      <div className="mt-4">
+        <LanguagesToggle />
+      </div>
     </Container>
   );
 });

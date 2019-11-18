@@ -14,6 +14,8 @@ import TagsTable from './components/TagsTable';
 import TagsPie from './components/TagsPie';
 import { generatePieCreditData, generatePieDebitData } from './components/TagsPie/utils';
 import Onboarding from 'views/components/Onboarding';
+import Translate from 'views/components/Translate';
+import { CREDIT, DEBIT } from 'locale/consts';
 
 type Props = RouteComponentProps & {
   transactions: TransactionDataInterface[]
@@ -103,7 +105,7 @@ export default class Tags extends Component<Props, State> {
       }
       <Row>
         <Col xs="6">
-          <h4>Credit</h4>
+          <h4><Translate id={CREDIT} /></h4>
           {
             tagsView === 'chart' &&
             <TagsPie
@@ -119,7 +121,7 @@ export default class Tags extends Component<Props, State> {
           }
         </Col>
         <Col xs="6">
-          <h4>Debit</h4>
+          <h4><Translate id={DEBIT} /></h4>
           {
             tagsView === 'chart' &&
             <TagsPie
