@@ -204,6 +204,7 @@ export default (props: DashboardProps) => {
           <Nav vertical id="quick-actions" >
             <NavItem className="mt-2">
               <Button
+                id="guide-tour-button"
                 block
                 color="info"
                 onClick={() => setGuideTourStarted(true)}

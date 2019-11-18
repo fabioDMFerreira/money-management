@@ -2,9 +2,12 @@ import React from 'react';
 import introJs from 'intro.js';
 import { getTranslate } from 'react-localize-redux';
 
-import 'intro.js/introjs.css';
 import { useState } from 'react';
 import { connect } from 'react-redux';
+import { NEXT, PREVIOUS, SKIP, DONE } from 'locale/consts';
+
+import 'intro.js/introjs.css';
+import './GuideTour.css';
 
 export interface GuideTourStep {
   selector: string,
@@ -45,6 +48,10 @@ const GuideTour = ({ started, steps: propsSteps, onClose, translate }: Props) =>
     const introOptions = {
       steps,
       showProgress: true,
+      nextLabel: translate(NEXT),
+      prevLabel: translate(PREVIOUS),
+      skipLabel: translate(SKIP),
+      doneLabel: translate(DONE)
     };
 
     const intro = introJs();

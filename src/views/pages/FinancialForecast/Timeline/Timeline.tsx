@@ -148,4 +148,4 @@ export default class BalanceComponent extends Component<Props, State> {
       }
     </Fragment>
   }
-}
+};

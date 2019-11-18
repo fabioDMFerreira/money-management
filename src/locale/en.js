@@ -46,11 +46,17 @@ import {
 	TIMELINE,
 	DASHBOARD_STATISTICS_PRESENTATION,
 	DASHBOARD_ONBOARDING_PRESENTATION,
-	DASHBOARD_WALLETS_PRESENTATION,
-	DASHBOARD_TRANSACTIONS_PRESENTATION,
-	DASHBOARD_FORECAST_PRESENTATION,
-	DASHBOARD_TAGS_PRESENTATION,
+	WALLETS_PRESENTATION,
+	TRANSACTIONS_PRESENTATION,
+	FORECAST_PRESENTATION,
+	TAGS_PRESENTATION,
 	DASHBOARD_QUICK_ACTIONS_PRESENTATION,
+	NEXT,
+	PREVIOUS,
+	SKIP,
+	DONE,
+	GUIDE_TOUR_PRESENTATION,
+	DASHBOARD_PRESENTATION,
 } from './consts';
 
 export default {
@@ -75,6 +81,9 @@ export default {
 	[NETWORK_500]: 'Error doing request',
 	[ORDER_BY]: 'Order by',
 	[LOGOUT]: 'Exit',
+	[GUIDE_TOUR_PRESENTATION]: `
+		Welcome!
+	`,
 	[DASHBOARD_LOAD_SAMPLE_PRESENTATION]: 'Clicking in this button will generate random data. Fast way to see all functionalities of the product.',
 	[DASHBOARD_STATISTICS_PRESENTATION]: 'Displays a resume of data saved in your account.',
 	[DASHBOARD_ONBOARDING_PRESENTATION]: `
@@ -82,16 +91,17 @@ export default {
 
 	After doing these actions more data will appear on this dashboard.
 	`,
-	[DASHBOARD_WALLETS_PRESENTATION]: `
+	[DASHBOARD_PRESENTATION]: 'See a summary of your current financial state.',
+	[WALLETS_PRESENTATION]: `
 	Create wallets and see wallets details like balance and trasactions.
 `,
-	[DASHBOARD_TRANSACTIONS_PRESENTATION]: `
+	[TRANSACTIONS_PRESENTATION]: `
 	Import and manage your transactions.
 `,
-	[DASHBOARD_FORECAST_PRESENTATION]: `
+	[FORECAST_PRESENTATION]: `
 	Plan you financial future.
 `,
-	[DASHBOARD_TAGS_PRESENTATION]: `
+	[TAGS_PRESENTATION]: `
 	Create tags and see tags details like trasactions associated.
 `,
 	[DASHBOARD_QUICK_ACTIONS_PRESENTATION]: `
@@ -120,4 +130,8 @@ export default {
 	[DASHBOARD]: 'Dashboard',
 	[FORECAST]: 'Forecast',
 	[TIMELINE]: 'Timeline',
+	[NEXT]: 'Next',
+	[PREVIOUS]: 'Back',
+	[SKIP]: 'Skip',
+	[DONE]: 'Done',
 };

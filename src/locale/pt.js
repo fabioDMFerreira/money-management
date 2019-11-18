@@ -45,11 +45,17 @@ import {
 	TIMELINE,
 	DASHBOARD_STATISTICS_PRESENTATION,
 	DASHBOARD_ONBOARDING_PRESENTATION,
-	DASHBOARD_WALLETS_PRESENTATION,
-	DASHBOARD_TRANSACTIONS_PRESENTATION,
-	DASHBOARD_FORECAST_PRESENTATION,
-	DASHBOARD_TAGS_PRESENTATION,
+	WALLETS_PRESENTATION,
+	TRANSACTIONS_PRESENTATION,
+	FORECAST_PRESENTATION,
+	TAGS_PRESENTATION,
 	DASHBOARD_QUICK_ACTIONS_PRESENTATION,
+	NEXT,
+	PREVIOUS,
+	SKIP,
+	DONE,
+	GUIDE_TOUR_PRESENTATION,
+	DASHBOARD_PRESENTATION,
 } from './consts';
 
 export default {
@@ -74,6 +80,9 @@ export default {
 	[NETWORK_500]: 'Erro ao fazer pedido',
 	[ORDER_BY]: 'Ordenar por',
 	[LOGOUT]: 'Sair',
+	[GUIDE_TOUR_PRESENTATION]: `
+		Bem vindo!
+	`,
 	[DASHBOARD_LOAD_SAMPLE_PRESENTATION]: 'Clica no botão para gerar dados aleatrórios. Começa a utilizar o produto.',
 	[DASHBOARD_STATISTICS_PRESENTATION]: 'Mostra estatísticas dos dados da tua conta.',
 	[DASHBOARD_ONBOARDING_PRESENTATION]: `
@@ -81,16 +90,17 @@ export default {
 
 	Depois de introduzir dados mais secções aparecerão nesta página.
 	`,
-	[DASHBOARD_WALLETS_PRESENTATION]: `
+	[DASHBOARD_PRESENTATION]: 'Vê um resumo do teu estado financeiro atual.',
+	[WALLETS_PRESENTATION]: `
 	Cria contas bancárias e consulta o saldo e os movimentos associados.
 `,
-	[DASHBOARD_TRANSACTIONS_PRESENTATION]: `
+	[TRANSACTIONS_PRESENTATION]: `
 	Importa e gere movimentos.
 `,
-	[DASHBOARD_FORECAST_PRESENTATION]: `
+	[FORECAST_PRESENTATION]: `
 	Planeia o futuro financeiro.
 `,
-	[DASHBOARD_TAGS_PRESENTATION]: `
+	[TAGS_PRESENTATION]: `
 	Cria tags e consulta os movimentos associados.
 `,
 	[DASHBOARD_QUICK_ACTIONS_PRESENTATION]: `
@@ -119,4 +129,8 @@ export default {
 	[DASHBOARD]: 'Dashboard',
 	[FORECAST]: 'Previsão',
 	[TIMELINE]: 'Evolução',
+	[NEXT]: 'Próximo',
+	[PREVIOUS]: 'Anterior',
+	[SKIP]: 'Saltar',
+	[DONE]: 'Fim',
 };

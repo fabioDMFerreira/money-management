@@ -7,7 +7,7 @@ import { faGlobe, faCreditCard, faCog, faMoneyBillWave, faWallet, faCloud, faTag
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import LanguagesToggle from "views/containers/LanguagesToggle";
 import { Translate } from "react-localize-redux";
-import { WALLETS, TRANSACTIONS, TAGS, FORECAST, TIMELINE, DASHBOARD } from "locale/consts";
+import { WALLETS, TRANSACTIONS, TAGS, FORECAST, TIMELINE, DASHBOARD, DONE } from "locale/consts";
 
 const Container = styled.div`
   background: #2d353c;
@@ -113,7 +113,9 @@ export default withRouter(({ location: { pathname } }: RouteComponentProps) => {
       </NavTitle>
       <SideNav defaultSelectedPath="1">
         <Nav id="1">
-          <NavItem icon={faGlobe} title={DASHBOARD} to="/" active={pathname === '/'} />
+          <div id="dashboard-link">
+            <NavItem icon={faGlobe} title={DASHBOARD} to="/" active={pathname === '/'} />
+          </div>
         </Nav>
         <Nav id="2">
           <div id="wallets-link">
