@@ -8,7 +8,7 @@ import TransactionConfig from 'models/Transaction/TransactionConfig';
 import { Wallet, WalletFactory } from 'models/Wallet';
 
 
-const setCreditOrDebit = (value: number, creditProb: number) => {
+export const setCreditOrDebit = (value: number, creditProb: number) => {
   const space = faker.random.number(100);
 
   if (space < creditProb) {
@@ -18,7 +18,7 @@ const setCreditOrDebit = (value: number, creditProb: number) => {
   return value * -1;
 }
 
-function getRandomTransaction(startDate = new Date(2019, 0, 1), endDate = new Date(2019, 12, 31)) {
+export function getRandomTransaction(startDate = new Date(2019, 0, 1), endDate = new Date(2019, 12, 31)) {
   const description = faker.finance.iban();
   const date = faker.date.between(startDate, endDate);
   let value;
@@ -42,7 +42,7 @@ function getRandomTransaction(startDate = new Date(2019, 0, 1), endDate = new Da
   return new Transaction(description, value, date).convertToTransactionData();
 }
 
-function generateRecurringTransaction(description: string, date: Date, value: number, txDay: number) {
+export function generateRecurringTransaction(description: string, date: Date, value: number, txDay: number) {
   const txDate = new Date(date.getFullYear(), date.getMonth(), txDay);
 
   return new Transaction(description, value, txDate).convertToTransactionData();
