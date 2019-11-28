@@ -15,7 +15,7 @@ import YYYYMMDD from 'utils/YYYYMMDD';
 import csvJSON from 'utils/csvJSON';
 
 import TransactionConfig from 'models/Transaction/TransactionConfig';
-import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType, bulkDeleteTransactions } from 'state/ducks/financial-forecast/actions';
+import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType, bulkDeleteTransactions, } from 'state/ducks/financial-forecast/actions';
 import { Tag } from 'models/Tag';
 import TransactionFieldsMetadata from 'models/Transaction/TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
@@ -26,6 +26,7 @@ import TransactionsTable from './TransactionsTable';
 import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
 import { createWallet } from 'state/ducks/wallets';
 import { Wallet } from 'models/Wallet';
+import { Map } from 'immutable';
 
 const TableActions = styled.div`
   background-color: $white;
@@ -50,6 +51,11 @@ type Props = {
   tags: Tag[],
   updateTransactionsFilters: any
   filters: filterType[],
+  selectedTransactions: { [key: string]: boolean },
+  selectTransaction: any,
+  unselectTransaction: any,
+  selectAllTransactions: any,
+  unselectAllTransactions: any,
 }
 
 type State = {
@@ -144,15 +150,15 @@ export default class Transactions extends Component<Props, State> {
   }
 
   bulkUpdate = (update: any) => {
-    const { updateTransaction, transactions } = this.props;
+    const { updateTransaction, transactions, unselectTransaction } = this.props;
 
     transactions
-      .filter(transaction => transaction.selected)
+      .filter((transaction: TransactionConfig) => transaction.id && this.props.selectedTransactions[transaction.id])
       .forEach((transaction: TransactionConfig) => {
         Object.entries(update).forEach(([key, value]: [any, any]) => {
           if (transaction.id) {
             updateTransaction(transaction.id, value, key);
-            updateTransaction(transaction.id, false, 'selected');
+            unselectTransaction(transaction.id);
           }
         });
       });
@@ -174,15 +180,18 @@ export default class Transactions extends Component<Props, State> {
       clearTransactions,
       createTag,
       tags,
-      updateTransactionsFilters,
-      filters,
       transactions,
       bulkAddTransactions,
-      updateTransaction,
+      filters,
       deleteTransaction,
-      dragTransaction,
-      createWallet,
+      selectTransaction,
+      unselectTransaction,
+      selectAllTransactions,
+      unselectAllTransactions,
+      selectedTransactions,
     } = this.props;
+
+    const someSelected = Object.values(selectedTransactions).some((v) => v);
 
     return (
       <Fragment>
@@ -211,12 +220,17 @@ export default class Transactions extends Component<Props, State> {
             onChange={this.importTransactions}
             style={{ display: 'none' }}
           />
-          <Button outline color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
-            <FontAwesomeIcon icon={faEdit} /> Bulk update
+          {
+            someSelected &&
+            <Fragment>
+              <Button outline color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
+                <FontAwesomeIcon icon={faEdit} /> Bulk update
 </Button>
-          <ButtonWithConfirmation outline color="secondary" size="sm" onClick={this.props.bulkDeleteTransactions}>
-            <FontAwesomeIcon icon={faTrash} /> Bulk delete
+              <ButtonWithConfirmation outline color="secondary" size="sm" onClick={this.props.bulkDeleteTransactions}>
+                <FontAwesomeIcon icon={faTrash} /> Bulk delete
       </ButtonWithConfirmation>
+            </Fragment>
+          }
           <ButtonWithConfirmation outline color="secondary" size="sm" onClick={clearTransactions}>
             <FontAwesomeIcon icon={faTrash} /> Clear all
       </ButtonWithConfirmation>
@@ -234,6 +248,13 @@ export default class Transactions extends Component<Props, State> {
           updateTransaction={updateTransaction}
           removeTransaction={deleteTransaction}
           dragTransaction={dragTransaction}
+
+          selected={selectedTransactions}
+          select={selectTransaction}
+          selectAll={selectAllTransactions}
+          unselect={unselectTransaction}
+          unselectAll={unselectAllTransactions}
+
         />
 
         <ImportTransactionsModal

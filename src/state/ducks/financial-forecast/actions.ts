@@ -15,7 +15,11 @@ import {
   UPDATE_TAG,
   BULK_DELETE_TRANSACTIONS,
   UPDATE_TAGS_VIEW,
-  CLEAR_TAGS
+  CLEAR_TAGS,
+  SELECT_TRANSACTION,
+  UNSELECT_TRANSACTION,
+  SELECT_ALL_TRANSACTIONS,
+  UNSELECT_ALL_TRANSACTIONS
 } from "./types";
 import TransactionData from "models/Transaction/TransactionConfig";
 import transactionEditableFields from 'models/Transaction/TransactionEditableFields';
@@ -108,6 +112,49 @@ export const dragTransaction = (key: TransactionType) => (startIndex: number, en
   key
 })
 
+export interface ActionSelectTransactionInterface {
+  type: typeof SELECT_TRANSACTION,
+  id: string
+  key: string
+}
+
+export const selectTransaction = (key: TransactionType) => (id: string): ActionSelectTransactionInterface => ({
+  type: SELECT_TRANSACTION,
+  id,
+  key
+});
+
+export interface ActionUnselectTransactionInterface {
+  type: typeof UNSELECT_TRANSACTION,
+  id: string
+  key: string
+}
+
+export const unselectTransaction = (key: TransactionType) => (id: string): ActionUnselectTransactionInterface => ({
+  type: UNSELECT_TRANSACTION,
+  id,
+  key
+});
+
+export interface ActionSelectAllTransactionInterface {
+  type: typeof SELECT_ALL_TRANSACTIONS,
+  key: string
+}
+
+export const selectAllTransactions = (key: TransactionType) => (): ActionSelectAllTransactionInterface => ({
+  type: SELECT_ALL_TRANSACTIONS,
+  key
+});
+
+export interface ActionUnselectAllTransactionsInterface {
+  type: typeof UNSELECT_ALL_TRANSACTIONS,
+  key: string
+}
+
+export const unselectAllTransactions = (key: TransactionType) => (): ActionUnselectAllTransactionsInterface => ({
+  type: UNSELECT_ALL_TRANSACTIONS,
+  key
+});
 
 export type filterType = {
   id: string,
@@ -217,20 +264,25 @@ export const clearTags = (): ActionClearTags => ({
   type: CLEAR_TAGS
 });
 
-export type FinancialForecastActions = ActionAddNewTransactionInterface |
+export type FinancialForecastActions =
+  ActionAddNewTransactionInterface |
   ActionBulkAddTransactionsInterface |
   ActionBulkDeleteTransactionsInterface |
   ActionUpdateTransactionInterface |
   ActionDeleteTransactionInterface |
   ActionClearTransactionsInterface |
   ActionDragTransactionInterface |
-  ActionCreateTagInterface |
+  ActionSelectTransactionInterface |
+  ActionSelectAllTransactionInterface |
+  ActionUnselectTransactionInterface |
+  ActionUnselectAllTransactionsInterface |
 
   ActionUpdateTransactionsFiltersInterface |
   ActionUpdateForecastInterface |
   ActionSetActiveTabInterface |
   ActionUpdateGlobalFilterInterface |
 
+  ActionCreateTagInterface |
   ActionDeleteTagInterface |
   ActionUpdateTagInterface |
   ActionUpdateTagsView |

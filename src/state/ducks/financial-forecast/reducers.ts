@@ -1,5 +1,5 @@
 import randomColor from 'randomcolor';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 import { TRANSACTIONS, ESTIMATES } from './consts';
 
@@ -37,6 +37,8 @@ export type State = {
   tab: string
   globalFilters: GlobalFilters,
   tagsView: TagsView
+  selected: Map<string, boolean>,
+  estimatesSelected: Map<string, boolean>
 }
 
 export const initialState: State = {
@@ -55,6 +57,8 @@ export const initialState: State = {
   tab: 'transactions',
   globalFilters: {},
   tagsView: 'chart',
+  selected: Map(),
+  estimatesSelected: Map()
 }
 
 const removeTag = (tag: Tag) => {
@@ -86,8 +90,8 @@ const updateTag = (tag: Tag, newTag: Tag) => {
 }
 
 
-const transactionsReducer = transactionsReducerHoc(TRANSACTIONS, 'transactions', 'allTransactions', 'filters');
-const estimatesReducer = transactionsReducerHoc(ESTIMATES, 'estimatesTransactions', 'estimatesAllTransactions', 'estimatesFilters');
+const transactionsReducer = transactionsReducerHoc(TRANSACTIONS, 'transactions', 'allTransactions', 'filters', 'selected');
+const estimatesReducer = transactionsReducerHoc(ESTIMATES, 'estimatesTransactions', 'estimatesAllTransactions', 'estimatesFilters', 'estimatesSelected');
 
 export default (state: State = initialState, action: FinancialForecastActions): State => {
 
@@ -180,7 +184,7 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         tagsView: action.payload
       }
     }
-    case CLEAR_TAGS:{
+    case CLEAR_TAGS: {
       return {
         ...state,
         tags: List<Tag>()

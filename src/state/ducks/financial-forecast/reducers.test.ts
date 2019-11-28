@@ -5,9 +5,13 @@ import {
   updateTransaction,
   deleteTransaction,
   clearTransactions,
-  updateGlobalFilter
+  updateGlobalFilter,
+  selectTransaction,
+  unselectTransaction,
+  selectAllTransactions,
+  unselectAllTransactions
 } from "./actions";
-import { List } from "immutable";
+import { List, Map } from "immutable";
 import TransactionConfig from "../../../models/Transaction/TransactionConfig";
 
 describe(`FinancialForecastReducer`, () => {
@@ -287,6 +291,93 @@ describe(`FinancialForecastReducer`, () => {
 
     });
   });
+
+  describe('selectTransaction', () => {
+    it('should select a transaction', () => {
+      const state: State = {
+        ...initialState
+      };
+
+      const actual = FinancialForecastReducer(state, selectTransaction("TRANSACTIONS")('test-1'));
+
+      expect(actual.selected.get('test-1')).toEqual(true);
+    });
+  })
+
+  describe('unselectTransaction', () => {
+    it('should unselect a transaction', () => {
+      const state: State = {
+        ...initialState,
+        selected: Map<string, boolean>({
+          'test-1': true
+        })
+      };
+
+      const actual = FinancialForecastReducer(state, unselectTransaction("TRANSACTIONS")('test-1'));
+
+      expect(actual.selected.get('test-1')).toEqual(false);
+    });
+  })
+
+
+  describe('selectAllTransactions', () => {
+    it('should select all transactions available', () => {
+      const state: State = {
+        ...initialState,
+        transactions: List<TransactionConfig>([{
+          id: '1',
+          description: 't1',
+          startDate: '2019-04-10'
+        }, {
+          id: '2',
+          description: 't1',
+          startDate: '2019-04-10'
+        }, {
+          id: '3',
+          description: 't1',
+          startDate: '2019-04-10'
+        }]),
+      };
+
+      const actual = FinancialForecastReducer(state, selectAllTransactions("TRANSACTIONS")());
+
+      expect(actual.selected).toEqual(Map({
+        "1": true,
+        "2": true,
+        "3": true
+      }));
+    });
+  })
+
+  describe('unselectAllTransactions', () => {
+    it('should reinitialize selected field', () => {
+      const state: State = {
+        ...initialState,
+        transactions: List<TransactionConfig>([{
+          id: '1',
+          description: 't1',
+          startDate: '2019-04-10'
+        }, {
+          id: '2',
+          description: 't1',
+          startDate: '2019-04-10'
+        }, {
+          id: '3',
+          description: 't1',
+          startDate: '2019-04-10'
+        }]),
+        selected: Map({
+          "1": true,
+          "2": true,
+          "3": false,
+        })
+      };
+
+      const actual = FinancialForecastReducer(state, unselectAllTransactions("TRANSACTIONS")());
+
+      expect(actual.selected).toEqual(Map());
+    });
+  })
 
   describe('updateGlobalFilter', () => {
     it('should update global filter and filter transactions', () => {

@@ -6,6 +6,10 @@ import {
   createTag,
   deleteTransaction,
   updateTransaction,
+  selectTransaction,
+  unselectTransaction,
+  selectAllTransactions,
+  unselectAllTransactions,
 } from 'state/ducks/financial-forecast/actions';
 
 import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
@@ -19,12 +23,17 @@ export default connect(
       tags: financialForecast.tags && financialForecast.tags.toJS(),
       filters: financialForecast.filters,
       wallets: wallets && wallets.toJS(),
+      selected: financialForecast.selected && financialForecast.selected.toJS() || {}
     }
   },
   {
     updateTransaction: updateTransaction(TRANSACTIONS),
     deleteTransaction: deleteTransaction(TRANSACTIONS),
-    dragTransaction: dragTransaction(TRANSACTIONS),
+    // dragTransaction: dragTransaction(TRANSACTIONS),
+    select: selectTransaction(TRANSACTIONS),
+    unselect: unselectTransaction(TRANSACTIONS),
+    selectAll: selectAllTransactions(TRANSACTIONS),
+    unselectAll: unselectAllTransactions(TRANSACTIONS),
 
     createTag,
   }

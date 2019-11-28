@@ -15,8 +15,8 @@ export default connect(
 
     return {
       globalFilters,
-      transactionsCount: transactions.size,
-      allTransactionsCount: allTransactions.size,
+      transactionsCount: transactions && transactions.size,
+      allTransactionsCount: allTransactions && allTransactions.size,
     }
   }, {
   updateGlobalFilter,
