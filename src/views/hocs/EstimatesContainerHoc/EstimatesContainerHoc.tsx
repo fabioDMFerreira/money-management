@@ -17,10 +17,11 @@ import {
 } from 'state/ducks/financial-forecast/actions';
 
 import { ESTIMATES } from 'state/ducks/financial-forecast/consts';
+import { createWallet } from 'state/ducks/wallets';
 
 export default (Component: any) => connect(
   (state: any) => {
-    const { financialForecast } = state;
+    const { financialForecast, wallets } = state;
 
     return {
       enableRecurringTransactions: true,
@@ -28,6 +29,7 @@ export default (Component: any) => connect(
       transactions: financialForecast.estimatesTransactions && financialForecast.estimatesTransactions.toJS(),
       tags: financialForecast.tags && financialForecast.tags.toJS(),
       filters: financialForecast.estimatesFilters,
+      wallets: wallets && wallets.toJS()
     }
   },
   {
@@ -45,5 +47,6 @@ export default (Component: any) => connect(
     unselectAllTransactions: unselectAllTransactions(ESTIMATES),
 
     createTag,
+    createWallet,
   }
 )(Component)

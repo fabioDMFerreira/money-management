@@ -4,13 +4,16 @@ export interface Metadata {
   required?: boolean,
 };
 
-const TransactionFieldsMetadata : Metadata[] = [{
+const TransactionFieldsMetadata: Metadata[] = [{
   label: 'Description',
   key: 'description',
   required: true
-},{
+}, {
   label: 'Tags',
   key: 'tags',
+}, {
+  label: 'Wallet',
+  key: 'wallet',
 }, {
   label: 'Start date',
   key: 'startDate',

@@ -18,19 +18,21 @@ import {
 } from 'state/ducks/financial-forecast/actions';
 
 import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
+import { createWallet } from 'state/ducks/wallets';
 
 
 const Transactions = ({ TransactionsComponent, ...props }: any) => <TransactionsComponent {...props} />
 
 export default connect(
   (state: any, props:any) => {
-    const { financialForecast } = state;
+    const { financialForecast, wallets } = state;
 
     return {
       selectedTransactions: financialForecast.selected && financialForecast.selected.toJS() || {},
       transactions: props.transactions || financialForecast.transactions && financialForecast.transactions.toJS(),
       tags: financialForecast.tags && financialForecast.tags.toJS(),
       filters: financialForecast.filters,
+      wallets: wallets.wallets && wallets.wallets.toJS()
     }
   },
   {
@@ -47,6 +49,7 @@ export default connect(
     selectAllTransactions: selectAllTransactions(TRANSACTIONS),
     unselectAllTransactions: unselectAllTransactions(TRANSACTIONS),
 
+    createWallet,
     createTag,
   }
 )(Transactions)

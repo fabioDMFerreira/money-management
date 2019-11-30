@@ -10,6 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
 import Button from 'reactstrap/lib/Button';
+import randomColor from 'randomcolor';
 
 import YYYYMMDD from 'utils/YYYYMMDD';
 import csvJSON from 'utils/csvJSON';
@@ -28,6 +29,7 @@ import { createWallet } from 'state/ducks/wallets';
 import { Wallet } from 'models/Wallet';
 import { Map } from 'immutable';
 import AddRecurringTransaction from 'views/containers/AddRecurringTransaction';
+import getRandomString from 'utils/getRandomString';
 
 const TableActions = styled.div`
   background-color: $white;
@@ -50,6 +52,7 @@ type Props = {
   createTag: typeof createTag,
   createWallet: typeof createWallet,
   tags: Tag[],
+  wallets: Wallet[],
   updateTransactionsFilters: any
   filters: filterType[],
   selectedTransactions: { [key: string]: boolean },
@@ -83,9 +86,11 @@ export default class Transactions extends Component<Props, State> {
 
   parseTransactionsToCsv = (transactions: TransactionConfig[]) => {
     return transactions.map(t => {
+      const wallet = t.wallet && this.props.wallets.find(wallet => wallet.id === t.wallet);
       return {
         ...t,
-        tags: t.tags ? t.tags.map(tag => tag.id).join(',') : []
+        tags: t.tags ? t.tags.map(tag => tag.id).join(',') : [],
+        wallet: wallet && wallet.name
       }
     });
   }
@@ -136,7 +141,25 @@ export default class Transactions extends Component<Props, State> {
         this.props.createTag(newOption);
 
         return newOption;
-      })
+      }),
+      wallet: transaction.wallet && (() => {
+        const wallet = this.props.wallets.find(wallet => wallet.name === transaction.wallet);
+
+        if (wallet) {
+          return wallet.id;
+        }
+
+        const newWallet = {
+          id: getRandomString(),
+          balance: 0,
+          name: transaction.wallet,
+          color: randomColor(),
+        };
+
+        this.props.createWallet(newWallet);
+
+        return newWallet.id;
+      })()
     })
 
   openBulkUpdateModal = () => {
