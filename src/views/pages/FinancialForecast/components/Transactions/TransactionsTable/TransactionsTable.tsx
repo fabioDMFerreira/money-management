@@ -35,18 +35,19 @@ const TransactionsTableContainer = styled.div`
 
 export type Props = {
   transactions: TransactionData[],
-  removeTransaction: (transactionId: string) => void
-  updateTransaction: any,
+  removeTransaction?: (transactionId: string) => void
+  updateTransaction?: any,
   dragTransaction?: any,
-  createTag: typeof createTag,
-  select: any,
-  unselect: any,
-  selectAll: any,
-  unselectAll: any,
-  tags: Tag[],
+  createTag?: typeof createTag,
+  select?: any,
+  unselect?: any,
+  selectAll?: any,
+  unselectAll?: any,
+  tags?: Tag[],
   updateTransactionsFilters?: any,
-  selected: any,
-  filters?: filterType[]
+  selected?: any,
+  filters?: filterType[],
+  pageSize?: number,
 };
 
 type State = {
@@ -94,6 +95,10 @@ export default class TransactionsTable extends Component<Props, State> {
   }
 
   areAllSelected = () => {
+    if(!this.props.selected){
+      return;
+    }
+
     return Object.keys(this.props.selected).length === this.props.transactions.length &&
       !Object.values(this.props.selected).some(val => !val)
   }
@@ -131,6 +136,7 @@ export default class TransactionsTable extends Component<Props, State> {
       transactions,
       updateTransactionsFilters,
       filters,
+      pageSize,
     } = this.props
 
     const {
@@ -147,7 +153,7 @@ export default class TransactionsTable extends Component<Props, State> {
 
         data={transactions}
         columns={columns}
-        defaultPageSize={10}
+        defaultPageSize={pageSize || 10}
         sorted={sorted}
         onSortedChange={this.onSortedChange}
         getTrProps={(state: any, rowInfo: any, column: any) => {

@@ -27,6 +27,7 @@ import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
 import { createWallet } from 'state/ducks/wallets';
 import { Wallet } from 'models/Wallet';
 import { Map } from 'immutable';
+import AddRecurringTransaction from 'views/containers/AddRecurringTransaction';
 
 const TableActions = styled.div`
   background-color: $white;
@@ -56,6 +57,7 @@ type Props = {
   unselectTransaction: any,
   selectAllTransactions: any,
   unselectAllTransactions: any,
+  enableRecurringTransactions?: boolean,
 }
 
 type State = {
@@ -199,6 +201,10 @@ export default class Transactions extends Component<Props, State> {
           <Button outline color="secondary" size="sm" onClick={addNewTransaction}>
             <FontAwesomeIcon icon={faPlus} /> Add
           </Button>
+          {
+            this.props.enableRecurringTransactions &&
+            <AddRecurringTransaction />
+          }
           <CSVLink
             data={this.parseTransactionsToCsv(transactions)}
             filename={`transactions-${YYYYMMDD(new Date())}.csv`}
@@ -254,7 +260,6 @@ export default class Transactions extends Component<Props, State> {
           selectAll={selectAllTransactions}
           unselect={unselectTransaction}
           unselectAll={unselectAllTransactions}
-
         />
 
         <ImportTransactionsModal

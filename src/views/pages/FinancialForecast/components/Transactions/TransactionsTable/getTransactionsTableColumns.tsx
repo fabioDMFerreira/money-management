@@ -11,6 +11,7 @@ import TagSelect from 'views/pages/FinancialForecast/containers/TagSelect';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
 import EditableCell from './EditableCell';
 import { Tag } from 'models/Tag';
+import { selectAllTransactions, selectTransaction, unselectAllTransactions, unselectTransaction } from 'state/ducks/financial-forecast/actions';
 
 const NotEditableCell = styled.span`
   padding: 0.375rem 0.75rem;
@@ -32,23 +33,32 @@ interface Props {
   isSelected: any
 }
 
-export default (actions: Props): Column<any>[] => {
-  return [
-    {
-      Header: () => <Input
-        type="checkbox"
-        checked={actions.areAllSelected()}
-        onChange={e => {
-          return e.target.checked ? actions.selectAll() : actions.unselectAll()
-        }
-        }
-      />,
-      accessor: '',
-      filterable: false,
-      sortable: false,
-      Cell: (cellInfo: any) => {
-        const selected = actions.isSelected(cellInfo.original.id);
-        return <FormGroup check >
+interface SelectColumnProps {
+  areAllSelected: any,
+  selectAll: any,
+  unselectAll: any,
+  select: any,
+  unselect: any,
+  isSelected: any
+}
+
+const selectColumn = (actions: SelectColumnProps) => {
+  return {
+    Header: () => <Input
+      type="checkbox"
+      checked={actions.areAllSelected()}
+      onChange={e => {
+        return e.target.checked ? actions.selectAll() : actions.unselectAll()
+      }
+      }
+    />,
+    accessor: '',
+    filterable: false,
+    sortable: false,
+    Cell: (cellInfo: any) => {
+      const selected = actions.isSelected(cellInfo.original.id);
+      return (
+        <FormGroup check>
           <Input
             type="checkbox"
             checked={selected}
@@ -56,151 +66,168 @@ export default (actions: Props): Column<any>[] => {
             }
           />
         </FormGroup>
-      },
-      width: 50,
+      );
     },
-    {
-      Header: 'Description',
-      accessor: "description",
-      Cell: (props: any) => (
-        <EditableCell
-          type='text'
-          cellInfo={props}
-          update={actions.updateTransaction}
-        />
-      ),
+    width: 50,
+  }
+};
+
+const descriptionColumn = (actions: { updateTransaction: any }) => ({
+  Header: 'Description',
+  accessor: "description",
+  Cell: (props: any) => (
+    actions.updateTransaction ?
+      <EditableCell
+        type='text'
+        cellInfo={props}
+        update={actions.updateTransaction}
+      /> :
+      <span>{props.value}</span>
+  ),
+});
+
+const tagsColumn = (actions: { updateTransaction: any }) => {
+  return {
+    Header: 'Tags',
+    accessor: "tags",
+    filterable: false,
+    filterMethod: (filter: any, row: any) => {
+      const { value } = filter;
+      return row.tags && !!row.tags.find((tag: Tag) => tag.id && tag.id.startsWith(value.toLowerCase()));
     },
-    // {
-    //   Header: 'Particles',
-    //   accessor: "particles",
-    //   Cell: (props: any) => (
-    //     <EditableCell
-    //       type='number'
-    //       cellInfo={props}
-    //       update={actions.updateTransaction}
-    //     />
-    //   ),
-    //   width: 80
-    // },
-    // {
-    //   Header: 'Interval',
-    //   accessor: "interval",
-    //   Cell: (props: any) => this.editableCell(props, 'number'),
-    //   width: 80
-    // },
-    // {
-    //   Header: 'Total value',
-    //   accessor: "totalValue",
-    //   Cell: (props: any) => <NotEditableCell>{props.value} </NotEditableCell>,
-    //   width: 80
-    // },
-    {
-      Header: 'Tags',
-      accessor: "tags",
-      filterable: false,
-      filterMethod: (filter: any, row: any) => {
-        const { value } = filter;
-        return row.tags && !!row.tags.find((tag: Tag) => tag.id && tag.id.startsWith(value.toLowerCase()));
-      },
-      Cell: (cellInfo: any) => (
-        <TagSelect
-          tagsSelected={cellInfo.value}
-          onChange={
-            (value: ValueType<Tag>) => {
-              actions.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
-            }
+    Cell: (cellInfo: any) => (
+      <TagSelect
+        tagsSelected={cellInfo.value}
+        onChange={
+          (value: ValueType<Tag>) => {
+            actions.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
           }
-        />
-      ),
-      getProps: () => {
-        return {
-          style: {
-            overflow: 'visible',
-          }
-        };
-      }
-    }, {
-      Header: 'Wallet',
-      accessor: 'wallet',
-      width: 125,
-      Cell: (cellInfo: any) => (
-        <WalletSelect
-          onChange={(option: { label: string, value: string }) => {
-            actions.updateTransaction(cellInfo.original.id, option && option.value ? option.value : null, cellInfo.column.id);
-          }
-          }
-          walletSelected={cellInfo.value}
-        />
-      ),
-      getProps: () => {
-        return {
-          style: {
-            overflow: 'visible',
-          }
-        };
-      }
-    }, {
-      Header: 'Date',
-      accessor: "startDate",
-      Cell: (props: any) => (
+        }
+      />
+    ),
+    getProps: () => {
+      return {
+        style: {
+          overflow: 'visible',
+        }
+      };
+    }
+  }
+};
+
+const walletColumn = (actions: { updateTransaction: any }) => {
+  return {
+    Header: 'Wallet',
+    accessor: 'wallet',
+    width: 125,
+    Cell: (cellInfo: any) => (
+      <WalletSelect
+        onChange={(option: { label: string, value: string }) => {
+          actions.updateTransaction(cellInfo.original.id, option && option.value ? option.value : null, cellInfo.column.id);
+        }
+        }
+        walletSelected={cellInfo.value}
+      />
+    ),
+    getProps: () => {
+      return {
+        style: {
+          overflow: 'visible',
+        }
+      };
+    }
+  };
+}
+
+const startDateColumn = (actions: { updateTransaction: any }) => {
+  return {
+    Header: 'Date',
+    accessor: "startDate",
+    Cell: (props: any) => (
+      actions.updateTransaction ?
         <EditableCell
           type='date'
           cellInfo={props}
           update={actions.updateTransaction}
-        />
-      ),
-      width: 180
-    },
-    {
-      Header: 'Credit',
-      accessor: "credit",
-      Cell: (props: any) => (
+        /> :
+        <span>{props.value}</span>
+    ),
+    width: 180
+  };
+}
+
+const creditColumn = (actions: { updateTransaction: any }) => {
+  return {
+    Header: 'Credit',
+    accessor: "credit",
+    Cell: (props: any) => (
+      actions.updateTransaction ?
         <EditableCell
           type='number'
           cellInfo={props}
           update={actions.updateTransaction}
-        />
-      ),
-      width: 80
-    }, {
-      Header: 'Debit',
-      accessor: "debit",
-      Cell: (props: any) => (
+        /> : <span>{props.value}</span>
+    ),
+    width: 80
+  }
+};
+
+const debitColumn = (actions: { updateTransaction: any }) => {
+  return {
+    Header: 'Debit',
+    accessor: "debit",
+    Cell: (props: any) => (
+      actions.updateTransaction ?
         <EditableCell
           type='number'
           cellInfo={props}
           update={actions.updateTransaction}
-        />
-      ),
-      width: 80
+        /> : <span>{props.value}</span>
+    ),
+    width: 80
+  };
+}
+
+const actionsColumn = (actions: { updateTransaction: any, removeTransaction: any }) => {
+  return {
+    Header: '',
+    accessor: '',
+    filterable: false,
+    Cell: (cellProps: any) => {
+      return <TransactionsTableRowActions
+        id={cellProps.original.id}
+        visible={cellProps.original.visible}
+        removeTransaction={actions.removeTransaction}
+        updateTransaction={actions.updateTransaction}
+        // dragDisabled={this.state.sorted.length ? true : false}
+        dragDisabled
+      />;
     },
-    // {
-    //   Header: 'End date',
-    //   accessor: "endDate",
-    //   Cell: (props: any) => (
-    //     <EditableCell
-    //       type='date'
-    //       cellInfo={props}
-    //       update={actions.updateTransaction}
-    //     />
-    //   ),
-    //   width: 180
-    // },
-    {
-      Header: '',
-      accessor: '',
-      filterable: false,
-      Cell: (cellProps: any) => {
-        return <TransactionsTableRowActions
-          id={cellProps.original.id}
-          visible={cellProps.original.visible}
-          removeTransaction={actions.removeTransaction}
-          updateTransaction={actions.updateTransaction}
-          // dragDisabled={this.state.sorted.length ? true : false}
-          dragDisabled
-        />;
-      },
-      width: 120,
-    },
-  ];
+    width: 120,
+  }
+}
+
+export default (actions: Props): Column<any>[] => {
+  let columns = [
+    selectColumn(actions),
+    descriptionColumn(actions),
+    startDateColumn(actions),
+    creditColumn(actions),
+    debitColumn(actions),
+  ].filter(c => c);
+
+  if (actions.updateTransaction) {
+    columns.splice(2, 0, walletColumn(actions));
+    columns.splice(2, 0, tagsColumn(actions));
+  }
+
+  if (!actions.selectAll || !actions.select || !actions.unselectAll || !actions.unselect) {
+    columns = columns.slice(1);
+  }
+
+  if (actions.updateTransaction && actions.removeTransaction) {
+    columns.push(actionsColumn(actions));
+  }
+
+  return columns;
 }

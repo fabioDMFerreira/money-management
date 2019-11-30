@@ -31,20 +31,6 @@ export default class TransactionsTableRowActions extends Component<Props, State>
     removePopoverOpen: false
   }
 
-  toggleRemovePopover = () => {
-    this.setState({
-      removePopoverOpen: !this.state.removePopoverOpen
-    })
-  }
-
-  removeTransaction = () => {
-    this.setState({
-      removePopoverOpen: false,
-    }, () => {
-      this.props.removeTransaction(this.props.id);
-    })
-  }
-
   render() {
     const {
       id,
@@ -54,11 +40,15 @@ export default class TransactionsTableRowActions extends Component<Props, State>
     } = this.props;
 
     return <TableActionsContainer>
-      <ButtonWithConfirmation color="link" type="button" onClick={this.removeTransaction} confirmationMessage="Are you sure you want to remove this transaction?">
-        <FontAwesomeIcon icon={faTrash} />
-      </ButtonWithConfirmation>
+      {
+        this.props.removeTransaction &&
+        <ButtonWithConfirmation color="link" type="button" onClick={() => this.props.removeTransaction(this.props.id)} confirmationMessage="Are you sure you want to remove this transaction?">
+          <FontAwesomeIcon icon={faTrash} />
+        </ButtonWithConfirmation>
+      }
 
       {
+        this.props.updateTransaction &&
         (() => {
           if (visible) {
             return <Button color="link" onClick={() => updateTransaction(id, false, "visible")}><FontAwesomeIcon icon={faEye} /></Button>

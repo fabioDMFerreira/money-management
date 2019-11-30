@@ -19,6 +19,7 @@ Save, label and organise your transactions. Add your estimations to plan your fi
 - **state** - redux code. It uses ducks architecture.
 - **views** - react components.
   - **components** - shared components.
+  - **containers** - shared components that change the state
   - **hocs** - enhanced components.
   - **layout** - page structure components like navigation bar and header.
   - **pages** - application pages.

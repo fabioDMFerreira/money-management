@@ -23,6 +23,7 @@ export default (Component: any) => connect(
     const { financialForecast } = state;
 
     return {
+      enableRecurringTransactions: true,
       selectedTransactions: financialForecast.estimatesSelected && financialForecast.estimatesSelected.toJS() || {},
       transactions: financialForecast.estimatesTransactions && financialForecast.estimatesTransactions.toJS(),
       tags: financialForecast.tags && financialForecast.tags.toJS(),

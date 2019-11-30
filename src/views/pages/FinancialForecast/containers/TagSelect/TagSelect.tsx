@@ -64,7 +64,7 @@ export default class TagSelect extends Component<Props>{
       <Select
         {...props}
         isMulti
-        value={tagsSelected.map(tag => ({ ...tag, value: tag.id }))}
+        value={tagsSelected && tagsSelected.map(tag => ({ ...tag, value: tag.id }))}
         options={[{ label: 'Unsassigned', value: 'null' }, ...tags.map(tag => ({ ...tag, value: tag.id }))]}
         placeholder={"Select tags"}
         onChange={value => {

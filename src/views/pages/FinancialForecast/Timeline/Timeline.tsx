@@ -15,6 +15,7 @@ import YYYYMM from 'utils/YYYYMM';
 import TransactionsTable from '../TransactionsPage';
 import ToggleButton from 'views/components/ToggleButton';
 import Onboarding from 'views/components/Onboarding';
+import Transactions from '../components/Transactions';
 
 type forecastView = "chart" | "table";
 
@@ -52,7 +53,11 @@ export default class BalanceComponent extends Component<Props, State> {
   }
 
   chartClick = (point: any) => {
-    const monthSelected = point.activeLabel;
+    const monthSelected = point && point.activeLabel;
+
+    if (!monthSelected) {
+      return;
+    }
 
     this.setState({
       monthSelected,
@@ -140,7 +145,9 @@ export default class BalanceComponent extends Component<Props, State> {
               </p>
             </Fragment>
           }
+
           <TransactionsTable
+            TransactionsComponent={Transactions}
             transactions={transactions}
           />
         </Fragment>

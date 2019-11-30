@@ -23,12 +23,12 @@ import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
 const Transactions = ({ TransactionsComponent, ...props }: any) => <TransactionsComponent {...props} />
 
 export default connect(
-  (state: any) => {
+  (state: any, props:any) => {
     const { financialForecast } = state;
 
     return {
       selectedTransactions: financialForecast.selected && financialForecast.selected.toJS() || {},
-      transactions: financialForecast.transactions && financialForecast.transactions.toJS(),
+      transactions: props.transactions || financialForecast.transactions && financialForecast.transactions.toJS(),
       tags: financialForecast.tags && financialForecast.tags.toJS(),
       filters: financialForecast.filters,
     }
