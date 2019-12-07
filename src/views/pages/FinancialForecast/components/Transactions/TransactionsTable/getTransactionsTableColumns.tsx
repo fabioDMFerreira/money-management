@@ -99,8 +99,8 @@ const tagsColumn = (actions: { updateTransaction: any }) => {
       <TagSelect
         tagsSelected={cellInfo.value}
         onChange={
-          (value: ValueType<Tag>) => {
-            actions.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
+          (value: { id: string, label: string, value: string }[]) => {
+            actions.updateTransaction(cellInfo.original.id, value , cellInfo.column.id);
           }
         }
       />

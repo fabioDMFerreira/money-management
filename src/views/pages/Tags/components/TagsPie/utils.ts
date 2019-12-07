@@ -31,7 +31,7 @@ const pieDataFactory = (field: TransactionValueField) => {
         value: transactions.reduce((value, transaction) => {
           if (
             transaction.tags &&
-            transaction.tags.map(t => t.id).includes(tag.id) &&
+            transaction.tags.includes(tag.id) &&
             transaction[field] &&
             transaction[field] !== "0"
           ) {

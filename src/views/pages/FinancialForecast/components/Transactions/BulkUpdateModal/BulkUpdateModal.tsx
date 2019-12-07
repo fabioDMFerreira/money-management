@@ -12,13 +12,15 @@ import Form from 'reactstrap/lib/Form';
 import Input from 'reactstrap/lib/Input';
 import { Tag } from 'models/Tag';
 import WalletSelect from 'views/pages/FinancialForecast/containers/WalletSelect';
+import { createTag } from 'state/ducks/tags';
+import TagSelect from 'views/pages/FinancialForecast/containers/TagSelect';
 
 type Props = {
   opened: boolean | undefined,
   close: () => void,
   save: (update: any) => void,
   tags: Tag[],
-  createTag: (tag: Tag) => void
+  createTag: any
 }
 
 type UpdateType = {
@@ -84,12 +86,16 @@ export default class BulkUpdateModal extends Component<Props, State> {
             </FormGroup>
             <FormGroup>
               <Label>Tags</Label>
-              <Select
-                options={tags}
+              <TagSelect
                 onChange={(value: any) => this.change('tags', value)}
+                tagsSelected={update.tags ? update.tags : []}
+              />
+              {/* <Select
+                options={tags}
+                onChange={(value: any) => this.change('tags', value.value)}
                 value={update.tags ? update.tags : []}
                 onCreateOption={(newOptionLabel: string) => {
-                  const newOption = { label: newOptionLabel, id: newOptionLabel.toLowerCase() }
+                  const newOption = { label: newOptionLabel }
                   createTag(newOption);
                   if (update.tags) {
                     this.change('tags', [...update.tags, newOption])
@@ -99,7 +105,7 @@ export default class BulkUpdateModal extends Component<Props, State> {
                   }
                 }}
                 isMulti
-              />
+              /> */}
             </FormGroup>
             <FormGroup>
               <Label>Wallet</Label>

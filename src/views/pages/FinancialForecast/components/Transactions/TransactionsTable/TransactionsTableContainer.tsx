@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 
 import TransactionsTable from './TransactionsTable';
 import {
-  dragTransaction,
-  createTag,
   deleteTransaction,
   updateTransaction,
   selectTransaction,
@@ -13,6 +11,7 @@ import {
 } from 'state/ducks/financial-forecast/actions';
 
 import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
+import { getTagsSelector, createTag } from 'state/ducks/tags';
 
 export default connect(
   (state: any, props: any) => {
@@ -20,7 +19,7 @@ export default connect(
 
     return {
       transactions: props.transactions || (financialForecast.transactions && financialForecast.transactions.toJS()),
-      tags: financialForecast.tags && financialForecast.tags.toJS(),
+      tags: getTagsSelector(state),
       filters: financialForecast.filters,
       wallets: wallets && wallets.toJS(),
       selected: financialForecast.selected && financialForecast.selected.toJS() || {}

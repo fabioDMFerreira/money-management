@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import EditableRemovableListItem from 'views/components/EditableRemovableListItem';
-import { updateTag, deleteTag } from 'state/ducks/financial-forecast/actions';
+import { updateTag, deleteTag } from 'state/ducks/tags';
 import { Tag } from 'models/Tag';
 
 interface Props {

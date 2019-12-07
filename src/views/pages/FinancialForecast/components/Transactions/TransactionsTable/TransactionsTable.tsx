@@ -3,7 +3,7 @@ import ReactTable, { SortingRule, Column } from 'react-table';
 import styled from 'styled-components';
 
 import TransactionData from 'models/Transaction/TransactionConfig';
-import { dragTransaction, updateTransaction, createTag, updateTransactionsFilters, filterType } from 'state/ducks/financial-forecast/actions';
+import { dragTransaction, updateTransaction, updateTransactionsFilters, filterType } from 'state/ducks/financial-forecast/actions';
 import { Tag } from 'models/Tag';
 import FilterComponent from './FilterComponent';
 import TransactionDataInterface from 'models/Transaction/TransactionConfig';
@@ -38,7 +38,7 @@ export type Props = {
   removeTransaction?: (transactionId: string) => void
   updateTransaction?: any,
   dragTransaction?: any,
-  createTag?: typeof createTag,
+  createTag?: any,
   select?: any,
   unselect?: any,
   selectAll?: any,
@@ -82,20 +82,8 @@ export default class TransactionsTable extends Component<Props, State> {
     });
   }
 
-  selectAll = (value: boolean) => {
-    this.props.transactions.forEach((transaction: TransactionDataInterface) => {
-      if (transaction.id) {
-        this.props.updateTransaction(transaction.id, value, 'selected');
-      }
-    });
-
-    this.setState({
-      allSelected: value
-    });
-  }
-
   areAllSelected = () => {
-    if(!this.props.selected){
+    if (!this.props.selected) {
       return;
     }
 

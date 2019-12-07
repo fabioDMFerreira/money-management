@@ -23,8 +23,8 @@ export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionD
   }
 
   if (globalFilters.tags && globalFilters.tags.length && transaction.tags) {
-    const globalTagsIds = globalFilters.tags.map(tag => tag.id);
-    matchesTags = transaction.tags.some(tag => globalTagsIds.includes(tag.id));
+    const globalTagsIds = globalFilters.tags;
+    matchesTags = transaction.tags.some(tag => globalTagsIds.includes(tag));
 
     if (globalTagsIds.includes('null') && (!transaction.tags || !transaction.tags.length)) {
       matchesTags = true;

@@ -3,7 +3,7 @@ import { Tag } from "models/Tag";
 export interface GlobalFilters {
   startDate?: string,
   endDate?: string,
-  tags?: Tag[],
+  tags?: string[],
   credit?: number[],
   debit?: number[],
   description?: string,

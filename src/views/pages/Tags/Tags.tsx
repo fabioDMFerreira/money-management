@@ -4,7 +4,7 @@ import TransactionDataInterface from 'models/Transaction/TransactionConfig';
 import { Tag } from 'models/Tag';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
-import { TagsView, updateTagsView } from 'state/ducks/financial-forecast/actions';
+import { TagsView, updateTagsView } from 'state/ducks/tags';
 import Button from 'reactstrap/lib/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faChartPie, faTable } from '@fortawesome/free-solid-svg-icons';
@@ -68,7 +68,7 @@ export default class Tags extends Component<Props, State> {
   render() {
     const { pieCreditData, pieDebitData } = this.state;
 
-    const { updateTagsView, hideControls, transactions } = this.props;
+    const { updateTagsView, hideControls, transactions, tags } = this.props;
 
     let tagsView = this.props.tagsView || 'chart';
 

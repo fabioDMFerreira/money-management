@@ -1,13 +1,10 @@
 import { connect } from "react-redux";
 import TagSelect from "./TagSelect";
-import { createTag } from "state/ducks/financial-forecast/actions";
-
+import { createTag, getTagsSelector } from "state/ducks/tags";
 
 export default connect((state: any) => {
-  const { financialForecast: { tags } } = state;
-
   return {
-    tags
+    tags: getTagsSelector(state)
   };
 }, {
   createTag

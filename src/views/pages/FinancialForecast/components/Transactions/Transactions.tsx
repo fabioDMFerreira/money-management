@@ -16,7 +16,7 @@ import YYYYMMDD from 'utils/YYYYMMDD';
 import csvJSON from 'utils/csvJSON';
 
 import TransactionConfig from 'models/Transaction/TransactionConfig';
-import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, createTag, updateTransactionsFilters, filterType, bulkDeleteTransactions, } from 'state/ducks/financial-forecast/actions';
+import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, updateTransactionsFilters, filterType, bulkDeleteTransactions, } from 'state/ducks/financial-forecast/actions';
 import { Tag } from 'models/Tag';
 import TransactionFieldsMetadata from 'models/Transaction/TransactionFieldsMetadata';
 import validateTransactionData from './validateTransactionData';
@@ -49,7 +49,7 @@ type Props = {
   deleteTransaction: any,
   clearTransactions: any,
   dragTransaction: any
-  createTag: typeof createTag,
+  createTag: any,
   createWallet: typeof createWallet,
   tags: Tag[],
   wallets: Wallet[],
@@ -87,10 +87,11 @@ export default class Transactions extends Component<Props, State> {
   parseTransactionsToCsv = (transactions: TransactionConfig[]) => {
     return transactions.map(t => {
       const wallet = t.wallet && this.props.wallets.find(wallet => wallet.id === t.wallet);
+      const tags = t.tags && t.tags.map(tag => this.props.tags.find(t => t.id === tag));
       return {
         ...t,
-        tags: t.tags ? t.tags.map(tag => tag.id).join(',') : [],
-        wallet: wallet && wallet.name
+        tags: tags ? escape(JSON.stringify(tags)) : "",
+        wallet: wallet ? escape(JSON.stringify(wallet)) : ""
       }
     });
   }
@@ -128,25 +129,27 @@ export default class Transactions extends Component<Props, State> {
   configureTransactionFromCSV = (transaction: any) =>
     ({
       ...transaction,
-      tags: transaction.tags && transaction.tags.split(',').map((tagValue: string) => {
-        const tag = this.props.tags.find(tag => tagValue === tag.id);
+      tags: transaction.tags && JSON.parse(unescape(transaction.tags)).map((tagValue: Tag) => {
+        const tag = this.props.tags.find(tag => tagValue.id === tag.id);
         if (tag) {
-          return {
-            ...tag
-          };
+          return tag.id;
         };
 
         // create a new tag if it does not exist in store
-        const newOption = { label: tagValue, id: tagValue.toLowerCase() }
-        this.props.createTag(newOption);
+        // const newOption = { label: tagValue, id: tagValue.toLowerCase() }
+        this.props.createTag(tagValue);
 
-        return newOption;
+        return tagValue.id;
       }),
       wallet: transaction.wallet && (() => {
-        const wallet = this.props.wallets.find(wallet => wallet.name === transaction.wallet);
+        let fileWallet = JSON.parse(unescape(transaction.wallet));
+        const wallet = this.props.wallets.find(wallet => wallet.name === fileWallet.name);
 
         if (wallet) {
           return wallet.id;
+        } else {
+          this.props.createWallet(fileWallet);
+          return fileWallet.id;
         }
 
         const newWallet = {
@@ -214,6 +217,7 @@ export default class Transactions extends Component<Props, State> {
       selectAllTransactions,
       unselectAllTransactions,
       selectedTransactions,
+      updateTransaction,
     } = this.props;
 
     const someSelected = Object.values(selectedTransactions).some((v) => v);

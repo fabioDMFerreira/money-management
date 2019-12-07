@@ -34,7 +34,7 @@ export default connect(null, {
 
   if (props.tags && !props.tags.length) {
     links.push({
-      link: '/tags',
+      link: '/tags/settings/list',
       label: 'Add tags'
     });
   }

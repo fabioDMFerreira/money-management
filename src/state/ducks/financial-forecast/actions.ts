@@ -6,16 +6,11 @@ import {
   DELETE_TRANSACTION,
   CLEAR_TRANSACTIONS,
   DRAG_TRANSACTION,
-  CREATE_TAG,
   UPDATE_TRANSACTIONS_FILTERS,
   UPDATE_FORECAST,
   SET_ACTIVE_TAB,
   UPDATE_GLOBAL_FILTER,
-  DELETE_TAG,
-  UPDATE_TAG,
   BULK_DELETE_TRANSACTIONS,
-  UPDATE_TAGS_VIEW,
-  CLEAR_TAGS,
   SELECT_TRANSACTION,
   UNSELECT_TRANSACTION,
   SELECT_ALL_TRANSACTIONS,
@@ -173,15 +168,7 @@ export const updateTransactionsFilters = (key: TransactionType) => (filters: fil
 })
 
 
-export interface ActionCreateTagInterface {
-  type: typeof CREATE_TAG,
-  tag: Tag
-}
 
-export const createTag = (tag: Tag): ActionCreateTagInterface => ({
-  type: CREATE_TAG,
-  tag,
-})
 
 
 export type ForecastEditableFieldsType = 'initialValue' | 'startDate' | 'endDate';
@@ -219,51 +206,6 @@ export const updateGlobalFilter = (filterKey: keyof GlobalFilters, value: any): 
   value
 })
 
-export interface ActionDeleteTagInterface {
-  type: typeof DELETE_TAG,
-  tag: Tag,
-}
-
-export const deleteTag = (tag: Tag): ActionDeleteTagInterface => ({
-  type: DELETE_TAG,
-  tag
-})
-
-
-export interface ActionUpdateTagInterface {
-  type: typeof UPDATE_TAG,
-  tag: Tag,
-  newTag: Tag,
-}
-
-export const updateTag = (tag: Tag, newTag: Tag): ActionUpdateTagInterface => ({
-  type: UPDATE_TAG,
-  tag,
-  newTag
-})
-
-export type TagsView = 'chart' | 'table';
-
-export interface ActionUpdateTagsView {
-  type: typeof UPDATE_TAGS_VIEW,
-  payload: TagsView,
-}
-
-export const updateTagsView = (payload: TagsView): ActionUpdateTagsView => {
-  return {
-    type: UPDATE_TAGS_VIEW,
-    payload,
-  }
-}
-
-interface ActionClearTags {
-  type: typeof CLEAR_TAGS
-}
-
-export const clearTags = (): ActionClearTags => ({
-  type: CLEAR_TAGS
-});
-
 export type FinancialForecastActions =
   ActionAddNewTransactionInterface |
   ActionBulkAddTransactionsInterface |
@@ -280,10 +222,4 @@ export type FinancialForecastActions =
   ActionUpdateTransactionsFiltersInterface |
   ActionUpdateForecastInterface |
   ActionSetActiveTabInterface |
-  ActionUpdateGlobalFilterInterface |
-
-  ActionCreateTagInterface |
-  ActionDeleteTagInterface |
-  ActionUpdateTagInterface |
-  ActionUpdateTagsView |
-  ActionClearTags;
+  ActionUpdateGlobalFilterInterface;

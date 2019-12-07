@@ -11,16 +11,11 @@ import { sumMonths } from 'models/utils';
 import { GlobalFilters } from 'models/GlobalFilters';
 
 import {
-  CREATE_TAG,
   UPDATE_FORECAST,
   SET_ACTIVE_TAB,
   UPDATE_GLOBAL_FILTER,
-  DELETE_TAG,
-  UPDATE_TAG,
-  UPDATE_TAGS_VIEW,
-  CLEAR_TAGS
 } from './types';
-import { FinancialForecastActions, filterType, TagsView } from './actions';
+import { FinancialForecastActions, filterType } from './actions';
 
 import passesGlobalFilters from './utils/passesGlobalFilters';
 import transactionsReducerHoc from './utils/transactionsReducerFactory';
@@ -32,11 +27,9 @@ export type State = {
   estimatesTransactions: List<TransactionDataInterface>
   estimatesAllTransactions: List<TransactionDataInterface>
   estimatesFilters: filterType[]
-  tags: List<Tag>
   forecast: ForecastConfig
   tab: string
   globalFilters: GlobalFilters,
-  tagsView: TagsView
   selected: Map<string, boolean>,
   estimatesSelected: Map<string, boolean>
 }
@@ -53,10 +46,8 @@ export const initialState: State = {
     startDate: YYYYMMDD(new Date()),
     endDate: YYYYMMDD(sumMonths(new Date(), 12)),
   },
-  tags: List<Tag>([]),
   tab: 'transactions',
   globalFilters: {},
-  tagsView: 'chart',
   selected: Map(),
   estimatesSelected: Map()
 }
@@ -132,63 +123,6 @@ export default (state: State = initialState, action: FinancialForecastActions): 
         ...state,
         tab: action.value,
       }
-    }
-    case CREATE_TAG: {
-      const { tag } = action;
-
-      tag.color = randomColor({ luminosity: 'dark' });
-
-      return {
-        ...state,
-        tags: state.tags.push(tag)
-      }
-    }
-    case DELETE_TAG: {
-      const transactions = state.transactions.map(removeTag(action.tag)).toList();
-      const allTransactions = state.transactions.map(removeTag(action.tag)).toList();
-
-      const tags = state.tags
-        .filter((tag: any) => tag.id !== action.tag.id)
-        .toList();
-
-      return {
-        ...state,
-        transactions,
-        allTransactions,
-        tags
-      }
-    }
-    case UPDATE_TAG: {
-      action.newTag = {
-        ...action.newTag,
-        color: action.newTag.color || randomColor({ luminosity: 'dark' })
-      };
-
-      const transactions = state.transactions.map(updateTag(action.tag, action.newTag)).toList();
-      const allTransactions = state.transactions.map(updateTag(action.tag, action.newTag)).toList();
-
-      const tags = state.tags
-        .map((tag: any) => tag.id === action.tag.id ? action.newTag : tag)
-        .toList();
-
-      return {
-        ...state,
-        transactions,
-        allTransactions,
-        tags
-      }
-    }
-    case UPDATE_TAGS_VIEW: {
-      return {
-        ...state,
-        tagsView: action.payload
-      }
-    }
-    case CLEAR_TAGS: {
-      return {
-        ...state,
-        tags: List<Tag>()
-      };
     }
     default:
       return state;

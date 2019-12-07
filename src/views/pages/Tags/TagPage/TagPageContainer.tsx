@@ -10,6 +10,7 @@ import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 import { Link, match, withRouter } from 'react-router-dom';
 import Balance from 'models/Balance';
 import calculateTransactionsBalance from 'models/calculateTransactionsBalance';
+import { getTagsSelector } from 'state/ducks/tags';
 
 interface Props {
   tag: Tag | undefined,
@@ -48,7 +49,8 @@ class TagsPageContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: any, props: any) => {
-  const { financialForecast: { transactions: stateTransactions, tags } } = state;
+  const { financialForecast: { transactions: stateTransactions } } = state;
+  const tags = getTagsSelector(state);
   let tag: any;
   let transactions: TransactionConfig[] = [];
 
@@ -56,7 +58,7 @@ const mapStateToProps = (state: any, props: any) => {
     tag = tags.find((tag: Tag) => tag.id === props.match.params.id);
     if (tag) {
       transactions = stateTransactions.toJS().filter((transaction: TransactionConfig) => {
-        return transaction.tags && transaction.tags.map(t => t.id).includes(tag.id)
+        return transaction.tags && transaction.tags.includes(tag.id)
       });
     }
   }

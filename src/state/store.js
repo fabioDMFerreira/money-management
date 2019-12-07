@@ -14,7 +14,7 @@ const persistConfig = {
 	key: 'state',
 	storage,
 	transforms: [immutableTransform({
-		whitelist: ['financialForecast', 'wallets'],
+		whitelist: ['financialForecast', 'wallets', 'tags'],
 	})],
 };
 

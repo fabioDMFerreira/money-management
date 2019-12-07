@@ -8,6 +8,7 @@ import Dashboard from "./Dashboard";
 import Balance from 'models/Balance';
 import calculateWalletsTransactionsBalance from 'models/calculateWalletsTransactionsBalance';
 import { generateRandomSeedAction } from 'state/middlewares/generateRandomSeedMiddleware';
+import { getTagsSelector } from 'state/ducks/tags';
 
 const DashboardContainer = (props: Props) => (
   <Dashboard {...props} />
@@ -17,8 +18,8 @@ const DashboardContainer = (props: Props) => (
 
 export default connect(
   (state: any) => {
-    const { financialForecast: { allTransactions, tags, estimatesAllTransactions }, wallets: { wallets } } = state;
-
+    const { financialForecast: { allTransactions, estimatesAllTransactions }, wallets: { wallets } } = state;
+    const tags = getTagsSelector(state);
     const balance: Balance[] =
       calculateWalletsTransactionsBalance(allTransactions.toJS(), wallets.toJS()) || [];
 
@@ -31,14 +32,14 @@ export default connect(
         }, 0) :
         0,
       totalTransactions: allTransactions.size,
-      totalTags: tags.size,
+      totalTags: tags.length,
       totalWallets: wallets.size,
       totalEstimates: estimatesAllTransactions.size,
       lastTransactions: allTransactions.slice(0, 5),
       wallets: wallets.toJS() || [],
       allTransactions: allTransactions.toJS() || [],
       estimatesAllTransactions: estimatesAllTransactions.toJS() || [],
-      tags: tags && tags.toJS(),
+      tags,
       balance
     };
   }, {

@@ -11,7 +11,7 @@ export default interface TransactionConfig {
   totalValue?: string,
   interval?: string,
   visible?: boolean,
-  tags?: Tag[],
+  tags?: string[],
   selected?: boolean,
   wallet?: string,
 }

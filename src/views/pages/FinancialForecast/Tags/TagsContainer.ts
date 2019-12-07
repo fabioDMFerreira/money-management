@@ -1,18 +1,18 @@
-import { updateTagsView } from 'state/ducks/financial-forecast/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { updateTagsView, getTagsSelector, getTagsViewSelector } from 'state/ducks/tags';
 import Tags from 'views/pages/Tags/Tags';
 
 export default
   connect(
     (state: any) => {
-      const { financialForecast: { transactions, tags, tagsView } } = state;
+      const { financialForecast: { transactions } } = state;
 
       return {
         transactions: transactions && transactions.toJS(),
-        tags: tags && tags.toJS(),
-        tagsView,
+        tags: getTagsSelector(state),
+        tagsView: getTagsViewSelector(state),
       }
     },
     {

@@ -6,7 +6,7 @@ import { Tag } from 'models/Tag';
 
 interface Props {
   tags: Tag[],
-  tagsSelected: Tag[],
+  tagsSelected: string[],
   onChange: (value: any) => void
   createTag: (tag: Tag) => void
   classNamePrefix?: string
@@ -57,23 +57,46 @@ const colorStyles = {
 
 export default class TagSelect extends Component<Props>{
 
+  findTagById = (tagId: string) => {
+    const tag = this.props.tags.find(tag => tag.id === tagId);
+
+    if (!tag) {
+      return;
+    }
+
+    return {
+      ...tag,
+      value: tag.id
+    };
+  }
+
   render() {
     const { tagsSelected, tags, createTag, onChange, ...props } = this.props;
+
+    let value: any[] = [];
+
+    if (tagsSelected) {
+      value = tagsSelected.map(tag => this.findTagById(tag)).filter(v => v);
+    }
 
     return (
       <Select
         {...props}
         isMulti
-        value={tagsSelected && tagsSelected.map(tag => ({ ...tag, value: tag.id }))}
+        value={value}
         options={[{ label: 'Unsassigned', value: 'null' }, ...tags.map(tag => ({ ...tag, value: tag.id }))]}
         placeholder={"Select tags"}
-        onChange={value => {
-          onChange(value);
+        onChange={(value) => {
+          if (value) {
+            onChange(value.map((value: any) => value.value));
+          } else {
+            onChange([]);
+          }
         }}
         onCreateOption={newOptionLabel => {
           const newOption = { label: newOptionLabel, id: newOptionLabel.toLowerCase() }
           createTag(newOption);
-          onChange([...tagsSelected, { ...newOption, value: newOption.id }]);
+          onChange([...tagsSelected, newOption.id]);
         }}
         styles={colorStyles}
       />

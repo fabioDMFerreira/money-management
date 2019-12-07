@@ -7,11 +7,11 @@ import Col from 'reactstrap/lib/Col';
 
 import { Tag } from 'models/Tag';
 import TagItem from './containers/TagItem';
-import { createTag } from 'state/ducks/financial-forecast/actions';
 import NewButton from 'views/components/NewButton';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 import { Link } from 'react-router-dom';
 import { Breadcrumb } from 'reactstrap';
+import { createTag, getTagsSelector } from 'state/ducks/tags';
 
 type Props = {
   tags: Tag[],
@@ -28,7 +28,7 @@ const Settings = (props: Props) =>
     </Breadcrumb>
     <div className="mb-4">
       <NewButton className="mb-2" onClick={() => {
-        props.createTag({ label: 'new tag', id: 'new tag' });
+        props.createTag({ label: 'new tag' });
       }} />
       <ListGroup>
         <Row>
@@ -48,10 +48,8 @@ const Settings = (props: Props) =>
 
 export default connect(
   (state: any) => {
-    const { financialForecast: { tags } } = state;
-
     return {
-      tags: tags && tags.toJS(),
+      tags: getTagsSelector(state),
     }
   }
   , {
