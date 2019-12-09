@@ -46,7 +46,7 @@ const Main = () => (
 					<Route path="/not-found" component={NotFound} />
 				</React.Fragment>
 			}
-			{/* <Ro	ute path="/login" component={Authentication} /> */}
+			{/* <Route path="/login" component={Authentication} /> */}
 		</Switch>
 	</div>
 );

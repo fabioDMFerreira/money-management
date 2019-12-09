@@ -33,8 +33,6 @@ export default (state: TagsState = initialState, action: TagsActions) => {
       }
     }
     case DELETE_TAG: {
-      // const transactions = state.transactions.map(removeTag(action.tag)).toList();
-      // const allTransactions = state.transactions.map(removeTag(action.tag)).toList();
 
       const tags = state.tags
         .filter((tag: any) => tag.id !== action.tag.id)
@@ -42,8 +40,6 @@ export default (state: TagsState = initialState, action: TagsActions) => {
 
       return {
         ...state,
-        // transactions,
-        // allTransactions,
         tags
       }
     }
@@ -53,17 +49,12 @@ export default (state: TagsState = initialState, action: TagsActions) => {
         color: action.newTag.color || randomColor({ luminosity: 'dark' })
       };
 
-      // const transactions = state.transactions.map(updateTag(action.tag, action.newTag)).toList();
-      // const allTransactions = state.transactions.map(updateTag(action.tag, action.newTag)).toList();
-
       const tags = state.tags
         .map((tag: any) => tag.id === action.tag.id ? action.newTag : tag)
         .toList();
 
       return {
         ...state,
-        // transactions,
-        // allTransactions,
         tags
       }
     }

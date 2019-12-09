@@ -8,6 +8,7 @@ import Col from 'reactstrap/lib/Col';
 import SideNav from '../SideNav';
 import NavbarComponent from '../Navbar';
 import Main from '../Main';
+import ErrorBoundary from '../ErrorBoundary';
 
 import './App.css';
 
@@ -28,7 +29,9 @@ const App = () => (
 								</Container>
 							</Navbar>
 							<Container fluid className="pb-4">
-								<Main />
+								<ErrorBoundary>
+									<Main />
+								</ErrorBoundary>
 							</Container>
 						</Col>
 					</Row>
