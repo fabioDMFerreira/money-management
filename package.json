@@ -79,7 +79,8 @@
     "test:ci": "jest",
     "eject": "react-scripts eject",
     "cover": "npm test -- --coverage",
-    "storybook": "start-storybook -p 9001"
+    "storybook": "start-storybook -p 9001",
+    "lint-staged": "lint-staged"
   },
   "devDependencies": {
     "@babel/core": "7.3.3",
@@ -136,7 +137,8 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "eslint --fix",
-      "git add"
+      "git add",
+      "jest --bail --findRelatedTests --passWithNoTests"
     ]
   },
   "browserslist": [
