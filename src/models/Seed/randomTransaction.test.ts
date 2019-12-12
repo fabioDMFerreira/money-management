@@ -1,15 +1,13 @@
-import { getRandomTransaction } from "./generateRandomData";
+import { getRandomTransaction } from './generateRandomData';
 
 
 describe('getRandomData', () => {
-
-  describe('getRandomTransaction',()=>{
-    it('should return a transaction',()=>{
+  describe('getRandomTransaction', () => {
+    it('should return a transaction', () => {
       const transaction = getRandomTransaction();
 
       expect(transaction).toBeTruthy();
     });
-
   });
 
   // it('test', () => {
@@ -43,4 +41,4 @@ describe('getRandomData', () => {
   //   expect(yearTxCounter).toBeGreaterThan(30);
   //   expect(yearTxCounter).toBeLessThan(70);
   // });
-})
+});

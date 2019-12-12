@@ -1,30 +1,29 @@
-import React from 'react';
 import * as Sentry from '@sentry/browser';
+import React, { Component } from 'react';
 
-if(process.env.REACT_APP_SENTRY){
-  Sentry.init({dsn: process.env.REACT_APP_SENTRY});
+
+if (process.env.REACT_APP_SENTRY) {
+  Sentry.init({ dsn: process.env.REACT_APP_SENTRY });
 }
 
 interface Props {
-  [key: string]: any
+  [key: string]: any;
 }
 
 interface State {
-  error: any,
-  errorInfo: any
+  errorInfo: any;
 }
 
-class ErrorBoundary extends React.Component<Props, State> {
+class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { error: null, errorInfo: null };
+    this.state = { errorInfo: null };
   }
 
   componentDidCatch(error: any, errorInfo: any) {
     this.setState({
-      error: error,
-      errorInfo: errorInfo
-    })
+      errorInfo,
+    });
   }
 
   render() {

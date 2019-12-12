@@ -1,11 +1,10 @@
 import faker from 'faker';
-
-import Transaction from "models/Transaction";
-
-import { firstMonthDay, lastMonthDay } from "../utils";
 import { Tag } from 'models/Tag';
-import TransactionConfig from 'models/Transaction/TransactionConfig';
+import Transaction from 'models/Transaction';
+import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import { Wallet, WalletFactory } from 'models/Wallet';
+
+import { firstMonthDay, lastMonthDay } from '../utils';
 
 
 export const setCreditOrDebit = (value: number, creditProb: number) => {
@@ -16,7 +15,7 @@ export const setCreditOrDebit = (value: number, creditProb: number) => {
   }
 
   return value * -1;
-}
+};
 
 export function getRandomTransaction(startDate = new Date(2019, 0, 1), endDate = new Date(2019, 12, 31)) {
   const description = faker.finance.iban();
@@ -48,7 +47,7 @@ export function generateRecurringTransaction(description: string, date: Date, va
   return new Transaction(description, value, txDate).convertToTransactionData();
 }
 
-export function generateRandomData(startDate: Date, endDate: Date): { transactions: TransactionConfig[], tags: Tag[], wallets: Wallet[] } {
+export function generateRandomData(startDate: Date, endDate: Date): { transactions: TransactionConfig[]; tags: Tag[]; wallets: Wallet[] } {
   const transactions = [] as TransactionConfig[];
 
   if (startDate >= endDate) {
@@ -70,37 +69,37 @@ export function generateRandomData(startDate: Date, endDate: Date): { transactio
   const wallets: Wallet[] = [
     WalletFactory.build('Bank 1', 10000),
     WalletFactory.build('Bank 2', 20000),
-  ]
+  ];
 
   const tags: Tag[] = [
     {
-      id: "food",
+      id: 'food',
       label: 'Food',
     }, {
-      id: "clothes",
-      label: 'Clothes'
+      id: 'clothes',
+      label: 'Clothes',
     }, {
-      id: "vacations",
-      label: "Vacations"
+      id: 'vacations',
+      label: 'Vacations',
     }, {
-      id: "car",
-      label: "Car"
+      id: 'car',
+      label: 'Car',
     }, {
-      id: "house",
-      label: "House Rent"
+      id: 'house',
+      label: 'House Rent',
     }, {
-      id: "techno",
-      label: "Techno-x Company",
+      id: 'techno',
+      label: 'Techno-x Company',
     }, {
-      id: "utilities",
-      label: "Utilities"
+      id: 'utilities',
+      label: 'Utilities',
     }, {
-      id: "freelancing",
-      label: "Free Lancing"
+      id: 'freelancing',
+      label: 'Free Lancing',
     }, {
-      id: "health",
-      label: "Health"
-    }
+      id: 'health',
+      label: 'Health',
+    },
   ];
 
   while (startDate < endDate) {
@@ -109,34 +108,34 @@ export function generateRandomData(startDate: Date, endDate: Date): { transactio
 
     const salaryTransaction = generateRecurringTransaction('salary', startDate, salary, 15);
     salaryTransaction.wallet = wallets[0].id;
-    salaryTransaction.tags = [tags[5].id]
-    transactions.push(salaryTransaction)
+    salaryTransaction.tags = [tags[5].id];
+    transactions.push(salaryTransaction);
 
     const homeMortageTransaction = generateRecurringTransaction('Home mortage', startDate, homeMortage, 8);
     homeMortageTransaction.wallet = wallets[0].id;
-    homeMortageTransaction.tags = [tags[4].id]
+    homeMortageTransaction.tags = [tags[4].id];
     transactions.push(homeMortageTransaction);
 
     const utilitiesTransaction = generateRecurringTransaction('Utilities', startDate, utilities, 17);
     utilitiesTransaction.wallet = wallets[0].id;
-    utilitiesTransaction.tags = [tags[6].id]
+    utilitiesTransaction.tags = [tags[6].id];
     transactions.push(utilitiesTransaction);
 
     const foodTransaction = generateRecurringTransaction('Food', startDate, food, 17);
     foodTransaction.wallet = wallets[0].id;
-    foodTransaction.tags = [tags[0].id]
+    foodTransaction.tags = [tags[0].id];
     transactions.push(foodTransaction);
 
     for (let i = 0; i < 8; i++) {
-      let transaction = getRandomTransaction(startMonthDate, endMonthDate)
+      const transaction = getRandomTransaction(startMonthDate, endMonthDate);
       transaction.wallet = wallets[0].id;
       if (transaction.credit && +transaction.credit) {
-        transaction.tags = [tags[7].id]
+        transaction.tags = [tags[7].id];
       } else if (transaction.debit && +transaction.debit > 1000) {
         transaction.tags = [tags[3].id];
       } else {
-        const tagIndex = faker.random.arrayElement([0, 1, 2, 3, 8])
-        transaction.tags = [tags[tagIndex].id]
+        const tagIndex = faker.random.arrayElement([0, 1, 2, 3, 8]);
+        transaction.tags = [tags[tagIndex].id];
       }
       transactions.push(transaction);
     }
@@ -147,8 +146,8 @@ export function generateRandomData(startDate: Date, endDate: Date): { transactio
   return {
     transactions:
       transactions
-        .sort((a, b) => a.startDate && b.startDate && a.startDate > b.startDate ? -1 : 1),
+        .sort((a, b) => (a.startDate && b.startDate && a.startDate > b.startDate ? -1 : 1)),
     tags,
-    wallets
+    wallets,
   };
 }

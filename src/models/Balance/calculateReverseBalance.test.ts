@@ -1,6 +1,8 @@
-import Forecast from "../Forecast/Forecast";
-import Transaction from "../Transaction";
-import calculateReverseBalance from "./calculateReverseBalance";
+
+import Forecast from '../Forecast/Forecast';
+import Transaction from '../Transaction';
+import calculateReverseBalance from './calculateReverseBalance';
+
 
 describe('calculateForecastBalance', () => {
   it('should return balance', () => {
@@ -8,31 +10,31 @@ describe('calculateForecastBalance', () => {
     const transactions = [
       new Transaction('water bill', -50, new Date(Date.UTC(2018, 2, 15))),
       new Transaction('house bill', -500, new Date(Date.UTC(2018, 2, 15))),
-    ]
+    ];
 
     expect(calculateReverseBalance(forecast, transactions)).toEqual([
       {
-        date: new Date(Date.UTC(2018,1,1)),
+        date: new Date(Date.UTC(2018, 1, 1)),
         income: 0,
         outcome: 0,
         balance: 0,
-        actualValue: 1550
+        actualValue: 1550,
       },
       {
-        date: new Date(Date.UTC(2018,2,1)),
+        date: new Date(Date.UTC(2018, 2, 1)),
         income: 0,
         outcome: 550,
         balance: -550,
-        actualValue: 1000
+        actualValue: 1000,
       },
       {
-        date:new Date(Date.UTC(2018,3,1)),
+        date: new Date(Date.UTC(2018, 3, 1)),
         income: 0,
         outcome: 0,
         balance: 0,
-        actualValue: 1000
-      }
-    ])
+        actualValue: 1000,
+      },
+    ]);
   });
 
   // it('should return balance of transactions with interval', () => {
@@ -80,5 +82,4 @@ describe('calculateForecastBalance', () => {
   //     }
   //   ])
   // });
-
 });

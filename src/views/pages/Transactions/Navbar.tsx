@@ -1,23 +1,23 @@
+import classnames from 'classnames';
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import Nav from 'reactstrap/lib/Nav';
 import NavItem from 'reactstrap/lib/NavItem';
 import NavLink from 'reactstrap/lib/NavLink';
-import { Link, withRouter } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
-import classnames from 'classnames';
 
 const FinancialForecastNavbar = ({ location: { pathname } }: RouteComponentProps<any>) => (
-	<Nav tabs>
-		<NavItem>
-			<NavLink
-				className={classnames({ active: pathname === '/transactions' })}
-				tag={Link}
-				to="/transactions"
-			>
+  <Nav tabs>
+    <NavItem>
+      <NavLink
+        className={classnames({ active: pathname === '/transactions' })}
+        tag={Link}
+        to="/transactions"
+      >
         Transactions
-			</NavLink>
-		</NavItem>
-		{/* <NavItem>
+      </NavLink>
+    </NavItem>
+    {/* <NavItem>
       <NavLink
         className={classnames({ active: pathname === '/estimates' })}
         tag={Link}
@@ -26,34 +26,34 @@ const FinancialForecastNavbar = ({ location: { pathname } }: RouteComponentProps
         Estimates
     </NavLink>
     </NavItem> */}
-		<NavItem>
-			<NavLink
-				className={classnames({ active: pathname === '/timeline' })}
-				tag={Link}
-				to="/timeline"
-			>
+    <NavItem>
+      <NavLink
+        className={classnames({ active: pathname === '/timeline' })}
+        tag={Link}
+        to="/timeline"
+      >
         Timeline
-			</NavLink>
-		</NavItem>
-		<NavItem>
-			<NavLink
-				className={classnames({ active: pathname === '/transactions/tags' })}
-				tag={Link}
-				to="/transactions/tags"
-			>
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink
+        className={classnames({ active: pathname === '/transactions/tags' })}
+        tag={Link}
+        to="/transactions/tags"
+      >
         Tags
-			</NavLink>
-		</NavItem>
-		<NavItem>
-			<NavLink
-				className={classnames({ active: pathname === '/transactions/tag-transactions' })}
-				tag={Link}
-				to="/transactions/tag-transactions"
-			>
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink
+        className={classnames({ active: pathname === '/transactions/tag-transactions' })}
+        tag={Link}
+        to="/transactions/tag-transactions"
+      >
         Tag Transactions
-			</NavLink>
-		</NavItem>
-		{/* <NavItem>
+      </NavLink>
+    </NavItem>
+    {/* <NavItem>
       <NavLink
         className={classnames({ active: pathname === '/settings' })}
         tag={Link}
@@ -62,7 +62,7 @@ const FinancialForecastNavbar = ({ location: { pathname } }: RouteComponentProps
         Settings
 </NavLink>
     </NavItem> */}
-	</Nav>
+  </Nav>
 );
 
 export default withRouter(FinancialForecastNavbar);

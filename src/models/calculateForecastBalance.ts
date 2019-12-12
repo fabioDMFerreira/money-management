@@ -1,12 +1,12 @@
-import Balance from "./Balance";
-import Forecast from "./Forecast";
-import Transaction from "./Transaction";
-import { monthDiff, sumMonths, isMonthsIntervalInGroup, isDateIntervalInGroup } from "./utils";
-import calculateBalance from "./Balance/calculateBalance";
-import roundDecimal from "utils/roundDecimal";
+import roundDecimal from 'utils/roundDecimal';
+
+import { Balance } from './Balance';
+import calculateBalance from './Balance/calculateBalance';
+import Forecast from './Forecast';
+import Transaction from './Transaction';
+import { isDateIntervalInGroup, isMonthsIntervalInGroup, monthDiff, sumMonths } from './utils';
 
 export default (forecast: Forecast, transactions: Transaction[]): Balance[] => {
-
   const balances: Balance[] = [];
 
   const balanceMonths: number = monthDiff(forecast.startDate, forecast.endDate);
@@ -17,15 +17,17 @@ export default (forecast: Forecast, transactions: Transaction[]): Balance[] => {
     const balanceDate: Date = sumMonths(forecast.startDate, i);
 
     const monthTransactions: Transaction[] =
-      transactions.filter(
-        transaction => {
-          if (transaction.interval > 1) {
-            return isMonthsIntervalInGroup(transaction.startDate, transaction.interval, transaction.particles, balanceDate);
-          } else {
-            return isDateIntervalInGroup(transaction.startDate, transaction.endDate, balanceDate)
-          }
+      transactions.filter((transaction) => {
+        if (transaction.interval > 1) {
+          return isMonthsIntervalInGroup(
+            transaction.startDate,
+            transaction.interval,
+            transaction.particles,
+            balanceDate,
+          );
         }
-      );
+        return isDateIntervalInGroup(transaction.startDate, transaction.endDate, balanceDate);
+      });
 
     const balance = calculateBalance(monthTransactions);
     cumulativeValue += balance.balance;
@@ -35,4 +37,4 @@ export default (forecast: Forecast, transactions: Transaction[]): Balance[] => {
   }
 
   return balances;
-}
+};

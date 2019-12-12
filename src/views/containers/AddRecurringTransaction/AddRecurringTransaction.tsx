@@ -1,21 +1,23 @@
-import React, { Fragment, useState } from 'react';
-import Button from 'reactstrap/lib/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import RecurringTransactionModal from '../RecurringTransactionModal';
-import TransactionConfig from 'models/Transaction/TransactionConfig';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { TransactionConfig } from 'models/Transaction/TransactionConfig';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
+import Button from 'reactstrap/lib/Button';
 import { bulkAddTransactions } from 'state/ducks/financial-forecast/actions';
 
+import RecurringTransactionModal from '../RecurringTransactionModal';
+
+
 interface Props {
-  addTransactions: (transactions: TransactionConfig[]) => any
+  addTransactions: (transactions: TransactionConfig[]) => any;
 }
 
-export default connect(null, dispatch => {
-  return {
-    addTransactions: (transactions: TransactionConfig[]) => dispatch(bulkAddTransactions("ESTIMATES")(transactions))
-  }
-})(({ addTransactions }: Props) => {
+export default connect(null, dispatch => ({
+  addTransactions: (transactions: TransactionConfig[]) => dispatch(bulkAddTransactions('ESTIMATES')(transactions)),
+}))(({ addTransactions }: Props) => {
   const [modalOpened, openModal] = useState(false);
 
   return (
@@ -34,5 +36,5 @@ export default connect(null, dispatch => {
         />
       }
     </Fragment>
-  )
+  );
 });

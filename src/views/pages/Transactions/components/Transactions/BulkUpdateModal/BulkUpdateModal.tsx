@@ -1,44 +1,43 @@
-import React, { Component, ChangeEvent } from 'react';
+import { Tag } from 'models/Tag';
+import { Wallet } from 'models/Wallet';
+import React, { ChangeEvent, Component } from 'react';
+import Select from 'react-select/lib/Creatable';
+import Button from 'reactstrap/lib/Button';
+import Form from 'reactstrap/lib/Form';
+import FormGroup from 'reactstrap/lib/FormGroup';
+import Input from 'reactstrap/lib/Input';
+import Label from 'reactstrap/lib/Label';
 import Modal from 'reactstrap/lib/Modal';
-import ModalHeader from 'reactstrap/lib/ModalHeader';
 import ModalBody from 'reactstrap/lib/ModalBody';
 import ModalFooter from 'reactstrap/lib/ModalFooter';
-import Button from 'reactstrap/lib/Button';
-import Label from 'reactstrap/lib/Label';
-import FormGroup from 'reactstrap/lib/FormGroup';
-import Select from 'react-select/lib/Creatable';
-
-import Form from 'reactstrap/lib/Form';
-import Input from 'reactstrap/lib/Input';
-import { Tag } from 'models/Tag';
-import WalletSelect from 'views/pages/Transactions/containers/WalletSelect/WalletSelect';
+import ModalHeader from 'reactstrap/lib/ModalHeader';
 import TagSelect from 'views/pages/Transactions/containers/TagSelect/TagSelect';
-import { Wallet } from 'models/Wallet';
+import WalletSelect from 'views/pages/Transactions/containers/WalletSelect/WalletSelect';
+
 
 type Props = {
-  opened: boolean | undefined,
-  close: () => void,
-  save: (update: any) => void,
-  tags: Tag[],
-  createTag: any,
-  wallets: Wallet[],
-  createWallet: any,
+  opened: boolean | undefined;
+  close: () => void;
+  save: (update: any) => void;
+  tags: Tag[];
+  createTag: any;
+  wallets: Wallet[];
+  createWallet: any;
 }
 
 type UpdateType = {
-  tags?: any
-  description?: string
-  wallet?: string
+  tags?: any;
+  description?: string;
+  wallet?: string;
 }
 
 type State = {
-  update: UpdateType
+  update: UpdateType;
 }
 
 export default class BulkUpdateModal extends Component<Props, State> {
-
   state = {
-    update: {} as UpdateType
+    update: {} as UpdateType,
   }
 
   change = (key: keyof UpdateType, value: any) => {
@@ -47,17 +46,18 @@ export default class BulkUpdateModal extends Component<Props, State> {
 
       delete update[key];
 
-      return this.setState({
-        update
+      this.setState({
+        update,
       });
+      return;
     }
 
     this.setState({
       update: {
         ...this.state.update,
-        [key]: value
-      }
-    })
+        [key]: value,
+      },
+    });
   }
 
   render() {
@@ -72,7 +72,7 @@ export default class BulkUpdateModal extends Component<Props, State> {
     } = this.props;
 
     const {
-      update
+      update,
     } = this.state;
 
     return (
@@ -85,7 +85,7 @@ export default class BulkUpdateModal extends Component<Props, State> {
               <Input
                 type="text"
                 value={update.description ? update.description : ''}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => { this.change("description", e.target.value) }}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => { this.change('description', e.target.value); }}
               />
             </FormGroup>
             <FormGroup>
@@ -119,9 +119,9 @@ export default class BulkUpdateModal extends Component<Props, State> {
                 wallets={wallets}
                 createWallet={createWallet}
                 onChange={(value: any) => {
-                  this.change('wallet', value.value)
+                  this.change('wallet', value.value);
                 }}
-                walletSelected={update.wallet ? update.wallet : ""}
+                walletSelected={update.wallet ? update.wallet : ''}
               />
             </FormGroup>
           </Form>
@@ -131,8 +131,7 @@ export default class BulkUpdateModal extends Component<Props, State> {
           <Button color="secondary" onClick={close}>Cancel</Button>
         </ModalFooter>
       </Modal>
-    )
+    );
   }
 }
-
 

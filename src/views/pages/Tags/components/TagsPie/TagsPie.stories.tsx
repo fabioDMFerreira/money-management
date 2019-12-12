@@ -1,8 +1,9 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-
 import 'bootstrap/dist/css/bootstrap.css';
+
+import { action } from '@storybook/addon-actions';
+import { storiesOf } from '@storybook/react';
+import React from 'react';
+
 import TagsPie from './TagsPie';
 
 storiesOf('TagsPie', module)
@@ -17,8 +18,8 @@ storiesOf('TagsPie', module)
           value: 2,
         }, {
           name: 'small',
-          value: 0.0001
-        }
+          value: 0.0001,
+        },
       ]}
       onClick={action('slicePicked')}
     />

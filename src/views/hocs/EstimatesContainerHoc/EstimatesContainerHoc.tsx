@@ -1,23 +1,21 @@
 import { connect } from 'react-redux';
-
 import {
-  dragTransaction,
-  deleteTransaction,
   addNewTransaction,
   bulkAddTransactions,
-  updateTransaction,
-  clearTransactions,
-  updateTransactionsFilters,
   bulkDeleteTransactions,
-  selectTransaction,
-  unselectTransaction,
+  clearTransactions,
+  deleteTransaction,
+  dragTransaction,
   selectAllTransactions,
+  selectTransaction,
   unselectAllTransactions,
+  unselectTransaction,
+  updateTransaction,
+  updateTransactionsFilters,
 } from 'state/ducks/financial-forecast/actions';
-
 import { ESTIMATES } from 'state/ducks/financial-forecast/consts';
+import { createTag, getTagsSelector } from 'state/ducks/tags';
 import { createWallet, getWalletsSelector } from 'state/ducks/wallets';
-import { getTagsSelector, createTag } from 'state/ducks/tags';
 
 export default (Component: any) => connect(
   (state: any) => {
@@ -25,12 +23,12 @@ export default (Component: any) => connect(
 
     return {
       enableRecurringTransactions: true,
-      selectedTransactions: financialForecast.estimatesSelected && financialForecast.estimatesSelected.toJS() || {},
-      transactions: financialForecast.estimatesTransactions && financialForecast.estimatesTransactions.toJS(),
+      selectedTransactions: (financialForecast.estimatesSelected && financialForecast.estimatesSelected.toJS()) || {},
+      transactions: (financialForecast.estimatesTransactions && financialForecast.estimatesTransactions.toJS()) || [],
       tags: getTagsSelector(state),
       filters: financialForecast.estimatesFilters,
-      wallets: getWalletsSelector(state)
-    }
+      wallets: getWalletsSelector(state),
+    };
   },
   {
     addNewTransaction: addNewTransaction(ESTIMATES),
@@ -48,5 +46,5 @@ export default (Component: any) => connect(
 
     createTag,
     createWallet,
-  }
-)(Component)
+  },
+)(Component);

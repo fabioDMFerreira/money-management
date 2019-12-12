@@ -1,35 +1,36 @@
-import React, { Component, Fragment } from 'react';
-import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 import {
-  faPlus,
-  faUpload,
   faDownload,
-  faTrash,
   faEdit,
+  faPlus,
+  faTrash,
+  faUpload,
 } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Map } from 'immutable';
+import { Tag } from 'models/Tag';
+import { TransactionConfig } from 'models/Transaction/TransactionConfig';
+import TransactionFieldsMetadata from 'models/Transaction/TransactionFieldsMetadata';
+import { Wallet } from 'models/Wallet';
+import randomColor from 'randomcolor';
+import React, { Component, Fragment } from 'react';
 import { CSVLink } from 'react-csv';
 import Button from 'reactstrap/lib/Button';
-import randomColor from 'randomcolor';
-
-import YYYYMMDD from 'utils/YYYYMMDD';
-
-import TransactionConfig from 'models/Transaction/TransactionConfig';
-import { addNewTransaction, bulkAddTransactions, updateTransaction, deleteTransaction, clearTransactions, dragTransaction, updateTransactionsFilters, filterType, bulkDeleteTransactions, } from 'state/ducks/financial-forecast/actions';
-import { Tag } from 'models/Tag';
-import TransactionFieldsMetadata from 'models/Transaction/TransactionFieldsMetadata';
-import validateTransactionData from './validateTransactionData';
-import ImportTransactionsModal from './ImportTransactions/ImportTransactionsModal';
-import BulkUpdateModal from './BulkUpdateModal';
-
-import TransactionsTable from './TransactionsTable';
-import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
+import { dragTransaction, filterType, updateTransaction, updateTransactionsFilters } from 'state/ducks/financial-forecast/actions';
 import { createWallet } from 'state/ducks/wallets';
-import { Wallet } from 'models/Wallet';
-import { Map } from 'immutable';
-import AddRecurringTransaction from 'views/containers/AddRecurringTransaction';
+import styled from 'styled-components';
 import getRandomString from 'utils/getRandomString';
+import YYYYMMDD from 'utils/YYYYMMDD';
+import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
+import AddRecurringTransaction from 'views/containers/AddRecurringTransaction';
+
+import BulkUpdateModal from './BulkUpdateModal';
 import ImportTransactions from './ImportTransactions';
+import ImportTransactionsModal from './ImportTransactions/ImportTransactionsModal';
+import TransactionsTable from './TransactionsTable';
+import validateTransactionData from './validateTransactionData';
+
 
 const TableActions = styled.div`
   background-color: $white;
@@ -41,37 +42,36 @@ const TableActions = styled.div`
 `;
 
 type Props = {
-  transactions: TransactionConfig[],
-  addNewTransaction: any
-  bulkAddTransactions: any,
-  bulkDeleteTransactions: any,
-  updateTransaction: any,
-  deleteTransaction: any,
-  clearTransactions: any,
-  dragTransaction: any
-  createTag: any,
-  createWallet: typeof createWallet,
-  tags: Tag[],
-  wallets: Wallet[],
-  updateTransactionsFilters: any
-  filters: filterType[],
-  selectedTransactions: { [key: string]: boolean },
-  selectTransaction: any,
-  unselectTransaction: any,
-  selectAllTransactions: any,
-  unselectAllTransactions: any,
-  enableRecurringTransactions?: boolean,
+  transactions: TransactionConfig[];
+  addNewTransaction: any;
+  bulkAddTransactions: any;
+  bulkDeleteTransactions: any;
+  updateTransaction: any;
+  deleteTransaction: any;
+  clearTransactions: any;
+  dragTransaction: any;
+  createTag: any;
+  createWallet: typeof createWallet;
+  tags: Tag[];
+  wallets: Wallet[];
+  updateTransactionsFilters: any;
+  filters: filterType[];
+  selectedTransactions: { [key: string]: boolean };
+  selectTransaction: any;
+  unselectTransaction: any;
+  selectAllTransactions: any;
+  unselectAllTransactions: any;
+  enableRecurringTransactions?: boolean;
 }
 
 type State = {
-  bulkUpdateModalOpened: boolean,
-  importingModalOpened: boolean,
-  importingData: object[],
+  bulkUpdateModalOpened: boolean;
+  importingModalOpened: boolean;
+  importingData: object[];
 }
 
 
 export default class Transactions extends Component<Props, State> {
-
   static defaultProps = {
     transactions: [],
   }
@@ -84,17 +84,15 @@ export default class Transactions extends Component<Props, State> {
 
   fileInput: any;
 
-  parseTransactionsToCsv = (transactions: TransactionConfig[]) => {
-    return transactions.map(t => {
-      const wallet = t.wallet && this.props.wallets.find(wallet => wallet.id === t.wallet);
-      const tags = t.tags && t.tags.map(tag => this.props.tags.find(t => t.id === tag));
-      return {
-        ...t,
-        tags: tags ? escape(JSON.stringify(tags)) : "",
-        wallet: wallet ? escape(JSON.stringify(wallet)) : ""
-      }
-    });
-  }
+  parseTransactionsToCsv = (transactions: TransactionConfig[]) => transactions.map((t) => {
+    const wallet = t.wallet && this.props.wallets.find(wallet => wallet.id === t.wallet);
+    const tags = t.tags && t.tags.map(tag => this.props.tags.find(t => t.id === tag));
+    return {
+      ...t,
+      tags: tags ? escape(JSON.stringify(tags)) : '',
+      wallet: wallet ? escape(JSON.stringify(wallet)) : '',
+    };
+  })
 
 
   configureTransactionFromCSV = (transaction: any) =>
@@ -104,7 +102,7 @@ export default class Transactions extends Component<Props, State> {
         const tag = this.props.tags.find(tag => tagValue.id === tag.id);
         if (tag) {
           return tag.id;
-        };
+        }
 
         // create a new tag if it does not exist in store
         this.props.createTag(tagValue);
@@ -113,30 +111,29 @@ export default class Transactions extends Component<Props, State> {
       }),
       wallet: transaction.wallet && (() => {
         try {
-          let fileWallet = JSON.parse(unescape(transaction.wallet));
+          const fileWallet = JSON.parse(unescape(transaction.wallet));
           const wallet = this.props.wallets.find(wallet => wallet.name === fileWallet.name);
 
           if (wallet) {
             return wallet.id;
-          } else {
-            this.props.createWallet(fileWallet);
-            return fileWallet.id;
           }
+          this.props.createWallet(fileWallet);
+          return fileWallet.id;
         } catch (e) {
-          return transaction.wallet
+          return transaction.wallet;
         }
-      })()
+      })(),
     })
 
   openBulkUpdateModal = () => {
     this.setState({
-      bulkUpdateModalOpened: true
+      bulkUpdateModalOpened: true,
     });
   }
 
   closeBulkUpdateModal = () => {
     this.setState({
-      bulkUpdateModalOpened: false
+      bulkUpdateModalOpened: false,
     });
   }
 
@@ -161,7 +158,7 @@ export default class Transactions extends Component<Props, State> {
       });
 
     this.setState({
-      bulkUpdateModalOpened: false
+      bulkUpdateModalOpened: false,
     });
   }
 
@@ -188,10 +185,10 @@ export default class Transactions extends Component<Props, State> {
       selectedTransactions,
       updateTransaction,
       wallets,
-      createWallet
+      createWallet,
     } = this.props;
 
-    const someSelected = Object.values(selectedTransactions).some((v) => v);
+    const someSelected = Object.values(selectedTransactions).some(v => v);
 
     return (
       <Fragment>
@@ -222,15 +219,15 @@ export default class Transactions extends Component<Props, State> {
             <Fragment>
               <Button outline color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
                 <FontAwesomeIcon icon={faEdit} /> Bulk update
-</Button>
+              </Button>
               <ButtonWithConfirmation outline color="secondary" size="sm" onClick={this.props.bulkDeleteTransactions}>
                 <FontAwesomeIcon icon={faTrash} /> Bulk delete
-      </ButtonWithConfirmation>
+              </ButtonWithConfirmation>
             </Fragment>
           }
           <ButtonWithConfirmation outline color="secondary" size="sm" onClick={clearTransactions}>
             <FontAwesomeIcon icon={faTrash} /> Clear all
-      </ButtonWithConfirmation>
+          </ButtonWithConfirmation>
 
         </TableActions>
 

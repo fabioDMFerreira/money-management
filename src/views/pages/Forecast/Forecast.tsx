@@ -1,24 +1,27 @@
-import React, { Component, Fragment } from "react";
-import Timeline from "../Transactions/Timeline/Timeline";
-import { Wallet } from "models/Wallet";
-import Balance from "models/Balance";
-import TransactionConfig from "models/Transaction/TransactionConfig";
-import { connect } from "react-redux";
-import calculateTransactionsEstimatesBalance from "models/calculateTransactionsEstimatesBalance";
-import Estimates from "../../hocs/EstimatesContainerHoc";
-import Transactions from "../Transactions/components/Transactions";
+import { Balance } from 'models/Balance';
+import calculateTransactionsEstimatesBalance from 'models/calculateTransactionsEstimatesBalance';
+import { TransactionConfig } from 'models/Transaction/TransactionConfig';
+import { Wallet } from 'models/Wallet';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+
+import Estimates from '../../hocs/EstimatesContainerHoc';
+import Transactions from '../Transactions/components/Transactions';
+import Timeline from '../Transactions/Timeline/Timeline';
 
 interface Props {
-  wallets: [Wallet],
-  balance: Balance[]
-  allTransactions: [TransactionConfig],
-  allEstimates: [TransactionConfig],
+  wallets: [Wallet];
+  balance: Balance[];
+  allTransactions: [TransactionConfig];
+  allEstimates: [TransactionConfig];
 }
 
 const EstimatesComponent = Estimates(Transactions);
 
 
-const Forecast = ({ balance, allTransactions, allEstimates, wallets }: Props) => (
+const Forecast = ({
+  balance, allTransactions, allEstimates, wallets,
+}: Props) => (
   <Fragment>
     <h2>Forecast</h2>
     <hr />
@@ -31,7 +34,7 @@ const Forecast = ({ balance, allTransactions, allEstimates, wallets }: Props) =>
     </div>
     <EstimatesComponent />
   </Fragment>
-)
+);
 
 export default connect((state: any) => {
   const { financialForecast: { allTransactions, tags, estimatesAllTransactions }, wallets: { wallets } } = state;
@@ -44,5 +47,5 @@ export default connect((state: any) => {
     wallets: wallets.toJS() || [],
     allTransactions: allTransactions.toJS() || [],
     allEstimates: estimatesAllTransactions.toJS() || [],
-  }
-})(Forecast)
+  };
+})(Forecast);

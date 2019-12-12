@@ -1,24 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
-
+import Badge from 'views/components/Badge';
 import DeleteButton from 'views/components/DeleteButton';
 import EditButton from 'views/components/EditButton';
-import LinkButton from '../LinkButton';
 import SaveCancelInput from 'views/components/SaveCancelInput';
-import Badge from 'views/components/Badge';
+
+import LinkButton from '../LinkButton';
 
 interface Props<T> {
-  element: T,
-  label: string,
-  color?: string,
-  link?: string,
-  remove: (element: T) => void,
-  update: (element: T, value: string) => void
+  element: T;
+  label: string;
+  color?: string;
+  link?: string;
+  remove: (element: T) => void;
+  update: (element: T, value: string) => void;
 }
 
 interface State {
-  editing: boolean,
-  value?: string,
+  editing: boolean;
+  value?: string;
 }
 
 const ButtonsContainer = styled.span`
@@ -33,10 +33,8 @@ button{
 `;
 
 export default class EditableRemovableListItem<T> extends Component<Props<T>, State> {
-
   state = {
     editing: false,
-    value: ''
   }
 
   saveLabelValue = (value: string) => {
@@ -45,7 +43,7 @@ export default class EditableRemovableListItem<T> extends Component<Props<T>, St
     update(element, value);
 
     this.setState({
-      editing: false
+      editing: false,
     });
   }
 
@@ -64,37 +62,38 @@ export default class EditableRemovableListItem<T> extends Component<Props<T>, St
     } = this.state;
 
     if (editing) {
-      return <SaveCancelInput
+      return (<SaveCancelInput
         initialValue={label}
         save={this.saveLabelValue}
         cancel={() => this.setState({ editing: false })}
-      />;
+      />);
     }
 
 
-    return <Fragment>
-      <ButtonsContainer>
+    return (
+      <Fragment>
+        <ButtonsContainer>
+          {
+            link &&
+            <LinkButton to={link} />
+          }
+          {
+            update &&
+            <EditButton onClick={() => this.setState({ editing: true })} />
+          }
+          {
+            remove &&
+            <DeleteButton onClick={() => remove(element)} />
+          }
+        </ButtonsContainer>
         {
-          link &&
-          <LinkButton to={link} />
+          color &&
+          <Badge label={label} color={color} />
         }
         {
-          update &&
-          <EditButton onClick={() => this.setState({ editing: true })} />
+          !color && label
         }
-        {
-          remove &&
-          <DeleteButton onClick={() => remove(element)} />
-        }
-      </ButtonsContainer>
-      {
-        color &&
-        <Badge label={label} color={color} />
-      }
-      {
-        !color && label
-      }
-    </Fragment>
-
+      </Fragment>
+    );
   }
 }

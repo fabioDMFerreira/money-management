@@ -1,32 +1,32 @@
 export interface Metadata {
-  label: string,
-  key: string,
-  required?: boolean,
+  label: string;
+  key: string;
+  required?: boolean;
 }
 
 const TransactionFieldsMetadata: Metadata[] = [{
-	label: 'Description',
-	key: 'description',
-	required: true,
+  label: 'Description',
+  key: 'description',
+  required: true,
 }, {
-	label: 'Tags',
-	key: 'tags',
+  label: 'Tags',
+  key: 'tags',
 }, {
-	label: 'Wallet',
-	key: 'wallet',
+  label: 'Wallet',
+  key: 'wallet',
 }, {
-	label: 'Start date',
-	key: 'startDate',
-	required: true,
+  label: 'Start date',
+  key: 'startDate',
+  required: true,
 }, {
-	label: 'End date',
-	key: 'endDate',
+  label: 'End date',
+  key: 'endDate',
 }, {
-	label: 'Credit',
-	key: 'credit',
+  label: 'Credit',
+  key: 'credit',
 }, {
-	label: 'Debit',
-	key: 'debit',
+  label: 'Debit',
+  key: 'debit',
 },
 // {
 //   label: 'Particles',

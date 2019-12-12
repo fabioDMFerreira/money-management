@@ -1,25 +1,25 @@
-import React, { useState, ChangeEvent } from 'react';
-import Rule from 'models/Rule';
+import { Rule } from 'models/Rule';
+import { Tag } from 'models/Tag';
+import React, { ChangeEvent, useState } from 'react';
+import Button from 'reactstrap/lib/Button';
+import Col from 'reactstrap/lib/Col';
 import Form from 'reactstrap/lib/Form';
 import FormGroup from 'reactstrap/lib/FormGroup';
-import Label from 'reactstrap/lib/Label';
 import Input from 'reactstrap/lib/Input';
-import TagSelect from 'views/pages/Transactions/containers/TagSelect/TagSelect';
-import { Tag } from 'models/Tag';
-import Button from 'reactstrap/lib/Button';
+import Label from 'reactstrap/lib/Label';
 import Row from 'reactstrap/lib/Row';
-import Col from 'reactstrap/lib/Col';
+import TagSelect from 'views/pages/Transactions/containers/TagSelect/TagSelect';
+
 
 interface Props {
-  save: (rule: Rule) => void
-  tags: Tag[]
-  createTag: any
+  save: (rule: Rule) => void;
+  tags: Tag[];
+  createTag: any;
 }
 
 export default (props: Props) => {
-
   const [patternValue, setPatternValue] = useState('');
-  const [ruleValue, setRuleValue] = useState([] as string[])
+  const [ruleValue, setRuleValue] = useState([] as string[]);
 
   return (
     <Form>
@@ -54,19 +54,19 @@ export default (props: Props) => {
               props.save({
                 pattern: {
                   field: 'description',
-                  value: patternValue
+                  value: patternValue,
                 },
                 rule: {
                   field: 'tags',
-                  value: ruleValue
-                }
+                  value: ruleValue,
+                },
               });
             }}
           >
             Save
-      </Button>
+          </Button>
         </Col>
       </Row>
     </Form>
-  )
+  );
 };

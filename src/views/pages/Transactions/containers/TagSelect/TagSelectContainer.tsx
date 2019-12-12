@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
-import TagSelect from './TagSelect';
 import { createTag, getTagsSelector } from 'state/ducks/tags';
 
+import TagSelect from './TagSelect';
+
 export default connect((state: any) => ({
-	tags: getTagsSelector(state),
+  tags: getTagsSelector(state),
 }), {
-	createTag,
+  createTag,
 })(TagSelect);

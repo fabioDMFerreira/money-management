@@ -1,13 +1,13 @@
+import { Tag } from 'models/Tag';
 import React from 'react';
 import { connect } from 'react-redux';
+import { deleteTag, updateTag } from 'state/ducks/tags';
 import EditableRemovableListItem from 'views/components/EditableRemovableListItem';
-import { updateTag, deleteTag } from 'state/ducks/tags';
-import { Tag } from 'models/Tag';
 
 interface Props {
-  tag: Tag,
-  update: (tag: Tag, value: string) => void,
-  remove: (tag: Tag) => void,
+  tag: Tag;
+  update: (tag: Tag, value: string) => void;
+  remove: (tag: Tag) => void;
 }
 
 const TagItemContainer = (props: Props) => (
@@ -19,9 +19,9 @@ const TagItemContainer = (props: Props) => (
     label={props.tag.label}
     color={props.tag.color}
   />
-)
+);
 
 export default connect(null, dispatch => ({
   update: (tag: Tag, value: string) => dispatch(updateTag(tag, { label: value, id: value.toLowerCase() })),
-  remove: (tag: Tag) => dispatch(deleteTag(tag))
+  remove: (tag: Tag) => dispatch(deleteTag(tag)),
 }))(TagItemContainer);

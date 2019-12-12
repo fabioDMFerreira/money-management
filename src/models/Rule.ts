@@ -1,11 +1,11 @@
-export default interface Rule {
-  id?: string,
+export interface Rule {
+  id?: string;
   pattern: {
-    field: string,
-    value: string
-  },
+    field: string;
+    value: string;
+  };
   rule: {
-    field: string,
-    value: string | string[]
-  }
-}
+    field: string;
+    value: string | string[];
+  };
+};

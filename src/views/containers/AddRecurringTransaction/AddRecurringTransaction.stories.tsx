@@ -1,10 +1,10 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
+import 'bootstrap/dist/css/bootstrap.css';
+
 import { action } from '@storybook/addon-actions';
+import { storiesOf } from '@storybook/react';
+import React from 'react';
 
 import AddRecurringTransaction from './AddRecurringTransaction';
-
-import 'bootstrap/dist/css/bootstrap.css';
 
 export const actions = {
   // onPinTask: action('onPinTask'),
@@ -12,4 +12,4 @@ export const actions = {
 };
 
 storiesOf('AddRecurringTransaction', module)
-  .add('default', () => <AddRecurringTransaction />)
+  .add('default', () => <AddRecurringTransaction />);

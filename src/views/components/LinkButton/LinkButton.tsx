@@ -1,11 +1,14 @@
+
+
+import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink } from '@fortawesome/free-solid-svg-icons';
 import Button from 'reactstrap/lib/Button';
 
+
 interface Props {
-  to: string,
+  to: string;
 }
 
 export default ({ to }: Props) => (
@@ -14,4 +17,4 @@ export default ({ to }: Props) => (
       <FontAwesomeIcon icon={faLink} />
     </Button>
   </Link>
-)
+);

@@ -1,22 +1,23 @@
-import Transaction from "../Transaction";
-import Balance from "./Balance";
-import roundDecimal from "utils/roundDecimal";
+import roundDecimal from 'utils/roundDecimal';
 
-export default (transactions: Transaction[]): Balance => {
-  return transactions
-    .reduce((balance: Balance, transaction: Transaction) => {
-      if (transaction.value > 0) {
-        balance.income += transaction.value;
-      } else {
-        balance.outcome -= transaction.value;
-      }
+import Transaction from '../Transaction';
+import { Balance } from './Balance';
 
-      balance.balance += transaction.value;
+export default (transactions: Transaction[]): Balance => transactions
+  .reduce((balance: Balance, transaction: Transaction) => {
+    const finalBalance = balance;
 
-      balance.balance = roundDecimal(balance.balance);
-      balance.income = roundDecimal(balance.income);
-      balance.outcome = roundDecimal(balance.outcome);
+    if (transaction.value > 0) {
+      finalBalance.income += transaction.value;
+    } else {
+      finalBalance.outcome -= transaction.value;
+    }
 
-      return balance;
-    }, { income: 0, outcome: 0, balance: 0 })
-}
+    finalBalance.balance += transaction.value;
+
+    finalBalance.balance = roundDecimal(finalBalance.balance);
+    finalBalance.income = roundDecimal(finalBalance.income);
+    finalBalance.outcome = roundDecimal(finalBalance.outcome);
+
+    return finalBalance;
+  }, { income: 0, outcome: 0, balance: 0 });

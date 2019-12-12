@@ -1,32 +1,31 @@
-import TransactionDataInterface from 'models/Transaction/TransactionConfig';
+import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import { filterType } from 'state/ducks/financial-forecast/actions';
 
-export default (filters: filterType[] | undefined | null) => (transaction: TransactionDataInterface) => {
-	if (!filters) {
-		return true;
-	}
+export default (filters: filterType[] | undefined | null) => (transaction: TransactionConfig) => {
+  if (!filters) {
+    return true;
+  }
 
-	const generateFilter: (filter: string, value: string) => (transaction: TransactionDataInterface) => boolean = (filter: string, value: string) => {
-		switch (filter) {
-		case 'tags':
-			return (transaction: TransactionDataInterface): boolean => {
-				if (!transaction || !transaction.tags) {
-					return false;
-				}
-				return transaction.tags && !!transaction.tags.find((tag: any) => tag.value.startsWith(value.toLowerCase()));
-			};
-			break;
-		default:
-			if (filter) {
-				return (transaction: any) => typeof transaction[filter] === 'string' && transaction[filter].toLowerCase().startsWith(value);
-			}
-			return () => true;
-		}
-	};
+  const generateFilter: (filter: string, value: string) => (transaction: TransactionConfig) => boolean = (filter: string, value: string) => {
+    switch (filter) {
+      case 'tags':
+        return (transaction: TransactionConfig): boolean => {
+          if (!transaction || !transaction.tags) {
+            return false;
+          }
+          return transaction.tags && !!transaction.tags.find((tag: any) => tag.value.startsWith(value.toLowerCase()));
+        };
+      default:
+        if (filter) {
+          return (transaction: any) => typeof transaction[filter] === 'string' && transaction[filter].toLowerCase().startsWith(value);
+        }
+        return () => true;
+    }
+  };
 
-	const filterFn: ((transaction: TransactionDataInterface) => boolean)[] =
+  const filterFn: ((transaction: TransactionConfig) => boolean)[] =
     filters.map(filter => generateFilter(filter.id, filter.value));
 
-	const filterValue = filterFn.every(filter => filter(transaction));
-	return filterValue;
+  const filterValue = filterFn.every(filter => filter(transaction));
+  return filterValue;
 };

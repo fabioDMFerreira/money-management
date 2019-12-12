@@ -1,9 +1,9 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-table/react-table.css';
+
+import { action } from '@storybook/addon-actions';
+import { storiesOf } from '@storybook/react';
+import React from 'react';
 
 import TagsTable from './TagsTable';
 
@@ -17,7 +17,7 @@ storiesOf('TagsTable', module)
         }, {
           name: 'ipsum',
           value: 2,
-        }
+        },
       ]}
     />
   ));

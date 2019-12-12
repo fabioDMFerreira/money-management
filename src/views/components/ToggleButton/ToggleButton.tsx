@@ -1,13 +1,14 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import Button from 'reactstrap/lib/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
 
 type Props = {
-  active: boolean,
-  onClick: () => void,
-  icon?: IconProp,
-  text?: string,
+  active: boolean;
+  onClick: () => void;
+  icon?: IconProp;
+  text?: string;
 }
 
 export default (props: Props) => (
@@ -24,11 +25,11 @@ export default (props: Props) => (
     onClick={props.onClick}
   >
     {
-      props.text + " "
+      `${props.text} `
     }
     {
       props.icon &&
       <FontAwesomeIcon icon={props.icon} />
     }
   </Button>
-)
+);

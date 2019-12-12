@@ -1,10 +1,10 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
+import 'bootstrap/dist/css/bootstrap.css';
+
 import { action } from '@storybook/addon-actions';
+import { storiesOf } from '@storybook/react';
+import React from 'react';
 
 import RecurringTransactionModal from './RecurringTransactionModal';
-
-import 'bootstrap/dist/css/bootstrap.css';
 
 export const actions = {
   close: action('close'),
@@ -12,4 +12,4 @@ export const actions = {
 };
 
 storiesOf('RecurringTransactionModal', module)
-  .add('default', () => <RecurringTransactionModal {...actions} />)
+  .add('default', () => <RecurringTransactionModal {...actions} />);

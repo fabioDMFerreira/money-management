@@ -1,4 +1,4 @@
-import DatesPositionsType from "./DatesPositionsType";
+import { DatesPositionsType } from './DatesPositionsType';
 
 export default (datesPartsPositions: DatesPositionsType) => (date?: string) => {
   if (!date) {
@@ -13,8 +13,8 @@ export default (datesPartsPositions: DatesPositionsType) => (date?: string) => {
     typeof (datesPartsPositions.month) === 'number' &&
     typeof (datesPartsPositions.day) === 'number'
   ) {
-    return match[datesPartsPositions.year + 1] + '-' + match[datesPartsPositions.month + 1] + '-' + match[datesPartsPositions.day + 1];
+    return `${match[datesPartsPositions.year + 1]}-${match[datesPartsPositions.month + 1]}-${match[datesPartsPositions.day + 1]}`;
   }
 
   return date;
-}
+};

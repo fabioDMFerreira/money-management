@@ -1,31 +1,34 @@
+
+import moment from 'moment';
 import React, { Component } from 'react';
 import { DateRangePicker as DateRangePickerComponent } from 'react-dates';
-import moment from 'moment';
+
 
 type Props = {
-  startDate: string | null | undefined,
-  endDate: string | null | undefined,
-  updateStartDate: (date: string | null | undefined) => any
-  updateEndDate: (date: string | null | undefined) => any
+  startDate: string | null | undefined;
+  endDate: string | null | undefined;
+  updateStartDate: (date: string | null | undefined) => any;
+  updateEndDate: (date: string | null | undefined) => any;
 }
 
 type State = {
-  dateRangeFocused: "startDate" | "endDate" | null,
+  dateRangeFocused: 'startDate' | 'endDate' | null;
 }
 
 export default class DateRangePicker extends Component<Props, State> {
-
   state = {
     dateRangeFocused: null,
   }
 
   render() {
-    const { startDate, endDate, updateStartDate, updateEndDate } = this.props;
+    const {
+      startDate, endDate, updateStartDate, updateEndDate,
+    } = this.props;
     const { dateRangeFocused } = this.state;
 
     return (
       <DateRangePickerComponent
-        showClearDates={true}
+        showClearDates
         isOutsideRange={() => false}
         startDate={startDate ? moment(startDate) : null}
         startDateId="global-filter-start-date"
@@ -33,10 +36,10 @@ export default class DateRangePicker extends Component<Props, State> {
         endDateId="global-filter-end-date"
         onDatesChange={
           ({ startDate: newStartDate, endDate: newEndDate }) => {
-            if (!newStartDate && startDate || newStartDate && newStartDate.format('YYYY-MM-DD') !== startDate) {
+            if ((!newStartDate && startDate) || (newStartDate && newStartDate.format('YYYY-MM-DD') !== startDate)) {
               updateStartDate(newStartDate && newStartDate.format('YYYY-MM-DD'));
             }
-            if (!newEndDate && endDate || newEndDate && newEndDate.format('YYYY-MM-DD') !== endDate) {
+            if ((!newEndDate && endDate) || (newEndDate && newEndDate.format('YYYY-MM-DD') !== endDate)) {
               updateEndDate(newEndDate && newEndDate.format('YYYY-MM-DD'));
             }
           }

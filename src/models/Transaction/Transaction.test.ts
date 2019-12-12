@@ -10,7 +10,6 @@ describe('Transaction class', () => {
     expect(transaction.totalValue).toEqual(1000);
     expect(transaction.description).toEqual('water bill');
     expect(transaction.particles).toEqual(1);
-
   });
 
   it('set particles should change value and endDate properties', () => {
@@ -28,7 +27,6 @@ describe('Transaction class', () => {
     expect(transaction.particles).toEqual(1);
     expect(transaction.endDate).toEqual(new Date('2018-01-01'));
     expect(transaction.value).toEqual(1000);
-
   });
 
   it('set endDate should change value and particles properties', () => {
@@ -72,7 +70,7 @@ describe('Transaction class', () => {
     expect(transaction.startDate).toEqual(new Date('2017-01-01'));
     expect(transaction.endDate).toEqual(new Date('2017-01-01'));
     expect(transaction.particles).toEqual(1);
-  })
+  });
 
   it('set value should change totalValue', () => {
     const transaction = new Transaction('water bill', 1000, new Date('2018-01-01'));
@@ -136,7 +134,7 @@ describe('Transaction class', () => {
     expect(transaction.particles).toEqual(1);
     expect(transaction.startDate).toEqual(new Date('2018-09-30'));
     expect(transaction.value).toEqual(1000);
-  })
+  });
 
   it('set end date should reset interval value', () => {
     const transaction = new Transaction('water bill', 1000, new Date('2018-01-01'));
@@ -164,6 +162,5 @@ describe('Transaction class', () => {
     transaction.interval = 5;
 
     expect(transaction.endDate).toEqual(new Date('2018-01-01'));
-  })
-
+  });
 });

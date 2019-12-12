@@ -1,33 +1,35 @@
-import React, { Fragment, Component } from 'react';
-import Button from 'reactstrap/lib/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import TransactionFieldsMetadata from 'models/Transaction/TransactionFieldsMetadata';
+import { Wallet } from 'models/Wallet';
+import React, { Component, Fragment } from 'react';
+import Button from 'reactstrap/lib/Button';
+import csvJSON from 'views/pages/Transactions/components/Transactions/ImportTransactions/csvJSON';
 import XLSX from 'xlsx';
 
-import TransactionFieldsMetadata from 'models/Transaction/TransactionFieldsMetadata';
-import csvJSON from 'views/pages/Transactions/components/Transactions/ImportTransactions/csvJSON';
 import validateTransactionData from '../validateTransactionData';
-import ImportTransactionsModal from './ImportTransactionsModal';
 import arrayObjectMapper from './arrayObjectMapper';
 import filterInvalidLines from './filterInvalidLines';
-import { Wallet } from 'models/Wallet';
+import ImportTransactionsModal from './ImportTransactionsModal';
+
 
 interface Props {
-  save: (transactions: object[]) => void
-  wallets: Wallet[],
-  createWallet?: any
+  save: (transactions: object[]) => void;
+  wallets: Wallet[];
+  createWallet?: any;
 }
 
 interface State {
-  modalOpened: boolean
-  importingData?: object[]
+  modalOpened: boolean;
+  importingData?: object[];
 }
 
 export default class ImportTransactions extends Component<Props, State> {
-
   state = {
     modalOpened: false,
-    importingData: []
+    importingData: [],
   }
 
   csvFileInput: any;
@@ -89,7 +91,7 @@ export default class ImportTransactions extends Component<Props, State> {
       const fileContent = arrayObjectMapper(dataFiltered, TransactionFieldsMetadata);
 
       this.importTransactions(fileContent);
-    }
+    };
 
     if (rABS) {
       reader.readAsBinaryString(file);
@@ -131,8 +133,7 @@ export default class ImportTransactions extends Component<Props, State> {
           opened={modalOpened}
           data={importingData}
           save={(transactions) => {
-
-            const transactionsValidated = transactions.map(transaction => {
+            const transactionsValidated = transactions.map((transaction) => {
               if (transaction.credit === transaction.debit) {
                 const value = transaction.credit && parseFloat(transaction.credit);
 
@@ -141,19 +142,19 @@ export default class ImportTransactions extends Component<Props, State> {
                     ...transaction,
                     credit: value > 0 ? JSON.stringify(value) : 0,
                     debit: value < 0 ? JSON.stringify(value * -1) : 0,
-                  }
+                  };
                 }
               }
 
               return {
-                ...transaction
+                ...transaction,
               };
             });
 
             this.props.save(transactionsValidated);
 
             this.setState({
-              modalOpened: false
+              modalOpened: false,
             });
           }
           }

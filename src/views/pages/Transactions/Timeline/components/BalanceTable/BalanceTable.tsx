@@ -1,8 +1,7 @@
+import { Balance } from 'models/Balance/Balance';
 import React, { Component } from 'react';
 import ReactTable, { SortingRule } from 'react-table';
 import styled from 'styled-components';
-
-import Balance from 'models/Balance/Balance';
 import YYYYMMDD from 'utils/YYYYMMDD';
 
 const BalanceTableContainer = styled.div`
@@ -29,98 +28,49 @@ const NotEditableCell = styled.span`
 `;
 
 type BalanceData = {
-  actualValue: number | undefined,
-  estimateValue: number | undefined
-  income: number,
-  outcome: number,
-  balance: number,
-  date: string | undefined,
+  actualValue: number | undefined;
+  estimateValue: number | undefined;
+  income: number;
+  outcome: number;
+  balance: number;
+  date: string | undefined;
 }
 
 type Props = {
-  balance: Balance[],
+  balance: Balance[];
 };
 
 type State = {
-  sorted: SortingRule[],
-  balance: BalanceData[],
+  sorted: SortingRule[];
+  balance: BalanceData[];
 };
 
-const numberCell = (cellInfo: any) => <span>{cellInfo.value && cellInfo.value.toFixed(2)}</span>
+const numberCell = (cellInfo: any) => <span>{cellInfo.value && cellInfo.value.toFixed(2)}</span>;
 
 export default class BalanceTable extends Component<Props, State> {
-
-  columns: object[] = [];
-
-  state = {
-    sorted: [] as SortingRule[],
-    balance: [] as BalanceData[],
-  }
-
   constructor(props: Props) {
     super(props);
 
     this.buildColumns(props);
 
     if (props.balance) {
-      this.state.balance = props.balance.map(this.parseBalanceIntoJSON)
+      this.state.balance = props.balance.map(this.parseBalanceIntoJSON);
     }
+  }
+
+
+  state = {
+    sorted: [] as SortingRule[],
+    balance: [] as BalanceData[],
   }
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.balance !== this.props.balance) {
       const balance = this.props.balance.map(this.parseBalanceIntoJSON);
       this.setState({
-        balance
+        balance,
       });
     }
-  }
-
-  parseBalanceIntoJSON = ({ balance, income, outcome, actualValue, estimateValue, date }: Balance): BalanceData => {
-    return {
-      balance,
-      income,
-      outcome,
-      actualValue,
-      estimateValue,
-      date: date ? YYYYMMDD(date) : undefined
-    };
-  }
-
-  buildColumns(props: Props) {
-    this.columns = [
-      {
-        Header: 'Date',
-        accessor: "date",
-        width: 180
-      },
-      {
-        Header: 'Actual value',
-        accessor: "actualValue",
-        Cell: numberCell,
-      },
-      {
-        Header: 'Estimate value',
-        accessor: "estimateValue",
-        Cell: numberCell,
-      },
-      {
-        Header: 'Balance',
-        accessor: "balance",
-        Cell: numberCell,
-        width: 180
-      }, {
-        Header: 'Income',
-        accessor: "income",
-        Cell: numberCell,
-        width: 100
-      }, {
-        Header: 'Outcome',
-        accessor: "outcome",
-        Cell: numberCell,
-        width: 150
-      },
-    ];
   }
 
   onSortedChange = (nextSorted: SortingRule[], column: any) => {
@@ -134,8 +84,57 @@ export default class BalanceTable extends Component<Props, State> {
     }
 
     this.setState({
-      sorted: nextSorted
+      sorted: nextSorted,
     });
+  }
+
+  columns: object[] = [];
+
+  parseBalanceIntoJSON = ({
+    balance, income, outcome, actualValue, estimateValue, date,
+  }: Balance): BalanceData => ({
+    balance,
+    income,
+    outcome,
+    actualValue,
+    estimateValue,
+    date: date ? YYYYMMDD(date) : undefined,
+  })
+
+  buildColumns(props: Props) {
+    this.columns = [
+      {
+        Header: 'Date',
+        accessor: 'date',
+        width: 180,
+      },
+      {
+        Header: 'Actual value',
+        accessor: 'actualValue',
+        Cell: numberCell,
+      },
+      {
+        Header: 'Estimate value',
+        accessor: 'estimateValue',
+        Cell: numberCell,
+      },
+      {
+        Header: 'Balance',
+        accessor: 'balance',
+        Cell: numberCell,
+        width: 180,
+      }, {
+        Header: 'Income',
+        accessor: 'income',
+        Cell: numberCell,
+        width: 100,
+      }, {
+        Header: 'Outcome',
+        accessor: 'outcome',
+        Cell: numberCell,
+        width: 150,
+      },
+    ];
   }
 
   render() {
@@ -144,14 +143,16 @@ export default class BalanceTable extends Component<Props, State> {
       balance,
     } = this.state;
 
-    return <BalanceTableContainer>
-      <ReactTable
-        data={balance}
-        columns={this.columns}
-        defaultPageSize={10}
-        sorted={sorted}
-        onSortedChange={this.onSortedChange}
-      />
-    </BalanceTableContainer>
+    return (
+      <BalanceTableContainer>
+        <ReactTable
+          data={balance}
+          columns={this.columns}
+          defaultPageSize={10}
+          sorted={sorted}
+          onSortedChange={this.onSortedChange}
+        />
+      </BalanceTableContainer>
+    );
   }
 }

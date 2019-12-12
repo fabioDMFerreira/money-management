@@ -1,19 +1,19 @@
-import React, { Fragment } from "react";
-import { Wallet } from "models/Wallet";
-import TransactionConfig from "models/Transaction/TransactionConfig";
+import { TransactionConfig } from 'models/Transaction/TransactionConfig';
+import { Wallet } from 'models/Wallet';
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { RouterProps, withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
+import Breadcrumb from 'reactstrap/lib/Breadcrumb';
+import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
+import { updateWallet } from 'state/ducks/wallets';
 
-import WalletComponent from "./Wallet";
-import { connect } from "react-redux";
-import { withRouter, RouterProps } from "react-router";
-import Breadcrumb from "reactstrap/lib/Breadcrumb";
-import BreadcrumbItem from "reactstrap/lib/BreadcrumbItem";
-import { Link } from "react-router-dom";
-import { updateWallet } from "state/ducks/wallets";
+import WalletComponent from './Wallet';
 
 interface Props {
-  wallet: Wallet,
-  transactions: TransactionConfig[],
-  update: typeof updateWallet
+  wallet: Wallet;
+  transactions: TransactionConfig[];
+  update: typeof updateWallet;
 }
 
 const WalletContainer = ({ wallet, transactions, update }: Props) => (
@@ -34,27 +34,21 @@ const WalletContainer = ({ wallet, transactions, update }: Props) => (
 );
 
 export default
-  withRouter(
-    connect(
-      (state: any, props: any) => {
-        const { financialForecast: { transactions: stateTransactions }, wallets: { wallets } } = state;
-        let wallet: any;
+withRouter(connect((state: any, props: any) => {
+  const { financialForecast: { transactions: stateTransactions }, wallets: { wallets } } = state;
+  let wallet: any;
 
-        if (props.match.params && props.match.params.id) {
-          wallet = wallets.find((wallet: Wallet) => wallet.id === props.match.params.id);
-        }
+  if (props.match.params && props.match.params.id) {
+    wallet = wallets.find((wallet: Wallet) => wallet.id === props.match.params.id);
+  }
 
-        return {
-          wallet,
-          transactions: wallet ?
-            stateTransactions.filter((transaction: TransactionConfig) => {
-              return transaction.wallet === wallet.id;
-            }).toJS() :
-            []
-          ,
-        };
-      }, {
-      update: updateWallet
-    }
-    )(WalletContainer)
-  )
+  return {
+    wallet,
+    transactions: wallet ?
+      stateTransactions.filter((transaction: TransactionConfig) => transaction.wallet === wallet.id).toJS() :
+      []
+    ,
+  };
+}, {
+  update: updateWallet,
+})(WalletContainer));

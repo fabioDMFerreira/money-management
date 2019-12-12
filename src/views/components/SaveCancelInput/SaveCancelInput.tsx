@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
+import Button from 'reactstrap/lib/Button';
 import Form from 'reactstrap/lib/Form';
 import Input from 'reactstrap/lib/Input';
-import Button from 'reactstrap/lib/Button';
 import styled from 'styled-components';
 
 interface Props {
-  initialValue: string,
-  cancel: () => void,
-  save: (value: string) => void
+  initialValue: string;
+  cancel: () => void;
+  save: (value: string) => void;
 }
 
 const SaveCancelContainer = styled.p`
@@ -16,17 +16,16 @@ margin-top: 5px;
 button{
   margin: 0px 10px 0px 0px;
 }
-`
+`;
 
 export default ({ cancel, save, initialValue }: Props) => {
-
-  const [value, setValue] = useState(initialValue)
+  const [value, setValue] = useState(initialValue);
 
   return (
     <Form>
       <Input
         value={value}
-        autoFocus={true}
+        autoFocus
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
       />
       <SaveCancelContainer>
@@ -34,5 +33,5 @@ export default ({ cancel, save, initialValue }: Props) => {
         <Button type="button" size="sm" color="link" onClick={() => cancel()}>Cancel</Button>
       </SaveCancelContainer>
     </Form>
-  )
+  );
 };

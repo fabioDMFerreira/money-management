@@ -1,9 +1,8 @@
-import { sumMonths, monthDiff, convertCurrencyToNumber } from "../utils";
-
-import TransactionConfig from "./TransactionConfig";
-
+import getRandomString from 'utils/getRandomString';
 import YYYYMMDD from 'utils/YYYYMMDD';
-import getRandomString from "utils/getRandomString";
+
+import { convertCurrencyToNumber, monthDiff, sumMonths } from '../utils';
+import { TransactionConfig } from './TransactionConfig';
 
 
 export default class Transaction {
@@ -31,7 +30,7 @@ export default class Transaction {
 
   set particles(particles: number) {
     if (this._interval === 1) {
-      this._endDate = sumMonths(this._endDate, particles - this._particles)
+      this._endDate = sumMonths(this._endDate, particles - this._particles);
     }
     this._particles = particles;
     this.value = this._totalValue / particles;
@@ -102,12 +101,11 @@ export default class Transaction {
   }
 
   static buildFromTransactionData(transactionData: TransactionConfig): Transaction {
-
     let value;
 
-    if (transactionData.credit && transactionData.credit !== "0") {
+    if (transactionData.credit && transactionData.credit !== '0') {
       value = convertCurrencyToNumber(transactionData.credit);
-    } else if (transactionData.debit && transactionData.debit !== "0") {
+    } else if (transactionData.debit && transactionData.debit !== '0') {
       value = -(convertCurrencyToNumber(transactionData.debit));
     } else {
       value = 0;
@@ -131,7 +129,6 @@ export default class Transaction {
 
     transaction.id = transactionData.id;
     transaction.description = transactionData.description;
-    transaction._value = transaction._value;
     transaction._totalValue = transactionData._totalValue;
     transaction._particles = transactionData._particles;
     transaction._interval = transactionData._interval;
@@ -145,14 +142,13 @@ export default class Transaction {
     return {
       id: this.id,
       description: this.description,
-      credit: '' + (this.value > 0 ? this.value : 0),
-      debit: '' + (this.value < 0 ? this.value * -1 : 0),
-      particles: '' + this.particles,
-      interval: '' + this.interval,
+      credit: `${this.value > 0 ? this.value : 0}`,
+      debit: `${this.value < 0 ? this.value * -1 : 0}`,
+      particles: `${this.particles}`,
+      interval: `${this.interval}`,
       startDate: YYYYMMDD(this.startDate),
       endDate: YYYYMMDD(this.endDate),
-      totalValue: '' + this.totalValue,
-    }
+      totalValue: `${this.totalValue}`,
+    };
   }
-
 }

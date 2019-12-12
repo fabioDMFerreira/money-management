@@ -1,10 +1,10 @@
+import chroma from 'chroma-js';
 import React from 'react';
 import Badge from 'reactstrap/lib/Badge';
-import chroma from 'chroma-js';
 
 interface Props {
-  label: string,
-  color?: string,
+  label: string;
+  color?: string;
 }
 
 export default ({ label, color = 'grey' }: Props) => {
@@ -15,7 +15,9 @@ export default ({ label, color = 'grey' }: Props) => {
       backgroundColor: chromaColor.alpha(0.1).css(),
       color,
       fontSize: '0.8rem',
-      lineHeight: '0.8rem'
-    }}>{label}</Badge>
+      lineHeight: '0.8rem',
+    }}
+    >{label}
+    </Badge>
   );
-}
+};

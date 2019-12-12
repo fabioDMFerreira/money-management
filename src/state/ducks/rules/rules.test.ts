@@ -1,81 +1,84 @@
-import rulesReducer from './rulesReducer';
-import { createRule, updateRule, removeRule } from './rulesActions';
+
 import { List } from 'immutable';
-import Rule from 'models/Rule';
+import { Rule } from 'models/Rule';
+
+import { createRule, removeRule, updateRule } from './rulesActions';
+import rulesReducer from './rulesReducer';
+
 
 describe('rulesReducer', () => {
-	it('should add rules', () => {
-		const actual = rulesReducer(
-			undefined,
-			createRule({
-				pattern: {
-					field: 'description',
-					value: 'car mortage',
-				},
-				rule: {
-					field: 'tags',
-					value: 'car',
-				},
-			}),
-		);
+  it('should add rules', () => {
+    const actual = rulesReducer(
+      undefined,
+      createRule({
+        pattern: {
+          field: 'description',
+          value: 'car mortage',
+        },
+        rule: {
+          field: 'tags',
+          value: 'car',
+        },
+      }),
+    );
 
-		expect(actual.rules.get(0).pattern).toEqual({
-			field: 'description',
-			value: 'car mortage',
-		});
+    expect(actual.rules.get(0).pattern).toEqual({
+      field: 'description',
+      value: 'car mortage',
+    });
 
-		expect(actual.rules.get(0).rule).toEqual({
-			field: 'tags',
-			value: 'car',
-		});
-	});
+    expect(actual.rules.get(0).rule).toEqual({
+      field: 'tags',
+      value: 'car',
+    });
+  });
 
-	it('should update rules', () => {
-		const state = {
-			rules: List<Rule>([{
-				id: '1',
-				pattern: {
-					field: 'description',
-					value: 'car mortage',
-				},
-				rule: {
-					field: 'tags',
-					value: 'car',
-				},
-			}]),
-		};
+  it('should update rules', () => {
+    const state = {
+      rules: List<Rule>([{
+        id: '1',
+        pattern: {
+          field: 'description',
+          value: 'car mortage',
+        },
+        rule: {
+          field: 'tags',
+          value: 'car',
+        },
+      }]),
+    };
 
-		const actual = rulesReducer(state, updateRule('1', { rule: { field: 'tags', value: 'car mortage' } }));
+    const actual = rulesReducer(state, updateRule('1', { rule: { field: 'tags', value: 'car mortage' } }));
 
-		expect(actual.rules.get(0).pattern).toEqual({
-			field: 'description',
-			value: 'car mortage',
-		});
+    expect(actual.rules.get(0).pattern).toEqual({
+      field: 'description',
+      value: 'car mortage',
+    });
 
-		expect(actual.rules.get(0).rule).toEqual({
-			field: 'tags',
-			value: 'car mortage',
-		});
-	});
+    expect(actual.rules.get(0).rule).toEqual({
+      field: 'tags',
+      value: 'car mortage',
+    });
+  });
 
-	it('should remove rules', () => {
-		const state = {
-			rules: List<Rule>([{
-				id: '1',
-				pattern: {
-					field: 'description',
-					value: 'car mortage',
-				},
-				rule: {
-					field: 'tags',
-					value: 'car',
-				},
-			}]),
-		};
+  it('should remove rules', () => {
+    const state = {
+      rules: List<Rule>([{
+        id: '1',
+        pattern: {
+          field: 'description',
+          value: 'car mortage',
+        },
+        rule: {
+          field: 'tags',
+          value: 'car',
+        },
+      }]),
+    };
 
-		const actual = rulesReducer(state, removeRule('1'));
-		const expected = { rules: List<Rule>([]) };
+    const actual = rulesReducer(state, removeRule('1'));
+    const expected = { rules: List<Rule>([]) };
 
-		expect(actual).toEqual(expected);
-	});
+    expect(actual).toEqual(expected);
+  });
 });

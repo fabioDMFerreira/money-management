@@ -1,5 +1,5 @@
-import getRandomString from "utils/getRandomString";
-import getRandomDarkColor from "utils/getRandomDarkColor";
+import getRandomDarkColor from 'utils/getRandomDarkColor';
+import getRandomString from 'utils/getRandomString';
 
 import { Wallet } from './Wallet';
 
@@ -9,7 +9,7 @@ export class WalletFactory {
       id: getRandomString(),
       name,
       balance,
-      color: color || getRandomDarkColor()
-    }
+      color: color || getRandomDarkColor(),
+    };
   }
 }

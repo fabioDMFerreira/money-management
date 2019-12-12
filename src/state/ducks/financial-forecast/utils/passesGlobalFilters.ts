@@ -1,7 +1,7 @@
 import { GlobalFilters } from 'models/GlobalFilters';
-import TransactionDataInterface from 'models/Transaction/TransactionConfig';
+import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 
-export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionDataInterface) => {
+export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionConfig) => {
   let matchesStartDate = true;
   let matchesEndDate = true;
   let matchesTags = true;
@@ -31,7 +31,7 @@ export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionD
     }
   }
 
-  if(globalFilters.wallet){
+  if (globalFilters.wallet) {
     matchesWallet = transaction.wallet === globalFilters.wallet;
   }
 
@@ -54,10 +54,10 @@ export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionD
   }
 
   return matchesStartDate &&
-  matchesEndDate &&
-  matchesTags &&
-  matchesCredit &&
-  matchesDebit &&
-  matchesDescription &&
-  matchesWallet;
-}
+    matchesEndDate &&
+    matchesTags &&
+    matchesCredit &&
+    matchesDebit &&
+    matchesDescription &&
+    matchesWallet;
+};

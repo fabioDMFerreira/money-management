@@ -1,13 +1,13 @@
+import { Tag } from 'models/Tag';
+import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import React, { Component } from 'react';
-import ReactTable, { SortingRule, Column } from 'react-table';
+import ReactTable, { Column, SortingRule } from 'react-table';
+import { dragTransaction, filterType, updateTransaction, updateTransactionsFilters } from 'state/ducks/financial-forecast/actions';
 import styled from 'styled-components';
 
-import TransactionData from 'models/Transaction/TransactionConfig';
-import { dragTransaction, updateTransaction, updateTransactionsFilters, filterType } from 'state/ducks/financial-forecast/actions';
-import { Tag } from 'models/Tag';
 import FilterComponent from './FilterComponent';
-import TransactionDataInterface from 'models/Transaction/TransactionConfig';
 import getTransactionsTableColumns from './getTransactionsTableColumns';
+
 
 const TransactionsTableContainer = styled.div`
   &&&&{
@@ -32,41 +32,36 @@ const TransactionsTableContainer = styled.div`
 `;
 
 
-
 export type Props = {
-  transactions: TransactionData[],
-  removeTransaction?: (transactionId: string) => void
-  updateTransaction?: any,
-  dragTransaction?: any,
-  createTag?: any,
-  select?: any,
-  unselect?: any,
-  selectAll?: any,
-  unselectAll?: any,
-  tags?: Tag[],
-  updateTransactionsFilters?: any,
-  selected?: any,
-  filters?: filterType[],
-  pageSize?: number,
+  transactions: TransactionConfig[];
+  removeTransaction?: (transactionId: string) => void;
+  updateTransaction?: any;
+  dragTransaction?: any;
+  createTag?: any;
+  select?: any;
+  unselect?: any;
+  selectAll?: any;
+  unselectAll?: any;
+  tags?: Tag[];
+  updateTransactionsFilters?: any;
+  selected?: any;
+  filters?: filterType[];
+  pageSize?: number;
 };
 
 type State = {
-  sorted: SortingRule[],
-  columns: object[],
+  sorted: SortingRule[];
+  columns: object[];
 };
 
 
 export default class TransactionsTable extends Component<Props, State> {
-
-  state = {
-    sorted: [],
-    columns: [] as object[],
-  }
-
   constructor(props: Props) {
     super(props);
 
-    const { updateTransaction, removeTransaction, selectAll, select, unselect, unselectAll } = props;
+    const {
+      updateTransaction, removeTransaction, selectAll, select, unselect, unselectAll,
+    } = props;
 
     this.state.columns = getTransactionsTableColumns({
       updateTransaction,
@@ -80,18 +75,11 @@ export default class TransactionsTable extends Component<Props, State> {
     });
   }
 
-  areAllSelected = () => {
-    if (!this.props.selected) {
-      return;
-    }
-
-    return Object.keys(this.props.selected).length === this.props.transactions.length &&
-      !Object.values(this.props.selected).some(val => !val)
+  state = {
+    sorted: [],
+    columns: [] as object[],
   }
 
-  isSelected = (id: string) => {
-    return this.props.selected[id];
-  }
 
   onSortedChange = (nextSorted: SortingRule[], column: any) => {
     const { sorted } = this.state;
@@ -104,9 +92,20 @@ export default class TransactionsTable extends Component<Props, State> {
     }
 
     this.setState({
-      sorted: nextSorted
+      sorted: nextSorted,
     });
   }
+
+  areAllSelected = () => {
+    if (!this.props.selected) {
+      return false;
+    }
+
+    return Object.keys(this.props.selected).length === this.props.transactions.length &&
+      !Object.values(this.props.selected).some(val => !val);
+  }
+
+  isSelected = (id: string) => this.props.selected[id]
 
   handleDragEnd = (result: any) => {
     if (!result.destination) {
@@ -123,37 +122,37 @@ export default class TransactionsTable extends Component<Props, State> {
       updateTransactionsFilters,
       filters,
       pageSize,
-    } = this.props
+    } = this.props;
 
     const {
       sorted,
-      columns
+      columns,
     } = this.state;
 
-    return <TransactionsTableContainer>
-      {/* <DragDropContext onDragEnd={this.handleDragEnd}> */}
-      <ReactTable
-        // TrComponent={DragTrComponent(sorted.length ? true : false)}
-        // TbodyComponent={DropTbodyComponent(sorted.length ? true : false)}
-        FilterComponent={FilterComponent}
+    return (
+      <TransactionsTableContainer>
+        {/* <DragDropContext onDragEnd={this.handleDragEnd}> */}
+        <ReactTable
+          // TrComponent={DragTrComponent(sorted.length ? true : false)}
+          // TbodyComponent={DropTbodyComponent(sorted.length ? true : false)}
+          FilterComponent={FilterComponent}
 
-        data={transactions}
-        columns={columns}
-        defaultPageSize={pageSize || 10}
-        sorted={sorted}
-        onSortedChange={this.onSortedChange}
-        getTrProps={(state: any, rowInfo: any, column: any) => {
-          return {
+          data={transactions}
+          columns={columns}
+          defaultPageSize={pageSize || 10}
+          sorted={sorted}
+          onSortedChange={this.onSortedChange}
+          getTrProps={(state: any, rowInfo: any, column: any) => ({
             rowInfo,
             className: rowInfo && !rowInfo.original.visible ? 'not-visible-transaction' : '',
-          };
-        }}
+          })}
 
-        filterable={false}
-        onFilteredChange={updateTransactionsFilters}
-        filtered={filters}
-      />
-      {/* </DragDropContext> */}
-    </TransactionsTableContainer>
+          filterable={false}
+          onFilteredChange={updateTransactionsFilters}
+          filtered={filters}
+        />
+        {/* </DragDropContext> */}
+      </TransactionsTableContainer>
+    );
   }
 }
