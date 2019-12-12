@@ -9,12 +9,13 @@ import { createLogger } from 'redux-logger';
 import rootReducer from './rootReducer';
 import initilizeLocalize from './localize';
 import generateRandomSeedMiddleware from './middlewares/generateRandomSeedMiddleware';
+import applyRulesMiddleware from './middlewares/applyRulesMiddleware';
 
 const persistConfig = {
 	key: 'state',
 	storage,
 	transforms: [immutableTransform({
-		whitelist: ['financialForecast', 'wallets', 'tags'],
+		whitelist: ['financialForecast', 'wallets', 'tags', 'rules'],
 	})],
 };
 
@@ -33,6 +34,7 @@ const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(
 	thunkMiddleware,
 	promiseMiddleware(),
 	generateRandomSeedMiddleware,
+	applyRulesMiddleware,
 	loggerMiddleware,
 )));
 

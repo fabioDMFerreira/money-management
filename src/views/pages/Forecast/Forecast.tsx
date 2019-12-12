@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from "react";
-import Timeline from "../FinancialForecast/Timeline/Timeline";
+import Timeline from "../Transactions/Timeline/Timeline";
 import { Wallet } from "models/Wallet";
 import Balance from "models/Balance";
 import TransactionConfig from "models/Transaction/TransactionConfig";
 import { connect } from "react-redux";
 import calculateTransactionsEstimatesBalance from "models/calculateTransactionsEstimatesBalance";
 import Estimates from "../../hocs/EstimatesContainerHoc";
-import Transactions from "../FinancialForecast/components/Transactions";
+import Transactions from "../Transactions/components/Transactions";
 
 interface Props {
   wallets: [Wallet],

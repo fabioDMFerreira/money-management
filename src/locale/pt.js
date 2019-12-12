@@ -56,6 +56,7 @@ import {
 	DONE,
 	GUIDE_TOUR_PRESENTATION,
 	DASHBOARD_PRESENTATION,
+	RULES,
 } from './consts';
 
 export default {
@@ -133,4 +134,5 @@ export default {
 	[PREVIOUS]: 'Anterior',
 	[SKIP]: 'Saltar',
 	[DONE]: 'Fim',
+	[RULES]: 'Regras',
 };

@@ -3,6 +3,7 @@ import React from 'react';
 import './LanguagesToggle.css';
 import { Language } from 'react-localize-redux';
 import Button from 'reactstrap/lib/Button';
+import getRandomString from 'utils/getRandomString';
 
 interface Props {
 	languages: Language[],
@@ -15,21 +16,19 @@ const LanguagesToggle = ({ currentLanguage, languages, setActiveLanguage }: Prop
 		{
 			languages.map(language =>
 				(
-					<React.Fragment>
-						<Button
-							color="link"
-							small
-							className={
-								`language-badge ${currentLanguage.code === language.code ?
-									'active' : ''
-								}`}
-							key={language.code}
-							onClick={() => setActiveLanguage(language.code)}
-							onKeyDown={() => setActiveLanguage(language.code)}
-						>
-							{language.name}
-						</Button>{' '}
-					</React.Fragment>
+					<Button
+						color="link"
+						size="sm"
+						className={
+							`language-badge ${currentLanguage.code === language.code ?
+								'active' : ''
+							}`}
+						key={language.code}
+						onClick={() => setActiveLanguage(language.code)}
+						onKeyDown={() => setActiveLanguage(language.code)}
+					>
+						{language.name}
+					</Button>
 				))
 		}
 	</React.Fragment>

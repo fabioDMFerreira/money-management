@@ -49,7 +49,7 @@ class TagsPageContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: any, props: any) => {
-  const { financialForecast: { transactions: stateTransactions } } = state;
+  const { financialForecast: { allTransactions: stateTransactions } } = state;
   const tags = getTagsSelector(state);
   let tag: any;
   let transactions: TransactionConfig[] = [];

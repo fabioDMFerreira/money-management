@@ -131,7 +131,7 @@ describe('FinancialForecastReducer', () => {
 
 				const actual = FinancialForecastReducer(state, bulkAddTransactions('TRANSACTIONS')([{
 					description: 't1',
-					startDate: '2018-04-21',
+					startDate: '2019-12-15',
 					tags: ['tag1', 'tag2'],
 				}, {
 					description: 't2',
@@ -140,7 +140,7 @@ describe('FinancialForecastReducer', () => {
 				},
 				{
 					description: 't3',
-					startDate: '2019-12-12',
+					startDate: '2019-12-10',
 					tags: ['tag3'],
 				},
 				]));

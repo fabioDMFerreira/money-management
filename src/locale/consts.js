@@ -133,3 +133,5 @@ export const PREVIOUS = 'PREVIOUS';
 export const SKIP = 'SKIP';
 
 export const DONE = 'DONE';
+
+export const RULES = 'RULES';
