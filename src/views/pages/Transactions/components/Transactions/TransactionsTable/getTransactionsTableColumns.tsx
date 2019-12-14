@@ -90,18 +90,24 @@ const tagsColumn = (actions: { updateTransaction: any }) => ({
     const { value } = filter;
     return row.tags && !!row.tags.find((tag: Tag) => tag.id && tag.id.startsWith(value.toLowerCase()));
   },
-  Cell: (cellInfo: any) => (
-    <TagSelect
-      tagsSelected={cellInfo.value}
-      onChange={
-        (value: { id: string; label: string; value: string }[]) => {
-          if (actions.updateTransaction) {
-            actions.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
+  Cell: (cellInfo: any) => {
+    if (cellInfo.original.isInternalTransaction) {
+      return <span>Internal Transaction / Refund</span>;
+    }
+
+    return (
+      <TagSelect
+        tagsSelected={cellInfo.value}
+        onChange={
+          (value: { id: string; label: string; value: string }[]) => {
+            if (actions.updateTransaction) {
+              actions.updateTransaction(cellInfo.original.id, value, cellInfo.column.id);
+            }
           }
         }
-      }
-    />
-  ),
+      />
+    );
+  },
   getProps: () => ({
     style: {
       overflow: 'visible',
@@ -183,6 +189,7 @@ const actionsColumn = (actions: { updateTransaction: any; removeTransaction: any
     visible={cellProps.original.visible}
     removeTransaction={actions.removeTransaction}
     updateTransaction={actions.updateTransaction}
+    isInternalTransaction={cellProps.original.isInternalTransaction}
     // dragDisabled={this.state.sorted.length ? true : false}
     dragDisabled
   />),

@@ -11,6 +11,7 @@ import { getTransactionByIdSelector, getTransactionsSelector } from './../ducks/
 const matchPatternAndGetTags = (rule: Rule, transaction: TransactionConfig) => {
   if (
     rule.rule.value instanceof Array &&
+    transaction &&
     transaction.description &&
     transaction.description.toLowerCase().indexOf(rule.pattern.value.toLowerCase()) >= 0
   ) {

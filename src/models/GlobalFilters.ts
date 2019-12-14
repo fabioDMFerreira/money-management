@@ -8,4 +8,5 @@ export interface GlobalFilters {
   debit?: number[];
   description?: string;
   wallet?: string;
+  hideInternalTransactions?: boolean;
 }

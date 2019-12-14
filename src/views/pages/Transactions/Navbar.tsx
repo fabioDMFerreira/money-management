@@ -1,7 +1,6 @@
 import classnames from 'classnames';
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import Nav from 'reactstrap/lib/Nav';
 import NavItem from 'reactstrap/lib/NavItem';
 import NavLink from 'reactstrap/lib/NavLink';

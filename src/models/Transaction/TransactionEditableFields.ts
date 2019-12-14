@@ -9,5 +9,6 @@ export type transactionEditableFields =
   'visible' |
   'tags' |
   'selected' |
-  'wallet';
+  'wallet' |
+  'isInternalTransaction';
 

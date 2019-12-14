@@ -12,4 +12,5 @@ export interface TransactionConfig {
   tags?: string[];
   selected?: boolean;
   wallet?: string;
+  isInternalTransaction?: boolean;
 }

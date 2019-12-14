@@ -3,9 +3,14 @@
   font-size: 0.7rem;
   line-height: 0.8rem;
   padding: 0px 3px;
-  color: blue;
+  color: #fff;
 
   &.active {
-    color: white;
+    color: #679E37;
+  }
+
+  &:hover{
+    color: #679E37;
+    text-decoration: none;
   }
 }

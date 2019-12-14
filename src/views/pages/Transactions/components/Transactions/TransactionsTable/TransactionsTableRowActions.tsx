@@ -1,6 +1,6 @@
 
 
-import { faBars, faEye, faEyeSlash, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faCoins, faEye, faEyeSlash, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { transactionEditableFields } from 'models/Transaction/TransactionEditableFields';
 import React, { Component } from 'react';
@@ -22,6 +22,7 @@ type Props = {
   removeTransaction: (transactionId: string) => void;
   updateTransaction: (transactionId: string, value: any, keyName: transactionEditableFields) => void;
   dragDisabled: boolean;
+  isInternalTransaction?: boolean;
 };
 
 
@@ -31,6 +32,7 @@ export default ({
   dragDisabled,
   removeTransaction,
   updateTransaction,
+  isInternalTransaction,
 }: Props) =>
   (
     <TableActionsContainer>
@@ -54,6 +56,35 @@ export default ({
           }
 
           return <Button color="link" onClick={() => updateTransaction(id, true, 'visible')}><FontAwesomeIcon icon={faEyeSlash} /></Button>;
+        })()
+      }
+
+      {
+        updateTransaction &&
+        (() => {
+          if (isInternalTransaction) {
+            return (
+              <Button
+                size="xs"
+                color="primary"
+                onClick={() => updateTransaction(id, false, 'isInternalTransaction')}
+                title="This is an internal transaction"
+              >
+                <FontAwesomeIcon icon={faCoins} />
+              </Button>);
+          }
+
+          return (
+            <Button
+              size="xs"
+              color="primary"
+              outline
+              onClick={() => updateTransaction(id, true, 'isInternalTransaction')}
+              title="Mark as internal transaction."
+            >
+              <FontAwesomeIcon icon={faCoins} />
+            </Button>
+          );
         })()
       }
 

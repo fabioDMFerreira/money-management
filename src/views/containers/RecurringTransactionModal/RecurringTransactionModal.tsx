@@ -45,7 +45,7 @@ interface RecurringTransactionConfig {
   totalValue: number;
   useTotalValue: boolean;
   useEndDate: boolean;
-  tags: Tag[];
+  tags: string[];
   wallet: string;
 }
 
@@ -121,7 +121,7 @@ class RecurringTransaction implements RecurringTransactionInterface {
         debit: valuePerTime < 0 ? (valuePerTime * -1).toString() : '0',
         totalValue: totalValue.toString(),
         particles: '1',
-        tags: this.data.tags.map(tag => tag.id),
+        tags: this.data.tags,
         wallet: this.data.wallet,
       });
       cursorDate = sumMonths(cursorDate, interval);

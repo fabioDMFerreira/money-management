@@ -98,6 +98,7 @@ export default class Transactions extends Component<Props, State> {
   configureTransactionFromCSV = (transaction: any) =>
     ({
       ...transaction,
+      isInternalTransaction: transaction.isInternalTransaction === 'true',
       tags: transaction.tags && JSON.parse(unescape(transaction.tags)).map((tagValue: Tag) => {
         const tag = this.props.tags.find(tag => tagValue.id === tag.id);
         if (tag) {
@@ -214,20 +215,20 @@ export default class Transactions extends Component<Props, State> {
             wallets={this.props.wallets}
             createWallet={this.props.createWallet}
           />
+          <ButtonWithConfirmation outline color="secondary" size="sm" onClick={clearTransactions}>
+            <FontAwesomeIcon icon={faTrash} /> Clear all
+          </ButtonWithConfirmation>
           {
             someSelected &&
             <Fragment>
-              <Button outline color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
+              <Button color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
                 <FontAwesomeIcon icon={faEdit} /> Bulk update
               </Button>
-              <ButtonWithConfirmation outline color="secondary" size="sm" onClick={this.props.bulkDeleteTransactions}>
+              <ButtonWithConfirmation color="secondary" size="sm" onClick={this.props.bulkDeleteTransactions}>
                 <FontAwesomeIcon icon={faTrash} /> Bulk delete
               </ButtonWithConfirmation>
             </Fragment>
           }
-          <ButtonWithConfirmation outline color="secondary" size="sm" onClick={clearTransactions}>
-            <FontAwesomeIcon icon={faTrash} /> Clear all
-          </ButtonWithConfirmation>
 
         </TableActions>
 

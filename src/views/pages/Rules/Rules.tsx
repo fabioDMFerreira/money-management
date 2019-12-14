@@ -47,6 +47,13 @@ export default (props: Props) => {
 
               setRules(rulesCopy);
             }}
+            close={() => {
+              const rulesCopy = rules.slice();
+
+              rulesCopy.splice(index, 1);
+
+              setRules(rulesCopy);
+            }}
           />))
         }
       </div>

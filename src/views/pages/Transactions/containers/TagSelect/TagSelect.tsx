@@ -46,7 +46,7 @@ const colorStyles = {
 
       ':active': {
         ...styles[':active'],
-        backgroundColor: !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
+        backgroundColor: !isDisabled && (isSelected ? data.color : generatedColor.alpha(0.3).css()),
       },
     };
   },
@@ -87,7 +87,12 @@ export default class TagSelect extends Component<Props> {
     let value: any[] = [];
 
     if (tagsSelected) {
-      value = tagsSelected.map(tag => this.findTagById(tag)).filter(v => v);
+      value = tagsSelected.map((tag) => {
+        if (tag === 'unassigned') {
+          return { value: 'unassigned', label: 'Unassigned' };
+        }
+        return this.findTagById(tag);
+      }).filter(v => v);
     }
 
     return (
@@ -95,7 +100,7 @@ export default class TagSelect extends Component<Props> {
         {...props}
         isMulti
         value={value}
-        options={[{ label: 'Unsassigned', value: 'null' }, ...tags.map(tag => ({ ...tag, value: tag.id }))]}
+        options={[{ label: 'Unsassigned', value: 'unassigned' }, ...tags.map(tag => ({ ...tag, value: tag.id }))]}
         placeholder="Select tags"
         onChange={(value) => {
           if (value) {

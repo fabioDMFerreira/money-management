@@ -9,6 +9,11 @@ export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionC
   let matchesDebit = true;
   let matchesDescription = true;
   let matchesWallet = true;
+  let matchesInternalTransaction = true;
+
+  if (!globalFilters) {
+    return true;
+  }
 
   if (globalFilters.startDate && transaction.startDate) {
     matchesStartDate = new Date(transaction.startDate) >= new Date(globalFilters.startDate);
@@ -26,13 +31,17 @@ export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionC
     const globalTagsIds = globalFilters.tags;
     matchesTags = transaction.tags.some(tag => globalTagsIds.includes(tag));
 
-    if (globalTagsIds.includes('null') && (!transaction.tags || !transaction.tags.length)) {
+    if (globalTagsIds.includes('unassigned') && (!transaction.tags || !transaction.tags.length)) {
       matchesTags = true;
     }
   }
 
   if (globalFilters.wallet) {
-    matchesWallet = transaction.wallet === globalFilters.wallet;
+    if (globalFilters.wallet === 'unassigned') {
+      matchesWallet = !transaction.wallet;
+    } else {
+      matchesWallet = transaction.wallet === globalFilters.wallet;
+    }
   }
 
   if (globalFilters.credit && transaction.credit && +transaction.credit > 0) {
@@ -53,11 +62,16 @@ export default (globalFilters: GlobalFilters = {}) => (transaction: TransactionC
     matchesDescription = false;
   }
 
+  if (globalFilters.hideInternalTransactions) {
+    matchesInternalTransaction = !transaction.isInternalTransaction;
+  }
+
   return matchesStartDate &&
     matchesEndDate &&
     matchesTags &&
     matchesCredit &&
     matchesDebit &&
     matchesDescription &&
-    matchesWallet;
+    matchesWallet &&
+    matchesInternalTransaction;
 };

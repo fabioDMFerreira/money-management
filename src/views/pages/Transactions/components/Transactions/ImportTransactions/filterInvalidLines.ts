@@ -19,6 +19,11 @@ const countFilledCells = (cells: string[]) => {
     }
   }
 
+  // hotfix
+  if (pendingCounter === 1) {
+    counter++;
+  }
+
   return counter;
 };
 

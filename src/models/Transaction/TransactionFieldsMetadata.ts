@@ -27,6 +27,9 @@ const TransactionFieldsMetadata: Metadata[] = [{
 }, {
   label: 'Debit',
   key: 'debit',
+}, {
+  label: 'Internal Transaction',
+  key: 'isInternalTransaction',
 },
 // {
 //   label: 'Particles',

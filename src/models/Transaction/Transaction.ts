@@ -9,6 +9,7 @@ export default class Transaction {
   id: string;
   description: string;
   wallet?: string;
+  isInternalTransaction?: boolean;
   _startDate: Date;
   _endDate: Date;
   _interval: number;
@@ -45,10 +46,10 @@ export default class Transaction {
       this._startDate = date;
     }
 
-    this._interval = 1;
-    this._particles = monthDiff(this.startDate, date);
+    // this._interval = 1;
+    // this._particles = monthDiff(this.startDate, date);
     this._endDate = date;
-    this.value = this._totalValue / this._particles;
+    // this.value = this._totalValue / this._particles;
   }
 
   get endDate(): Date {
@@ -57,7 +58,7 @@ export default class Transaction {
 
   set value(value: number) {
     this._value = value;
-    this._totalValue = value * this._particles;
+    // this._totalValue = value * this._particles;
   }
 
   get value(): number {
@@ -70,7 +71,7 @@ export default class Transaction {
 
   set totalValue(value: number) {
     this._totalValue = value;
-    this._value = value / this._particles;
+    // this._value = value / this._particles;
   }
 
   get startDate(): Date {
@@ -87,8 +88,8 @@ export default class Transaction {
     }
 
     this._startDate = date;
-    this._particles = monthDiff(this.startDate, this.endDate);
-    this._value = this._totalValue / this._particles;
+    // this._particles = monthDiff(this.startDate, this.endDate);
+    // this._value = this._totalValue / this._particles;
   }
 
   get interval(): number {
@@ -120,6 +121,7 @@ export default class Transaction {
     transaction._interval = transactionData.interval ? +transactionData.interval : 1;
     transaction._endDate = transactionData.endDate ? new Date(transactionData.endDate) : startDate;
     transaction._totalValue = transaction._value * transaction._particles;
+    transaction.isInternalTransaction = transactionData.isInternalTransaction;
 
     return transaction;
   }
@@ -134,6 +136,7 @@ export default class Transaction {
     transaction._interval = transactionData._interval;
     transaction._startDate = transactionData._startDate;
     transaction._endDate = transactionData._endDate;
+    transaction.isInternalTransaction = transactionData.isInternalTransaction;
 
     return transaction;
   }
@@ -149,6 +152,7 @@ export default class Transaction {
       startDate: YYYYMMDD(this.startDate),
       endDate: YYYYMMDD(this.endDate),
       totalValue: `${this.totalValue}`,
+      isInternalTransaction: this.isInternalTransaction,
     };
   }
 }

@@ -56,6 +56,7 @@ export default (field: transactionEditableFields, value: any) => (transaction: T
       transactionDB.interval = +value;
       break;
     default:
+      transactionDB[field] = value;
       break;
   }
 

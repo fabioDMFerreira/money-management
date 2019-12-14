@@ -16,16 +16,19 @@ export default ({
 }: Props) => {
   const options = [
     { label: 'All', value: '' },
-    { label: 'Unsassigned', value: 'null' },
+    { label: 'Unsassigned', value: 'unassigned' },
     ...wallets.map(wallet => ({ label: wallet.name, value: wallet.id })),
   ];
 
-  const value = wallets.find(wallet => wallet.id === walletSelected);
+  const value =
+    walletSelected === 'unassigned' ?
+      { name: 'Unsassigned', id: 'unassigned' } :
+      wallets.find(wallet => wallet.id === walletSelected);
 
   return (
     <Select
       {...props}
-      value={value ? { value: value.id, label: value.name } : { label: 'Unassigned', value: 'null' }}
+      value={value ? { value: value.id, label: value.name } : { label: 'All', value: '' }}
       options={options}
       placeholder="Select wallet"
       onChange={(value) => {

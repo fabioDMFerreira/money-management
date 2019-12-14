@@ -35,7 +35,8 @@ module.exports = {
     "no-continue": 1,
     "sort-imports": "off",
     "import/order": "off",
-    "import/first": "off"
+    "import/first": "off",
+    "@typescript-eslint/explicit-function-return-type": "off"
   },
   "env": {
     "jest/globals": true,

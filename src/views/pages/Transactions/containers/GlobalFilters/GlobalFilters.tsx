@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GlobalFilters } from 'models/GlobalFilters';
 import { Tag } from 'models/Tag';
 import { createSliderWithTooltip, Range as SliderRange } from 'rc-slider';
-import React, { Component, useState } from 'react';
+import React, { ChangeEvent, Component, useState } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import Button from 'reactstrap/lib/Button';
 import Card from 'reactstrap/lib/Card';
@@ -60,6 +60,7 @@ export default class GlobalFiltersComponent extends Component<Props, State> {
         debit,
         description,
         wallet,
+        hideInternalTransactions,
       },
       transactionsCount,
       allTransactionsCount,
@@ -191,6 +192,21 @@ export default class GlobalFiltersComponent extends Component<Props, State> {
                       }}
                     />
                   </FormGroup>
+                </Col>
+                <Col xs={2}>
+                  <Label check>
+                    <Input
+                      checked={hideInternalTransactions}
+                      onChange={
+                        (e: ChangeEvent<HTMLInputElement>) => {
+                          updateGlobalFilter('hideInternalTransactions', e.target.checked);
+                        }
+                      }
+                      type="checkbox"
+                      id="isInternalCheckbox"
+                    />{' '}
+                    Hide Internal Transactions
+                  </Label>
                 </Col>
               </Row>
             </CardBody>
