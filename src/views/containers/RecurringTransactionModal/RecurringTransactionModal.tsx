@@ -77,7 +77,7 @@ class RecurringTransaction implements RecurringTransactionInterface {
 
     if (this.data.useTotalValue && !this.data.totalValue) {
       return false;
-    } else if (!this.data.valuePerTime) {
+    } else if (!this.data.useTotalValue && !this.data.valuePerTime) {
       return false;
     }
 

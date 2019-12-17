@@ -35,8 +35,9 @@ export default (transactionsData: TransactionConfig[], wallets: Wallet[], initia
     return total;
   }, 0);
 
-  const forecastBeforeToday = minDate && new Forecast(sumMonths(minDate, -1), thisMonthFirstDay, { endValue });
-  const forecastAfterToday = maxDate && maxDate > thisMonthFirstDay && new Forecast(thisMonthFirstDay, maxDate, { initialValue: endValue });
+  const forecastBeforeToday = minDate && new Forecast(minDate, thisMonthFirstDay, { endValue });
+  const forecastAfterToday = maxDate && maxDate > sumMonths(thisMonthFirstDay, 1) &&
+    new Forecast(sumMonths(thisMonthFirstDay, 1), maxDate, { initialValue: endValue });
 
   let balance: Balance[] = [];
 

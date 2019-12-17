@@ -108,7 +108,11 @@ export default (props: DashboardProps) => {
             <Col xs={12}>
               <Card>
                 <CardBody>
-                  <Timeline balance={props.balance} transactions={props.allTransactions} hideControls />
+                  <Timeline
+                    balance={props.balance}
+                    transactions={props.allTransactions}
+                    hideControls
+                  />
                 </CardBody>
               </Card>
             </Col>
@@ -190,7 +194,11 @@ export default (props: DashboardProps) => {
             <Col xs={12}>
               <Card>
                 <CardBody>
-                  <TagsEnhanced transactions={props.allTransactions} tags={props.tags} hideControls />
+                  <TagsEnhanced
+                    transactions={props.allTransactions.filter(transaction => !transaction.isInternalTransaction)}
+                    tags={props.tags}
+                    hideControls
+                  />
                 </CardBody>
               </Card>
             </Col>

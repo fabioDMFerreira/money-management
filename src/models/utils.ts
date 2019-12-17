@@ -26,6 +26,11 @@ export const sumMonths = (date: Date, months: number): Date => {
   return summedDate;
 };
 
+export const utcDate = (date: Date): Date => {
+  date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  return date;
+};
+
 export const firstMonthDay = (date: Date): Date => {
   date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), 1));
   return date;
@@ -35,6 +40,15 @@ export const lastMonthDay = (date: Date): Date => {
   date = sumMonths(firstMonthDay(date), 1);
   date.setDate(date.getDate() - 1);
   return date;
+};
+
+export const isDateInGroup = (date: Date, groupDate: Date): boolean => {
+  const groupStartDate = firstMonthDay(groupDate);
+  const groupEndDate = lastMonthDay(groupDate);
+
+  date = firstMonthDay(date);
+
+  return groupStartDate <= date && groupEndDate >= date;
 };
 
 export const isDateIntervalInGroup = (startDate: Date, endDate: Date, groupDate: Date): boolean => {

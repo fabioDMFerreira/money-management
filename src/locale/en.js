@@ -49,6 +49,7 @@ import {
   SELECT_OPTION,
   SKIP,
   START_GUIDE_TOUR,
+  TAG_TRANSACTIONS,
   TAGS,
   TAGS_PRESENTATION,
   TIMELINE,
@@ -137,4 +138,5 @@ export default {
   [SKIP]: 'Skip',
   [DONE]: 'Done',
   [RULES]: 'Rules',
+  [TAG_TRANSACTIONS]: 'Tag Transactions',
 };

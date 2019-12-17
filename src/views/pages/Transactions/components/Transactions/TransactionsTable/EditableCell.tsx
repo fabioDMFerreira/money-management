@@ -32,7 +32,12 @@ export default ({ type, cellInfo, update }: Props) => {
         }
         value={cellInfo.value}
         onBlur={(e: any) => {
-          update(cellInfo.original.id, e.target.value, cellInfo.column.id);
+          const inputValue = e.target.value;
+          const originalValue = cellInfo.original[cellInfo.column.id];
+
+          if (inputValue !== originalValue) {
+            update(cellInfo.original.id, inputValue, cellInfo.column.id);
+          }
         }}
       />);
   }

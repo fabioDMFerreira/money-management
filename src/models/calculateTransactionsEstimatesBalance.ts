@@ -26,7 +26,6 @@ export default (transactionsData: TransactionConfig[], estimatesData: Transactio
   const transactionsBalance = calculateWalletsTransactionsBalance(transactionsData, wallets, minDate, maxDate);
   const estimatesBalance = calculateWalletsTransactionsBalance(estimatesData, wallets);
 
-
   transactionsBalance.forEach((monthBalance: Balance) => {
     const estimate =
       estimatesBalance.find((month: Balance) => (!!(monthBalance.date && month.date && YYYYMMDD(month.date) === YYYYMMDD(monthBalance.date))));

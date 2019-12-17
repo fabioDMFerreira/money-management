@@ -2,7 +2,7 @@
 
 import { faCloud, faCog, faCogs, faCreditCard, faGlobe, faMoneyBillWave, faTag, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { DASHBOARD, DONE, FORECAST, RULES, TAGS, TIMELINE, TRANSACTIONS, WALLETS } from 'locale/consts';
+import { DASHBOARD, DONE, FORECAST, RULES, TAG_TRANSACTIONS, TAGS, TIMELINE, TRANSACTIONS, WALLETS } from 'locale/consts';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
@@ -134,6 +134,9 @@ export default withRouter(({ location: { pathname } }: RouteComponentProps) => (
         </Nav>
         <Nav id="4">
           <SubNavItem to="/transactions/tags" active={pathname === '/transactions/tags'} title={TAGS} />
+        </Nav>
+        <Nav id="5">
+          <SubNavItem to="/transactions/tag-transactions" active={pathname === '/transactions/tag-transactions'} title={TAG_TRANSACTIONS} />
         </Nav>
       </Nav>
       <Nav id="3">

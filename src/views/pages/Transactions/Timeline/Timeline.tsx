@@ -35,7 +35,7 @@ type Props = {
   balance: Balance[];
 };
 
-export default class BalanceComponent extends Component<Props, State> {
+export default class Timeline extends Component<Props, State> {
   static propTypes = {
   }
 
@@ -74,7 +74,6 @@ export default class BalanceComponent extends Component<Props, State> {
 
   chartClick = (point: any) => {
     const monthSelected = point && point.activeLabel;
-
     this.filterByMonth(monthSelected);
   }
 

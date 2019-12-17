@@ -115,3 +115,5 @@ export const SKIP = 'SKIP';
 export const DONE = 'DONE';
 
 export const RULES = 'RULES';
+
+export const TAG_TRANSACTIONS = 'TAG_TRANSACTIONS';

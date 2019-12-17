@@ -27,7 +27,7 @@ export default connect(
 
     return {
       selectedTransactions: (financialForecast.selected && financialForecast.selected.toJS()) || {},
-      transactions: (props.transactions || financialForecast.transactions) && financialForecast.transactions.toJS(),
+      transactions: props.transactions || ((financialForecast.transactions && financialForecast.transactions.toJS()) || []),
       tags: getTagsSelector(state),
       filters: financialForecast.filters,
       wallets: wallets.wallets && wallets.wallets.toJS(),

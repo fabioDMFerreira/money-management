@@ -1,4 +1,13 @@
-import { convertCurrencyToNumber, firstMonthDay, isDateIntervalInGroup, isMonthsIntervalInGroup, lastMonthDay, monthDiff, sumMonths } from './utils';
+import {
+  convertCurrencyToNumber,
+  firstMonthDay,
+  isDateInGroup,
+  isDateIntervalInGroup,
+  isMonthsIntervalInGroup,
+  lastMonthDay,
+  monthDiff,
+  sumMonths,
+} from './utils';
 
 describe('Forecast utils', () => {
   it('monthsDiff should return the number of months between two dates', () => {
@@ -20,6 +29,12 @@ describe('Forecast utils', () => {
     it('should return a date with the months subtracted', () => {
       expect(sumMonths(new Date('2018-01-1'), -1)).toEqual(new Date('2017-12-1'));
       expect(sumMonths(new Date('2018-09-30'), -8)).toEqual(new Date('2018-01-30'));
+    });
+  });
+
+  describe('isDateInGroup', () => {
+    it('should return true if date is between month date', () => {
+      expect(isDateInGroup(new Date('2018-1-15'), new Date('2018-1-2'))).toEqual(true);
     });
   });
 

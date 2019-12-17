@@ -49,6 +49,7 @@ import {
   SELECT_OPTION,
   SKIP,
   START_GUIDE_TOUR,
+  TAG_TRANSACTIONS,
   TAGS,
   TAGS_PRESENTATION,
   TIMELINE,
@@ -103,7 +104,7 @@ export default {
 	Planeia o futuro financeiro.
 `,
   [TAGS_PRESENTATION]: `
-	Cria tags e consulta os movimentos associados.
+	Cria categorias e consulta os movimentos associados.
 `,
   [DASHBOARD_QUICK_ACTIONS_PRESENTATION]: `
 	Ações que facilitam a utilização da plataforma.
@@ -117,7 +118,7 @@ export default {
   [DEBIT]: 'Débito',
   [QUICK_ACTIONS]: 'Ações Rápidas',
   [ADD]: 'Cria',
-  [TAGS]: 'Tags',
+  [TAGS]: 'Categorias',
   [START_GUIDE_TOUR]: 'Tutorial',
   [LOAD_DATA_SAMPLE]: 'Carrega Amostra de Dados',
   [MORE]: 'Mais',
@@ -136,4 +137,5 @@ export default {
   [SKIP]: 'Saltar',
   [DONE]: 'Fim',
   [RULES]: 'Regras',
+  [TAG_TRANSACTIONS]: 'Categorizar Movimentos',
 };
