@@ -1,10 +1,10 @@
+import { Balance } from 'models/Balance';
+import Forecast from 'models/Forecast/Forecast';
+import Transaction from 'models/Transaction';
+import { firstMonthDay, isDateInGroup, monthDiff, sumMonths } from 'utils/dateUtils/dateUtils';
 import roundDecimal from 'utils/roundDecimal';
 
-import Forecast from '../Forecast/Forecast';
-import Transaction from '../Transaction';
-import { firstMonthDay, isDateInGroup, isDateIntervalInGroup, isMonthsIntervalInGroup, monthDiff, sumMonths } from '../utils';
-import { Balance } from './Balance';
-import calculateBalance from './calculateBalance';
+import calculateBalance from './calculateTransactionsBalance';
 
 export default (forecast: Forecast, transactions: Transaction[]): Balance[] => {
   const balances: Balance[] = [];
@@ -18,10 +18,6 @@ export default (forecast: Forecast, transactions: Transaction[]): Balance[] => {
 
     const monthTransactions: Transaction[] =
       transactions.filter(transaction =>
-        // if (transaction.interval > 1) {
-        //   return isMonthsIntervalInGroup(transaction.startDate, transaction.interval, transaction.particles, balanceDate);
-        // }
-        // return isDateIntervalInGroup(transaction.startDate, transaction.endDate, balanceDate);
         isDateInGroup(transaction.startDate, balanceDate));
 
     const balance = calculateBalance(monthTransactions);

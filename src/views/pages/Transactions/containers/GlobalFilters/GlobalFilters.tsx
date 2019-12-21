@@ -19,8 +19,8 @@ import Row from 'reactstrap/lib/Row';
 import DateRangePicker from 'views/components/DateRangePicker';
 import ToggleButton from 'views/components/ToggleButton';
 
-import TagSelect from '../TagSelect';
-import WalletSelect from '../WalletSelect';
+import TagSelect from '../../../../containers/TagSelect';
+import WalletSelect from '../../../../containers/WalletSelect';
 
 
 type Props = {

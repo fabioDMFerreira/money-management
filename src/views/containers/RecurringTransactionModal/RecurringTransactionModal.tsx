@@ -2,11 +2,9 @@
 
 import { faCogs, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Tag } from 'models/Tag';
 import Transaction from 'models/Transaction';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
-import { monthDiff, sumMonths } from 'models/utils';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import Button from 'reactstrap/lib/Button';
 import Col from 'reactstrap/lib/Col';
 import Container from 'reactstrap/lib/Container';
@@ -18,15 +16,13 @@ import Label from 'reactstrap/lib/Label';
 import Modal from 'reactstrap/lib/Modal';
 import ModalBody from 'reactstrap/lib/ModalBody';
 import ModalFooter from 'reactstrap/lib/ModalFooter';
-import ModalHeader from 'reactstrap/lib/ModalHeader';
 import Row from 'reactstrap/lib/Row';
+import { monthDiff, sumMonths } from 'utils/dateUtils';
+import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
 import getRandomString from 'utils/getRandomString';
-import YYYYMMDD from 'utils/YYYYMMDD';
-import TransactionsTable from 'views/pages/Transactions/components/Transactions/TransactionsTable';
-import TagSelect from 'views/pages/Transactions/containers/TagSelect';
-import WalletSelectContainer from 'views/pages/Transactions/containers/WalletSelect';
-import WalletSelect
-  from 'views/pages/Transactions/containers/WalletSelect/WalletSelect';
+import TagSelect from 'views/containers/TagSelect';
+import TransactionsTable from 'views/containers/TransactionsTable';
+import WalletSelectContainer from 'views/containers/WalletSelect';
 
 
 interface Props {

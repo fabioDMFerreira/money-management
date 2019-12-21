@@ -11,8 +11,8 @@ import Modal from 'reactstrap/lib/Modal';
 import ModalBody from 'reactstrap/lib/ModalBody';
 import ModalFooter from 'reactstrap/lib/ModalFooter';
 import ModalHeader from 'reactstrap/lib/ModalHeader';
-import TagSelect from 'views/pages/Transactions/containers/TagSelect/TagSelect';
-import WalletSelect from 'views/pages/Transactions/containers/WalletSelect/WalletSelect';
+import TagSelect from 'views/containers/TagSelect/TagSelect';
+import WalletSelect from 'views/containers/WalletSelect/WalletSelect';
 
 
 type Props = {

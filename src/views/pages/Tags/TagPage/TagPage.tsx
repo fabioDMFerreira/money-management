@@ -8,7 +8,7 @@ import Row from 'reactstrap/lib/Row';
 import TimelineContainer from 'views/pages/Transactions/Timeline';
 import Timeline from 'views/pages/Transactions/Timeline/Timeline';
 
-import TransactionsTable from '../../Transactions/components/Transactions/TransactionsTable/TransactionsTableContainer';
+import TransactionsTable from '../../../containers/TransactionsTable/TransactionsTableContainer';
 import TagItem from '../Settings/containers/TagItem';
 
 

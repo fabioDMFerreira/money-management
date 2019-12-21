@@ -7,7 +7,7 @@ import {
   lastMonthDay,
   monthDiff,
   sumMonths,
-} from './utils';
+} from './dateUtils';
 
 describe('Forecast utils', () => {
   it('monthsDiff should return the number of months between two dates', () => {

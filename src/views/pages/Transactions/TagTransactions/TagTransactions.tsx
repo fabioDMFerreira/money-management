@@ -12,8 +12,8 @@ import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
 import { getTransactionsSelector } from 'state/ducks/financial-forecast/transactionsSelectors';
 import { createRule } from 'state/ducks/rules';
 
-import TransactionsTable from '../components/Transactions/TransactionsTable/TransactionsTable';
-import TagSelect from '../containers/TagSelect';
+import TagSelect from '../../../containers/TagSelect';
+import TransactionsTable from '../../../containers/TransactionsTable/TransactionsTable';
 
 
 export default () => {

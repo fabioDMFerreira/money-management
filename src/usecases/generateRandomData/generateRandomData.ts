@@ -4,7 +4,7 @@ import Transaction from 'models/Transaction';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import { Wallet, WalletFactory } from 'models/Wallet';
 
-import { firstMonthDay, lastMonthDay } from '../utils';
+import { firstMonthDay, lastMonthDay } from '../../utils/dateUtils/dateUtils';
 
 
 export const setCreditOrDebit = (value: number, creditProb: number) => {

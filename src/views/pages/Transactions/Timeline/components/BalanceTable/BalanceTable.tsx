@@ -1,8 +1,8 @@
-import { Balance } from 'models/Balance/Balance';
+import { Balance } from 'models/Balance';
 import React, { Component } from 'react';
 import ReactTable, { SortingRule } from 'react-table';
 import styled from 'styled-components';
-import YYYYMMDD from 'utils/YYYYMMDD';
+import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
 
 const BalanceTableContainer = styled.div`
   &&&&{

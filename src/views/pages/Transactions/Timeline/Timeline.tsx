@@ -1,6 +1,6 @@
 import { faChartLine, faTable, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Balance } from 'models/Balance/Balance';
+import { Balance } from 'models/Balance';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import moment from 'moment';
 import React, { Component, Fragment } from 'react';
@@ -11,11 +11,11 @@ import {
   CartesianGrid, Legend, Line, LineChart, ResponsiveContainer,
   Tooltip, XAxis, YAxis,
 } from 'recharts';
-import YYYYMM from 'utils/YYYYMM';
+import YYYYMM from 'utils/dateUtils/YYYYMM';
 import Onboarding from 'views/components/Onboarding';
 import ToggleButton from 'views/components/ToggleButton';
 
-import Transactions from '../components/Transactions';
+import Transactions from '..';
 import TransactionsTable from '../TransactionsPage';
 import BalanceTable from './components/BalanceTable';
 

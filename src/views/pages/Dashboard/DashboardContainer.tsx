@@ -1,10 +1,10 @@
 import { Balance } from 'models/Balance';
-import calculateWalletsTransactionsBalance from 'models/calculateWalletsTransactionsBalance';
 import { Wallet } from 'models/Wallet';
 import React from 'react';
 import { connect } from 'react-redux';
 import { getTagsSelector } from 'state/ducks/tags';
 import { generateRandomSeedAction } from 'state/middlewares/generateRandomSeedMiddleware';
+import calculateWalletsTransactionsBalance from 'usecases/calculateBalance/calculateWalletsTransactionsBalance';
 
 import Dashboard from './Dashboard';
 import { DashboardProps } from './DashboardProps';

@@ -1,6 +1,6 @@
 
-import Forecast from '../Forecast/Forecast';
-import Transaction from '../Transaction';
+import Forecast from '../../models/Forecast/Forecast';
+import Transaction from '../../models/Transaction';
 import calculateReverseBalance from './calculateReverseBalance';
 
 

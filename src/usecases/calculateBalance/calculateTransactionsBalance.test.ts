@@ -1,7 +1,7 @@
 
-import Transaction from '../Transaction';
-import { Balance } from './Balance';
-import calculateBalance from './calculateBalance';
+import { Balance } from '../../models/Balance';
+import Transaction from '../../models/Transaction';
+import calculateBalance from './calculateTransactionsBalance';
 
 
 describe('calculate balance', () => {

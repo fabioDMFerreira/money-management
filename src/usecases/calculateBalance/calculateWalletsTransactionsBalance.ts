@@ -1,11 +1,12 @@
 import { Balance } from 'models/Balance';
-import calculateReverseBalance from 'models/Balance/calculateReverseBalance';
-import calculateForecastBalance from 'models/calculateForecastBalance';
 import Forecast from 'models/Forecast';
 import Transaction from 'models/Transaction';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
-import { firstMonthDay, sumMonths } from 'models/utils';
 import { Wallet } from 'models/Wallet';
+import { firstMonthDay, sumMonths } from 'utils/dateUtils/dateUtils';
+
+import calculateReverseBalance from './calculateReverseBalance';
+import calculateTransactionsBalancesByMonth from './calculateTransactionsBalancesByMonth';
 
 
 export default (transactionsData: TransactionConfig[], wallets: Wallet[], initialDate?: Date, finalDate?: Date): Balance[] => {
@@ -46,7 +47,7 @@ export default (transactionsData: TransactionConfig[], wallets: Wallet[], initia
   }
 
   if (forecastAfterToday) {
-    balance = balance.concat(calculateForecastBalance(forecastAfterToday, transactions));
+    balance = balance.concat(calculateTransactionsBalancesByMonth(transactions, forecastAfterToday.startDate, forecastAfterToday.endDate));
   }
 
   return balance;

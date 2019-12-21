@@ -1,12 +1,12 @@
 import { Balance } from 'models/Balance';
-import calculateTransactionsEstimatesBalance from 'models/calculateTransactionsEstimatesBalance';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import { Wallet } from 'models/Wallet';
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import calculateTransactionsEstimatesBalance from 'usecases/calculateBalance/calculateTransactionsEstimatesBalance';
 
 import Estimates from '../../hocs/EstimatesContainerHoc';
-import Transactions from '../Transactions/components/Transactions';
+import Transactions from '../Transactions';
 import Timeline from '../Transactions/Timeline/Timeline';
 
 interface Props {
@@ -20,7 +20,7 @@ const EstimatesComponent = Estimates(Transactions);
 
 
 const Forecast = ({
-  balance, allTransactions, allEstimates, wallets,
+  balance, allTransactions,
 }: Props) => (
   <Fragment>
     <h2>Forecast</h2>
@@ -37,7 +37,7 @@ const Forecast = ({
 );
 
 export default connect((state: any) => {
-  const { financialForecast: { allTransactions, tags, estimatesAllTransactions }, wallets: { wallets } } = state;
+  const { financialForecast: { allTransactions, estimatesAllTransactions }, wallets: { wallets } } = state;
 
   const balance: Balance[] =
     calculateTransactionsEstimatesBalance(allTransactions.toJS(), estimatesAllTransactions.toJS(), wallets.toJS()) || [];

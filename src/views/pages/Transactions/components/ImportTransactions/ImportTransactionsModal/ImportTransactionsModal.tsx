@@ -12,7 +12,7 @@ import ModalBody from 'reactstrap/lib/ModalBody';
 import ModalFooter from 'reactstrap/lib/ModalFooter';
 import ModalHeader from 'reactstrap/lib/ModalHeader';
 import Row from 'reactstrap/lib/Row';
-import WalletSelect from 'views/pages/Transactions/containers/WalletSelect/WalletSelect';
+import WalletSelect from 'views/containers/WalletSelect/WalletSelect';
 
 
 type LabelValue = {

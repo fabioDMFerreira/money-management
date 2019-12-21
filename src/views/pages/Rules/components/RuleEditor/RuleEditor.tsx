@@ -9,7 +9,7 @@ import Form from 'reactstrap/lib/Form';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Input from 'reactstrap/lib/Input';
 import Row from 'reactstrap/lib/Row';
-import TagSelect from 'views/pages/Transactions/containers/TagSelect/TagSelect';
+import TagSelect from 'views/containers/TagSelect/TagSelect';
 
 
 interface Props {

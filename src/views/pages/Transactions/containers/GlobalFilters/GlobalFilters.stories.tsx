@@ -5,9 +5,9 @@ import 'react-dates/initialize';
 
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
-import { sumMonths } from 'models/utils';
 import React from 'react';
-import YYYYMMDD from 'utils/YYYYMMDD';
+import { sumMonths } from 'utils/dateUtils/dateUtils';
+import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
 
 import GlobalFilters from './GlobalFilters';
 

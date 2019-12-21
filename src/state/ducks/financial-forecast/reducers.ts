@@ -2,11 +2,9 @@
 import { List, Map } from 'immutable';
 import { ForecastConfig } from 'models/Forecast/ForecastConfig';
 import { GlobalFilters } from 'models/GlobalFilters';
-import { Tag } from 'models/Tag';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
-import { sumMonths } from 'models/utils';
-import randomColor from 'randomcolor';
-import YYYYMMDD from 'utils/YYYYMMDD';
+import { sumMonths } from 'utils/dateUtils/dateUtils';
+import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
 
 import { filterType, FinancialForecastActions } from './actions';
 import { ESTIMATES, TRANSACTIONS } from './consts';
@@ -50,31 +48,6 @@ export const initialState: State = {
   selected: Map(),
   estimatesSelected: Map(),
 };
-
-const removeTag = (tag: Tag) => (transaction: any) => {
-  if (transaction.tags && transaction.tags.length) {
-    const tagIndex = transaction.tags.map((tag: any) => tag.id).indexOf(tag.id);
-
-    if (tagIndex >= 0) {
-      transaction.tags.splice(tagIndex, 1);
-    }
-  }
-
-  return transaction;
-};
-
-const updateTag = (tag: Tag, newTag: Tag) => (transaction: any) => {
-  if (transaction.tags && transaction.tags.length) {
-    const tagIndex = transaction.tags.map((tag: any) => tag.id).indexOf(tag.id);
-
-    if (tagIndex >= 0) {
-      transaction.tags[tagIndex] = newTag;
-    }
-  }
-
-  return transaction;
-};
-
 
 const transactionsReducer = transactionsReducerHoc(TRANSACTIONS, 'transactions', 'allTransactions', 'filters', 'selected');
 const estimatesReducer =

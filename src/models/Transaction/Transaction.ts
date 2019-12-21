@@ -1,7 +1,7 @@
+import { convertCurrencyToNumber, sumMonths } from 'utils/dateUtils/dateUtils';
+import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
 import getRandomString from 'utils/getRandomString';
-import YYYYMMDD from 'utils/YYYYMMDD';
 
-import { convertCurrencyToNumber, monthDiff, sumMonths } from '../utils';
 import { TransactionConfig } from './TransactionConfig';
 
 
@@ -46,10 +46,7 @@ export default class Transaction {
       this._startDate = date;
     }
 
-    // this._interval = 1;
-    // this._particles = monthDiff(this.startDate, date);
     this._endDate = date;
-    // this.value = this._totalValue / this._particles;
   }
 
   get endDate(): Date {
@@ -58,7 +55,6 @@ export default class Transaction {
 
   set value(value: number) {
     this._value = value;
-    // this._totalValue = value * this._particles;
   }
 
   get value(): number {
@@ -71,7 +67,6 @@ export default class Transaction {
 
   set totalValue(value: number) {
     this._totalValue = value;
-    // this._value = value / this._particles;
   }
 
   get startDate(): Date {
@@ -88,8 +83,6 @@ export default class Transaction {
     }
 
     this._startDate = date;
-    // this._particles = monthDiff(this.startDate, this.endDate);
-    // this._value = this._totalValue / this._particles;
   }
 
   get interval(): number {

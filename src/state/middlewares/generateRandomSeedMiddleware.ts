@@ -1,7 +1,7 @@
-import { generateRandomData } from 'models/Seed/generateRandomData';
 import { bulkAddTransactions, clearTransactions } from 'state/ducks/financial-forecast/actions';
 import { clearTags, createTag } from 'state/ducks/tags';
 import { clearWallets, createWallet } from 'state/ducks/wallets';
+import { generateRandomData } from 'usecases/generateRandomData/generateRandomData';
 
 const GENERATE_RANDOM_SEED = 'GENERATE_RANDOM_SEED';
 

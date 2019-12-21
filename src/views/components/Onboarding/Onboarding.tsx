@@ -1,4 +1,3 @@
-import { generateRandomData } from 'models/Seed/generateRandomData';
 import { Tag } from 'models/Tag';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import React, { Fragment } from 'react';
@@ -67,14 +66,6 @@ export default connect(null, {
             </NavLink>
           ))
         }
-        {/* <NavLink>
-          <a href="javascript:void(0)" onClick={() => {
-            const { transactions, tags} = generateRandomData(new Date(2018, 1, 1), new Date());
-            props.bulkAddTransactions(transactions);
-          }}>
-            Load transactions sample
-        </a>
-        </NavLink> */}
       </Nav>
     </Jumbotron>
   );

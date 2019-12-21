@@ -3,8 +3,8 @@
 import { List, Map } from 'immutable';
 import Transaction from 'models/Transaction';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
+import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
 import getRandomString from 'utils/getRandomString';
-import YYYYMMDD from 'utils/YYYYMMDD';
 
 import { FinancialForecastActions } from '../actions';
 import updateTransaction from '../updateTransaction';

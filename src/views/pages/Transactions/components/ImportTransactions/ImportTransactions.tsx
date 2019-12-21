@@ -6,13 +6,13 @@ import TransactionFieldsMetadata from 'models/Transaction/TransactionFieldsMetad
 import { Wallet } from 'models/Wallet';
 import React, { Component, Fragment } from 'react';
 import Button from 'reactstrap/lib/Button';
-import csvJSON from 'views/pages/Transactions/components/Transactions/ImportTransactions/csvJSON';
+import csvJSON from 'views/pages/Transactions/components/ImportTransactions/csvJSON';
 import XLSX from 'xlsx';
 
-import validateTransactionData from '../validateTransactionData';
 import arrayObjectMapper from './arrayObjectMapper';
 import filterInvalidLines from './filterInvalidLines';
 import ImportTransactionsModal from './ImportTransactionsModal';
+import validateTransactionData from './validateTransactionData';
 
 
 interface Props {

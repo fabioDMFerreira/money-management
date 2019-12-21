@@ -2,7 +2,7 @@ import { Balance } from 'models/Balance';
 import Transaction from 'models/Transaction';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import { Wallet } from 'models/Wallet';
-import YYYYMMDD from 'utils/YYYYMMDD';
+import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
 
 import calculateWalletsTransactionsBalance from './calculateWalletsTransactionsBalance';
 

@@ -1,35 +1,29 @@
 
 
 import {
-  faDownload,
   faEdit,
   faPlus,
   faTrash,
   faUpload,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Map } from 'immutable';
 import { Tag } from 'models/Tag';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import TransactionFieldsMetadata from 'models/Transaction/TransactionFieldsMetadata';
 import { Wallet } from 'models/Wallet';
-import randomColor from 'randomcolor';
 import React, { Component, Fragment } from 'react';
 import { CSVLink } from 'react-csv';
 import Button from 'reactstrap/lib/Button';
-import { dragTransaction, filterType, updateTransaction, updateTransactionsFilters } from 'state/ducks/financial-forecast/actions';
+import { dragTransaction, filterType, updateTransactionsFilters } from 'state/ducks/financial-forecast/actions';
 import { createWallet } from 'state/ducks/wallets';
 import styled from 'styled-components';
-import getRandomString from 'utils/getRandomString';
-import YYYYMMDD from 'utils/YYYYMMDD';
+import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
 import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
 import AddRecurringTransaction from 'views/containers/AddRecurringTransaction';
 
-import BulkUpdateModal from './BulkUpdateModal';
-import ImportTransactions from './ImportTransactions';
-import ImportTransactionsModal from './ImportTransactions/ImportTransactionsModal';
-import TransactionsTable from './TransactionsTable';
-import validateTransactionData from './validateTransactionData';
+import TransactionsTable from '../../containers/TransactionsTable';
+import BulkUpdateModal from './components/BulkUpdateModal';
+import ImportTransactions from './components/ImportTransactions';
 
 
 const TableActions = styled.div`

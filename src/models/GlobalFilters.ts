@@ -1,5 +1,3 @@
-import { Tag } from 'models/Tag';
-
 export interface GlobalFilters {
   startDate?: string;
   endDate?: string;
