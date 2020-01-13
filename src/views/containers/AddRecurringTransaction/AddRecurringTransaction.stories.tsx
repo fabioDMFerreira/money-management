@@ -9,7 +9,8 @@ import AddRecurringTransaction from './AddRecurringTransaction';
 export const actions = {
   // onPinTask: action('onPinTask'),
   // onArchiveTask: action('onArchiveTask'),
+  create: action('create'),
 };
 
 storiesOf('AddRecurringTransaction', module)
-  .add('default', () => <AddRecurringTransaction />);
+  .add('default', () => <AddRecurringTransaction {...actions} recurringTransactionType="contract" />);

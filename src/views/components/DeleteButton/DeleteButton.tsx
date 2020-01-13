@@ -8,7 +8,7 @@ import { ButtonProps } from 'reactstrap/lib/Button';
 import ButtonWithConfirmation from '../ButtonWithConfirmation';
 
 
-export default (props: ButtonProps) => (
+export default (props: ButtonProps & { onClick: (e: React.MouseEvent<HTMLButtonElement>) => void }) => (
   <ButtonWithConfirmation {...props} color="link" size="sm" >
     <FontAwesomeIcon icon={faTrash} />
   </ButtonWithConfirmation>

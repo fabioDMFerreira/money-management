@@ -191,10 +191,10 @@ export default class Transactions extends Component<Props, State> {
           <Button outline color="secondary" size="sm" onClick={addNewTransaction}>
             <FontAwesomeIcon icon={faPlus} /> Add
           </Button>
-          {
+          {/* {
             this.props.enableRecurringTransactions &&
-            <AddRecurringTransaction />
-          }
+            <AddRecurringTransaction recurringTransactionType="contract" />
+          } */}
           <CSVLink
             data={this.parseTransactionsToCsv(transactions)}
             filename={`transactions-${YYYYMMDD(new Date())}.csv`}

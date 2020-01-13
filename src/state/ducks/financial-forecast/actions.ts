@@ -6,6 +6,7 @@ import {
   ADD_NEW_TRANSACTION,
   BULK_ADD_TRANSACTIONS,
   BULK_DELETE_TRANSACTIONS,
+  BULK_DELETE_TRANSACTIONS_BY_ID,
   CLEAR_TRANSACTIONS,
   DELETE_TRANSACTION,
   DRAG_TRANSACTION,
@@ -52,6 +53,18 @@ export const bulkAddTransactions = (key: TransactionType) => (transactions: Tran
 export const bulkDeleteTransactions = (key: TransactionType) => (): ActionBulkDeleteTransactionsInterface => ({
   type: BULK_DELETE_TRANSACTIONS,
   key,
+});
+
+export interface ActionBulkDeleteTransactionsByIdInterface {
+  type: typeof BULK_DELETE_TRANSACTIONS_BY_ID;
+  key: TransactionType;
+  ids: string[];
+}
+
+export const bulkDeleteTransactionsById = (key: TransactionType) => (ids: string[]): ActionBulkDeleteTransactionsByIdInterface => ({
+  type: BULK_DELETE_TRANSACTIONS_BY_ID,
+  key,
+  ids,
 });
 
 export interface ActionUpdateTransactionInterface {
@@ -208,6 +221,7 @@ export type FinancialForecastActions =
   ActionAddNewTransactionInterface |
   ActionBulkAddTransactionsInterface |
   ActionBulkDeleteTransactionsInterface |
+  ActionBulkDeleteTransactionsByIdInterface |
   ActionUpdateTransactionInterface |
   ActionDeleteTransactionInterface |
   ActionClearTransactionsInterface |

@@ -11,7 +11,8 @@ import updateTransaction from '../updateTransaction';
 import {
   ADD_NEW_TRANSACTION,
   BULK_ADD_TRANSACTIONS,
-  BULK_DELETE_TRANSACTIONS, CLEAR_TRANSACTIONS,
+  BULK_DELETE_TRANSACTIONS, BULK_DELETE_TRANSACTIONS_BY_ID,
+  CLEAR_TRANSACTIONS,
   DELETE_TRANSACTION,
   DRAG_TRANSACTION,
   SELECT_ALL_TRANSACTIONS, SELECT_TRANSACTION, UNSELECT_ALL_TRANSACTIONS,
@@ -108,6 +109,15 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
           [allTransactionsKey]:
             state[allTransactionsKey].filter((transaction: TransactionConfig) => transaction.id && !state[selectedKey].get(transaction.id)),
           [selectedKey]: state[selectedKey].filter((v: boolean) => !v),
+        };
+      }
+      case BULK_DELETE_TRANSACTIONS_BY_ID: {
+        return {
+          ...state,
+          [transactionsKey]:
+            state[transactionsKey].filter((transaction: TransactionConfig) => transaction.id && !action.ids.includes(transaction.id)),
+          [allTransactionsKey]:
+            state[allTransactionsKey].filter((transaction: TransactionConfig) => transaction.id && !action.ids.includes(transaction.id)),
         };
       }
       case UPDATE_TRANSACTION: {

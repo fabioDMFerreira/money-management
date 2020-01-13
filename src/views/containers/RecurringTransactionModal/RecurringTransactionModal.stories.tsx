@@ -12,4 +12,4 @@ export const actions = {
 };
 
 storiesOf('RecurringTransactionModal', module)
-  .add('default', () => <RecurringTransactionModal {...actions} />);
+  .add('default', () => <RecurringTransactionModal {...actions} recurringTransactionType="contract" />);

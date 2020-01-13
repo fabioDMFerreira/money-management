@@ -2,7 +2,7 @@
 
 import { faCogs, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Transaction from 'models/Transaction';
+import { RecurringTransaction, RecurringTransactionConfig, RecurringTransactionType } from 'models/RecurringTransaction';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import React, { useState } from 'react';
 import Button from 'reactstrap/lib/Button';
@@ -17,118 +17,19 @@ import Modal from 'reactstrap/lib/Modal';
 import ModalBody from 'reactstrap/lib/ModalBody';
 import ModalFooter from 'reactstrap/lib/ModalFooter';
 import Row from 'reactstrap/lib/Row';
-import { monthDiff, sumMonths } from 'utils/dateUtils';
 import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
-import getRandomString from 'utils/getRandomString';
 import TagSelect from 'views/containers/TagSelect';
 import TransactionsTable from 'views/containers/TransactionsTable';
 import WalletSelectContainer from 'views/containers/WalletSelect';
 
 
 interface Props {
-  save: (transactions: TransactionConfig[]) => any;
+  recurringTransactionType: RecurringTransactionType;
+  save: (recurringTransaction: RecurringTransactionConfig) => any;
   close: () => any;
 }
 
-
-interface RecurringTransactionConfig {
-  description: string;
-  startDate: Date;
-  endDate?: Date;
-  times: number;
-  interval: number;
-  valuePerTime: number;
-  totalValue: number;
-  useTotalValue: boolean;
-  useEndDate: boolean;
-  tags: string[];
-  wallet: string;
-}
-
-interface RecurringTransactionInterface {
-  isValid: () => boolean;
-  generateTransactions: () => TransactionConfig[];
-
-  transactionsRefs: Transaction[];
-
-  data: RecurringTransactionConfig;
-}
-
-class RecurringTransaction implements RecurringTransactionInterface {
-  transactionsRefs: Transaction[] = [];
-  data: RecurringTransactionConfig;
-
-  constructor(data: RecurringTransactionConfig) {
-    this.data = data;
-  }
-
-  isValid() {
-    if (!this.data.description) {
-      return false;
-    }
-
-    if (!this.data.startDate) {
-      return false;
-    }
-
-    if (this.data.useTotalValue && !this.data.totalValue) {
-      return false;
-    } else if (!this.data.useTotalValue && !this.data.valuePerTime) {
-      return false;
-    }
-
-    if (this.data.useEndDate && !this.data.endDate) {
-      return false;
-    } else if (!this.data.times) {
-      return false;
-    }
-
-    return true;
-  }
-
-  generateTransactions() {
-    const transactions: TransactionConfig[] = [];
-    let valuePerTime;
-    let times;
-    const { interval } = this.data;
-    let cursorDate = this.data.startDate;
-    let totalValue;
-
-    if (this.data.useEndDate && this.data.endDate) {
-      times = Math.floor(monthDiff(this.data.startDate, this.data.endDate) / interval);
-    } else {
-      times = this.data.times;
-    }
-
-    if (this.data.useTotalValue && this.data.totalValue) {
-      totalValue = this.data.totalValue;
-      valuePerTime = this.data.totalValue / times;
-    } else {
-      totalValue = this.data.valuePerTime * times;
-      valuePerTime = this.data.valuePerTime;
-    }
-
-    while (times) {
-      transactions.push({
-        id: getRandomString(),
-        description: this.data.description,
-        startDate: YYYYMMDD(cursorDate),
-        credit: valuePerTime > 0 ? valuePerTime.toString() : '0',
-        debit: valuePerTime < 0 ? (valuePerTime * -1).toString() : '0',
-        totalValue: totalValue.toString(),
-        particles: '1',
-        tags: this.data.tags,
-        wallet: this.data.wallet,
-      });
-      cursorDate = sumMonths(cursorDate, interval);
-      times--;
-    }
-
-    return transactions;
-  }
-}
-
-export default ({ close, save }: Props) => {
+export default ({ close, save, recurringTransactionType }: Props) => {
   const [description, setDescription] = useState('Recurring Transaction');
   const [startDate, setStartDate] = useState(YYYYMMDD(new Date()));
   const [endDate, setEndDate] = useState('');
@@ -147,9 +48,10 @@ export default ({ close, save }: Props) => {
 
   let isRecurringTransactionValid;
   let recurringTransaction: RecurringTransaction;
+  let recurringTransactionConfig: RecurringTransactionConfig;
 
   if (startDate) {
-    recurringTransaction = new RecurringTransaction({
+    recurringTransactionConfig = {
       description,
       startDate: new Date(startDate),
       endDate: endDate ? new Date(endDate) : undefined,
@@ -161,7 +63,9 @@ export default ({ close, save }: Props) => {
       useEndDate,
       wallet: walletSelected,
       tags: tagsSelected,
-    });
+      type: recurringTransactionType,
+    };
+    recurringTransaction = new RecurringTransaction(recurringTransactionConfig);
 
     isRecurringTransactionValid = recurringTransaction.isValid();
   } else {
@@ -320,7 +224,7 @@ export default ({ close, save }: Props) => {
         <Button
           color="primary"
           disabled={!transactions.length}
-          onClick={() => save(transactions)}
+          onClick={() => save(recurringTransactionConfig)}
         ><FontAwesomeIcon icon={faPlus} /> Create
         </Button>{' '}
         <Button color="secondary" onClick={close}>Cancel</Button>

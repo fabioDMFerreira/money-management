@@ -11,6 +11,7 @@ import thunkMiddleware from 'redux-thunk';
 import initilizeLocalize from './localize';
 import applyRulesMiddleware from './middlewares/applyRulesMiddleware';
 import generateRandomSeedMiddleware from './middlewares/generateRandomSeedMiddleware';
+import generateRecurringTransactionsEstimatesMiddleware from './middlewares/generateRecurringTransactionsEstimatesMiddleware';
 import rootReducer from './rootReducer';
 
 
@@ -19,7 +20,7 @@ const persistConfig = {
   storage,
   transforms: [
     immutableTransform({
-      whitelist: ['financialForecast', 'wallets', 'tags', 'rules'],
+      whitelist: ['financialForecast', 'wallets', 'tags', 'rules', 'budgets', 'contracts'],
     }),
   ],
 };
@@ -39,6 +40,7 @@ const store = createStore(
   composeEnhancers(applyMiddleware(
     thunkMiddleware,
     promiseMiddleware(),
+    generateRecurringTransactionsEstimatesMiddleware,
     generateRandomSeedMiddleware,
     applyRulesMiddleware,
     loggerMiddleware,

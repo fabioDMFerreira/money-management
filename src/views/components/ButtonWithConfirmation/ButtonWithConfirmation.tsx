@@ -1,5 +1,5 @@
 import { NO, YES } from 'locale/consts';
-import React, { Component, Fragment, MouseEvent } from 'react';
+import React, { Component, Fragment } from 'react';
 import Button, { ButtonProps } from 'reactstrap/lib/Button';
 import Popover from 'reactstrap/lib/Popover';
 import PopoverBody from 'reactstrap/lib/PopoverBody';
@@ -9,8 +9,8 @@ import getRandomString from 'utils/getRandomString';
 import Translate from '../Translate';
 
 type Props = {
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   confirmationMessage?: any;
-  [key: string]: any;
 } & ButtonProps;
 
 type State = {
@@ -18,9 +18,37 @@ type State = {
   popoverOpen: boolean;
 }
 
+// export default (props: Props) => {
+//   const [popoverOpen, setPopoverOpen] = useState(false);
+//   const id = `Confirm-${getRandomString()}`;
+
+//   const confirm = (e: React.MouseEvent<HTMLButtonElement>) => {
+//     setPopoverOpen(false);
+//     if (props.onClick) {
+//       props.onClick(e);
+//     }
+//   };
+
+//   return (
+//     <Fragment >
+//       <Button {...props} id={id} onClick={() => setPopoverOpen(true)}>
+//         {props.children}
+//       </Button>
+//       <Popover placement="bottom" isOpen={popoverOpen} target={id}>
+//         <PopoverHeader>{props.confirmationMessage || 'Are you sure?'}</PopoverHeader>
+//         <PopoverBody>
+//           <Button color="primary" onClick={confirm}><Translate id={YES} /></Button>
+//           {' '}
+//           <Button onClick={() => setPopoverOpen(false)} color="secondary"><Translate id={NO} /></Button>
+//         </PopoverBody>
+//       </Popover>
+//     </Fragment>
+//   );
+// };
+
 export default class ButtonWithConfirmation extends Component<Props, State> {
   state: State = {
-    id: getRandomString(5),
+    id: getRandomString(),
     popoverOpen: false,
   }
 
@@ -30,9 +58,7 @@ export default class ButtonWithConfirmation extends Component<Props, State> {
 
   confirm = (e: React.MouseEvent<HTMLButtonElement>): void => {
     this.closePopover();
-    if (this.props.onClick) {
-      this.props.onClick(e);
-    }
+    this.props.onClick(e);
   }
 
   render() {

@@ -2,8 +2,6 @@ import './Main.css';
 
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-// import Home from 'scenes/Home';
-// import Authentication from 'scenes/Authentication';
 import Dashboard from 'views/pages/Dashboard';
 import Forecast from 'views/pages/Forecast';
 import NotFound from 'views/pages/NotFound';
