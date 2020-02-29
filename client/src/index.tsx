@@ -41,7 +41,7 @@ const client = new BackendClient();
     );
   } else {
     render(
-      <Auth0Provider>
+      <Auth0Provider domain="" client_id="">
         <BackendProvider client={client}>
           <AppWithStore />
         </BackendProvider>

@@ -16,21 +16,21 @@ import {
 } from 'state/ducks/financial-forecast/actions';
 import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
 import { createTag, getTagsSelector } from 'state/ducks/tags';
-import { createWallet } from 'state/ducks/wallets';
+import { createWallet, getWalletsSelector } from 'state/ducks/wallets';
 
 
 const Transactions = ({ TransactionsComponent, ...props }: any) => <TransactionsComponent {...props} />;
 
 export default connect(
   (state: any, props: any) => {
-    const { financialForecast, wallets } = state;
+    const { financialForecast } = state;
 
     return {
       selectedTransactions: (financialForecast.selected && financialForecast.selected.toJS()) || {},
       transactions: props.transactions || ((financialForecast.transactions && financialForecast.transactions.toJS()) || []),
       tags: getTagsSelector(state),
       filters: financialForecast.filters,
-      wallets: wallets.wallets && wallets.wallets.toJS(),
+      wallets: getWalletsSelector(state),
     };
   },
   {

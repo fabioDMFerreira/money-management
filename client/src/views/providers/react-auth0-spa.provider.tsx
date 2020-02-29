@@ -6,8 +6,8 @@ const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
 
 interface Auth0ProviderProps {
-  children: React.ReactChildren;
-  onRedirectCallback: any;
+  children: React.ReactNode;
+  onRedirectCallback?: any;
 }
 
 interface Auth0Context {

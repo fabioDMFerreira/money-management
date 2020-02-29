@@ -2,13 +2,14 @@ import Transaction from 'models/Transaction';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import React from 'react';
 import { connect } from 'react-redux';
+import { getWalletsSelector } from 'state/ducks/wallets';
 import calculateTransactionsBalancesByMonth from 'usecases/calculateBalance/calculateTransactionsBalancesByMonth';
 
 import passesFilters from './passesFilters';
 import Timeline from './Timeline';
 
 const TimelineContainer = connect((state: any) => {
-  const { financialForecast, wallets: { wallets } } = state;
+  const { financialForecast } = state;
 
   const transactions = financialForecast.transactions ?
     financialForecast
@@ -29,7 +30,7 @@ const TimelineContainer = connect((state: any) => {
   return {
     estimatesTransactions,
     transactions,
-    wallets: wallets ? wallets.toJS() : [],
+    wallets: getWalletsSelector(state),
     balance: calculateTransactionsBalancesByMonth(realTransactions),
   };
 })(Timeline);

@@ -10,7 +10,7 @@ const hash = (str: string) => crypto
   .digest('hex');
 
 interface BackendProviderProps {
-  children: React.ReactChildren;
+  children: React.ReactNode;
   client: BackendClient;
 }
 

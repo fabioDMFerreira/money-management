@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { useAuth0 } from 'views/providers/react-auth0-spa.provider';
 
 interface GuarderProps {
-  children: React.ReactChildren;
+  children: React.ReactNode;
 }
 
 const Guarder = ({ children }: GuarderProps) => {
