@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "photoId": "p7",
+    "rate": 1,
+    "userId": 1
+  },
+  {
+    "id": 2,
+    "photoId": "p1",
+    "rate": -1,
+    "userId": 1
+  },
+  {
+    "id": 3,
+    "photoId": "p9",
+    "rate": -1,
+    "userId": 1
+  },
+  {
+    "id": 4,
+    "photoId": "p1",
+    "rate": -1,
+    "userId": 1
+  },
+  {
+    "id": 5,
+    "photoId": "p9",
+    "rate": -1,
+    "userId": 1
+  }
+]
