@@ -1,6 +1,6 @@
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import { Wallet } from 'models/Wallet';
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import Col from 'reactstrap/lib/Col';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Input from 'reactstrap/lib/Input';

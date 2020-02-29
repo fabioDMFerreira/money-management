@@ -2,6 +2,7 @@
 
 import { localizeReducer as localize } from 'react-localize-redux';
 import { combineReducers } from 'redux';
+import { persistentReducer } from 'redux-pouchdb';
 
 import authentication from './ducks/authentication';
 import budgetsReducer from './ducks/budgets/budgetsReducer';
@@ -11,16 +12,13 @@ import rulesReducer from './ducks/rules';
 import tagsReducer from './ducks/tags';
 import walletsReducer from './ducks/wallets';
 
-
-const rootReducer = combineReducers({
+export default pouchdb => combineReducers({
   localize,
   authentication,
   financialForecast: FinancialForecastReducer,
-  wallets: walletsReducer,
+  wallets: persistentReducer(pouchdb, 'wallets')(walletsReducer),
   tags: tagsReducer,
   rules: rulesReducer,
   contracts: contractsReducer,
   budgets: budgetsReducer,
 });
-
-export default rootReducer;

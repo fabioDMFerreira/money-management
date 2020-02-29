@@ -1,12 +1,11 @@
 import 'intro.js/introjs.css';
+import './GuideTour.css';
 
 import introJs from 'intro.js';
 import { DONE, NEXT, PREVIOUS, SKIP } from 'locale/consts';
 import React, { useState } from 'react';
 import { getTranslate } from 'react-localize-redux';
 import { connect } from 'react-redux';
-
-import guideTourStyles from './GuideTour.css';
 
 export interface GuideTourStep {
   selector: string;

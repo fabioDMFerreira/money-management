@@ -54,7 +54,7 @@ const Settings = (props: Props) =>
     </Fragment>
   );
 
-export default connect(
+const SettingsContainer = connect(
   (state: any) => ({
     tags: getTagsSelector(state),
   })
@@ -62,3 +62,5 @@ export default connect(
     createTag,
   },
 )(Settings);
+
+export default () => <SettingsContainer />;

@@ -1,4 +1,4 @@
-export { default } from './reducer';
+export { default } from './walletsReducer';
 
 export * from './actions';
 export * from './types';

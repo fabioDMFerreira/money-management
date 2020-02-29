@@ -36,7 +36,6 @@ type Props = {
 type State = {
   unmatchedDataHeaders: LabelValue[];
   existingFields: Mapper[];
-  updateFormOpened: boolean;
   wallet?: string;
 }
 
@@ -51,7 +50,6 @@ export default class ImportTransactionsModal extends Component<Props, State> {
   state = {
     unmatchedDataHeaders: [] as LabelValue[],
     existingFields: TransactionFieldsMetadata.slice(),
-    updateFormOpened: false,
     wallet: undefined,
   }
 
@@ -142,7 +140,7 @@ export default class ImportTransactionsModal extends Component<Props, State> {
 
   render() {
     const {
-      existingFields, unmatchedDataHeaders, updateFormOpened, wallet,
+      existingFields, unmatchedDataHeaders, wallet,
     } = this.state;
     const { opened, close, data } = this.props;
 

@@ -27,7 +27,7 @@ const countFilledCells = (cells: string[]) => {
   return counter;
 };
 
-const getMaxIndex = (n: number[]) => {
+export const getMaxIndex = (n: number[]) => {
   if (!n || !number.length) {
     return -1;
   }

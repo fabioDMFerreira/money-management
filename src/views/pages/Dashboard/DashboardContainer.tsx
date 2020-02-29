@@ -3,26 +3,22 @@ import { Wallet } from 'models/Wallet';
 import React from 'react';
 import { connect } from 'react-redux';
 import { getTagsSelector } from 'state/ducks/tags';
+import { getWalletsSelector } from 'state/ducks/wallets';
 import { generateRandomSeedAction } from 'state/middlewares/generateRandomSeedMiddleware';
 import calculateWalletsTransactionsBalance from 'usecases/calculateBalance/calculateWalletsTransactionsBalance';
 
 import Dashboard from './Dashboard';
-import { DashboardProps } from './DashboardProps';
 
-const DashboardContainer = (props: DashboardProps) => (
-  <Dashboard {...props} />
-);
-
-
-export default connect((state: any) => {
-  const { financialForecast: { allTransactions, estimatesAllTransactions }, wallets: { wallets } } = state;
+const DashboardContainer = connect((state: any) => {
+  const { financialForecast: { allTransactions, estimatesAllTransactions } } = state;
+  const wallets = getWalletsSelector(state);
   const tags = getTagsSelector(state);
   const balance: Balance[] =
-    calculateWalletsTransactionsBalance(allTransactions.toJS(), wallets.toJS()) || [];
+    calculateWalletsTransactionsBalance(allTransactions.toJS(), wallets) || [];
 
   return {
     totalBalance: wallets ?
-      wallets.toJS().reduce((total: number, wallet: Wallet) => {
+      wallets.reduce((total: number, wallet: Wallet) => {
         total += wallet.balance;
 
         return total;
@@ -30,10 +26,10 @@ export default connect((state: any) => {
       0,
     totalTransactions: allTransactions.size,
     totalTags: tags.length,
-    totalWallets: wallets.size,
+    totalWallets: wallets.length,
     totalEstimates: estimatesAllTransactions.size,
     lastTransactions: allTransactions.slice(0, 5),
-    wallets: wallets.toJS() || [],
+    wallets,
     allTransactions: allTransactions.toJS() || [],
     estimatesAllTransactions: estimatesAllTransactions.toJS() || [],
     tags,
@@ -41,4 +37,6 @@ export default connect((state: any) => {
   };
 }, {
   loadSampleData: generateRandomSeedAction,
-})(DashboardContainer);
+})(Dashboard);
+
+export default () => <DashboardContainer />;

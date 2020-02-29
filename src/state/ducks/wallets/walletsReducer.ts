@@ -1,5 +1,4 @@
 
-import { List } from 'immutable';
 import { Wallet } from 'models/Wallet/Wallet';
 
 import {
@@ -12,34 +11,37 @@ import {
 
 
 export interface WalletsState {
-  wallets: List<Wallet>;
+  wallets: Wallet[];
 }
 
 export const initialState: WalletsState = {
-  wallets: List<Wallet>(),
+  wallets: [],
 };
 
 export default (state: WalletsState = initialState, action: WalletActions): WalletsState => {
   switch (action.type) {
-    case CREATE_WALLET: return {
-      ...state,
-      wallets: state.wallets.push(action.payload),
-    };
+    case CREATE_WALLET: {
+      return {
+        ...state,
+        wallets: [...state.wallets, action.payload],
+      };
+    }
     case UPDATE_WALLET: return {
       ...state,
-      wallets: state.wallets
-        .update(
-          state.wallets.findIndex(wallet => !!(wallet && wallet.id === action.id)),
-          wallet => ({ ...wallet, ...action.payload }),
-        ),
+      wallets: state.wallets.map((wallet) => {
+        if (wallet.id === action.id) {
+          return { ...wallet, ...action.payload };
+        }
+        return wallet;
+      }),
     };
     case REMOVE_WALLET: return {
       ...state,
-      wallets: state.wallets.remove(state.wallets.findIndex(wallet => !!(wallet && wallet.id === action.id))),
+      wallets: state.wallets.filter(wallet => wallet && wallet.id !== action.id),
     };
     case CLEAR_WALLETS: return {
       ...state,
-      wallets: List<Wallet>(),
+      wallets: [],
     };
     default: return state;
   }

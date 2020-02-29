@@ -3,7 +3,7 @@
 import { faBars, faCoins, faEye, faEyeSlash, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { transactionEditableFields } from 'models/Transaction/TransactionEditableFields';
-import React, { Component } from 'react';
+import React from 'react';
 import Button from 'reactstrap/lib/Button';
 import styled from 'styled-components';
 import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';

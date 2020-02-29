@@ -57,7 +57,7 @@ export default (props: DashboardProps) => {
             <Card>
               <CardBody>
                 <CardTitle><Translate id={BALANCE} /></CardTitle>
-                <CardText><h2>{props.totalBalance}</h2></CardText>
+                <h2><CardText>{props.totalBalance}</CardText></h2>
               </CardBody>
             </Card>
           </Col>
@@ -66,7 +66,7 @@ export default (props: DashboardProps) => {
               <Card>
                 <CardBody>
                   <CardTitle><Translate id={WALLETS} /></CardTitle>
-                  <CardText><h2>{props.totalWallets}</h2></CardText>
+                  <h2><CardText>{props.totalWallets}</CardText></h2>
                 </CardBody>
               </Card>
             </RRNavLink>
@@ -76,7 +76,7 @@ export default (props: DashboardProps) => {
               <Card>
                 <CardBody>
                   <CardTitle><Translate id={TRANSACTIONS} /></CardTitle>
-                  <CardText><h2>{props.totalTransactions}</h2></CardText>
+                  <h2><CardText>{props.totalTransactions}</CardText></h2>
                 </CardBody>
               </Card>
             </RRNavLink>
@@ -86,7 +86,7 @@ export default (props: DashboardProps) => {
               <Card>
                 <CardBody>
                   <CardTitle><Translate id={ESTIMATES} /></CardTitle>
-                  <CardText><h2>{props.totalEstimates}</h2></CardText>
+                  <h2><CardText>{props.totalEstimates}</CardText></h2>
                 </CardBody>
               </Card>
             </RRNavLink>

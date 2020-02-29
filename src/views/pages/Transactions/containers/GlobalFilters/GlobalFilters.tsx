@@ -1,11 +1,9 @@
 
 
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GlobalFilters } from 'models/GlobalFilters';
-import { Tag } from 'models/Tag';
 import { createSliderWithTooltip, Range as SliderRange } from 'rc-slider';
-import React, { ChangeEvent, Component, useState } from 'react';
+import React, { ChangeEvent, Component } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import Button from 'reactstrap/lib/Button';
 import Card from 'reactstrap/lib/Card';

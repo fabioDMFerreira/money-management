@@ -1,7 +1,6 @@
 import { Tag } from 'models/Tag';
 import { Wallet } from 'models/Wallet';
 import React, { ChangeEvent, Component } from 'react';
-import Select from 'react-select/lib/Creatable';
 import Button from 'reactstrap/lib/Button';
 import Form from 'reactstrap/lib/Form';
 import FormGroup from 'reactstrap/lib/FormGroup';

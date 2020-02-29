@@ -18,15 +18,6 @@ const BalanceTableContainer = styled.div`
   }
 `;
 
-const NotEditableCell = styled.span`
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  text-align: center;
-  display: block;
-  color: rgb(73, 80, 87);
-`;
-
 type BalanceData = {
   actualValue: number | undefined;
   estimateValue: number | undefined;

@@ -7,7 +7,7 @@ import Col from 'reactstrap/lib/Col';
 import ListGroup from 'reactstrap/lib/ListGroup';
 import ListGroupItem from 'reactstrap/lib/ListGroupItem';
 import Row from 'reactstrap/lib/Row';
-import { createWallet } from 'state/ducks/wallets';
+import { createWallet, getWalletsSelector } from 'state/ducks/wallets';
 import NewButton from 'views/components/NewButton';
 
 import WalletItem from './containers/WalletItem';
@@ -49,15 +49,13 @@ const Settings = (props: Props) =>
     </Fragment>
   );
 
-export default connect(
-  (state: any) => {
-    const { wallets: { wallets } } = state;
-
-    return {
-      wallets: wallets && wallets.toJS(),
-    };
-  }
+const WalletsContainer = connect(
+  (state: any) => ({
+    wallets: getWalletsSelector(state),
+  })
   , {
     createWallet,
   },
 )(Settings);
+
+export default () => <WalletsContainer />;

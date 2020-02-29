@@ -1,26 +1,14 @@
 import { Tag } from 'models/Tag';
 import React from 'react';
-import { ValueType } from 'react-select/lib/types';
 import { Column } from 'react-table';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Input from 'reactstrap/lib/Input';
-import { selectAllTransactions, selectTransaction, unselectAllTransactions, unselectTransaction } from 'state/ducks/financial-forecast/actions';
-import styled from 'styled-components';
 import TagSelect from 'views/containers/TagSelect';
 import WalletSelect from 'views/containers/WalletSelect';
 
 import EditableCell from './EditableCell';
 import TransactionsTableRowActions from './TransactionsTableRowActions';
 
-
-const NotEditableCell = styled.span`
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  text-align: center;
-  display: block;
-  color: rgb(73, 80, 87);
-`;
 
 interface Props {
   updateTransaction: any;

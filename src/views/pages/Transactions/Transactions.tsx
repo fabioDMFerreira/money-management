@@ -19,7 +19,6 @@ import { createWallet } from 'state/ducks/wallets';
 import styled from 'styled-components';
 import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
 import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
-import AddRecurringTransaction from 'views/containers/AddRecurringTransaction';
 
 import TransactionsTable from '../../containers/TransactionsTable';
 import BulkUpdateModal from './components/BulkUpdateModal';
@@ -60,8 +59,6 @@ type Props = {
 
 type State = {
   bulkUpdateModalOpened: boolean;
-  importingModalOpened: boolean;
-  importingData: object[];
 }
 
 
@@ -72,8 +69,6 @@ export default class Transactions extends Component<Props, State> {
 
   state: State = {
     bulkUpdateModalOpened: false,
-    importingModalOpened: false,
-    importingData: [],
   }
 
   fileInput: any;
@@ -159,8 +154,6 @@ export default class Transactions extends Component<Props, State> {
 
   render() {
     const {
-      importingModalOpened,
-      importingData,
       bulkUpdateModalOpened,
     } = this.state;
 
@@ -170,7 +163,6 @@ export default class Transactions extends Component<Props, State> {
       createTag,
       tags,
       transactions,
-      bulkAddTransactions,
       filters,
       deleteTransaction,
       selectTransaction,

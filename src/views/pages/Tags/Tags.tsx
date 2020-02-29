@@ -66,7 +66,7 @@ export default class Tags extends Component<Props, State> {
     const { pieCreditData, pieDebitData } = this.state;
 
     const {
-      updateTagsView, hideControls, transactions, tags,
+      updateTagsView, hideControls, transactions,
     } = this.props;
 
     const tagsView = this.props.tagsView || 'chart';

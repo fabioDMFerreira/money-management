@@ -1,8 +1,8 @@
 
 
-import { faCloud, faCog, faCogs, faCreditCard, faGlobe, faMoneyBillWave, faTag, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faCloud, faCogs, faCreditCard, faGlobe, faMoneyBillWave, faTag, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { DASHBOARD, DONE, FORECAST, RULES, TAG_TRANSACTIONS, TAGS, TIMELINE, TRANSACTIONS, WALLETS } from 'locale/consts';
+import { DASHBOARD, FORECAST, RULES, TAG_TRANSACTIONS, TAGS, TIMELINE, TRANSACTIONS, WALLETS } from 'locale/consts';
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
@@ -103,60 +103,68 @@ const SubNavItem: React.FC<SubNavItemProps> = (props: any) => (
   </SubTitle>
 );
 
-export default withRouter(({ location: { pathname } }: RouteComponentProps) => (
-  <Container>
-    <NavTitle>
-      <FontAwesomeIcon icon={faMoneyBillWave} />
-    </NavTitle>
-    <SideNav defaultSelectedPath="1">
-      <Nav id="1">
-        <div id="dashboard-link">
-          <NavItem icon={faGlobe} title={DASHBOARD} to="/" active={pathname === '/'} />
-        </div>
-      </Nav>
-      <Nav id="2">
-        <div id="wallets-link">
-          <NavItem icon={faWallet} to="/wallets" active={pathname === '/wallets'} title={WALLETS} />
-        </div>
-      </Nav>
-      <Nav id="3">
-        <div id="transactions-link">
-          <NavItem icon={faCreditCard} title={TRANSACTIONS} to="/transactions" active={pathname === '/transactions'} />
-        </div>
+export default withRouter(({ location: { pathname } }: RouteComponentProps) =>
+// const { logout } = useAuth0();
+
+  (
+    <Container>
+      <NavTitle>
+        <FontAwesomeIcon icon={faMoneyBillWave} />
+      </NavTitle>
+      <SideNav defaultSelectedPath="1">
         <Nav id="1">
-          <SubNavItem to="/transactions" active={pathname === '/transactions'} title={TRANSACTIONS} />
+          <div id="dashboard-link">
+            <NavItem icon={faGlobe} title={DASHBOARD} to="/" active={pathname === '/'} />
+          </div>
         </Nav>
-        {/* <Nav id="2">
+        <Nav id="2">
+          <div id="wallets-link">
+            <NavItem icon={faWallet} to="/wallets" active={pathname === '/wallets'} title={WALLETS} />
+          </div>
+        </Nav>
+        <Nav id="3">
+          <div id="transactions-link">
+            <NavItem icon={faCreditCard} title={TRANSACTIONS} to="/transactions" active={pathname === '/transactions'} />
+          </div>
+          <Nav id="1">
+            <SubNavItem to="/transactions" active={pathname === '/transactions'} title={TRANSACTIONS} />
+          </Nav>
+          {/* <Nav id="2">
             <SubNavItem to="/estimates" active={pathname === '/estimates'} title="Estimates" />
           </Nav> */}
-        <Nav id="3">
-          <SubNavItem to="/timeline" active={pathname === '/timeline'} title={TIMELINE} />
+          <Nav id="3">
+            <SubNavItem to="/timeline" active={pathname === '/timeline'} title={TIMELINE} />
+          </Nav>
+          <Nav id="4">
+            <SubNavItem to="/transactions/tags" active={pathname === '/transactions/tags'} title={TAGS} />
+          </Nav>
+          <Nav id="5">
+            <SubNavItem to="/transactions/tag-transactions" active={pathname === '/transactions/tag-transactions'} title={TAG_TRANSACTIONS} />
+          </Nav>
         </Nav>
-        <Nav id="4">
-          <SubNavItem to="/transactions/tags" active={pathname === '/transactions/tags'} title={TAGS} />
+        <Nav id="3">
+          <div id="forecast-link">
+            <NavItem icon={faCloud} to="/forecast" active={pathname === '/forecast'} title={FORECAST} />
+          </div>
         </Nav>
         <Nav id="5">
-          <SubNavItem to="/transactions/tag-transactions" active={pathname === '/transactions/tag-transactions'} title={TAG_TRANSACTIONS} />
+          <div id="tags-link">
+            <NavItem icon={faTag} title={TAGS} to="/tags" active={pathname === '/tags'} />
+          </div>
         </Nav>
-      </Nav>
-      <Nav id="3">
-        <div id="forecast-link">
-          <NavItem icon={faCloud} to="/forecast" active={pathname === '/forecast'} title={FORECAST} />
-        </div>
-      </Nav>
-      <Nav id="5">
-        <div id="tags-link">
-          <NavItem icon={faTag} title={TAGS} to="/tags" active={pathname === '/tags'} />
-        </div>
-      </Nav>
-      <Nav id="6">
-        <div id="rules-link">
-          <NavItem icon={faCogs} title={RULES} to="/rules" active={pathname === '/rules'} />
-        </div>
-      </Nav>
-    </SideNav>
-    <div className="mt-4">
-      <LanguagesToggle />
-    </div>
-  </Container>
-));
+        <Nav id="6">
+          <div id="rules-link">
+            <NavItem icon={faCogs} title={RULES} to="/rules" active={pathname === '/rules'} />
+          </div>
+        </Nav>
+        {/* <Nav id="7">
+          <div>
+            <Button color="link" style={{ color: 'red' }} onClick={() => logout()}>Logout</Button>
+          </div>
+        </Nav> */}
+      </SideNav>
+      <div className="mt-4">
+        <LanguagesToggle />
+      </div>
+    </Container>
+  ));

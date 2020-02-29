@@ -10,7 +10,7 @@ export default ({ id }: Props) => (
     {
       id
         .split(' ')
-        .map(keyword => <span><Translate key={keyword + Math.random()} id={keyword} /> </span>)
+        .map(keyword => <span key={keyword + Math.random()}><Translate id={keyword} /> </span>)
     }
   </Fragment>
 );

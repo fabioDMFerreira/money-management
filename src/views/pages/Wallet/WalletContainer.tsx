@@ -32,22 +32,25 @@ const WalletContainer = ({ wallet, transactions, update }: Props) => (
   </Fragment>
 );
 
-export default
-withRouter(connect((state: any, props: any) => {
-  const { financialForecast: { transactions: stateTransactions }, wallets: { wallets } } = state;
-  let wallet: any;
 
-  if (props.match.params && props.match.params.id) {
-    wallet = wallets.find((wallet: Wallet) => wallet.id === props.match.params.id);
-  }
+const WalletContainer2 =
+  withRouter(connect((state: any, props: any) => {
+    const { financialForecast: { transactions: stateTransactions }, wallets: { wallets } } = state;
+    let wallet: any;
 
-  return {
-    wallet,
-    transactions: wallet ?
-      stateTransactions.filter((transaction: TransactionConfig) => transaction.wallet === wallet.id).toJS() :
-      []
-    ,
-  };
-}, {
-  update: updateWallet,
-})(WalletContainer));
+    if (props.match.params && props.match.params.id) {
+      wallet = wallets.find((wallet: Wallet) => wallet.id === props.match.params.id);
+    }
+
+    return {
+      wallet,
+      transactions: wallet ?
+        stateTransactions.filter((transaction: TransactionConfig) => transaction.wallet === wallet.id).toJS() :
+        []
+      ,
+    };
+  }, {
+    update: updateWallet,
+  })(WalletContainer));
+
+export default () => <WalletContainer2 />;

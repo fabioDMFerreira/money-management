@@ -120,7 +120,7 @@ const Forecast = ({
   );
 };
 
-export default connect((state: any) => {
+const ForecastContainer = connect((state: any) => {
   const { financialForecast: { allTransactions, estimatesAllTransactions }, wallets: { wallets } } = state;
 
   const balance: Balance[] =
@@ -133,3 +133,5 @@ export default connect((state: any) => {
     allEstimates: estimatesAllTransactions.toJS() || [],
   };
 })(Forecast);
+
+export default () => <ForecastContainer />;

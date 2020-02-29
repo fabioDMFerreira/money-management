@@ -1,12 +1,13 @@
 import Transaction from 'models/Transaction';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
+import React from 'react';
 import { connect } from 'react-redux';
 import calculateTransactionsBalancesByMonth from 'usecases/calculateBalance/calculateTransactionsBalancesByMonth';
 
 import passesFilters from './passesFilters';
 import Timeline from './Timeline';
 
-export default connect((state: any) => {
+const TimelineContainer = connect((state: any) => {
   const { financialForecast, wallets: { wallets } } = state;
 
   const transactions = financialForecast.transactions ?
@@ -32,3 +33,5 @@ export default connect((state: any) => {
     balance: calculateTransactionsBalancesByMonth(realTransactions),
   };
 })(Timeline);
+
+export default () => <TimelineContainer />;

@@ -7,7 +7,7 @@ import { getBudgetById } from './../../ducks/budgets/budgetsSelectors';
 import { CREATE_BUDGET, REMOVE_BUDGET, UPDATE_BUDGET } from './../../ducks/budgets/budgetsTypes';
 import { ContractsActions } from './../../ducks/contracts/contractsActions';
 import { getContractById } from './../../ducks/contracts/contractsSelectors';
-import { bulkAddTransactions, bulkDeleteTransactions, bulkDeleteTransactionsById } from './../../ducks/financial-forecast/actions';
+import { bulkAddTransactions, bulkDeleteTransactionsById } from './../../ducks/financial-forecast/actions';
 
 export default (store: any) => (dispatch: any) => (action: ContractsActions | BudgetsActions) => {
   switch (action.type) {

@@ -26,14 +26,21 @@ export default (transactionsData: TransactionConfig[], estimatesData: Transactio
   const transactionsBalance = calculateWalletsTransactionsBalance(transactionsData, wallets, minDate, maxDate);
   const estimatesBalance = calculateWalletsTransactionsBalance(estimatesData, wallets);
 
-  transactionsBalance.forEach((monthBalance: Balance) => {
+  transactionsBalance.forEach((monthBalance: Balance, index) => {
+    const monthBalanceDate = monthBalance.date ? YYYYMMDD(monthBalance.date) : '';
     const estimate =
-      estimatesBalance.find((month: Balance) => (!!(monthBalance.date && month.date && YYYYMMDD(month.date) === YYYYMMDD(monthBalance.date))));
+      estimatesBalance.find((month: Balance) => (!!(monthBalance.date && month.date && YYYYMMDD(month.date) === monthBalanceDate)));
+
+    const previousBalance = transactionsBalance[index - 1];
+
+    if (!monthBalance.actualValue && previousBalance) {
+      monthBalance.actualValue = previousBalance.actualValue;
+    }
 
     if (!estimate) {
       monthBalance.estimateValue = monthBalance.actualValue;
-    } else if (estimate) {
-      monthBalance.estimateValue = estimate.actualValue;
+    } else if (estimate && estimate.actualValue && previousBalance.estimateValue) {
+      monthBalance.estimateValue = previousBalance.estimateValue + estimate.balance;
     }
   });
 

@@ -1,8 +1,8 @@
 import { Tag } from 'models/Tag';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import React, { Component } from 'react';
-import ReactTable, { Column, SortingRule } from 'react-table';
-import { dragTransaction, filterType, updateTransaction, updateTransactionsFilters } from 'state/ducks/financial-forecast/actions';
+import ReactTable, { SortingRule } from 'react-table';
+import { filterType } from 'state/ducks/financial-forecast/actions';
 import styled from 'styled-components';
 
 import FilterComponent from './FilterComponent';

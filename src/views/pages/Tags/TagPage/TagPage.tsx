@@ -1,11 +1,9 @@
 import { Balance } from 'models/Balance';
 import { Tag } from 'models/Tag';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
-import React, { Component } from 'react';
+import React from 'react';
 import Col from 'reactstrap/lib/Col';
-import Input from 'reactstrap/lib/Input';
 import Row from 'reactstrap/lib/Row';
-import TimelineContainer from 'views/pages/Transactions/Timeline';
 import Timeline from 'views/pages/Transactions/Timeline/Timeline';
 
 import TransactionsTable from '../../../containers/TransactionsTable/TransactionsTableContainer';
