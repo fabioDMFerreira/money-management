@@ -23,10 +23,10 @@
     "@storybook/react": "4.1.13",
     "@types/chroma-js": "1.4.2",
     "@types/classnames": "2.2.7",
-    "@types/lodash": "4.14.122",
     "@types/faker": "4.1.7",
     "@types/immutable": "3.8.7",
     "@types/intro.js": "2.4.5",
+    "@types/lodash": "4.14.122",
     "@types/node": "11.9.4",
     "@types/pouchdb": "6.4.0",
     "@types/prop-types": "15.5.9",
@@ -97,6 +97,7 @@
     "redux-thunk": "^2.3.0",
     "socket.io-client": "2.1.1",
     "styled-components": "4.1.1",
+    "terser": "3.14.1",
     "typescript": "3.3.3",
     "validate.js": "0.12.0",
     "webpack": "4.41.5",
@@ -149,6 +150,9 @@
     "react-docgen-typescript-webpack-plugin": "1.1.0",
     "react-test-renderer": "16.4.0",
     "ts-jest": "24.2.0"
+  },
+  "resolutions": {
+    "terser": "3.14.1"
   },
   "husky": {
     "hooks": {
