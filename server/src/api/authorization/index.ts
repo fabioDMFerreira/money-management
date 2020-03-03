@@ -1,1 +1,1 @@
-export { default } from './authorization.controller';
+export { default } from "./authorization.controller";

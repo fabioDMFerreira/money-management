@@ -11,6 +11,6 @@ export class ApiController {
       auth0domain: process.env.AUTH0_DOMAIN,
       auth0clientId: process.env.AUTH0_CLIENTID,
       couchdbUrl: process.env.COUCHDB_URL
-    }
+    };
   }
 }

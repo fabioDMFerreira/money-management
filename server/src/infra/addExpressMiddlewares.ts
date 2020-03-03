@@ -4,7 +4,7 @@ import * as bodyParser from "body-parser";
 import lusca from "lusca";
 import flash from "express-flash";
 import path from "path";
-import cors from 'cors';
+import cors from "cors";
 
 import { expressLogger } from "./log/winstonLogger";
 

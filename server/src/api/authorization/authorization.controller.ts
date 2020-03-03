@@ -9,10 +9,8 @@ import TYPES from "src/types";
 @controller("/api/authorization")
 export class AuthorizationController {
 
-  constructor() { }
-
   @httpGet("/callback")
   public authorizationCallback() {
-    return 'Callback Done'
+    return "Callback Done";
   }
 }

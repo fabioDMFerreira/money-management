@@ -1,4 +1,4 @@
-import { Container } from 'inversify';
+import { Container } from "inversify";
 import {
   controller, httpGet,
 } from "inversify-express-utils";

@@ -1,4 +1,4 @@
-import { checkJwt } from './infra/authorization/authorization';
+import { checkJwt } from "./infra/authorization/authorization";
 import "reflect-metadata";
 import { InversifyExpressServer } from "inversify-express-utils";
 import { Container } from "inversify";
@@ -10,8 +10,8 @@ import { InMemoryAlbumRepository } from "./service/albumRepository/inMemory.albu
 import addExpressMiddlewares from "./infra/addExpressMiddlewares";
 import expressErrorMiddleware from "./infra/error/expressErrorMiddleware";
 
-import { albumControllerFactory } from './api/album/album.controller';
-import './api';
+import { albumControllerFactory } from "./api/album/album.controller";
+import "./api";
 
 // load everything needed to the Container
 const container = new Container();
