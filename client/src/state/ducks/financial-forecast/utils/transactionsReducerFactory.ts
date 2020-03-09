@@ -1,6 +1,3 @@
-
-
-import { List, Map } from 'immutable';
 import Transaction from 'models/Transaction';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
@@ -24,6 +21,19 @@ import fixDatePartsPositionsFactory from './fixDatePartsPositionsFactory';
 import getDatesPartsPositions from './getDatesPartsPositions';
 import passesGlobalFilters from './passesGlobalFilters';
 
+const updateTransactionInList = (transactions: TransactionConfig[], transactionIndex: number, payload: TransactionConfig) => [
+  ...transactions.slice(0, transactionIndex),
+  {
+    ...transactions[transactionIndex],
+    ...payload,
+  },
+  ...transactions.slice(transactionIndex + 1),
+];
+
+const removeTransactionInList = (transactions: TransactionConfig[], transactionIndex: number) => [
+  ...transactions.slice(0, transactionIndex),
+  ...transactions.slice(transactionIndex + 1),
+];
 
 const sortTransactions =
   (a: TransactionConfig, b: TransactionConfig) =>
@@ -62,8 +72,8 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
           transaction.tags = [];
         }
 
-        const transactions = state[transactionsKey].unshift(transaction).sort(sortTransactions);
-        const allTransactions = state[allTransactionsKey].unshift(transaction).sort(sortTransactions);
+        const transactions = [transaction, ...state[transactionsKey]].sort(sortTransactions);
+        const allTransactions = [transaction, ...state[allTransactionsKey]].sort(sortTransactions);
 
         return {
           ...state,
@@ -92,8 +102,8 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
 
         const filteredTransactions = newTransactions.filter(passesGlobalFilters(state.globalFilters));
 
-        const transactions = List<TransactionConfig>(state[transactionsKey].concat(filteredTransactions)).sort(sortTransactions);
-        const allTransactions = List<TransactionConfig>(state[allTransactionsKey].concat(newTransactions)).sort(sortTransactions);
+        const transactions = [...state[transactionsKey], ...filteredTransactions].sort(sortTransactions);
+        const allTransactions = [...state[allTransactionsKey], ...newTransactions].sort(sortTransactions);
 
         return {
           ...state,
@@ -105,9 +115,9 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
         return {
           ...state,
           [transactionsKey]:
-            state[transactionsKey].filter((transaction: TransactionConfig) => transaction.id && !state[selectedKey].get(transaction.id)),
+            state[transactionsKey].filter((transaction: TransactionConfig) => transaction.id && !state[selectedKey][transaction.id]),
           [allTransactionsKey]:
-            state[allTransactionsKey].filter((transaction: TransactionConfig) => transaction.id && !state[selectedKey].get(transaction.id)),
+            state[allTransactionsKey].filter((transaction: TransactionConfig) => transaction.id && !state[selectedKey][transaction.id]),
           [selectedKey]: state[selectedKey].filter((v: boolean) => !v),
         };
       }
@@ -123,22 +133,27 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
       case UPDATE_TRANSACTION: {
         const { id, field, value } = action;
 
-        const index = state[transactionsKey].findIndex((transaction: any) => transaction.id === id);
+        const index = state[transactionsKey].map((transaction: TransactionConfig) => transaction.id).indexOf(id);
         let transactions = state[transactionsKey];
 
         if (index >= 0) {
-          transactions = state[transactionsKey].update(index, updateTransaction(field, value));
+          transactions = updateTransactionInList(state[transactionsKey], index, updateTransaction(field, value)(state[transactionsKey][index]));
         }
 
-        if (!passesGlobalFilters(state.globalFilters)(transactions.get(index))) {
-          transactions = transactions.remove(index);
+        if (!passesGlobalFilters(state.globalFilters)(transactions[index])) {
+          transactions = removeTransactionInList(transactions, index);
         }
 
-        const allTransactionsIndex = state[allTransactionsKey].findIndex((transaction: any) => transaction.id === id);
+        const allTransactionsIndex = state[allTransactionsKey].map((transaction: TransactionConfig) => transaction.id).indexOf(id);
         let allTransactions = state[allTransactionsKey];
 
         if (allTransactionsIndex >= 0) {
-          allTransactions = state[allTransactionsKey].update(allTransactionsIndex, updateTransaction(field, value));
+          allTransactions =
+            updateTransactionInList(
+              state[allTransactionsKey],
+              allTransactionsIndex,
+              updateTransaction(field, value)(state[allTransactionsKey][allTransactionsIndex]),
+            );
         }
 
         return {
@@ -150,11 +165,11 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
       case DELETE_TRANSACTION: {
         const { id } = action;
 
-        const index = state[transactionsKey].findIndex((transaction: any) => transaction.id === id);
-        const transactions = state[transactionsKey].remove(index);
+        const index = state[transactionsKey].map((transaction: TransactionConfig) => transaction.id).indexOf(id);
+        const transactions = removeTransactionInList(state[transactionsKey], index);
 
-        const allTransactionsIndex = state[allTransactionsKey].findIndex((transaction: any) => transaction.id === id);
-        const allTransactions = state[allTransactionsKey].remove(allTransactionsIndex);
+        const allTransactionsIndex = state[allTransactionsKey].map((transaction: TransactionConfig) => transaction.id).indexOf(id);
+        const allTransactions = removeTransactionInList(state[allTransactionsKey], allTransactionsIndex);
 
         return {
           ...state,
@@ -165,47 +180,53 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
       case CLEAR_TRANSACTIONS:
         return {
           ...state,
-          [transactionsKey]: List<TransactionConfig>(),
-          [allTransactionsKey]: List<TransactionConfig>(),
+          [transactionsKey]: [],
+          [allTransactionsKey]: [],
         };
-      case DRAG_TRANSACTION: {
-        const { startIndex, endIndex } = action;
-        const removedTransaction = state[transactionsKey].get(startIndex);
-        let transactions = state[transactionsKey].remove(startIndex);
+        // case DRAG_TRANSACTION: {
+        //   const { startIndex, endIndex } = action;
+        //   const removedTransaction = state[transactionsKey].get(startIndex);
+        //   let transactions = state[transactionsKey].remove(startIndex);
 
-        transactions = transactions.splice(endIndex, 0, removedTransaction).toList();
+        //   transactions = transactions.splice(endIndex, 0, removedTransaction).toList();
 
-        return {
-          ...state,
-          [transactionsKey]: transactions,
-        };
-      }
+      //   return {
+      //     ...state,
+      //     [transactionsKey]: transactions,
+      //   };
+      // }
       case UPDATE_TRANSACTIONS_FILTERS:
         return {
           ...state,
           [filtersKey]: action.filters,
-          [selectedKey]: Map(),
+          [selectedKey]: {},
         };
       case SELECT_TRANSACTION: {
-        const selected = state[selectedKey] || Map();
+        const selected = state[selectedKey] || {};
 
         return {
           ...state,
-          [selectedKey]: selected.set(action.id, true),
+          [selectedKey]: {
+            ...selected,
+            [action.id]: true,
+          },
         };
       }
       case UNSELECT_TRANSACTION: {
-        const selected = state[selectedKey] || Map();
+        const selected = state[selectedKey] || {};
 
         return {
           ...state,
-          [selectedKey]: selected.set(action.id, false),
+          [selectedKey]: {
+            ...selected,
+            [action.id]: false,
+          },
         };
       }
       case SELECT_ALL_TRANSACTIONS: {
         const transactions = state[transactionsKey];
 
-        const selected = transactions.toJS().reduce((final: any, transaction: Transaction) => {
+        const selected = transactions.reduce((final: any, transaction: Transaction) => {
           final[transaction.id] = true;
 
           return final;
@@ -213,13 +234,13 @@ export default (key: string, transactionsKey: string, allTransactionsKey: string
 
         return {
           ...state,
-          [selectedKey]: Map(selected),
+          [selectedKey]: selected,
         };
       }
       case UNSELECT_ALL_TRANSACTIONS: {
         return {
           ...state,
-          [selectedKey]: Map(),
+          [selectedKey]: {},
         };
       }
       default: return state;

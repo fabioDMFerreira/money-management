@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
-import { updateWallet } from 'state/ducks/wallets';
+import { getTransactionsSelector } from 'state/ducks/financial-forecast/transactionsSelectors';
+import { getWalletsSelector, updateWallet } from 'state/ducks/wallets';
 
 import WalletComponent from './Wallet';
 
@@ -35,7 +36,7 @@ const WalletContainer = ({ wallet, transactions, update }: Props) => (
 
 const WalletContainer2 =
   withRouter(connect((state: any, props: any) => {
-    const { financialForecast: { transactions: stateTransactions }, wallets: { wallets } } = state;
+    const wallets = getWalletsSelector(state);
     let wallet: any;
 
     if (props.match.params && props.match.params.id) {
@@ -45,7 +46,7 @@ const WalletContainer2 =
     return {
       wallet,
       transactions: wallet ?
-        stateTransactions.filter((transaction: TransactionConfig) => transaction.wallet === wallet.id).toJS() :
+        getTransactionsSelector(state).filter((transaction: TransactionConfig) => transaction.wallet === wallet.id) :
         []
       ,
     };

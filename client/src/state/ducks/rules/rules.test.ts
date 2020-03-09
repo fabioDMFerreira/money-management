@@ -1,5 +1,4 @@
 
-import { List } from 'immutable';
 import { Rule } from 'models/Rule';
 
 import { createRule, removeRule, updateRule } from './rulesActions';
@@ -22,12 +21,12 @@ describe('rulesReducer', () => {
       }),
     );
 
-    expect(actual.rules.get(0).pattern).toEqual({
+    expect(actual.rules[0].pattern).toEqual({
       field: 'description',
       value: 'car mortage',
     });
 
-    expect(actual.rules.get(0).rule).toEqual({
+    expect(actual.rules[0].rule).toEqual({
       field: 'tags',
       value: 'car',
     });
@@ -35,7 +34,7 @@ describe('rulesReducer', () => {
 
   it('should update rules', () => {
     const state = {
-      rules: List<Rule>([{
+      rules: [{
         id: '1',
         pattern: {
           field: 'description',
@@ -45,17 +44,17 @@ describe('rulesReducer', () => {
           field: 'tags',
           value: 'car',
         },
-      }]),
+      }],
     };
 
     const actual = rulesReducer(state, updateRule('1', { rule: { field: 'tags', value: 'car mortage' } }));
 
-    expect(actual.rules.get(0).pattern).toEqual({
+    expect(actual.rules[0].pattern).toEqual({
       field: 'description',
       value: 'car mortage',
     });
 
-    expect(actual.rules.get(0).rule).toEqual({
+    expect(actual.rules[0].rule).toEqual({
       field: 'tags',
       value: 'car mortage',
     });
@@ -63,7 +62,7 @@ describe('rulesReducer', () => {
 
   it('should remove rules', () => {
     const state = {
-      rules: List<Rule>([{
+      rules: [{
         id: '1',
         pattern: {
           field: 'description',
@@ -73,11 +72,11 @@ describe('rulesReducer', () => {
           field: 'tags',
           value: 'car',
         },
-      }]),
+      }],
     };
 
     const actual = rulesReducer(state, removeRule('1'));
-    const expected = { rules: List<Rule>([]) };
+    const expected = { rules: [] };
 
     expect(actual).toEqual(expected);
   });

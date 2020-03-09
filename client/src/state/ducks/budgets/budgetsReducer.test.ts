@@ -1,4 +1,3 @@
-import { List } from 'immutable';
 import { RecurringTransactionConfig } from 'models/RecurringTransaction';
 import getRandomString from 'utils/getRandomString';
 
@@ -22,12 +21,12 @@ describe('ContractsReducer', () => {
       useTotalValue: false,
     };
     const state: BudgetsState = {
-      budgets: List<RecurringTransactionConfig>([]),
+      budgets: [],
     };
 
     const actual = budgetsReducer(state, createBudget(recurringTransaction));
     const expected: BudgetsState = {
-      budgets: List<RecurringTransactionConfig>([recurringTransaction]),
+      budgets: [recurringTransaction],
     };
 
     expect(actual).toEqual(expected);
@@ -50,7 +49,7 @@ describe('ContractsReducer', () => {
       useTotalValue: false,
     };
     const state: BudgetsState = {
-      budgets: List<RecurringTransactionConfig>([recurringTransaction]),
+      budgets: [recurringTransaction],
     };
     const update: RecurringTransactionConfig = {
       description: 'water bill',
@@ -68,7 +67,7 @@ describe('ContractsReducer', () => {
 
     const actual = budgetsReducer(state, updateBudget(id, update));
     const expected: BudgetsState = {
-      budgets: List<RecurringTransactionConfig>([{
+      budgets: [{
         id: recurringTransaction.id,
         description: 'water bill',
         startDate: new Date(2018, 1, 15),
@@ -81,7 +80,7 @@ describe('ContractsReducer', () => {
         type: 'budget',
         useEndDate: false,
         useTotalValue: false,
-      }]),
+      }],
     };
 
     expect(actual).toEqual(expected);
@@ -105,12 +104,12 @@ describe('ContractsReducer', () => {
       useTotalValue: false,
     };
     const state: BudgetsState = {
-      budgets: List<RecurringTransactionConfig>([recurringTransaction]),
+      budgets: [recurringTransaction],
     };
 
     const actual = budgetsReducer(state, removeBudget(id));
     const expected: BudgetsState = {
-      budgets: List<RecurringTransactionConfig>([]),
+      budgets: [],
     };
 
     expect(actual).toEqual(expected);

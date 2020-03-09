@@ -23,8 +23,8 @@ export default (Component: any) => connect(
 
     return {
       enableRecurringTransactions: true,
-      selectedTransactions: (financialForecast.estimatesSelected && financialForecast.estimatesSelected.toJS()) || {},
-      transactions: (financialForecast.estimatesTransactions && financialForecast.estimatesTransactions.toJS()) || [],
+      selectedTransactions: (financialForecast.estimatesSelected && financialForecast.estimatesSelected) || {},
+      transactions: (financialForecast.estimatesTransactions && financialForecast.estimatesTransactions) || [],
       tags: getTagsSelector(state),
       filters: financialForecast.estimatesFilters,
       wallets: getWalletsSelector(state),

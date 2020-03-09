@@ -14,7 +14,7 @@ const DashboardContainer = connect((state: any) => {
   const wallets = getWalletsSelector(state);
   const tags = getTagsSelector(state);
   const balance: Balance[] =
-    calculateWalletsTransactionsBalance(allTransactions.toJS(), wallets) || [];
+    calculateWalletsTransactionsBalance(allTransactions, wallets) || [];
 
   return {
     totalBalance: wallets ?
@@ -30,8 +30,8 @@ const DashboardContainer = connect((state: any) => {
     totalEstimates: estimatesAllTransactions.size,
     lastTransactions: allTransactions.slice(0, 5),
     wallets,
-    allTransactions: allTransactions.toJS() || [],
-    estimatesAllTransactions: estimatesAllTransactions.toJS() || [],
+    allTransactions: allTransactions || [],
+    estimatesAllTransactions: estimatesAllTransactions || [],
     tags,
     balance,
   };

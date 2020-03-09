@@ -8,6 +8,7 @@ import {
   updateTransaction,
 } from 'state/ducks/financial-forecast/actions';
 import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
+import { getTransactionsSelector } from 'state/ducks/financial-forecast/transactionsSelectors';
 import { createTag, getTagsSelector } from 'state/ducks/tags';
 import { getWalletsSelector } from 'state/ducks/wallets';
 
@@ -18,11 +19,11 @@ export default connect(
     const { financialForecast } = state;
 
     return {
-      transactions: props.transactions || (financialForecast.transactions && financialForecast.transactions.toJS()),
+      transactions: props.transactions || getTransactionsSelector(state),
       tags: getTagsSelector(state),
       filters: financialForecast.filters,
       wallets: getWalletsSelector(state),
-      selected: (financialForecast.selected && financialForecast.selected.toJS()) || {},
+      selected: (financialForecast.selected && financialForecast.selected) || {},
     };
   },
   {

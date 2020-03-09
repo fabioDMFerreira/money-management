@@ -1,4 +1,3 @@
-import { List } from 'immutable';
 import { RecurringTransactionConfig } from 'models/RecurringTransaction';
 import getRandomString from 'utils/getRandomString';
 
@@ -22,12 +21,12 @@ describe('ContractsReducer', () => {
       useTotalValue: false,
     };
     const state: ContractsState = {
-      contracts: List<RecurringTransactionConfig>([]),
+      contracts: [],
     };
 
     const actual = contractsReducer(state, createContract(recurringTransaction));
     const expected: ContractsState = {
-      contracts: List<RecurringTransactionConfig>([recurringTransaction]),
+      contracts: [recurringTransaction],
     };
 
     expect(actual).toEqual(expected);
@@ -50,7 +49,7 @@ describe('ContractsReducer', () => {
       useTotalValue: false,
     };
     const state: ContractsState = {
-      contracts: List<RecurringTransactionConfig>([recurringTransaction]),
+      contracts: [recurringTransaction],
     };
     const update: RecurringTransactionConfig = {
       description: 'water bill',
@@ -68,7 +67,7 @@ describe('ContractsReducer', () => {
 
     const actual = contractsReducer(state, updateContract(id, update));
     const expected: ContractsState = {
-      contracts: List<RecurringTransactionConfig>([{
+      contracts: [{
         id: recurringTransaction.id,
         description: 'water bill',
         startDate: new Date(2018, 1, 15),
@@ -81,7 +80,7 @@ describe('ContractsReducer', () => {
         type: 'contract',
         useEndDate: false,
         useTotalValue: false,
-      }]),
+      }],
     };
 
     expect(actual).toEqual(expected);
@@ -105,12 +104,12 @@ describe('ContractsReducer', () => {
       useTotalValue: false,
     };
     const state: ContractsState = {
-      contracts: List<RecurringTransactionConfig>([recurringTransaction]),
+      contracts: [recurringTransaction],
     };
 
     const actual = contractsReducer(state, removeContract(id));
     const expected: ContractsState = {
-      contracts: List<RecurringTransactionConfig>([]),
+      contracts: [],
     };
 
     expect(actual).toEqual(expected);

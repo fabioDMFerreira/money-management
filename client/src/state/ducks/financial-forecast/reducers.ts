@@ -1,5 +1,3 @@
-
-import { List, Map } from 'immutable';
 import { ForecastConfig } from 'models/Forecast/ForecastConfig';
 import { GlobalFilters } from 'models/GlobalFilters';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
@@ -18,25 +16,25 @@ import transactionsReducerHoc from './utils/transactionsReducerFactory';
 
 
 export type State = {
-  transactions: List<TransactionConfig>;
-  allTransactions: List<TransactionConfig>;
+  transactions: TransactionConfig[];
+  allTransactions: TransactionConfig[];
   filters: filterType[];
-  estimatesTransactions: List<TransactionConfig>;
-  estimatesAllTransactions: List<TransactionConfig>;
+  estimatesTransactions: TransactionConfig[];
+  estimatesAllTransactions: TransactionConfig[];
   estimatesFilters: filterType[];
   forecast: ForecastConfig;
   tab: string;
   globalFilters: GlobalFilters;
-  selected: Map<string, boolean>;
-  estimatesSelected: Map<string, boolean>;
+  selected: { [key: string]: boolean };
+  estimatesSelected: { [key: string]: boolean };
 }
 
 export const initialState: State = {
-  transactions: List<TransactionConfig>([]),
-  allTransactions: List<TransactionConfig>([]),
+  transactions: [],
+  allTransactions: [],
   filters: [],
-  estimatesTransactions: List<TransactionConfig>([]),
-  estimatesAllTransactions: List<TransactionConfig>([]),
+  estimatesTransactions: [],
+  estimatesAllTransactions: [],
   estimatesFilters: [],
   forecast: {
     initialValue: '0',
@@ -45,8 +43,8 @@ export const initialState: State = {
   },
   tab: 'transactions',
   globalFilters: {},
-  selected: Map(),
-  estimatesSelected: Map(),
+  selected: {},
+  estimatesSelected: {},
 };
 
 const transactionsReducer = transactionsReducerHoc(TRANSACTIONS, 'transactions', 'allTransactions', 'filters', 'selected');
@@ -66,7 +64,7 @@ export default (state: State = initialState, action: FinancialForecastActions): 
 
 
       const globalFilter = passesGlobalFilters(globalFilters);
-      const transactions = state.allTransactions.filter((value: any, index: any) => globalFilter(value)).toList();
+      const transactions = state.allTransactions.filter((value: any, index: any) => globalFilter(value));
 
       return {
         ...state,

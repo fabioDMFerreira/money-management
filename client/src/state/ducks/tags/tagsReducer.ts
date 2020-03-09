@@ -1,5 +1,4 @@
 
-import { List } from 'immutable';
 import { Tag } from 'models/Tag';
 import randomColor from 'randomcolor';
 
@@ -14,12 +13,12 @@ import {
 
 
 interface TagsState {
-  tags: List<Tag>;
+  tags: Tag[];
   tagsView: TagsView;
 }
 
 const initialState: TagsState = {
-  tags: List<Tag>([]),
+  tags: [],
   tagsView: 'chart',
 };
 
@@ -30,13 +29,12 @@ export default (state: TagsState = initialState, action: TagsActions) => {
 
       return {
         ...state,
-        tags: state.tags.push(tag),
+        tags: [...state.tags, tag],
       };
     }
     case DELETE_TAG: {
       const tags = state.tags
-        .filter((tag: any) => tag.id !== action.tag.id)
-        .toList();
+        .filter((tag: any) => tag.id !== action.tag.id);
 
       return {
         ...state,
@@ -50,8 +48,7 @@ export default (state: TagsState = initialState, action: TagsActions) => {
       };
 
       const tags = state.tags
-        .map((tag: any) => (tag.id === action.tag.id ? action.newTag : tag))
-        .toList();
+        .map((tag: any) => (tag.id === action.tag.id ? action.newTag : tag));
 
       return {
         ...state,
@@ -67,7 +64,7 @@ export default (state: TagsState = initialState, action: TagsActions) => {
     case CLEAR_TAGS: {
       return {
         ...state,
-        tags: List<Tag>(),
+        tags: [],
       };
     }
     default: return state;

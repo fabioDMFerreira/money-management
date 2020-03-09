@@ -5,6 +5,7 @@ import AppWithStore from 'AppWithStore';
 import React from 'react';
 import { render } from 'react-dom';
 import { BackendClient } from 'services/BackendClient';
+import UserBar from 'views/components/UserBar';
 import Guarder from 'views/layout/Guarder';
 import { BackendProvider } from 'views/providers/backend.provider';
 import { Auth0Provider } from 'views/providers/react-auth0-spa.provider';
@@ -33,6 +34,7 @@ const client = new BackendClient();
       >
         <BackendProvider client={client}>
           <Guarder>
+            <UserBar />
             <AppWithStore />
           </Guarder>
         </BackendProvider>

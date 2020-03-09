@@ -126,13 +126,13 @@ const ForecastContainer = connect((state: any) => {
   const wallets = getWalletsSelector(state);
 
   const balance: Balance[] =
-    calculateTransactionsEstimatesBalance(allTransactions.toJS(), estimatesAllTransactions.toJS(), wallets) || [];
+    calculateTransactionsEstimatesBalance(allTransactions, estimatesAllTransactions, wallets) || [];
 
   return {
     balance,
     wallets,
-    allTransactions: allTransactions.toJS() || [],
-    allEstimates: estimatesAllTransactions.toJS() || [],
+    allTransactions: allTransactions || [],
+    allEstimates: estimatesAllTransactions || [],
   };
 })(Forecast);
 

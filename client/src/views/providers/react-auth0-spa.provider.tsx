@@ -10,11 +10,19 @@ interface Auth0ProviderProps {
   onRedirectCallback?: any;
 }
 
+export interface Auth0User {
+  nickname: string;
+  name: string;
+  picture: string;
+  updated_at: string;
+  email: string;
+  email_verified: boolean;
+  sub: string;
+}
+
 interface Auth0Context {
   isAuthenticated: boolean;
-  user: {
-    sub: string;
-  };
+  user: Auth0User;
   loading: boolean;
   popupOpen: boolean;
   loginWithPopup: () => Promise<void>;
@@ -28,7 +36,15 @@ interface Auth0Context {
 
 export const Auth0Context = createContext({
   isAuthenticated: false,
-  user: { sub: 'offline' },
+  user: {
+    nickname: 'loremipsum',
+    name: 'loremipsum',
+    picture: 'https://api.adorable.io/avatars/285/abott@adorable.png',
+    updated_at: 'loremipsum',
+    email: 'loremipsum',
+    email_verified: true,
+    sub: 'offline',
+  },
   loading: false,
   popupOpen: false,
   loginWithPopup: () => Promise.resolve(),
@@ -54,6 +70,7 @@ export const Auth0Provider = ({
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
+
       setAuth0(auth0FromHook);
 
       if (window.location.search.includes('code=') &&

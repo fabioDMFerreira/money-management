@@ -1,15 +1,14 @@
-import { List } from 'immutable';
 import { RecurringTransactionConfig } from 'models/RecurringTransaction';
 
 import { BudgetsActions } from './budgetsActions';
 import { CREATE_BUDGET, REMOVE_BUDGET, UPDATE_BUDGET } from './budgetsTypes';
 
 export interface BudgetsState {
-  budgets: List<RecurringTransactionConfig>;
+  budgets: RecurringTransactionConfig[];
 }
 
 const initialState: BudgetsState = {
-  budgets: List<RecurringTransactionConfig>([]),
+  budgets: [],
 };
 
 export default (state: BudgetsState = initialState, action: BudgetsActions): BudgetsState => {
@@ -17,7 +16,7 @@ export default (state: BudgetsState = initialState, action: BudgetsActions): Bud
     case CREATE_BUDGET: {
       return {
         ...state,
-        budgets: state.budgets.push(action.payload),
+        budgets: [...state.budgets, action.payload],
       };
     }
     case UPDATE_BUDGET: {
@@ -27,15 +26,18 @@ export default (state: BudgetsState = initialState, action: BudgetsActions): Bud
         return state;
       }
 
+      const budgets = [
+        ...state.budgets.slice(0, contractIndex),
+        {
+          ...state.budgets[contractIndex],
+          ...action.payload,
+        },
+        ...state.budgets.slice(contractIndex + 1),
+      ];
+
       return {
         ...state,
-        budgets: state.budgets.update(
-          contractIndex,
-          (contract: RecurringTransactionConfig) => ({
-            ...contract,
-            ...action.payload,
-          }),
-        ),
+        budgets,
       };
     }
     case REMOVE_BUDGET: {
@@ -45,9 +47,14 @@ export default (state: BudgetsState = initialState, action: BudgetsActions): Bud
         return state;
       }
 
+      const budgets = [
+        ...state.budgets.slice(0, contractIndex),
+        ...state.budgets.slice(contractIndex + 1),
+      ];
+
       return {
         ...state,
-        budgets: state.budgets.remove(contractIndex),
+        budgets,
       };
     }
     default: {

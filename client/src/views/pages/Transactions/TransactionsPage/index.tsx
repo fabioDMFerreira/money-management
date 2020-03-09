@@ -26,8 +26,8 @@ export default connect(
     const { financialForecast } = state;
 
     return {
-      selectedTransactions: (financialForecast.selected && financialForecast.selected.toJS()) || {},
-      transactions: props.transactions || ((financialForecast.transactions && financialForecast.transactions.toJS()) || []),
+      selectedTransactions: (financialForecast.selected && financialForecast.selected) || {},
+      transactions: props.transactions || ((financialForecast.transactions && financialForecast.transactions) || []),
       tags: getTagsSelector(state),
       filters: financialForecast.filters,
       wallets: getWalletsSelector(state),

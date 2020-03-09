@@ -1,15 +1,14 @@
-import { List } from 'immutable';
 import { RecurringTransactionConfig } from 'models/RecurringTransaction';
 
 import { ContractsActions } from './contractsActions';
 import { CREATE_CONTRACT, REMOVE_CONTRACT, UPDATE_CONTRACT } from './contractsTypes';
 
 export interface ContractsState {
-  contracts: List<RecurringTransactionConfig>;
+  contracts: RecurringTransactionConfig[];
 }
 
 const initialState: ContractsState = {
-  contracts: List<RecurringTransactionConfig>([]),
+  contracts: [],
 };
 
 export default (state: ContractsState = initialState, action: ContractsActions): ContractsState => {
@@ -17,37 +16,45 @@ export default (state: ContractsState = initialState, action: ContractsActions):
     case CREATE_CONTRACT: {
       return {
         ...state,
-        contracts: state.contracts.push(action.payload),
+        contracts: [...state.contracts, action.payload],
       };
     }
     case UPDATE_CONTRACT: {
-      const contractIndex = state.contracts.findIndex((contract: any) => contract.id === action.id);
+      const contractIndex = state.contracts.map(contract => contract.id).indexOf(action.id);
 
       if (contractIndex < 0) {
         return state;
       }
 
+      const contracts = [
+        ...state.contracts.slice(0, contractIndex),
+        {
+          ...state.contracts[contractIndex],
+          ...action.payload,
+        },
+        ...state.contracts.slice(contractIndex + 1),
+      ];
+
       return {
         ...state,
-        contracts: state.contracts.update(
-          contractIndex,
-          (contract: RecurringTransactionConfig) => ({
-            ...contract,
-            ...action.payload,
-          }),
-        ),
+        contracts,
       };
     }
     case REMOVE_CONTRACT: {
-      const contractIndex = state.contracts.findIndex((contract: any) => contract.id === action.id);
+      const contractIndex = state.contracts.map(contract => contract.id).indexOf(action.id);
 
       if (contractIndex < 0) {
         return state;
       }
 
+      const contracts = [
+        ...state.contracts.slice(0, contractIndex),
+        ...state.contracts.slice(contractIndex + 1),
+      ];
+
       return {
         ...state,
-        contracts: state.contracts.remove(contractIndex),
+        contracts,
       };
     }
     default: {

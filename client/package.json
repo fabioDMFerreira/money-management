@@ -97,8 +97,6 @@
     "redux-thunk": "^2.3.0",
     "socket.io-client": "2.1.1",
     "styled-components": "4.1.1",
-    "terser": "3.16.1",
-    "terser-webpack-plugin": "2.3.5",
     "typescript": "3.3.3",
     "validate.js": "0.12.0",
     "webpack": "4.41.5",
@@ -110,7 +108,7 @@
     "start": "npm-run-all -p watch-css start-js",
     "start-js": "react-scripts start",
     "build-js": "react-scripts --max_old_space_size=2048 build",
-    "build": "npm-run-all build-css build-js",
+    "build": "run-s build-css build-js",
     "test": "jest --watch",
     "test:ci": "jest",
     "eject": "react-scripts eject",
@@ -151,9 +149,6 @@
     "react-docgen-typescript-webpack-plugin": "1.1.0",
     "react-test-renderer": "16.4.0",
     "ts-jest": "24.2.0"
-  },
-  "resolutions": {
-    "terser": "3.16.1"
   },
   "husky": {
     "hooks": {

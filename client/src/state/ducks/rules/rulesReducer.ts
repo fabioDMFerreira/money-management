@@ -1,16 +1,15 @@
 
-import { List } from 'immutable';
 import { Rule } from 'models/Rule';
 
 import { RulesActions } from './rulesActions';
 
 
 interface RulesState {
-  rules: List<Rule>;
+  rules: Rule[];
 }
 
 const initialState: RulesState = {
-  rules: List<Rule>([]),
+  rules: [],
 };
 
 export default (state: RulesState = initialState, action: RulesActions): RulesState => {
@@ -18,38 +17,33 @@ export default (state: RulesState = initialState, action: RulesActions): RulesSt
     case 'ADD_RULE': {
       return {
         ...state,
-        rules: state.rules.push(action.payload),
+        rules: [...state.rules, action.payload],
       };
     }
     case 'UPDATE_RULE': {
-      const ruleIndex = state.rules.findIndex((rule: any) => rule.id === action.ruleId);
+      const ruleIndex = state.rules.map(rule => rule.id).indexOf(action.ruleId);
 
       if (ruleIndex < 0) {
         return state;
       }
 
+      const rules = [
+        ...state.rules.slice(0, ruleIndex),
+        { ...state.rules[ruleIndex], ...action.payload },
+        ...state.rules.slice(ruleIndex + 1),
+      ];
+
       return {
         ...state,
-        rules:
-          state.rules.update(
-            ruleIndex,
-            (rule: Rule) => ({
-              ...rule,
-              ...action.payload,
-            }),
-          ),
+        rules,
       };
     }
     case 'REMOVE_RULE': {
-      const ruleIndex = state.rules.findIndex((rule: any) => rule.id === action.ruleId);
-
-      if (ruleIndex < 0) {
-        return state;
-      }
+      const rules = state.rules.filter(rule => rule.id !== action.ruleId);
 
       return {
         ...state,
-        rules: state.rules.remove(ruleIndex),
+        rules,
       };
     }
     default: {

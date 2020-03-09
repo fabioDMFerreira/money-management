@@ -54,7 +54,7 @@ const mapStateToProps = (state: any, props: any) => {
     tag = tags.find((tag: Tag) => tag.id === props.match.params.id);
     if (tag) {
       transactions =
-        stateTransactions.toJS().filter((transaction: TransactionConfig) =>
+        stateTransactions.filter((transaction: TransactionConfig) =>
           transaction.tags && transaction.tags.includes(tag.id) && !transaction.isInternalTransaction);
     }
   }

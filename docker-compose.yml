@@ -16,7 +16,9 @@ services:
     links:
       - server
   server:
-    build: ./server
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
     ports:
       - "8000:8000"
     expose:
@@ -40,5 +42,6 @@ services:
       - "5984"
     volumes:
       - /tmp/couchdb/data:/opt/couchdb/data
+      - ./couchdb:/opt/couchdb/etc/local.d
 volumes:
   mongodbdata: {}
