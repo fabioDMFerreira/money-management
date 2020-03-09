@@ -9,7 +9,7 @@ import { Auth0User } from 'views/providers/react-auth0-spa.provider';
 
 interface UserBarProps {
   user: Auth0User;
-  logout: () => void;
+  logout: (options: any) => void;
 }
 
 export default ({ user, logout }: UserBarProps) => {
@@ -32,7 +32,7 @@ export default ({ user, logout }: UserBarProps) => {
                 {user.email}
               </DropdownItem>
               <DropdownItem divider />
-              <DropdownItem onClick={logout}>Logout</DropdownItem>
+              <DropdownItem onClick={() => logout({ returnTo: window.location.origin })}>Logout</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Col>
