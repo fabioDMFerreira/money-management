@@ -7,6 +7,7 @@ import Col from 'reactstrap/lib/Col';
 import Container from 'reactstrap/lib/Container';
 import Navbar from 'reactstrap/lib/Navbar';
 import Row from 'reactstrap/lib/Row';
+import UserBar from 'views/layout/UserBar';
 
 import ErrorBoundary from '../ErrorBoundary';
 import Main from '../Main';
@@ -61,12 +62,7 @@ const App = () =>
               <SideNav />
             </Col>
             <Col xs={10} style={{ background: '#fff', minHeight: '100vh' }}>
-              <Navbar id="navbar" color="primary" dark expand="md">
-                <Container fluid>
-                  {/* <Header /> */}
-                  <NavbarComponent />
-                </Container>
-              </Navbar>
+              <UserBar />
               <Container fluid className="pb-4">
                 <ErrorBoundary>
                   <Main />
@@ -76,6 +72,6 @@ const App = () =>
           </Row>
         </Container>
       </div>
-    </Router>
+    </Router >
   );
 export default App;

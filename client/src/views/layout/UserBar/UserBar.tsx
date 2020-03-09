@@ -18,7 +18,8 @@ export default ({ user, logout }: UserBarProps) => {
   const toggleUserDropdown = () => setDropdown(!userActionsDropdownOpen);
 
   return (
-    <Container fluid>
+    <div className="mb-4" style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.125)' }}>
+
       <Row >
         <Col xs={6} />
         <Col xs={6}>
@@ -27,7 +28,7 @@ export default ({ user, logout }: UserBarProps) => {
               <img src={user.picture} alt="profile" className="rounded-circle img-fluid img-thumbnail" width={30} height={30} />
               {' '}{user.nickname}
             </DropdownToggle>
-            <DropdownMenu>
+            <DropdownMenu right>
               <DropdownItem header>
                 {user.email}
               </DropdownItem>
@@ -37,6 +38,6 @@ export default ({ user, logout }: UserBarProps) => {
           </Dropdown>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
