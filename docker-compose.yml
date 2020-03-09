@@ -1,47 +1,12 @@
-version: '3.7'
+version: '2'
+
 services:
-  client:
+  app:
     build:
-      context: ./client
+      context: .
       dockerfile: Dockerfile.dev
     ports:
-      - "3000:3000"
-    env_file:
-        - .env.client
-    depends_on:
-      - couchdb
+      - '3000:3000'
     volumes:
-      - ./client:/usr/src/app:rw
-      -  /usr/src/app/node_modules/
-    links:
-      - server
-  server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile.dev
-    ports:
-      - "8000:8000"
-    expose:
-      - "8000"
-    env_file:
-      - .env.server
-    depends_on:
-      - couchdb
-    volumes:
-      - ./server:/usr/src/app:rw
-      -  /usr/src/app/node_modules/
-  couchdb:
-    image: couchdb
-    environment:
-      COUCHDB_USER: root
-      COUCHDB_PASSWORD: password
-      COUCHDB_SECRET: mmanagement
-    ports:
-      - "5984:5984"
-    expose:
-      - "5984"
-    volumes:
-      - /tmp/couchdb/data:/opt/couchdb/data
-      - ./couchdb:/opt/couchdb/etc/local.d
-volumes:
-  mongodbdata: {}
+      - ./src:/usr/src/app/src
+      - ./public:/usr/src/app/public
