@@ -1,5 +1,5 @@
 export { default } from './walletsReducer';
 
-export * from './actions';
-export * from './types';
+export * from './walletsActions';
+export * from './walletsTypes';
 export * from './walletsSelectors';

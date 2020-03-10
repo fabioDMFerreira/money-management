@@ -1,4 +1,7 @@
 import { connect } from 'react-redux';
+import { createTag, getTagsSelector } from 'state/ducks/tags';
+import { getTransactionsFiltersSelector, getTransactionsSelector } from 'state/ducks/transactions/transactionsSelectors';
+import { getWalletsSelector } from 'state/ducks/wallets';
 import {
   deleteTransaction,
   selectAllTransactions,
@@ -6,26 +9,19 @@ import {
   unselectAllTransactions,
   unselectTransaction,
   updateTransaction,
-} from 'state/ducks/financial-forecast/actions';
-import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
-import { getTransactionsSelector } from 'state/ducks/financial-forecast/transactionsSelectors';
-import { createTag, getTagsSelector } from 'state/ducks/tags';
-import { getWalletsSelector } from 'state/ducks/wallets';
+} from 'state/reducerFactory/transactionsReducerFactory/transactionsActionsFactory';
+import { TRANSACTIONS } from 'state/reducerFactory/transactionsReducerFactory/transactionsReducersKeys';
 
 import TransactionsTable from './TransactionsTable';
 
 export default connect(
-  (state: any, props: any) => {
-    const { financialForecast } = state;
-
-    return {
-      transactions: props.transactions || getTransactionsSelector(state),
-      tags: getTagsSelector(state),
-      filters: financialForecast.filters,
-      wallets: getWalletsSelector(state),
-      selected: (financialForecast.selected && financialForecast.selected) || {},
-    };
-  },
+  (state: any, props: any) => ({
+    transactions: props.transactions || getTransactionsSelector(state),
+    tags: getTagsSelector(state),
+    filters: getTransactionsFiltersSelector(state),
+    wallets: getWalletsSelector(state),
+    selected: getTransactionsFiltersSelector(state),
+  }),
   {
     updateTransaction: updateTransaction(TRANSACTIONS),
     removeTransaction: deleteTransaction(TRANSACTIONS),

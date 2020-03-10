@@ -86,6 +86,45 @@ describe('ContractsReducer', () => {
     expect(actual).toEqual(expected);
   });
 
+  it('updateBudget should not update recurring transaction in budgets field if there is no budget with the id', () => {
+    const id = getRandomString();
+    const recurringTransaction: RecurringTransactionConfig = {
+      id,
+      description: 'water bill',
+      startDate: new Date(2018, 1, 15),
+      times: 6,
+      valuePerTime: 10,
+      totalValue: 60,
+      interval: 1,
+      tags: [],
+      wallet: '',
+      type: 'budget',
+      useEndDate: false,
+      useTotalValue: false,
+    };
+    const state: BudgetsState = {
+      budgets: [recurringTransaction],
+    };
+    const update: RecurringTransactionConfig = {
+      description: 'water bill',
+      startDate: new Date(2018, 1, 15),
+      times: 10,
+      valuePerTime: 10,
+      totalValue: 100,
+      interval: 1,
+      tags: [],
+      wallet: '',
+      type: 'budget',
+      useEndDate: false,
+      useTotalValue: false,
+    };
+
+    const actual = budgetsReducer(state, updateBudget('20', update));
+
+
+    expect(actual).toEqual(state);
+  });
+
 
   it('removeBudget should remove recurring transaction in budgets field', () => {
     const id = getRandomString();
@@ -113,5 +152,30 @@ describe('ContractsReducer', () => {
     };
 
     expect(actual).toEqual(expected);
+  });
+
+  it('removeBudget should not remove recurring transaction in budgets field if there is no budget with the id', () => {
+    const id = getRandomString();
+    const recurringTransaction: RecurringTransactionConfig = {
+      id,
+      description: 'water bill',
+      startDate: new Date(2018, 1, 15),
+      times: 6,
+      valuePerTime: 10,
+      totalValue: 60,
+      interval: 1,
+      tags: [],
+      wallet: '',
+      type: 'budget',
+      useEndDate: false,
+      useTotalValue: false,
+    };
+    const state: BudgetsState = {
+      budgets: [recurringTransaction],
+    };
+
+    const actual = budgetsReducer(state, removeBudget('20'));
+
+    expect(actual).toEqual(state);
   });
 });

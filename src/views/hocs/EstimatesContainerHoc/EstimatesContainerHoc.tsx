@@ -1,4 +1,7 @@
 import { connect } from 'react-redux';
+import { getEstimatesFiltersSelector, getEstimatesSelectedSelector, getEstimatesSelector } from 'state/ducks/estimates';
+import { createTag, getTagsSelector } from 'state/ducks/tags';
+import { createWallet, getWalletsSelector } from 'state/ducks/wallets';
 import {
   addNewTransaction,
   bulkAddTransactions,
@@ -12,24 +15,18 @@ import {
   unselectTransaction,
   updateTransaction,
   updateTransactionsFilters,
-} from 'state/ducks/financial-forecast/actions';
-import { ESTIMATES } from 'state/ducks/financial-forecast/consts';
-import { createTag, getTagsSelector } from 'state/ducks/tags';
-import { createWallet, getWalletsSelector } from 'state/ducks/wallets';
+} from 'state/reducerFactory/transactionsReducerFactory/transactionsActionsFactory';
+import { ESTIMATES } from 'state/reducerFactory/transactionsReducerFactory/transactionsReducersKeys';
 
 export default (Component: any) => connect(
-  (state: any) => {
-    const { financialForecast } = state;
-
-    return {
-      enableRecurringTransactions: true,
-      selectedTransactions: (financialForecast.estimatesSelected && financialForecast.estimatesSelected) || {},
-      transactions: (financialForecast.estimatesTransactions && financialForecast.estimatesTransactions) || [],
-      tags: getTagsSelector(state),
-      filters: financialForecast.estimatesFilters,
-      wallets: getWalletsSelector(state),
-    };
-  },
+  (state: any) => ({
+    enableRecurringTransactions: true,
+    selectedTransactions: getEstimatesSelectedSelector(state) || {},
+    transactions: getEstimatesSelector(state) || [],
+    tags: getTagsSelector(state),
+    filters: getEstimatesFiltersSelector(state),
+    wallets: getWalletsSelector(state),
+  }),
   {
     addNewTransaction: addNewTransaction(ESTIMATES),
     bulkAddTransactions: bulkAddTransactions(ESTIMATES),

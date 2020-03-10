@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
-import { getTransactionsSelector } from 'state/ducks/financial-forecast/transactionsSelectors';
+import { getTransactionsSelector } from 'state/ducks/transactions/transactionsSelectors';
 import { getWalletsSelector, updateWallet } from 'state/ducks/wallets';
 
 import WalletComponent from './Wallet';

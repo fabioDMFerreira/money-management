@@ -11,6 +11,8 @@ import { createBudget, removeBudget } from 'state/ducks/budgets/budgetsActions';
 import { getBudgets } from 'state/ducks/budgets/budgetsSelectors';
 import { createContract, removeContract } from 'state/ducks/contracts/contractsActions';
 import { getContracts } from 'state/ducks/contracts/contractsSelectors';
+import { getAllEstimatesSelector } from 'state/ducks/estimates';
+import { getAllTransactionsSelector } from 'state/ducks/transactions';
 import { getWalletsSelector } from 'state/ducks/wallets';
 import calculateTransactionsEstimatesBalance from 'usecases/calculateBalance/calculateTransactionsEstimatesBalance';
 import getRandomString from 'utils/getRandomString';
@@ -122,7 +124,8 @@ const Forecast = ({
 };
 
 const ForecastContainer = connect((state: any) => {
-  const { financialForecast: { allTransactions, estimatesAllTransactions } } = state;
+  const allTransactions = getAllTransactionsSelector(state);
+  const estimatesAllTransactions = getAllEstimatesSelector(state);
   const wallets = getWalletsSelector(state);
 
   const balance: Balance[] =
@@ -131,8 +134,8 @@ const ForecastContainer = connect((state: any) => {
   return {
     balance,
     wallets,
-    allTransactions: allTransactions || [],
-    allEstimates: estimatesAllTransactions || [],
+    allTransactions,
+    allEstimates: estimatesAllTransactions,
   };
 })(Forecast);
 

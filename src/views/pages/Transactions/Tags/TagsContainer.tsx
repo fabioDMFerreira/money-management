@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getExternalTransactions } from 'state/ducks/financial-forecast/transactionsSelectors';
 import { getTagsSelector, getTagsViewSelector, updateTagsView } from 'state/ducks/tags';
+import { getExternalTransactions } from 'state/ducks/transactions/transactionsSelectors';
 import Tags from 'views/pages/Tags/Tags';
 
 const TagsContainer =

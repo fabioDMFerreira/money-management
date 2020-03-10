@@ -8,6 +8,7 @@ import { Link, match, withRouter } from 'react-router-dom';
 import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 import { getTagsSelector } from 'state/ducks/tags';
+import { getAllTransactionsSelector } from 'state/ducks/transactions';
 import calculateTransactionsBalance from 'usecases/calculateBalance/calculateTransactionsBalancesByMonth';
 import TagTransactions from 'views/pages/Transactions/TagTransactions';
 
@@ -45,7 +46,7 @@ const TagsPageContainer = ({
 );
 
 const mapStateToProps = (state: any, props: any) => {
-  const { financialForecast: { allTransactions: stateTransactions } } = state;
+  const allTransactions = getAllTransactionsSelector(state);
   const tags = getTagsSelector(state);
   let tag: any;
   let transactions: TransactionConfig[] = [];
@@ -54,7 +55,7 @@ const mapStateToProps = (state: any, props: any) => {
     tag = tags.find((tag: Tag) => tag.id === props.match.params.id);
     if (tag) {
       transactions =
-        stateTransactions.filter((transaction: TransactionConfig) =>
+        allTransactions.filter((transaction: TransactionConfig) =>
           transaction.tags && transaction.tags.includes(tag.id) && !transaction.isInternalTransaction);
     }
   }

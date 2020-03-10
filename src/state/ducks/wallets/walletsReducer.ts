@@ -7,7 +7,7 @@ import {
   REMOVE_WALLET,
   UPDATE_WALLET,
   WalletActions,
-} from './types';
+} from './walletsTypes';
 
 
 export interface WalletsState {

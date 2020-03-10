@@ -1,5 +1,5 @@
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
-import { filterType } from 'state/ducks/financial-forecast/actions';
+import { filterType } from 'state/reducerFactory/transactionsReducerFactory/transactionsActionsFactory';
 
 export default (filters: filterType[] | undefined | null) => (transaction: TransactionConfig) => {
   if (!filters) {

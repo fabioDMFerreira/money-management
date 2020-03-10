@@ -1,9 +1,9 @@
 import { List } from 'immutable';
 import { RecurringTransaction, RecurringTransactionConfig } from 'models/RecurringTransaction';
+import { BULK_ADD_TRANSACTIONS } from 'state/reducerFactory/transactionsReducerFactory/transactionsTypes';
 
 import { createBudget, removeBudget, updateBudget } from './../../ducks/budgets/budgetsActions';
 import { createContract, removeContract, updateContract } from './../../ducks/contracts/contractsActions';
-import { BULK_ADD_TRANSACTIONS } from './../../ducks/financial-forecast/types';
 import generateRecurringTransactionsEstimatesMiddleware from './generateRecurringTransactionsEstimatesMiddleware';
 
 const store = {

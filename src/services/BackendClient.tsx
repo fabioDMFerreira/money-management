@@ -6,7 +6,7 @@ interface Config {
   couchdbUrl: string;
 }
 
-export class BackendClient {
+export default class BackendClient {
   config?: Config;
   pouchDB?: any;
 

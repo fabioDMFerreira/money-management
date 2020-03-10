@@ -7,7 +7,7 @@ import {
   UPDATE_WALLET,
   WalletActions,
   WalletConfig,
-} from './types';
+} from './walletsTypes';
 
 export const createWallet = (payload: Wallet): WalletActions => ({
   type: CREATE_WALLET,

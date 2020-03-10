@@ -3,36 +3,20 @@ import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import { transactionEditableFields } from 'models/Transaction/TransactionEditableFields';
 
 export default (field: transactionEditableFields, value: any) => (transaction: TransactionConfig) => {
-  switch (field) {
-    case 'visible':
-      return {
-        ...transaction,
-        visible: value,
-      };
-    case 'description':
-      return {
-        ...transaction,
-        description: value,
-      };
-    case 'tags':
-      return {
-        ...transaction,
-        tags: value,
-      };
-    case 'selected':
-      return {
-        ...transaction,
-        selected: value,
-      };
-    case 'wallet': {
-      return {
-        ...transaction,
-        wallet: value,
-      };
-    }
-    default:
-      break;
-  }
+  const normalFields = [
+    'visible',
+    'description',
+    'tags',
+    'selected',
+    'wallet',
+  ];
+
+  if (normalFields.indexOf(field) >= 0) {
+    return {
+      ...transaction,
+      [field]: value,
+    };
+  };
 
   const transactionDB: Transaction = Transaction.buildFromTransactionData(transaction);
 
@@ -56,7 +40,7 @@ export default (field: transactionEditableFields, value: any) => (transaction: T
       transactionDB.interval = +value;
       break;
     default:
-      transactionDB[field] = value;
+      // transactionDB[field] = value;
       break;
   }
 

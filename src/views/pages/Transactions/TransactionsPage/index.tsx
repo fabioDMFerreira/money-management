@@ -1,5 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getGlobalFiltersSelector } from 'state/ducks/financial-forecast/financialSelectors';
+import { createTag, getTagsSelector } from 'state/ducks/tags';
+import {
+  getAllTransactionsSelector,
+  getTransactionsFiltersSelector,
+  getTransactionsSelectedSelector,
+} from 'state/ducks/transactions';
+import { createWallet, getWalletsSelector } from 'state/ducks/wallets';
 import {
   addNewTransaction,
   bulkAddTransactions,
@@ -13,23 +21,29 @@ import {
   unselectTransaction,
   updateTransaction,
   updateTransactionsFilters,
-} from 'state/ducks/financial-forecast/actions';
-import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
-import { createTag, getTagsSelector } from 'state/ducks/tags';
-import { createWallet, getWalletsSelector } from 'state/ducks/wallets';
+} from 'state/reducerFactory/transactionsReducerFactory/transactionsActionsFactory';
+import { TRANSACTIONS } from 'state/reducerFactory/transactionsReducerFactory/transactionsReducersKeys';
+import passesGlobalFilters from 'state/reducerFactory/transactionsReducerFactory/utils/passesGlobalFilters';
 
 
 const Transactions = ({ TransactionsComponent, ...props }: any) => <TransactionsComponent {...props} />;
 
 export default connect(
   (state: any, props: any) => {
-    const { financialForecast } = state;
+    let transactions;
+
+    if (!props.transactions) {
+      const globalFilters = getGlobalFiltersSelector(state);
+      const filter = passesGlobalFilters(globalFilters);
+      const allTransactions = getAllTransactionsSelector(state);
+      transactions = allTransactions.filter(filter);
+    }
 
     return {
-      selectedTransactions: (financialForecast.selected && financialForecast.selected) || {},
-      transactions: props.transactions || ((financialForecast.transactions && financialForecast.transactions) || []),
+      selectedTransactions: getTransactionsSelectedSelector(state),
+      transactions: props.transactions || transactions,
       tags: getTagsSelector(state),
-      filters: financialForecast.filters,
+      filters: getTransactionsFiltersSelector(state),
       wallets: getWalletsSelector(state),
     };
   },

@@ -39,7 +39,7 @@ export default (transactionsData: TransactionConfig[] = [], estimatesData: Trans
 
     if (!estimate) {
       monthBalance.estimateValue = monthBalance.actualValue;
-    } else if (estimate && estimate.actualValue && previousBalance.estimateValue) {
+    } else if (estimate && estimate.actualValue && previousBalance && previousBalance.estimateValue) {
       monthBalance.estimateValue = previousBalance.estimateValue + estimate.balance;
     }
   });

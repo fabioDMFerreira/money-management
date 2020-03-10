@@ -1,12 +1,12 @@
 import { Rule } from 'models/Rule';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
-import { updateTransaction } from 'state/ducks/financial-forecast/actions';
-import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
-import { BULK_ADD_TRANSACTIONS, UPDATE_TRANSACTION } from 'state/ducks/financial-forecast/types';
 import { getRulesSelector } from 'state/ducks/rules';
 import { CREATE_RULE } from 'state/ducks/rules/rulesTypes';
+import { updateTransaction } from 'state/reducerFactory/transactionsReducerFactory/transactionsActionsFactory';
+import { TRANSACTIONS } from 'state/reducerFactory/transactionsReducerFactory/transactionsReducersKeys';
+import { BULK_ADD_TRANSACTIONS, UPDATE_TRANSACTION } from 'state/reducerFactory/transactionsReducerFactory/transactionsTypes';
 
-import { getTransactionByIdSelector, getTransactionsSelector } from './../ducks/financial-forecast/transactionsSelectors';
+import { getTransactionByIdSelector, getTransactionsSelector } from '../ducks/transactions/transactionsSelectors';
 
 const matchPatternAndGetTags = (rule: Rule, transaction: TransactionConfig) => {
   if (

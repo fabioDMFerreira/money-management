@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
 import React, { createContext, useContext } from 'react';
-import { BackendClient } from 'services/BackendClient';
+import BackendClient from 'services/BackendClient';
 
 import { useAuth0 } from './react-auth0-spa.provider';
 

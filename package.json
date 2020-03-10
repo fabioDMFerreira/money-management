@@ -146,5 +146,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy":"http://server:8000"
+  "proxy": "http://server:8000"
 }

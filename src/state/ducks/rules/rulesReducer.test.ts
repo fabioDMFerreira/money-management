@@ -1,6 +1,4 @@
 
-import { Rule } from 'models/Rule';
-
 import { createRule, removeRule, updateRule } from './rulesActions';
 import rulesReducer from './rulesReducer';
 
@@ -58,6 +56,26 @@ describe('rulesReducer', () => {
       field: 'tags',
       value: 'car mortage',
     });
+  });
+
+  it('should not update rules if there is no rule with id', () => {
+    const state = {
+      rules: [{
+        id: '1',
+        pattern: {
+          field: 'description',
+          value: 'car mortage',
+        },
+        rule: {
+          field: 'tags',
+          value: 'car',
+        },
+      }],
+    };
+
+    const actual = rulesReducer(state, updateRule('5', { rule: { field: 'tags', value: 'car mortage' } }));
+
+    expect(actual).toEqual(state);
   });
 
   it('should remove rules', () => {

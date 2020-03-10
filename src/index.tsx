@@ -4,7 +4,7 @@ import './shared.css';
 import AppWithStore from 'AppWithStore';
 import React from 'react';
 import { render } from 'react-dom';
-import { BackendClient } from 'services/BackendClient';
+import BackendClient from 'services/BackendClient';
 import Guarder from 'views/layout/Guarder';
 import { BackendProvider } from 'views/providers/backend.provider';
 import { Auth0Provider } from 'views/providers/react-auth0-spa.provider';

@@ -2,7 +2,7 @@ import { Tag } from 'models/Tag';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import React, { Component } from 'react';
 import ReactTable, { SortingRule } from 'react-table';
-import { filterType } from 'state/ducks/financial-forecast/actions';
+import { filterType } from 'state/reducerFactory/transactionsReducerFactory/transactionsActionsFactory';
 import styled from 'styled-components';
 
 import FilterComponent from './FilterComponent';

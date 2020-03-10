@@ -2,7 +2,9 @@ import { Balance } from 'models/Balance';
 import { Wallet } from 'models/Wallet';
 import React from 'react';
 import { connect } from 'react-redux';
+import { getAllEstimatesSelector } from 'state/ducks/estimates/estimatesSelectors';
 import { getTagsSelector } from 'state/ducks/tags';
+import { getAllTransactionsSelector } from 'state/ducks/transactions/transactionsSelectors';
 import { getWalletsSelector } from 'state/ducks/wallets';
 import { generateRandomSeedAction } from 'state/middlewares/generateRandomSeedMiddleware';
 import calculateWalletsTransactionsBalance from 'usecases/calculateBalance/calculateWalletsTransactionsBalance';
@@ -10,7 +12,8 @@ import calculateWalletsTransactionsBalance from 'usecases/calculateBalance/calcu
 import Dashboard from './Dashboard';
 
 const DashboardContainer = connect((state: any) => {
-  const { financialForecast: { allTransactions, estimatesAllTransactions } } = state;
+  const estimatesAllTransactions = getAllEstimatesSelector(state);
+  const allTransactions = getAllTransactionsSelector(state);
   const wallets = getWalletsSelector(state);
   const tags = getTagsSelector(state);
   const balance: Balance[] =

@@ -1,13 +1,13 @@
 import { RecurringTransaction } from 'models/RecurringTransaction';
 import { CREATE_CONTRACT, REMOVE_CONTRACT, UPDATE_CONTRACT } from 'state/ducks/contracts/contractsTypes';
-import { ESTIMATES } from 'state/ducks/financial-forecast/consts';
+import { bulkAddTransactions, bulkDeleteTransactionsById } from 'state/reducerFactory/transactionsReducerFactory/transactionsActionsFactory';
+import { ESTIMATES } from 'state/reducerFactory/transactionsReducerFactory/transactionsReducersKeys';
 
 import { BudgetsActions } from './../../ducks/budgets/budgetsActions';
 import { getBudgetById } from './../../ducks/budgets/budgetsSelectors';
 import { CREATE_BUDGET, REMOVE_BUDGET, UPDATE_BUDGET } from './../../ducks/budgets/budgetsTypes';
 import { ContractsActions } from './../../ducks/contracts/contractsActions';
 import { getContractById } from './../../ducks/contracts/contractsSelectors';
-import { bulkAddTransactions, bulkDeleteTransactionsById } from './../../ducks/financial-forecast/actions';
 
 export default (store: any) => (dispatch: any) => (action: ContractsActions | BudgetsActions) => {
   switch (action.type) {

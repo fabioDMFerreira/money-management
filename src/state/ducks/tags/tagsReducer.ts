@@ -12,7 +12,7 @@ import {
 } from './tagsTypes';
 
 
-interface TagsState {
+export interface TagsState {
   tags: Tag[];
   tagsView: TagsView;
 }
@@ -34,7 +34,7 @@ export default (state: TagsState = initialState, action: TagsActions) => {
     }
     case DELETE_TAG: {
       const tags = state.tags
-        .filter((tag: any) => tag.id !== action.tag.id);
+        .filter((tag: Tag) => tag.id !== action.tag.id);
 
       return {
         ...state,
@@ -42,13 +42,13 @@ export default (state: TagsState = initialState, action: TagsActions) => {
       };
     }
     case UPDATE_TAG: {
-      action.newTag = {
+      const newTag = {
         ...action.newTag,
         color: action.newTag.color || randomColor({ luminosity: 'dark' }),
       };
 
       const tags = state.tags
-        .map((tag: any) => (tag.id === action.tag.id ? action.newTag : tag));
+        .map((tag: Tag) => (tag.id === action.tag.id ? newTag : tag));
 
       return {
         ...state,

@@ -1,14 +1,11 @@
-
-import { List } from 'immutable';
-import { Wallet, WalletFactory } from 'models/Wallet';
+import { WalletFactory } from 'models/Wallet';
 import getRandomDarkColor from 'utils/getRandomDarkColor';
 
-import { createWallet, removeWallet, updateWallet } from './actions';
-import { WalletConfig } from './types';
+import { clearWallets, createWallet, removeWallet, updateWallet } from './walletsActions';
 import reducer, { initialState, WalletsState } from './walletsReducer';
 
 
-describe('Wallet reducer', () => {
+describe('Wallets reducer', () => {
   it('should create a wallet', () => {
     const wallet = WalletFactory.build('Paypal', 1000);
 
@@ -49,6 +46,21 @@ describe('Wallet reducer', () => {
     const actual = reducer(initialState, removeWallet(wallet1.id));
     const expected: WalletsState = {
       wallets: [wallet2],
+    };
+
+    expect(actual).toEqual(expected);
+  });
+
+  it('should remove all the wallets', () => {
+    const wallet1 = WalletFactory.build('Paypal', 1000);
+    const wallet2 = WalletFactory.build('Stripe', 5000);
+    const initialState = {
+      wallets: [wallet1, wallet2],
+    };
+
+    const actual = reducer(initialState, clearWallets());
+    const expected: WalletsState = {
+      wallets: [],
     };
 
     expect(actual).toEqual(expected);

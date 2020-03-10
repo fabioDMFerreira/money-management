@@ -6,8 +6,8 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 import Jumbotron from 'reactstrap/lib/Jumbotron';
 import Nav from 'reactstrap/lib/Nav';
 import NavLink from 'reactstrap/lib/NavLink';
-import { bulkAddTransactions } from 'state/ducks/financial-forecast/actions';
 import { WalletConfig } from 'state/ducks/wallets';
+import { bulkAddTransactions } from 'state/reducerFactory/transactionsReducerFactory/transactionsActionsFactory';
 import getRandomString from 'utils/getRandomString';
 
 interface Props {

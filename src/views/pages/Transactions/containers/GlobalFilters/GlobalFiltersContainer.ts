@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { updateGlobalFilter } from 'state/ducks/financial-forecast/actions';
+import { updateGlobalFilter } from 'state/ducks/financial-forecast/financialActions';
 
 import GlobalFilters from './GlobalFilters';
 

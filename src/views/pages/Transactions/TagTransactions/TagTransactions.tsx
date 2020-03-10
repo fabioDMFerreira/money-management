@@ -7,10 +7,10 @@ import Col from 'reactstrap/lib/Col';
 import Input from 'reactstrap/lib/Input';
 import Label from 'reactstrap/lib/Label';
 import Row from 'reactstrap/lib/Row';
-import { updateTransaction } from 'state/ducks/financial-forecast/actions';
-import { TRANSACTIONS } from 'state/ducks/financial-forecast/consts';
-import { getTransactionsSelector } from 'state/ducks/financial-forecast/transactionsSelectors';
 import { createRule } from 'state/ducks/rules';
+import { getTransactionsSelector } from 'state/ducks/transactions/transactionsSelectors';
+import { updateTransaction } from 'state/reducerFactory/transactionsReducerFactory/transactionsActionsFactory';
+import { TRANSACTIONS } from 'state/reducerFactory/transactionsReducerFactory/transactionsReducersKeys';
 
 import TagSelect from '../../../containers/TagSelect';
 import TransactionsTable from '../../../containers/TransactionsTable/TransactionsTable';

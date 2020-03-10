@@ -1,4 +1,3 @@
-import { GlobalFilters } from 'models/GlobalFilters';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import { transactionEditableFields } from 'models/Transaction/TransactionEditableFields';
 
@@ -12,14 +11,11 @@ import {
   DRAG_TRANSACTION,
   SELECT_ALL_TRANSACTIONS,
   SELECT_TRANSACTION,
-  SET_ACTIVE_TAB,
   UNSELECT_ALL_TRANSACTIONS,
   UNSELECT_TRANSACTION,
-  UPDATE_FORECAST,
-  UPDATE_GLOBAL_FILTER,
   UPDATE_TRANSACTION,
   UPDATE_TRANSACTIONS_FILTERS,
-} from './types';
+} from './transactionsTypes';
 
 type TransactionType = 'TRANSACTIONS' | 'ESTIMATES';
 
@@ -182,41 +178,6 @@ export const updateTransactionsFilters = (key: TransactionType) => (filters: fil
 });
 
 
-export type ForecastEditableFieldsType = 'initialValue' | 'startDate' | 'endDate';
-export interface ActionUpdateForecastInterface {
-  type: typeof UPDATE_FORECAST;
-  keyName: ForecastEditableFieldsType;
-  value: string;
-}
-
-export const updateForecast = (keyName: ForecastEditableFieldsType, value: string): ActionUpdateForecastInterface => ({
-  type: UPDATE_FORECAST,
-  keyName,
-  value,
-});
-
-export interface ActionSetActiveTabInterface {
-  type: typeof SET_ACTIVE_TAB;
-  value: string;
-}
-
-export const setActiveTab = (value: string): ActionSetActiveTabInterface => ({
-  type: SET_ACTIVE_TAB,
-  value,
-});
-
-export interface ActionUpdateGlobalFilterInterface {
-  type: typeof UPDATE_GLOBAL_FILTER;
-  filterKey: keyof GlobalFilters;
-  value: any;
-}
-
-export const updateGlobalFilter = (filterKey: keyof GlobalFilters, value: any): ActionUpdateGlobalFilterInterface => ({
-  type: UPDATE_GLOBAL_FILTER,
-  filterKey,
-  value,
-});
-
 export type FinancialForecastActions =
   ActionAddNewTransactionInterface |
   ActionBulkAddTransactionsInterface |
@@ -230,8 +191,4 @@ export type FinancialForecastActions =
   ActionSelectAllTransactionInterface |
   ActionUnselectTransactionInterface |
   ActionUnselectAllTransactionsInterface |
-
-  ActionUpdateTransactionsFiltersInterface |
-  ActionUpdateForecastInterface |
-  ActionSetActiveTabInterface |
-  ActionUpdateGlobalFilterInterface;
+  ActionUpdateTransactionsFiltersInterface;

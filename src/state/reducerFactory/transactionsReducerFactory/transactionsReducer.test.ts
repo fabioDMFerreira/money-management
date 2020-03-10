@@ -1,4 +1,5 @@
-import { TransactionConfig } from '../../../models/Transaction/TransactionConfig';
+import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
+
 import {
   addNewTransaction,
   bulkAddTransactions,
@@ -8,21 +9,22 @@ import {
   selectTransaction,
   unselectAllTransactions,
   unselectTransaction,
-  updateGlobalFilter,
   updateTransaction,
-} from './actions';
-import FinancialForecastReducer, { initialState, State } from './reducers';
+} from './transactionsActionsFactory';
+import transactionsReducerFactory, { transactionsInitialState, TransactionsState } from './transactionsReducerFactory';
+import { TRANSACTIONS } from './transactionsReducersKeys';
 
+const transactionsReducer = transactionsReducerFactory(TRANSACTIONS);
 
-describe('FinancialForecastReducer', () => {
+describe('transactionsReducer', () => {
   describe('addNewTransaction', () => {
     it('should add a new transaction to transactions list and all transactions list', () => {
-      const actual = FinancialForecastReducer(undefined, addNewTransaction('TRANSACTIONS')());
+      const actual = transactionsReducer(transactionsInitialState, addNewTransaction(TRANSACTIONS)());
 
       expect(actual.transactions.length).toEqual(1);
       expect(actual.allTransactions.length).toEqual(1);
 
-      const actual2 = FinancialForecastReducer(actual, addNewTransaction('TRANSACTIONS')());
+      const actual2 = transactionsReducer(actual, addNewTransaction(TRANSACTIONS)());
 
       expect(actual2.transactions.length).toEqual(2);
       expect(actual2.allTransactions.length).toEqual(2);
@@ -30,48 +32,27 @@ describe('FinancialForecastReducer', () => {
 
     describe('should add a new transaction that respects global filters', () => {
       it('(start date)', () => {
-        const state: State = {
-          ...initialState,
-          globalFilters: {
-            startDate: '2019-06-02',
-          },
+        const state: TransactionsState = {
+          ...transactionsInitialState,
         };
 
-        const actual = FinancialForecastReducer(state, addNewTransaction('TRANSACTIONS')());
+        const actual = transactionsReducer(state, addNewTransaction(TRANSACTIONS)());
 
         const createdTransaction = actual.transactions[0];
 
-        expect(createdTransaction.startDate).toEqual('2019-06-02');
-      });
-
-      it('(end date)', () => {
-        const state: State = {
-          ...initialState,
-          globalFilters: {
-            endDate: '2019-06-02',
-          },
-        };
-
-        const actual = FinancialForecastReducer(state, addNewTransaction('TRANSACTIONS')());
-
-        const createdTransaction = actual.transactions[0];
-
-        expect(createdTransaction.startDate).toEqual('2019-06-02');
+        expect(createdTransaction.startDate).toEqual(YYYYMMDD(new Date()));
       });
 
       it('(tags)', () => {
-        const state: State = {
-          ...initialState,
-          globalFilters: {
-            tags: ['tag1', 'tag2'],
-          },
+        const state: TransactionsState = {
+          ...transactionsInitialState,
         };
 
-        const actual = FinancialForecastReducer(state, addNewTransaction('TRANSACTIONS')());
+        const actual = transactionsReducer(state, addNewTransaction(TRANSACTIONS)());
 
         const createdTransaction = actual.transactions[0];
 
-        expect(createdTransaction.tags).toEqual(['tag1', 'tag2']);
+        expect(createdTransaction.tags).toEqual([]);
       });
     });
   });
@@ -79,14 +60,11 @@ describe('FinancialForecastReducer', () => {
   describe('bulkAddTransactions', () => {
     describe('should add transactions that match global filters to transactions list and to all transactions list', () => {
       it('(start date)', () => {
-        const state: State = {
-          ...initialState,
-          globalFilters: {
-            startDate: '2019-05-21',
-          },
+        const state: TransactionsState = {
+          ...transactionsInitialState,
         };
 
-        const actual = FinancialForecastReducer(state, bulkAddTransactions('TRANSACTIONS')([{
+        const actual = transactionsReducer(state, bulkAddTransactions(TRANSACTIONS)([{
           description: 't1',
           startDate: '2018-04-21',
         }, {
@@ -94,20 +72,17 @@ describe('FinancialForecastReducer', () => {
           startDate: '2019-12-12',
         }]));
 
-        expect(actual.transactions.length).toEqual(1);
+        expect(actual.transactions.length).toEqual(2);
         expect(actual.allTransactions.length).toEqual(2);
         expect(actual.transactions[0].description).toEqual('t2');
       });
 
       it('(end date)', () => {
-        const state: State = {
-          ...initialState,
-          globalFilters: {
-            endDate: '2019-05-21',
-          },
+        const state: TransactionsState = {
+          ...transactionsInitialState,
         };
 
-        const actual = FinancialForecastReducer(state, bulkAddTransactions('TRANSACTIONS')([{
+        const actual = transactionsReducer(state, bulkAddTransactions(TRANSACTIONS)([{
           description: 't1',
           startDate: '2018-04-21',
         }, {
@@ -115,20 +90,17 @@ describe('FinancialForecastReducer', () => {
           startDate: '2019-12-12',
         }]));
 
-        expect(actual.transactions.length).toEqual(1);
+        expect(actual.transactions.length).toEqual(2);
         expect(actual.allTransactions.length).toEqual(2);
-        expect(actual.transactions[0].description).toEqual('t1');
+        expect(actual.transactions[0].description).toEqual('t2');
       });
 
       it('(tags)', () => {
-        const state: State = {
-          ...initialState,
-          globalFilters: {
-            tags: ['tag1', 'tag2'],
-          },
+        const state: TransactionsState = {
+          ...transactionsInitialState,
         };
 
-        const actual = FinancialForecastReducer(state, bulkAddTransactions('TRANSACTIONS')([{
+        const actual = transactionsReducer(state, bulkAddTransactions(TRANSACTIONS)([{
           description: 't1',
           startDate: '2019-12-15',
           tags: ['tag1', 'tag2'],
@@ -144,7 +116,7 @@ describe('FinancialForecastReducer', () => {
         },
         ]));
 
-        expect(actual.transactions.length).toEqual(2);
+        expect(actual.transactions.length).toEqual(3);
         expect(actual.allTransactions.length).toEqual(3);
         expect(actual.transactions[0].description).toEqual('t1');
         expect(actual.transactions[1].description).toEqual('t2');
@@ -154,8 +126,8 @@ describe('FinancialForecastReducer', () => {
 
   describe('updateTransaction', () => {
     it('should update transaction in transactions list and in all transactions list', () => {
-      const state: State = {
-        ...initialState,
+      const state: TransactionsState = {
+        ...transactionsInitialState,
         transactions: [{
           id: '1',
           description: 't1',
@@ -168,18 +140,15 @@ describe('FinancialForecastReducer', () => {
         }],
       };
 
-      const actual = FinancialForecastReducer(state, updateTransaction('TRANSACTIONS')('1', 100, 'credit'));
+      const actual = transactionsReducer(state, updateTransaction(TRANSACTIONS)('1', 100, 'credit'));
 
       expect(actual.transactions[0].credit).toEqual('100');
       expect(actual.allTransactions[1].credit).toEqual('100');
     });
 
     it('should remove transaction from transactions if it does not matches global filters', () => {
-      const state: State = {
-        ...initialState,
-        globalFilters: {
-          startDate: '2019-04-01',
-        },
+      const state: TransactionsState = {
+        ...transactionsInitialState,
         transactions: [{
           id: '1',
           description: 't1',
@@ -192,17 +161,17 @@ describe('FinancialForecastReducer', () => {
         }],
       };
 
-      const actual = FinancialForecastReducer(state, updateTransaction('TRANSACTIONS')('1', '2017-01-01', 'startDate'));
+      const actual = transactionsReducer(state, updateTransaction(TRANSACTIONS)('1', '2017-01-01', 'startDate'));
 
       expect(actual.allTransactions[0].startDate).toEqual('2017-01-01');
-      expect(actual.transactions.length).toEqual(0);
+      expect(actual.transactions.length).toEqual(1);
     });
   });
 
   describe('deleteTransaction', () => {
     it('should delete transactions from transactions list and all transactions list', () => {
-      const state: State = {
-        ...initialState,
+      const state: TransactionsState = {
+        ...transactionsInitialState,
         transactions: [{
           id: '1',
           description: 't1',
@@ -218,7 +187,7 @@ describe('FinancialForecastReducer', () => {
         }],
       };
 
-      const actual = FinancialForecastReducer(state, deleteTransaction('TRANSACTIONS')('1'));
+      const actual = transactionsReducer(state, deleteTransaction(TRANSACTIONS)('1'));
 
       expect(actual.transactions.length).toEqual(0);
       expect(actual.allTransactions.length).toEqual(1);
@@ -227,8 +196,8 @@ describe('FinancialForecastReducer', () => {
 
   describe('clearTransactions', () => {
     it('should delete all transactions from transactions list and all transactions list', () => {
-      const state: State = {
-        ...initialState,
+      const state: TransactionsState = {
+        ...transactionsInitialState,
         transactions: [{
           id: '1',
           description: 't1',
@@ -244,7 +213,7 @@ describe('FinancialForecastReducer', () => {
         }],
       };
 
-      const actual = FinancialForecastReducer(state, clearTransactions('TRANSACTIONS')());
+      const actual = transactionsReducer(state, clearTransactions(TRANSACTIONS)());
 
       expect(actual.transactions.length).toEqual(0);
       expect(actual.allTransactions.length).toEqual(0);
@@ -253,11 +222,11 @@ describe('FinancialForecastReducer', () => {
 
   describe('selectTransaction', () => {
     it('should select a transaction', () => {
-      const state: State = {
-        ...initialState,
+      const state: TransactionsState = {
+        ...transactionsInitialState,
       };
 
-      const actual = FinancialForecastReducer(state, selectTransaction('TRANSACTIONS')('test-1'));
+      const actual = transactionsReducer(state, selectTransaction(TRANSACTIONS)('test-1'));
 
       expect(actual.selected['test-1']).toEqual(true);
     });
@@ -265,14 +234,14 @@ describe('FinancialForecastReducer', () => {
 
   describe('unselectTransaction', () => {
     it('should unselect a transaction', () => {
-      const state: State = {
-        ...initialState,
+      const state: TransactionsState = {
+        ...transactionsInitialState,
         selected: {
           'test-1': true,
         },
       };
 
-      const actual = FinancialForecastReducer(state, unselectTransaction('TRANSACTIONS')('test-1'));
+      const actual = transactionsReducer(state, unselectTransaction(TRANSACTIONS)('test-1'));
 
       expect(actual.selected['test-1']).toEqual(false);
     });
@@ -281,8 +250,8 @@ describe('FinancialForecastReducer', () => {
 
   describe('selectAllTransactions', () => {
     it('should select all transactions available', () => {
-      const state: State = {
-        ...initialState,
+      const state: TransactionsState = {
+        ...transactionsInitialState,
         transactions: [{
           id: '1',
           description: 't1',
@@ -298,7 +267,7 @@ describe('FinancialForecastReducer', () => {
         }],
       };
 
-      const actual = FinancialForecastReducer(state, selectAllTransactions('TRANSACTIONS')());
+      const actual = transactionsReducer(state, selectAllTransactions(TRANSACTIONS)());
 
       expect(actual.selected).toEqual({
         1: true,
@@ -310,8 +279,8 @@ describe('FinancialForecastReducer', () => {
 
   describe('unselectAllTransactions', () => {
     it('should reinitialize selected field', () => {
-      const state: State = {
-        ...initialState,
+      const state: TransactionsState = {
+        ...transactionsInitialState,
         transactions: [{
           id: '1',
           description: 't1',
@@ -332,42 +301,9 @@ describe('FinancialForecastReducer', () => {
         },
       };
 
-      const actual = FinancialForecastReducer(state, unselectAllTransactions('TRANSACTIONS')());
+      const actual = transactionsReducer(state, unselectAllTransactions(TRANSACTIONS)());
 
       expect(actual.selected).toEqual({});
-    });
-  });
-
-  describe('updateGlobalFilter', () => {
-    it('should update global filter and filter transactions', () => {
-      const state: State = {
-        ...initialState,
-        transactions: [{
-          id: '2',
-          description: 't2',
-          startDate: '2020-04-03',
-        }, {
-          id: '1',
-          description: 't1',
-          startDate: '2019-04-10',
-        }],
-        allTransactions: [{
-          id: '2',
-          description: 't2',
-          startDate: '2020-04-03',
-        }, {
-          id: '1',
-          description: 't1',
-          startDate: '2019-04-10',
-        }],
-      };
-
-      const actual = FinancialForecastReducer(state, updateGlobalFilter('startDate', '2019-06-01'));
-
-      expect(actual.transactions.length).toEqual(1);
-      expect(actual.allTransactions.length).toEqual(2);
-
-      expect(actual.transactions[0].description).toEqual('t2');
     });
   });
 });
