@@ -9,9 +9,9 @@ import Button from 'reactstrap/lib/Button';
 import Col from 'reactstrap/lib/Col';
 import Row from 'reactstrap/lib/Row';
 import { TagsView, updateTagsView } from 'state/ducks/tags';
-import Onboarding from 'views/components/Onboarding';
 import ToggleButton from 'views/components/ToggleButton';
 import Translate from 'views/components/Translate';
+import Onboarding from 'views/containers/Onboarding';
 
 import TagsPie from './components/TagsPie';
 import { generatePieCreditData, generatePieDebitData } from './components/TagsPie/utils';

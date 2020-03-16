@@ -14,9 +14,9 @@ import {
   UNSELECT_TRANSACTION, UPDATE_TRANSACTION,
   UPDATE_TRANSACTIONS_FILTERS,
 } from './transactionsTypes';
-import checkTransactionDuplicatedFactory from './utils/checkTransactionDuplicatedFactory';
 import fixDatePartsPositionsFactory from './utils/fixDatePartsPositionsFactory';
 import getDatesPartsPositions from './utils/getDatesPartsPositions';
+import isTransactionDuplicatedFactory from './utils/isTransactionDuplicatedFactory';
 import updateTransaction from './utils/updateTransaction';
 
 const updateTransactionInList = (transactions: TransactionConfig[], transactionIndex: number, payload: TransactionConfig) => [
@@ -52,7 +52,7 @@ export const transactionsInitialState = {
 };
 
 export default (key: string) =>
-  (state: any = transactionsInitialState, action: FinancialForecastActions): any => {
+  (state: TransactionsState = transactionsInitialState, action: FinancialForecastActions): any => {
     if (!('key' in action) || action.key !== key) {
       return state;
     }
@@ -106,6 +106,7 @@ export default (key: string) =>
           startDate: fixDateParts(transaction.startDate),
           endDate: fixDateParts(transaction.endDate),
         }));
+        const isDuplicated = isTransactionDuplicatedFactory(state.allTransactions);
 
         const newTransactions = action.transactions
           .map((transaction: any) => ({
@@ -114,7 +115,7 @@ export default (key: string) =>
             tags: transaction.tags ? transaction.tags : [],
             wallet: transaction.wallet,
           }))
-          .filter(checkTransactionDuplicatedFactory(state.allTransactions));
+          .filter(t => !isDuplicated(t));
 
         // const filteredTransactions = newTransactions.filter(passesGlobalFilters(state.globalFilters));
 
@@ -134,7 +135,7 @@ export default (key: string) =>
             state.transactions.filter((transaction: TransactionConfig) => transaction.id && !state.selected[transaction.id]),
           allTransactions:
             state.allTransactions.filter((transaction: TransactionConfig) => transaction.id && !state.selected[transaction.id]),
-          selected: state.selected.filter((v: boolean) => !v),
+          selected: {},
         };
       }
       case BULK_DELETE_TRANSACTIONS_BY_ID: {
@@ -242,8 +243,10 @@ export default (key: string) =>
       case SELECT_ALL_TRANSACTIONS: {
         const { transactions } = state;
 
-        const selected = transactions.reduce((final: any, transaction: Transaction) => {
-          final[transaction.id] = true;
+        const selected = transactions.reduce((final: { [v: string]: boolean }, transaction: TransactionConfig) => {
+          if (transaction.id) {
+            final[transaction.id] = true;
+          }
 
           return final;
         }, {});

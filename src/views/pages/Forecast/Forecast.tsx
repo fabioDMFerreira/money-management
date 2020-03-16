@@ -1,5 +1,6 @@
 import { Balance } from 'models/Balance';
 import { RecurringTransactionConfig } from 'models/RecurringTransaction';
+import { Tag } from 'models/Tag';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import { Wallet } from 'models/Wallet';
 import React, { Fragment, useState } from 'react';
@@ -12,6 +13,7 @@ import { getBudgets } from 'state/ducks/budgets/budgetsSelectors';
 import { createContract, removeContract } from 'state/ducks/contracts/contractsActions';
 import { getContracts } from 'state/ducks/contracts/contractsSelectors';
 import { getAllEstimatesSelector } from 'state/ducks/estimates';
+import { createTag, getTagsSelector } from 'state/ducks/tags';
 import { getAllTransactionsSelector } from 'state/ducks/transactions';
 import { getWalletsSelector } from 'state/ducks/wallets';
 import calculateTransactionsEstimatesBalance from 'usecases/calculateBalance/calculateTransactionsEstimatesBalance';
@@ -40,12 +42,17 @@ const Forecast = ({
   const [tableView, setTableView] = useState('estimates');
 
   const contracts = useSelector(getContracts);
+  const tags = useSelector(getTagsSelector);
+  const wallets = useSelector(getWalletsSelector);
   const createContractDispatcher = (rt: RecurringTransactionConfig) => {
     rt.id = getRandomString();
     dispatch(createContract(rt));
   };
   const removeContractDispatcher = (id: string) => {
     dispatch(removeContract(id));
+  };
+  const createTagDispatcher = (tag: Tag) => {
+    dispatch(createTag(tag));
   };
 
   const budgets = useSelector(getBudgets);
@@ -103,6 +110,9 @@ const Forecast = ({
               createContract={createContractDispatcher}
               contracts={contracts}
               removeContract={removeContractDispatcher}
+              tags={tags}
+              wallets={wallets}
+              createTag={createTagDispatcher}
             />
           </div>
         </Fragment>
@@ -115,6 +125,9 @@ const Forecast = ({
               createContract={createBudgetDispatcher}
               contracts={budgets}
               removeContract={removeBudgetDispatcher}
+              tags={tags}
+              wallets={wallets}
+              createTag={createTagDispatcher}
             />
           </div>
         </Fragment>

@@ -12,8 +12,8 @@ import {
   Tooltip, XAxis, YAxis,
 } from 'recharts';
 import YYYYMM from 'utils/dateUtils/YYYYMM';
-import Onboarding from 'views/components/Onboarding';
 import ToggleButton from 'views/components/ToggleButton';
+import Onboarding from 'views/containers/Onboarding';
 
 import Transactions from '..';
 import TransactionsTable from '../TransactionsPage';

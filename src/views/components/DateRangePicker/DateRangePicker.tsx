@@ -31,9 +31,9 @@ export default class DateRangePicker extends Component<Props, State> {
         showClearDates
         isOutsideRange={() => false}
         startDate={startDate ? moment(startDate) : null}
-        startDateId="global-filter-start-date"
+        startDateId="dates-range-start-date"
         endDate={endDate ? moment(endDate) : null}
-        endDateId="global-filter-end-date"
+        endDateId="dates-range-global-filter-end-date"
         onDatesChange={
           ({ startDate: newStartDate, endDate: newEndDate }) => {
             if ((!newStartDate && startDate) || (newStartDate && newStartDate.format('YYYY-MM-DD') !== startDate)) {

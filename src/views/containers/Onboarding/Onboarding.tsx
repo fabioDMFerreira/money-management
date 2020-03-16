@@ -1,13 +1,11 @@
 import { Tag } from 'models/Tag';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
 import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import Jumbotron from 'reactstrap/lib/Jumbotron';
 import Nav from 'reactstrap/lib/Nav';
 import NavLink from 'reactstrap/lib/NavLink';
 import { WalletConfig } from 'state/ducks/wallets';
-import { bulkAddTransactions } from 'state/reducerFactory/transactionsReducerFactory/transactionsActionsFactory';
 import getRandomString from 'utils/getRandomString';
 
 interface Props {
@@ -18,9 +16,7 @@ interface Props {
   bulkAddTransactions: (transactions: TransactionConfig[]) => any;
 }
 
-export default connect(null, {
-  bulkAddTransactions: bulkAddTransactions('TRANSACTIONS'),
-})((props: Props) => {
+export default ((props: Props) => {
   const links = [];
 
   if (props.wallets && !props.wallets.length) {

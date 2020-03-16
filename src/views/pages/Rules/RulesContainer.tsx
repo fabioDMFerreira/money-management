@@ -4,7 +4,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createRule, getRulesSelector, removeRule } from 'state/ducks/rules';
 import { createTag, getTagsSelector } from 'state/ducks/tags';
-import Onboarding from 'views/components/Onboarding';
+import Onboarding from 'views/containers/Onboarding';
 
 import Rules from './Rules';
 

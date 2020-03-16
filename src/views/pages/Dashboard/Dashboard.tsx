@@ -29,9 +29,9 @@ import NavItem from 'reactstrap/lib/NavItem';
 import NavLink from 'reactstrap/lib/NavLink';
 import Row from 'reactstrap/lib/Row';
 import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
-import Onboarding from 'views/components/Onboarding';
 import Translate from 'views/components/Translate';
 import GuideTour from 'views/containers/GuideTour';
+import Onboarding from 'views/containers/Onboarding';
 
 import Tags from '../Tags/Tags';
 import Timeline from '../Transactions/Timeline/Timeline';

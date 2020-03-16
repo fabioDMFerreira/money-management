@@ -36,7 +36,7 @@ jest.mock(
     },
 );
 
-describe('ButtonWithConfirmation', () => {
+describe('components/ButtonWithConfirmation', () => {
   it('should show the confirmation message when the button is clicked', () => {
     const confirmationMessage = 'Are you sure you want to delete?';
     const onClick = jest.fn();

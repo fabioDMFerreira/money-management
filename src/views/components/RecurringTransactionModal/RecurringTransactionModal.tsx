@@ -3,7 +3,9 @@
 import { faCogs, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RecurringTransaction, RecurringTransactionConfig, RecurringTransactionType } from 'models/RecurringTransaction';
+import { Tag } from 'models/Tag';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
+import { Wallet } from 'models/Wallet';
 import React, { useState } from 'react';
 import Button from 'reactstrap/lib/Button';
 import Col from 'reactstrap/lib/Col';
@@ -18,18 +20,23 @@ import ModalBody from 'reactstrap/lib/ModalBody';
 import ModalFooter from 'reactstrap/lib/ModalFooter';
 import Row from 'reactstrap/lib/Row';
 import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
-import TagSelect from 'views/containers/TagSelect';
-import TransactionsTable from 'views/containers/TransactionsTable';
-import WalletSelectContainer from 'views/containers/WalletSelect';
+import TagSelect from 'views/containers/TagSelect/TagSelect';
+import TransactionsTable from 'views/containers/TransactionsTable/TransactionsTable';
+import WalletSelect from 'views/containers/WalletSelect/WalletSelect';
 
 
 interface Props {
   recurringTransactionType: RecurringTransactionType;
   save: (recurringTransaction: RecurringTransactionConfig) => any;
   close: () => any;
+  tags: Tag[];
+  wallets: Wallet[];
+  createTag: () => any;
 }
 
-export default ({ close, save, recurringTransactionType }: Props) => {
+export default ({
+  close, save, recurringTransactionType, tags, wallets, createTag,
+}: Props) => {
   const [description, setDescription] = useState('Recurring Transaction');
   const [startDate, setStartDate] = useState(YYYYMMDD(new Date()));
   const [endDate, setEndDate] = useState('');
@@ -101,15 +108,18 @@ export default ({ close, save, recurringTransactionType }: Props) => {
                 <FormGroup>
                   <Label for="tag">Tags</Label>
                   <TagSelect
+                    tags={tags}
                     tagsSelected={tagsSelected}
                     onChange={tags => setTagsSelected(tags)}
+                    createTag={createTag}
                   />
                 </FormGroup>
               </Col>
               <Col>
                 <FormGroup>
                   <Label for="wallet">Wallet</Label>
-                  <WalletSelectContainer
+                  <WalletSelect
+                    wallets={wallets}
                     walletSelected={walletSelected}
                     onChange={({ value }) => setWalletSelected(value)}
                   />

@@ -9,6 +9,9 @@ import Contracts from './Contracts';
 storiesOf('Contracts', module)
   .add('default', () => (
     <Contracts
+      createTag={action('createTag')}
+      tags={[]}
+      wallets={[]}
       createContract={action('create')}
       removeContract={action('remove')}
       contracts={[{

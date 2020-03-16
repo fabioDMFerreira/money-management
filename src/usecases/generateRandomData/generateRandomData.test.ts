@@ -10,35 +10,32 @@ describe('getRandomData', () => {
     });
   });
 
-  // it('test', () => {
+  it('test', () => {
+    const transactions = [];
 
-  //   const transactions = [];
+    for (let i = 0; i < 100; i++) {
+      transactions.push(getRandomTransaction());
+    }
 
-  //   for (let i = 0; i < 100; i++) {
-  //     transactions.push(randomTransaction());
-  //   }
+    const creditTxCounter = transactions.reduce((counter, tx) => {
+      if (tx.credit && +tx.credit > 0) {
+        counter++;
+      }
 
-  //   const creditTxCounter = transactions.reduce((counter, tx) => {
+      return counter;
+    }, 0);
 
-  //     if (tx.value > 0) {
-  //       counter++;
-  //     }
+    const yearTxCounter = transactions.reduce((counter, tx) => {
+      if (tx.startDate && new Date(tx.startDate) > new Date(2019, 6, 30)) {
+        counter++;
+      }
 
-  //     return counter;
-  //   }, 0)
+      return counter;
+    }, 0);
 
-  //   const yearTxCounter = transactions.reduce((counter, tx) => {
-
-  //     if (tx.startDate > new Date(2019, 6, 30)) {
-  //       counter++;
-  //     }
-
-  //     return counter;
-  //   }, 0)
-
-  //   expect(creditTxCounter).toBeLessThan(50);
-  //   expect(creditTxCounter).toBeGreaterThan(8);
-  //   expect(yearTxCounter).toBeGreaterThan(30);
-  //   expect(yearTxCounter).toBeLessThan(70);
-  // });
+    expect(creditTxCounter).toBeLessThan(50);
+    expect(creditTxCounter).toBeGreaterThan(5);
+    expect(yearTxCounter).toBeGreaterThan(30);
+    expect(yearTxCounter).toBeLessThan(70);
+  });
 });

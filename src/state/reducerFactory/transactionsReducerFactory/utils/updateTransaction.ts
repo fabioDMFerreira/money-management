@@ -20,28 +20,14 @@ export default (field: transactionEditableFields, value: any) => (transaction: T
 
   const transactionDB: Transaction = Transaction.buildFromTransactionData(transaction);
 
-  switch (field) {
-    case 'credit':
-      transactionDB.value = +value;
-      break;
-    case 'debit':
-      transactionDB.value = -(+value);
-      break;
-    case 'startDate':
-      transactionDB.startDate = value ? new Date(value) : new Date();
-      break;
-    case 'endDate':
-      transactionDB.endDate = value ? new Date(value) : new Date();
-      break;
-    case 'particles':
-      transactionDB.particles = +value;
-      break;
-    case 'interval':
-      transactionDB.interval = +value;
-      break;
-    default:
-      // transactionDB[field] = value;
-      break;
+  if (field === 'credit') {
+    transactionDB.value = +value;
+  } else if (field === 'debit') {
+    transactionDB.value = -(+value);
+  } else if (field === 'startDate') {
+    transactionDB.startDate = value ? new Date(value) : new Date();
+  } else if (field === 'endDate') {
+    transactionDB.endDate = value ? new Date(value) : new Date();
   }
 
   return {

@@ -11,14 +11,14 @@ export interface RecurringTransactionConfig {
   description: string;
   startDate: Date;
   endDate?: Date;
-  times: number;
-  interval: number;
-  valuePerTime: number;
-  totalValue: number;
-  useTotalValue: boolean;
-  useEndDate: boolean;
-  tags: string[];
-  wallet: string;
+  times?: number;
+  interval?: number;
+  valuePerTime?: number;
+  totalValue?: number;
+  useTotalValue?: boolean;
+  useEndDate?: boolean;
+  tags?: string[];
+  wallet?: string;
   transactionsIds?: string[];
   type: RecurringTransactionType;
 }
@@ -39,25 +39,26 @@ export class RecurringTransaction implements RecurringTransactionInterface {
   constructor(data: RecurringTransactionConfig) {
     this.data = data;
 
-    if (!this.data.useEndDate) {
+    if (!this.data.useEndDate && this.data.times) {
       this.data.endDate = sumMonths(this.data.startDate, this.data.times - 1);
     } else if (this.data.endDate) {
       this.data.times = monthDiff(this.data.startDate, this.data.endDate);
     }
 
-    if (!this.data.useTotalValue) {
+    this.data.times = this.data.times || 1;
+    this.data.interval = this.data.interval || 1;
+
+    if (!this.data.useTotalValue && this.data.valuePerTime) {
       this.data.totalValue = this.data.valuePerTime * this.data.times;
-    } else {
+    } else if (this.data.totalValue && this.data.times) {
       this.data.valuePerTime = this.data.totalValue / this.data.times;
     }
+
+    this.data.interval = this.data.interval || 1;
   }
 
   isValid() {
     if (!this.data.description) {
-      return false;
-    }
-
-    if (!this.data.startDate) {
       return false;
     }
 
@@ -78,25 +79,35 @@ export class RecurringTransaction implements RecurringTransactionInterface {
 
   generateTransactions() {
     const transactions: TransactionConfig[] = [];
-    let valuePerTime;
+    let valuePerTime = 0;
     let times;
-    const { interval } = this.data;
     let cursorDate = this.data.startDate;
-    let totalValue;
+    let totalValue = 0;
+
+    const interval = this.data.interval || 1;
+
+    if (!this.isValid()) {
+      throw new Error('Invalid recurring transaction');
+    }
 
     if (this.data.useEndDate && this.data.endDate) {
       times = Math.floor(monthDiff(this.data.startDate, this.data.endDate) / interval);
     } else {
-      times = this.data.times;
+      times = this.data.times || 1;
+    }
+
+    if (!this.data.valuePerTime && !this.data.totalValue) {
+      return [];
     }
 
     if (this.data.useTotalValue && this.data.totalValue) {
       totalValue = this.data.totalValue;
       valuePerTime = this.data.totalValue / times;
-    } else {
+    } else if (this.data.valuePerTime) {
       totalValue = this.data.valuePerTime * times;
       valuePerTime = this.data.valuePerTime;
     }
+
 
     while (times) {
       transactions.push({

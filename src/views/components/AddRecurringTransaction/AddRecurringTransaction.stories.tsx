@@ -7,10 +7,8 @@ import React from 'react';
 import AddRecurringTransaction from './AddRecurringTransaction';
 
 export const actions = {
-  // onPinTask: action('onPinTask'),
-  // onArchiveTask: action('onArchiveTask'),
   create: action('create'),
 };
 
 storiesOf('AddRecurringTransaction', module)
-  .add('default', () => <AddRecurringTransaction {...actions} recurringTransactionType="contract" />);
+  .add('default', () => <AddRecurringTransaction {...actions} tags={[]} wallets={[]} createTag={() => true} recurringTransactionType="contract" />);

@@ -12,4 +12,4 @@ export const actions = {
 };
 
 storiesOf('RecurringTransactionModal', module)
-  .add('default', () => <RecurringTransactionModal {...actions} recurringTransactionType="contract" />);
+  .add('default', () => <RecurringTransactionModal {...actions} tags={[]} wallets={[]} createTag={jest.fn()} recurringTransactionType="contract" />);
