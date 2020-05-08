@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from 'reactstrap/lib/Input';
-import EditableInputHoc from 'views/hocs/EditableInputHoc';
+import EditableInputHoc from 'views/components/EditableInputHoc/EditableInputHoc';
 
 const EditableInput = EditableInputHoc(Input);
 

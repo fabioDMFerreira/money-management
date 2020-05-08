@@ -19,7 +19,7 @@ import { getWalletsSelector } from 'state/ducks/wallets';
 import calculateTransactionsEstimatesBalance from 'usecases/calculateBalance/calculateTransactionsEstimatesBalance';
 import getRandomString from 'utils/getRandomString';
 
-import Estimates from '../../hocs/EstimatesContainerHoc';
+import Estimates from '../../containers/EstimatesContainer';
 import Transactions from '../Transactions';
 import Timeline from '../Transactions/Timeline/Timeline';
 import Contracts from './components/Contracts';

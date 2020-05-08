@@ -117,6 +117,7 @@
     "eslint-plugin-react": "7.17.0",
     "eslint-plugin-simple-import-sort": "5.0.0",
     "husky": "3.1.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "24.9.0",
     "jest-cli": "24.9.0",
     "jest-dom": "4.0.0",

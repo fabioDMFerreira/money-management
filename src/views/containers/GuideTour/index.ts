@@ -1,3 +1,4 @@
-export * from './GuideTour';
+import 'intro.js/introjs.css';
+import './GuideTour.css';
 
-export { default } from './GuideTour';
+export { default } from './GuideTourContainer';

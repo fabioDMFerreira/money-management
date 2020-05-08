@@ -9,11 +9,11 @@ export interface DashboardProps {
   totalTags: number;
   totalWallets: number;
   totalEstimates: number;
-  lastTransactions: [TransactionConfig];
-  wallets: [Wallet];
-  allTransactions: [TransactionConfig];
-  estimatesAllTransactions: [TransactionConfig];
-  tags: [Tag];
+  lastTransactions: TransactionConfig[];
+  wallets: Wallet[];
+  allTransactions: TransactionConfig[];
+  estimatesAllTransactions: TransactionConfig[];
+  tags: Tag[];
   balance: Balance[];
   loadSampleData: () => void;
 };

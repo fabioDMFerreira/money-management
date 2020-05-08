@@ -1,11 +1,6 @@
-import 'intro.js/introjs.css';
-import './GuideTour.css';
-
 import introJs from 'intro.js';
 import { DONE, NEXT, PREVIOUS, SKIP } from 'locale/consts';
 import React, { useState } from 'react';
-import { getTranslate } from 'react-localize-redux';
-import { connect } from 'react-redux';
 
 export interface GuideTourStep {
   selector: string;
@@ -20,7 +15,7 @@ interface Props {
   translate: any;
 }
 
-const GuideTour = ({
+export default ({
   started, steps: propsSteps, onClose, translate,
 }: Props) => {
   const [inProgress, setInProgress] = useState(false);
@@ -69,6 +64,3 @@ const GuideTour = ({
   return <span />;
 };
 
-export default connect((state: any) => ({
-  translate: getTranslate(state.localize),
-}))(GuideTour);

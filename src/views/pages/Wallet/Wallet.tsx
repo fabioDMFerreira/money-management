@@ -7,7 +7,7 @@ import Input from 'reactstrap/lib/Input';
 import Label from 'reactstrap/lib/Label';
 import Row from 'reactstrap/lib/Row';
 import { updateWallet } from 'state/ducks/wallets';
-import EditableInputHoc from 'views/hocs/EditableInputHoc';
+import EditableInputHoc from 'views/components/EditableInputHoc/EditableInputHoc';
 
 import TransactionsTable from '../../containers/TransactionsTable/TransactionsTableContainer';
 import WalletItemContainer from '../Wallets/containers/WalletItem';

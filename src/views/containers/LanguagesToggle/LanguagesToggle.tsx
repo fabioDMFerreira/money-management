@@ -1,5 +1,3 @@
-import './LanguagesToggle.css';
-
 import React from 'react';
 import { Language } from 'react-localize-redux';
 import Button from 'reactstrap/lib/Button';
