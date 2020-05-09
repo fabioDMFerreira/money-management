@@ -1,21 +1,6 @@
 # Money Management
 Save, label and organise your transactions. Add your estimations to plan your financial life.
 
-```
-"husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
-      "git add",
-      "jest --bail --findRelatedTests --passWithNoTests"
-    ]
-  },
-```
-
 [Demo](https://mmanagement.herokuapp.com/)
 
 # Features
