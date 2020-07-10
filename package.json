@@ -2,8 +2,8 @@
   "name": "money-management",
   "version": "0.1.0",
   "engines": {
-    "node": "8.12.0",
-    "npm": "6.4.1"
+    "node": "10.2.0",
+    "npm": "5.6.0"
   },
   "private": true,
   "dependencies": {
@@ -73,7 +73,7 @@
     "reduce-reducers": "0.3.0",
     "redux": "4.0.1",
     "redux-logger": "^3.0.6",
-    "redux-pouchdb": "git+https://github.com/fabioDMFerreira/redux-pouchdb",
+    "redux-pouchdb": "git+https://github.com/fabiodmferreira-forks/redux-pouchdb",
     "redux-promise-middleware": "5.1.1",
     "redux-thunk": "^2.3.0",
     "styled-components": "4.1.1",
@@ -129,7 +129,8 @@
     "react-docgen-typescript-loader": "3.0.1",
     "react-docgen-typescript-webpack-plugin": "1.1.0",
     "react-test-renderer": "16.4.0",
-    "ts-jest": "24.2.0"
+    "ts-jest": "24.2.0",
+    "webpack": "^4.41.5"
   },
   "husky": {
     "hooks": {
