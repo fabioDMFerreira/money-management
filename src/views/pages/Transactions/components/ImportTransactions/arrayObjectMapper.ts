@@ -6,11 +6,10 @@ export default (data: string[][], headersMapper: object[]): object[] => {
   let headers: string[] = lines[0];
 
   if (headers) {
-    headers =
-      headers.map((header: any) => {
-        const mappedHeader: any = headersMapper.find((h: any) => h.label === header);
-        return mappedHeader ? mappedHeader.key : header;
-      });
+    headers = headers.map((header: any) => {
+      const mappedHeader: any = headersMapper.find((h: any) => h.label === header);
+      return mappedHeader ? mappedHeader.key : header;
+    });
   }
 
   for (let i = 1; i < lines.length; i++) {

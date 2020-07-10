@@ -19,39 +19,39 @@ interface Props {
 const WalletContainer = ({ wallet, transactions, update }: Props) => (
   <Fragment>
     {
-      wallet &&
-      <Fragment>
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <Link to="/wallets">Wallets</Link>
-          </BreadcrumbItem>
-          <BreadcrumbItem active>{wallet.name}</BreadcrumbItem>
-        </Breadcrumb>
-        <WalletComponent wallet={wallet} transactions={transactions} update={update} />
-      </Fragment>
+      wallet
+      && (
+        <Fragment>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/wallets">Wallets</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{wallet.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <WalletComponent wallet={wallet} transactions={transactions} update={update} />
+        </Fragment>
+      )
     }
   </Fragment>
 );
 
+const WalletContainer2 = withRouter(connect((state: any, props: any) => {
+  const wallets = getWalletsSelector(state);
+  let wallet: any;
 
-const WalletContainer2 =
-  withRouter(connect((state: any, props: any) => {
-    const wallets = getWalletsSelector(state);
-    let wallet: any;
+  if (props.match.params && props.match.params.id) {
+    wallet = wallets.find((wallet: Wallet) => wallet.id === props.match.params.id);
+  }
 
-    if (props.match.params && props.match.params.id) {
-      wallet = wallets.find((wallet: Wallet) => wallet.id === props.match.params.id);
-    }
-
-    return {
-      wallet,
-      transactions: wallet ?
-        getTransactionsSelector(state).filter((transaction: TransactionConfig) => transaction.wallet === wallet.id) :
-        []
-      ,
-    };
-  }, {
-    update: updateWallet,
-  })(WalletContainer));
+  return {
+    wallet,
+    transactions: wallet
+      ? getTransactionsSelector(state).filter((transaction: TransactionConfig) => transaction.wallet === wallet.id)
+      : []
+    ,
+  };
+}, {
+  update: updateWallet,
+})(WalletContainer));
 
 export default () => <WalletContainer2 />;

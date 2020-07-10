@@ -23,8 +23,7 @@ export default (filters: filterType[] | undefined | null) => (transaction: Trans
     }
   };
 
-  const filterFn: ((transaction: TransactionConfig) => boolean)[] =
-    filters.map(filter => generateFilter(filter.id, filter.value));
+  const filterFn: ((transaction: TransactionConfig) => boolean)[] = filters.map(filter => generateFilter(filter.id, filter.value));
 
   const filterValue = filterFn.every(filter => filter(transaction));
   return filterValue;

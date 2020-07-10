@@ -49,7 +49,6 @@ export default class BalanceTable extends Component<Props, State> {
     }
   }
 
-
   state = {
     sorted: [] as SortingRule[],
     balance: [] as BalanceData[],

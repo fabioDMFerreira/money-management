@@ -1,5 +1,3 @@
-
-
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TransactionFieldsMetadata from 'models/Transaction/TransactionFieldsMetadata';
@@ -13,7 +11,6 @@ import arrayObjectMapper from './arrayObjectMapper';
 import filterInvalidLines from './filterInvalidLines';
 import ImportTransactionsModal from './ImportTransactionsModal';
 import validateTransactionData from './validateTransactionData';
-
 
 interface Props {
   save: (transactions: object[]) => void;
@@ -33,6 +30,7 @@ export default class ImportTransactions extends Component<Props, State> {
   }
 
   csvFileInput: any;
+
   xlsxFileInput: any;
 
   importTransactions = (data: object[]) => {
@@ -53,16 +51,15 @@ export default class ImportTransactions extends Component<Props, State> {
     reader.onerror = (err) => {
       console.log({ err });
     };
-    reader.onload = (csv =>
-      (e: any) => {
-        let csvContent = csvJSON(e.target.result);
+    reader.onload = (csv => (e: any) => {
+      let csvContent = csvJSON(e.target.result);
 
-        const dataFiltered = filterInvalidLines(csvContent);
+      const dataFiltered = filterInvalidLines(csvContent);
 
-        csvContent = arrayObjectMapper(dataFiltered, TransactionFieldsMetadata);
+      csvContent = arrayObjectMapper(dataFiltered, TransactionFieldsMetadata);
 
-        this.importTransactions(csvContent);
-      }
+      this.importTransactions(csvContent);
+    }
     )(file);
 
     reader.readAsText(file);

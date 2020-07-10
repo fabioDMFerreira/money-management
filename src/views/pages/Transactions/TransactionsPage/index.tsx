@@ -25,7 +25,6 @@ import {
 import { TRANSACTIONS } from 'state/reducerFactory/transactionsReducerFactory/transactionsReducersKeys';
 import passesGlobalFilters from 'state/reducerFactory/transactionsReducerFactory/utils/passesGlobalFilters';
 
-
 const Transactions = ({ TransactionsComponent, ...props }: any) => <TransactionsComponent {...props} />;
 
 export default connect(

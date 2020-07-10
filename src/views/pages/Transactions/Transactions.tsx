@@ -1,5 +1,3 @@
-
-
 import {
   faEdit,
   faPlus,
@@ -23,7 +21,6 @@ import ButtonWithConfirmation from 'views/components/ButtonWithConfirmation';
 import TransactionsTable from '../../containers/TransactionsTable';
 import BulkUpdateModal from './components/BulkUpdateModal';
 import ImportTransactions from './components/ImportTransactions';
-
 
 const TableActions = styled.div`
   background-color: $white;
@@ -61,7 +58,6 @@ type State = {
   bulkUpdateModalOpened: boolean;
 }
 
-
 export default class Transactions extends Component<Props, State> {
   static defaultProps = {
     transactions: [],
@@ -83,37 +79,35 @@ export default class Transactions extends Component<Props, State> {
     };
   })
 
+  configureTransactionFromCSV = (transaction: any) => ({
+    ...transaction,
+    isInternalTransaction: transaction.isInternalTransaction === 'true',
+    tags: transaction.tags && JSON.parse(unescape(transaction.tags)).map((tagValue: Tag) => {
+      const tag = this.props.tags.find(tag => tagValue.id === tag.id);
+      if (tag) {
+        return tag.id;
+      }
 
-  configureTransactionFromCSV = (transaction: any) =>
-    ({
-      ...transaction,
-      isInternalTransaction: transaction.isInternalTransaction === 'true',
-      tags: transaction.tags && JSON.parse(unescape(transaction.tags)).map((tagValue: Tag) => {
-        const tag = this.props.tags.find(tag => tagValue.id === tag.id);
-        if (tag) {
-          return tag.id;
+      // create a new tag if it does not exist in store
+      this.props.createTag(tagValue);
+
+      return tagValue.id;
+    }),
+    wallet: transaction.wallet && (() => {
+      try {
+        const fileWallet = JSON.parse(unescape(transaction.wallet));
+        const wallet = this.props.wallets.find(wallet => wallet.name === fileWallet.name);
+
+        if (wallet) {
+          return wallet.id;
         }
-
-        // create a new tag if it does not exist in store
-        this.props.createTag(tagValue);
-
-        return tagValue.id;
-      }),
-      wallet: transaction.wallet && (() => {
-        try {
-          const fileWallet = JSON.parse(unescape(transaction.wallet));
-          const wallet = this.props.wallets.find(wallet => wallet.name === fileWallet.name);
-
-          if (wallet) {
-            return wallet.id;
-          }
-          this.props.createWallet(fileWallet);
-          return fileWallet.id;
-        } catch (e) {
-          return transaction.wallet;
-        }
-      })(),
-    })
+        this.props.createWallet(fileWallet);
+        return fileWallet.id;
+      } catch (e) {
+        return transaction.wallet;
+      }
+    })(),
+  })
 
   openBulkUpdateModal = () => {
     this.setState({
@@ -205,15 +199,17 @@ export default class Transactions extends Component<Props, State> {
             <FontAwesomeIcon icon={faTrash} /> Clear all
           </ButtonWithConfirmation>
           {
-            someSelected &&
-            <Fragment>
-              <Button color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
-                <FontAwesomeIcon icon={faEdit} /> Bulk update
-              </Button>
-              <ButtonWithConfirmation color="secondary" size="sm" onClick={this.props.bulkDeleteTransactions}>
-                <FontAwesomeIcon icon={faTrash} /> Bulk delete
-              </ButtonWithConfirmation>
-            </Fragment>
+            someSelected
+            && (
+              <Fragment>
+                <Button color="secondary" size="sm" onClick={this.openBulkUpdateModal}>
+                  <FontAwesomeIcon icon={faEdit} /> Bulk update
+                </Button>
+                <ButtonWithConfirmation color="secondary" size="sm" onClick={this.props.bulkDeleteTransactions}>
+                  <FontAwesomeIcon icon={faTrash} /> Bulk delete
+                </ButtonWithConfirmation>
+              </Fragment>
+            )
           }
 
         </TableActions>
@@ -236,7 +232,6 @@ export default class Transactions extends Component<Props, State> {
           unselect={unselectTransaction}
           unselectAll={unselectAllTransactions}
         />
-
 
         <BulkUpdateModal
           opened={bulkUpdateModalOpened}

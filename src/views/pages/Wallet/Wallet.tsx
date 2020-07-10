@@ -12,7 +12,6 @@ import EditableInputHoc from 'views/components/EditableInputHoc/EditableInputHoc
 import TransactionsTable from '../../containers/TransactionsTable/TransactionsTableContainer';
 import WalletItemContainer from '../Wallets/containers/WalletItem';
 
-
 interface Props {
   wallet: Wallet;
   transactions: TransactionConfig[];
@@ -40,8 +39,8 @@ export default ({ wallet, transactions, update }: Props) => (
       </Row>
     </div>
     {
-      transactions && transactions.length > 0 &&
-      <TransactionsTable transactions={transactions} />
+      transactions && transactions.length > 0
+      && <TransactionsTable transactions={transactions} />
     }
   </div>
 );

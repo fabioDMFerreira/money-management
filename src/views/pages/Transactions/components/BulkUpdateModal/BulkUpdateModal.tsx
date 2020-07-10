@@ -13,7 +13,6 @@ import ModalHeader from 'reactstrap/lib/ModalHeader';
 import TagSelect from 'views/containers/TagSelect/TagSelect';
 import WalletSelect from 'views/containers/WalletSelect/WalletSelect';
 
-
 type Props = {
   opened: boolean | undefined;
   close: () => void;
@@ -133,4 +132,3 @@ export default class BulkUpdateModal extends Component<Props, State> {
     );
   }
 }
-

@@ -14,7 +14,6 @@ import ModalHeader from 'reactstrap/lib/ModalHeader';
 import Row from 'reactstrap/lib/Row';
 import WalletSelect from 'views/containers/WalletSelect/WalletSelect';
 
-
 type LabelValue = {
   label: string;
   value: string;
@@ -197,4 +196,3 @@ export default class ImportTransactionsModal extends Component<Props, State> {
     );
   }
 }
-
