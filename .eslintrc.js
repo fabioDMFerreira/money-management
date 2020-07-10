@@ -37,7 +37,8 @@ module.exports = {
     "import/order": "off",
     "import/first": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/camelcase": "warn"
+    "@typescript-eslint/camelcase": "warn",
+    "import/no-unresolved": "warn"
   },
   "env": {
     "jest/globals": true,

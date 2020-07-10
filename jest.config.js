@@ -21,4 +21,6 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less)$': 'identity-obj-proxy',
   },
+  coverageDirectory: './coverage/',
+  collectCoverage: true,
 };

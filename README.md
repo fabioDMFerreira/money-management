@@ -1,4 +1,8 @@
-# Money Management
+Money Management
+[![Build Status](https://travis-ci.com/fabioDMFerreira/money-management.svg?branch=master)](https://travis-ci.com/fabioDMFerreira/money-management)
+[![codecov](https://codecov.io/gh/fabioDMFerreira/money-management/branch/master/graph/badge.svg)](https://codecov.io/gh/fabioDMFerreira/money-management)
+====
+
 Save, label and organise your transactions. Add your estimations to plan your financial life.
 
 [Demo](https://mmanagement.herokuapp.com/)
@@ -13,7 +17,7 @@ Save, label and organise your transactions. Add your estimations to plan your fi
 - Add tags to transactions.
 - Display transactions values by tag.
 
-# Folder Structure
+# Folders Structure
 
 - **models** - types, classes and interfaces.
 - **state** - redux code. It uses ducks architecture.
