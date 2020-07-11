@@ -3,19 +3,21 @@ Money Management
 [![codecov](https://codecov.io/gh/fabioDMFerreira/money-management/branch/master/graph/badge.svg)](https://codecov.io/gh/fabioDMFerreira/money-management)
 ====
 
-Save, label and organise your transactions. Add your estimations to plan your financial life.
+Save, label and organise your transactions. Add your estimates to plan your financial life.
 
 [Demo](https://mmanagement.herokuapp.com/)
 
 # Features
 
-- Displays **transaction history**.
+- Displays **transactions history**.
 - **Imports** transactions from **csv file**.
   - Map headers fields to application transaction structure.
-- Calculate **balance** of transactions history on a line chart and a table.
-- Add wallets and assign transactions to wallets.
-- Add tags to transactions.
-- Display transactions values by tag.
+- Calculates transactions history **balance** and displays it on a line chart and a table.
+- Adds wallets and assigns transactions to wallets.
+- Adds tags to transactions.
+- Displays transactions values by tag.
+- Adds future predicted transactions (estimates, contracts and budgets).
+- Allows seeing the future money amounts based on predicted transactions.
 
 # Folders Structure
 
