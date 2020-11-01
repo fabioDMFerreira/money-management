@@ -10,13 +10,13 @@ const Guarder = ({ children }: GuarderProps) => {
     isAuthenticated, loginWithRedirect, loading,
   } = useAuth0();
 
-  if (loading) {
-    return <span />;
-  } else if (!isAuthenticated) {
-    loginWithRedirect();
+  // if (loading) {
+  //   return <span />;
+  // } else if (!isAuthenticated) {
+  //   loginWithRedirect();
 
-    return <span />;
-  }
+  //   return <span />;
+  // }
 
   return (
     <Fragment>

@@ -60,7 +60,7 @@ const App = () =>
               <SideNav />
             </Col>
             <Col xs={10} style={{ background: '#fff', minHeight: '100vh' }}>
-              <UserBar />
+              {/* <UserBar /> */}
               <Container fluid className="pb-4">
                 <ErrorBoundary>
                   <Main />

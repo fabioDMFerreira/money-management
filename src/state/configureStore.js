@@ -1,8 +1,6 @@
-
-
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
-import { persistStore } from 'redux-pouchdb';
+import { persistStore } from 'redux-pouchdb-per-reducer';
 import promiseMiddleware from 'redux-promise-middleware';
 import thunkMiddleware from 'redux-thunk';
 

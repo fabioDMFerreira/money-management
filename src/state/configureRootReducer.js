@@ -2,7 +2,7 @@
 
 import { localizeReducer as localize } from 'react-localize-redux';
 import { combineReducers } from 'redux';
-import { persistentReducer } from 'redux-pouchdb';
+import { persistentReducer } from 'redux-pouchdb-per-reducer';
 
 import authentication from './ducks/authentication';
 import budgetsReducer from './ducks/budgets/budgetsReducer';
