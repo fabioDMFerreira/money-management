@@ -77,7 +77,7 @@
     "redux-promise-middleware": "5.1.1",
     "redux-thunk": "^2.3.0",
     "styled-components": "4.1.1",
-    "typescript": "3.3.3",
+    "typescript": "3.9.7",
     "validate.js": "0.12.0",
     "xlsx": "0.15.3"
   },
