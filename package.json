@@ -20,7 +20,7 @@
     "@types/faker": "4.1.7",
     "@types/immutable": "3.8.7",
     "@types/intro.js": "2.4.5",
-    "@types/node": "11.9.4",
+    "@types/node": "11.15.31",
     "@types/pouchdb": "6.4.0",
     "@types/prop-types": "15.5.9",
     "@types/randomcolor": "0.5.1",
