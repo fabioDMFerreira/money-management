@@ -27,7 +27,7 @@ type Props = {
   opened: boolean | undefined;
   close: () => void;
   save: (transactions: TransactionConfig[]) => void;
-  data: object[];
+  data: any[];
   wallets: Wallet[];
   createWallet?: any;
 }
@@ -58,7 +58,7 @@ export default class ImportTransactionsModal extends Component<Props, State> {
     }
   }
 
-  getUnmatchedDataHeaders = (existingFields: Mapper[], transaction: object): LabelValue[] => {
+  getUnmatchedDataHeaders = (existingFields: Mapper[], transaction: any): LabelValue[] => {
     const unmatchedDataHeaders: LabelValue[] = [];
 
     Object.keys(transaction).forEach((header) => {
@@ -86,7 +86,7 @@ export default class ImportTransactionsModal extends Component<Props, State> {
     return existingField && existingField.matchedKey ? existingField.matchedKey.value : null;
   }
 
-  processImportingTransactions = (data: object[]) => {
+  processImportingTransactions = (data: any[]) => {
     if (!data.length) {
       this.setState({
         unmatchedDataHeaders: [],

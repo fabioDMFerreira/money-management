@@ -5,4 +5,4 @@ export interface Balance {
   income: number;
   outcome: number;
   balance: number;
-};
+}

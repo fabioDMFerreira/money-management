@@ -16,7 +16,7 @@ export default (field: transactionEditableFields, value: any) => (transaction: T
       ...transaction,
       [field]: value,
     };
-  };
+  }
 
   const transactionDB: Transaction = Transaction.buildFromTransactionData(transaction);
 

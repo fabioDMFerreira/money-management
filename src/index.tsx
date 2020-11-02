@@ -1,8 +1,6 @@
-import 'react-dates/initialize';
-import './shared.css';
-
 import AppWithStore from 'AppWithStore';
 import React from 'react';
+import 'react-dates/initialize';
 import { render } from 'react-dom';
 import BackendClient from 'services/BackendClient';
 import Guarder from 'views/layout/Guarder';
@@ -11,6 +9,7 @@ import { Auth0Provider } from 'views/providers/react-auth0-spa.provider';
 import history from 'views/utils/history';
 
 import registerServiceWorker from './registerServiceWorker';
+import './shared.css';
 
 // A function that routes the user to the right place
 // after login

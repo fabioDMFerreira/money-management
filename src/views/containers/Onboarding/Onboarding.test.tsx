@@ -5,7 +5,6 @@ import Onboarding from './Onboarding';
 
 describe('components/Onboarding', () => {
   it('should render', () => {
-    const bulkAddTransactions = jest.fn();
-    render(<Onboarding bulkAddTransactions={bulkAddTransactions} />);
+    render(<Onboarding />);
   });
 });

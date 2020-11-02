@@ -18,7 +18,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src"
@@ -27,5 +28,12 @@
     "node_modules",
     "build"
   ],
-  "extends": "./tsconfig.paths.json"
+  "paths": {
+    "*": [
+      "*"
+    ],
+    "node_modules/*": [
+      "../node_modules/*"
+    ]
+  }
 }

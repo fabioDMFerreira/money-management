@@ -1,11 +1,10 @@
-import 'bootstrap/dist/css/bootstrap.css';
-import 'react-dates/lib/css/_datepicker.css';
-import 'rc-slider/assets/index.css';
-import 'react-dates/initialize';
-
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'rc-slider/assets/index.css';
 import React from 'react';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
 import { sumMonths } from 'utils/dateUtils/dateUtils';
 import YYYYMMDD from 'utils/dateUtils/YYYYMMDD';
 

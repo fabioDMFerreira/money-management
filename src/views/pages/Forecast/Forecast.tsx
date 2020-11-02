@@ -2,7 +2,6 @@ import { Balance } from 'models/Balance';
 import { RecurringTransactionConfig } from 'models/RecurringTransaction';
 import { Tag } from 'models/Tag';
 import { TransactionConfig } from 'models/Transaction/TransactionConfig';
-import { Wallet } from 'models/Wallet';
 import React, { Fragment, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import Nav from 'reactstrap/lib/Nav';
@@ -25,10 +24,8 @@ import Timeline from '../Transactions/Timeline/Timeline';
 import Contracts from './components/Contracts';
 
 interface Props {
-  wallets: [Wallet];
   balance: Balance[];
   allTransactions: [TransactionConfig];
-  allEstimates: [TransactionConfig];
 }
 
 const EstimatesComponent = Estimates(Transactions);

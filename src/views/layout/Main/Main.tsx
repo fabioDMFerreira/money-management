@@ -1,5 +1,3 @@
-import './Main.css';
-
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Dashboard from 'views/pages/Dashboard';
@@ -17,6 +15,8 @@ import BalanceContainer from 'views/pages/Transactions/Timeline';
 import TransactionsPage from 'views/pages/Transactions/TransactionsPage';
 import Wallet from 'views/pages/Wallet';
 import Wallets from 'views/pages/Wallets';
+
+import './Main.css';
 
 const Main = () => (
   <div id="main">

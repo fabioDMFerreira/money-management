@@ -61,9 +61,17 @@ export const Auth0Provider = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
   ...initOptions
 }: Auth0ProviderProps & Auth0ClientOptions) => {
-  const [isAuthenticated, setIsAuthenticated] = useState();
-  const [user, setUser] = useState();
-  const [auth0Client, setAuth0] = useState();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [user, setUser] = useState<Auth0User>({
+    nickname: 'loremipsum',
+    name: 'loremipsum',
+    picture: 'https://api.adorable.io/avatars/285/abott@adorable.png',
+    updated_at: 'loremipsum',
+    email: 'loremipsum',
+    email_verified: true,
+    sub: 'offline',
+  });
+  const [auth0Client, setAuth0] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
 

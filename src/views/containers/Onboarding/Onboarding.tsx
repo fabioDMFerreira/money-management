@@ -13,7 +13,6 @@ interface Props {
   tags?: Tag[];
   transactions?: TransactionConfig[];
   estimates?: TransactionConfig[];
-  bulkAddTransactions: (transactions: TransactionConfig[]) => any;
 }
 
 export default ((props: Props) => {

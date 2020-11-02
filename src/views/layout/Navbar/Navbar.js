@@ -6,8 +6,6 @@
 // 	AUTHENTICATION,
 // } from 'locale/consts';
 // import Translate from '../Translate';
-import './Navbar.css';
-
 import React from 'react';
 import {
   Nav,
@@ -17,6 +15,8 @@ import {
   // DropdownMenu,
   // DropdownToggle
 } from 'reactstrap';
+
+import './Navbar.css';
 // import Logout from '../Logout';
 
 const Navbar = () => (

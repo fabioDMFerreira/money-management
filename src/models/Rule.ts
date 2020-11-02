@@ -8,4 +8,4 @@ export interface Rule {
     field: string;
     value: string | string[];
   };
-};
+}

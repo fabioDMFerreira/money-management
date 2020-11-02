@@ -1,4 +1,4 @@
-export default (data: string[][], headersMapper: object[]): object[] => {
+export default (data: string[][], headersMapper: any[]): any[] => {
   const lines = data;
 
   const result = [];

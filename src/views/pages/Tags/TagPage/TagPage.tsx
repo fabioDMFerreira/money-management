@@ -37,4 +37,4 @@ export default ({ tag, balance, transactions }: Props) => (
       transactions={transactions}
     />
   </div>
-); ;
+);

@@ -1,7 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.css';
-
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
+import 'bootstrap/dist/css/bootstrap.css';
 import { Tag } from 'models/Tag';
 import React from 'react';
 

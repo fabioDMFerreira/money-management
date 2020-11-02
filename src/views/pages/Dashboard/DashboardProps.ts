@@ -16,4 +16,4 @@ export interface DashboardProps {
   tags: Tag[];
   balance: Balance[];
   loadSampleData: () => void;
-};
+}

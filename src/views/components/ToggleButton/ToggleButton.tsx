@@ -13,13 +13,7 @@ type Props = {
 
 export default (props: Props) => (
   <Button
-    {
-    ...(
-      props.active ?
-        {} :
-        { outline: true }
-    )
-    }
+    {...(props.active ? {} : { outline: true })}
     color="secondary"
     size="sm"
     onClick={props.onClick}

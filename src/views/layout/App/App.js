@@ -1,6 +1,4 @@
 
-import './App.css';
-
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Col from 'reactstrap/lib/Col';
@@ -11,6 +9,7 @@ import UserBar from 'views/layout/UserBar';
 import ErrorBoundary from '../ErrorBoundary';
 import Main from '../Main';
 import SideNav from '../SideNav';
+import './App.css';
 
 const App = () =>
 
