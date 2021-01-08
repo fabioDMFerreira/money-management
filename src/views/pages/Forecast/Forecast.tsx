@@ -22,6 +22,7 @@ import Estimates from '../../containers/EstimatesContainer';
 import Transactions from '../Transactions';
 import Timeline from '../Transactions/Timeline/Timeline';
 import Contracts from './components/Contracts';
+import SurvivalReport from './SurvivalReport';
 
 interface Props {
   balance: Balance[];
@@ -38,7 +39,7 @@ const Forecast = ({
 
   const [tableView, setTableView] = useState('estimates');
 
-  const contracts = useSelector(getContracts);
+  const contracts: RecurringTransactionConfig[] = useSelector(getContracts);
   const tags = useSelector(getTagsSelector);
   const wallets = useSelector(getWalletsSelector);
   const createContractDispatcher = (rt: RecurringTransactionConfig) => {
@@ -52,7 +53,7 @@ const Forecast = ({
     dispatch(createTag(tag));
   };
 
-  const budgets = useSelector(getBudgets);
+  const budgets: RecurringTransactionConfig[] = useSelector(getBudgets);
   const createBudgetDispatcher = (rt: RecurringTransactionConfig) => {
     rt.id = getRandomString();
     dispatch(createBudget(rt));
@@ -65,6 +66,11 @@ const Forecast = ({
     <Fragment>
       <h2>Forecast</h2>
       <hr />
+      <SurvivalReport
+        contracts={contracts}
+        budgets={budgets}
+        wallets={wallets}
+      />
       <Timeline
         balance={balance}
         transactions={allTransactions}
@@ -145,7 +151,6 @@ const ForecastContainer = connect((state: any) => {
     balance,
     wallets,
     allTransactions,
-    allEstimates: estimatesAllTransactions,
   };
 })(Forecast);
 

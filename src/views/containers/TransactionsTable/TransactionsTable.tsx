@@ -142,9 +142,9 @@ export default class TransactionsTable extends Component<Props, State> {
           defaultPageSize={pageSize || 10}
           sorted={sorted}
           onSortedChange={this.onSortedChange}
-          getTrProps={(state: any, rowInfo: any, column: any) => ({
-            rowInfo,
-            className: rowInfo && !rowInfo.original.visible ? 'not-visible-transaction' : '',
+          getTrProps={(state: any, rowinfo: any, column: any) => ({
+            rowinfo,
+            className: rowinfo && !rowinfo.original.visible ? 'not-visible-transaction' : '',
           })}
 
           filterable={false}

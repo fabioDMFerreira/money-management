@@ -22,13 +22,15 @@ export const BackendProvider = ({
   children,
   client,
 }: BackendProviderProps) => {
-  // const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
-  // if (isAuthenticated && client.config && user) {
-  //   client.loadPouchDB(`${client.config.couchdbUrl}/state-${hash(user.sub)}`);
-  // } else {
-  client.loadPouchDB();
-  // }
+  if (isAuthenticated && client.config && user) {
+    client.loadPouchDB(`${client.config.couchdbUrl}/state-${hash(user.sub)}`);
+  } else if (client.config) {
+    client.loadPouchDB(`${client.config.couchdbUrl}/offline`);
+  } else {
+    client.loadPouchDB();
+  }
 
   return (
     <BackendContext.Provider
