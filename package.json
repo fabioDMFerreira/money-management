@@ -14,7 +14,7 @@
     "@sentry/browser": "5.10.1",
     "@storybook/addon-actions": "4.1.12",
     "@storybook/addon-info": "4.1.12",
-    "@storybook/react": "4.1.13",
+    "@storybook/react": "6.2.0",
     "@types/chroma-js": "1.4.2",
     "@types/classnames": "2.2.7",
     "@types/faker": "4.1.7",
