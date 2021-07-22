@@ -80,7 +80,7 @@
     "styled-components": "4.1.1",
     "typescript": "3.9.7",
     "validate.js": "0.12.0",
-    "xlsx": "0.16.8"
+    "xlsx": "0.17.0"
   },
   "scripts": {
     "build-css": "node-sass-chokidar -o src/ --include-path ./src --include-path ./node_modules src/",
