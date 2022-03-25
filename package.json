@@ -80,7 +80,8 @@
     "styled-components": "4.1.1",
     "typescript": "3.9.7",
     "validate.js": "0.12.0",
-    "xlsx": "0.16.8"
+    "xlsx": "0.16.8",
+    "@snyk/protect": "latest"
   },
   "scripts": {
     "build-css": "node-sass-chokidar -o src/ --include-path ./src --include-path ./node_modules src/",
@@ -95,7 +96,9 @@
     "cover": "npm test -- --coverage",
     "storybook": "start-storybook -p 9001",
     "lint-staged": "lint-staged",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix"
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "4.2.4",
@@ -152,5 +155,6 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://server:8000"
+  "proxy": "http://server:8000",
+  "snyk": true
 }
