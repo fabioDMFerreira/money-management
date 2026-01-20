@@ -1,0 +1,13 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - react-scripts > jest-circus > jest-runner > jest-config > jest-environment-jsdom > jsdom > request-promise-native > request-promise-core > lodash:
+        patched: '2026-01-20T10:14:16.936Z'
+        id: SNYK-JS-LODASH-567746
+        path: >-
+          react-scripts > jest-circus > jest-runner > jest-config >
+          jest-environment-jsdom > jsdom > request-promise-native >
+          request-promise-core > lodash
